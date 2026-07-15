@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Mobil öncelikli görünüm: kullanıcı ölçekleyemez, oyun tahtası sabit kalır -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Sözcük Merdiveni — her adımda tek harf değiştirerek başlangıç kelimesinden hedef kelimeye ulaşın. Türkçe, ücretsiz, mobil uyumlu kelime oyunu.">
+  <meta name="theme-color" content="#121213">
+  <title>Sözcük Merdiveni — Türkçe Kelime Oyunu</title>
+
+  <!-- SEO: yayına alırken ALANADINIZ.com kısımlarını kendi alan adınızla değiştirin -->
+  <link rel="canonical" href="https://ALANADINIZ.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sözcük Merdiveni — Türkçe Kelime Oyunu">
+  <meta property="og:description" content="Her adımda tek harf değiştirerek hedef kelimeye ulaş! Ücretsiz Türkçe kelime bulmacası.">
+  <meta property="og:url" content="https://ALANADINIZ.com/">
+  <meta property="og:locale" content="tr_TR">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Favicon: harici dosya gerektirmeyen satır içi SVG emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪜</text></svg>">
+
+  <!-- Arama motorları için yapılandırılmış veri -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sözcük Merdiveni",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "tr",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TRY" },
+    "description": "Her adımda tek harf değiştirerek başlangıç kelimesinden hedef kelimeye ulaşılan Türkçe kelime oyunu."
+  }
+  </script>
+
+  <!-- Stil dosyası: head içinde, render öncesi yüklenir -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ===================== ADSENSE KURULUMU =====================
+       AdSense onayı alındıktan sonra aşağıdaki satırın yorumunu kaldırın
+       ve ca-pub-0000000000000000 yerine kendi yayıncı kimliğinizi yazın.
+       data-ad-frequency-hint: H5 Games Ads geçiş reklamı sıklığı ipucu.
+
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000"
+          crossorigin="anonymous"
+          data-ad-frequency-hint="120s"></script>
+  ============================================================== -->
+</head>
+<body>
+
+  <!-- ======================= ÜST REKLAM ALANI ======================= -->
+  <!-- AdSense onayı sonrası: data-placeholder özniteliğini silin ve aşağıdaki
+       şablonun yorumunu kaldırıp kendi reklam birimi kimliğinizi yazın.
+
+  <div class="ad-container ad-top" id="adTop">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0000000000000000"
+         data-ad-slot="0000000000" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  -->
+  <div class="ad-container ad-top" id="adTop" data-placeholder="REKLAM ALANI (320x50)"></div>
+
+  <!-- ======================= BAŞLIK ======================= -->
+  <header class="header">
+    <h1>SÖZCÜK MERDİVENİ</h1>
+    <div class="header-actions">
+      <!-- Ses aç/kapat: app.js -> muteGame() fonksiyonuna bağlı -->
+      <button class="icon-btn" id="btnMute" type="button" aria-label="Sesi aç/kapat">🔊</button>
+      <!-- Yeni oyun: app.js -> showInterstitialAd() tetikler, sonra oyunu sıfırlar -->
+      <button class="icon-btn" id="btnRestart" type="button" aria-label="Yeni oyun">↻</button>
+    </div>
+  </header>
+
+  <!-- ======================= OYUN ALANI ======================= -->
+  <main class="game" id="game">
+
+    <!-- Üstte: Başlangıç kelimesi (sabit) -->
+    <section class="row-group">
+      <span class="row-label">BAŞLANGIÇ</span>
+      <div class="word-row" id="startWord" aria-label="Başlangıç kelimesi"></div>
+    </section>
+
+    <!-- Ortada: Kullanıcının girdiği ara kelimelerin dinamik listesi -->
+    <section class="ladder" id="ladder" aria-live="polite" aria-label="Girilen kelimeler"></section>
+
+    <!-- Aktif giriş satırı: kullanıcının o an yazdığı kelime -->
+    <section class="word-row input-row" id="inputRow" aria-label="Kelime girişi"></section>
+
+    <!-- Altta: Hedef kelime (sabit) + en kısa çözüm bilgisi -->
+    <section class="row-group">
+      <span class="row-label">HEDEF</span>
+      <div class="word-row" id="targetWord" aria-label="Hedef kelime"></div>
+      <span class="par-info" id="parInfo"></span>
+    </section>
+  </main>
+
+  <!-- Hata mesajı (toast) -->
+  <div class="toast" id="toast" role="alert"></div>
+
+  <!-- ======================= SANAL KLAVYE ======================= -->
+  <!-- Tuşlar app.js tarafından dinamik üretilir (Türkçe karakter uyumlu) -->
+  <footer class="keyboard" id="keyboard"></footer>
+
+  <!-- ======================= ALT REKLAM ALANI ======================= -->
+  <div class="ad-container ad-bottom" id="adBottom" data-placeholder="REKLAM ALANI (Anchor / 320x100)"></div>
+
+  <!-- AdSense onayı için zorunlu sayfalara görünür bağlantılar -->
+  <nav class="site-footer">
+    <a href="hakkinda.html">Hakkında &amp; Nasıl Oynanır</a>
+    <span aria-hidden="true">·</span>
+    <a href="gizlilik.html">Gizlilik Politikası</a>
+  </nav>
+
+  <!-- ======================= BAŞARI MODALI ======================= -->
+  <div class="modal-overlay hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal">
+      <h2 id="modalTitle">Tebrikler! 🎉</h2>
+      <p id="modalText"></p>
+      <button class="btn-primary" id="btnNewGame" type="button">Yeni Oyun</button>
+    </div>
+  </div>
+
+  <!-- Oyun mantığı: body sonunda, DOM hazır olduktan sonra çalışır -->
+  <script src="app.js"></script>
+</body>
+</html>

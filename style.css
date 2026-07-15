@@ -1,0 +1,350 @@
+/* =========================================================
+   SÖZCÜK MERDİVENİ — style.css
+   Mobil öncelikli (Mobile-First), koyu tema, Wordle benzeri UI
+   ========================================================= */
+
+/* ---------- Renk paleti ve ölçüler (CSS Variables) ---------- */
+:root {
+  --bg:          #121213;  /* Nötr koyu arka plan */
+  --surface:     #1e1e20;  /* Kart / modal yüzeyi */
+  --tile-border: #3a3a3c;  /* Boş kutu kenarlığı */
+  --tile-filled: #2c2c2e;  /* Dolu ama eşleşmemiş kutu */
+  --text:        #f5f5f7;
+  --text-dim:    #9a9aa0;
+  --green:       #538d4e;  /* Doğru harf */
+  --amber:       #b59f3b;  /* Hedef kelime vurgusu */
+  --red:         #d64545;  /* Hata / uyarı */
+  --key-bg:      #818384;
+  --key-text:    #ffffff;
+  --radius:      6px;
+  --gap:         6px;
+  --tile-size:   clamp(42px, 12vw, 58px); /* Dokunmatik için min 42px */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Sıfırlama ve genel yerleşim ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;              /* Mobil adres çubuğu farklarını tolere eder */
+  -webkit-user-select: none;
+  user-select: none;               /* Çift dokunuşta metin seçimini engelle */
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+}
+
+/* ---------- Reklam kapsayıcıları ---------- */
+.ad-container {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+/* Geliştirme aşaması yer tutucusu — gerçek reklam eklenince
+   HTML'deki data-placeholder özniteliğini silmeniz yeterli */
+.ad-container::after {
+  content: attr(data-placeholder);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+
+/* ---------- Başlık ---------- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--tile-border);
+  flex-shrink: 0;
+}
+.header h1 {
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+  font-weight: 800;
+}
+.header-actions { display: flex; gap: 8px; }
+
+.icon-btn {
+  width: 40px;
+  height: 40px;                    /* Dokunmatik hedef: min 40px */
+  background: none;
+  border: 1px solid var(--tile-border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.icon-btn:active { background: var(--tile-filled); }
+
+/* ---------- Oyun alanı ---------- */
+.game {
+  flex: 1;
+  min-height: 0;                   /* Flex çocuğun taşmadan küçülebilmesi için */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.row-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.row-label {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+}
+
+/* Kelime satırı ve harf kutuları */
+.word-row {
+  display: flex;
+  gap: var(--gap);
+}
+.tile {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--tile-size) * 0.5);
+  font-weight: 700;
+  border: 2px solid var(--tile-border);
+  border-radius: var(--radius);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+.tile.filled {
+  background: var(--tile-filled);
+  border-color: #565658;
+}
+.tile.green {                       /* Hedefle aynı konumda eşleşen harf */
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.tile.target {                      /* Hedef kelime kutuları */
+  border-style: dashed;
+  border-color: var(--amber);
+  color: var(--amber);
+  background: transparent;
+}
+
+/* Ara kelimeler listesi: uzarsa kendi içinde kayar */
+.ladder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  overflow-y: auto;
+  min-height: 0;
+  flex: 0 1 auto;
+  scrollbar-width: thin;
+}
+.ladder .word-row { animation: slideIn 0.25s ease; }
+
+/* ---------- Animasyonlar ---------- */
+@keyframes pop {                    /* Harf girişinde kutu zıplaması */
+  50% { transform: scale(1.14); }
+}
+.tile.pop { animation: pop 0.12s ease; }
+
+@keyframes slideIn {                /* Kabul edilen kelimenin listeye inişi */
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {                  /* Geçersiz hamlede satır sarsıntısı */
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-6px); }
+  40%, 60% { transform: translateX(6px); }
+}
+.shake { animation: shake 0.5s ease; }
+
+/* Geçersiz girişte kutular kısa süreliğine kırmızıya döner */
+.input-row.invalid .tile.filled {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* ---------- Hata mesajı (toast) ---------- */
+.toast {
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--red);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 30;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+
+/* ---------- Sanal klavye ---------- */
+.keyboard {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 6px 4px 10px;
+  flex-shrink: 0;
+}
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+.key {
+  flex: 1;
+  max-width: 46px;
+  min-height: 52px;                 /* Dokunmatik uyumlu büyük tuş */
+  border: none;
+  border-radius: var(--radius);
+  background: var(--key-bg);
+  color: var(--key-text);
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;       /* Çift dokunuş zoom'unu engelle */
+  transition: filter 0.1s, transform 0.05s;
+}
+.key:active { transform: scale(0.94); filter: brightness(1.25); }
+.key.wide { flex: 1.7; max-width: 82px; font-size: 0.72rem; }
+
+/* ---------- Başarı modalı ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: grid;
+  place-items: center;
+  z-index: 40;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--tile-border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  width: min(90vw, 340px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform: translateY(0);
+  transition: transform 0.25s ease;
+}
+.modal-overlay.hidden .modal { transform: translateY(14px); }
+.modal h2 { font-size: 1.4rem; }
+.modal p { color: var(--text-dim); line-height: 1.5; }
+
+.btn-primary {
+  min-height: 48px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--green);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.btn-primary:active { filter: brightness(1.2); }
+
+/* ---------- Hedefin altındaki "en az adım" bilgisi ---------- */
+.par-info {
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  min-height: 1em;
+}
+
+/* ---------- Site alt bilgisi (gizlilik/hakkında bağlantıları) ---------- */
+.site-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0 9px;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.site-footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+.site-footer a:hover { color: var(--text); text-decoration: underline; }
+
+/* ---------- Statik sayfalar (gizlilik.html, hakkinda.html) ---------- */
+/* Bu sayfalar <body class="page-body"> kullanır: oyun düzeninin
+   sabit-yükseklik/taşma kuralları geçersiz kılınır, sayfa kayabilir. */
+body.page-body {
+  display: block;
+  overflow: auto;
+  min-height: 100dvh;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 56px;
+}
+.page h1 { font-size: 1.5rem; margin-bottom: 18px; }
+.page h2 { font-size: 1.12rem; margin: 22px 0 8px; }
+.page p, .page li { color: var(--text-dim); line-height: 1.7; margin-bottom: 10px; }
+.page ul, .page ol { padding-left: 22px; }
+.page a { color: #7aa7ff; }
+.page .back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #7aa7ff;
+  text-decoration: none;
+  font-weight: 700;
+}
+.page .back:hover { text-decoration: underline; }
+.page .ornek {
+  background: var(--surface);
+  border: 1px solid var(--tile-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1.9;
+}
+
+/* ---------- Geniş ekran (tablet/masaüstü) iyileştirmeleri ---------- */
+@media (min-width: 600px) {
+  :root { --tile-size: 62px; }
+  .header h1 { font-size: 1.3rem; }
+  .key { min-height: 58px; }
+}

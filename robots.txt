@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /tools/
+
+# Yayına alırken ALANADINIZ.com kısmını kendi alan adınızla değiştirin
+Sitemap: https://ALANADINIZ.com/sitemap.xml
