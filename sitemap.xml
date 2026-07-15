@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Yayına alırken sozcukyolu.com kısımlarını kendi alan adınızla değiştirin -->
+<!-- Alan adı sözcükyolu.com (IDN) — punycode/ASCII karşılığı: xn--szckyolu-n4a6d.com -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sozcukyolu.com/</loc>
+    <loc>https://xn--szckyolu-n4a6d.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sozcukyolu.com/hakkinda.html</loc>
+    <loc>https://xn--szckyolu-n4a6d.com/hakkinda.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://sozcukyolu.com/gizlilik.html</loc>
+    <loc>https://xn--szckyolu-n4a6d.com/gizlilik.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

@@ -87,10 +87,17 @@ python3 tools/bulmaca_uret.py    # words.json'ı yeniden üret
    - **GitHub Pages**: Depo > Settings > Pages > "Deploy from branch".
    - **Netlify / Vercel**: klasörü sürükle-bırak da yeterli.
 3. **Alan adını bağlayın** ve HTTPS'in aktif olduğunu doğrulayın (bu barındırıcılarda otomatik).
-4. **Alan adı ayarlandı**: Tüm SEO etiketleri `sozcukyolu.com` için hazır
-   (`index.html`, `gizlilik.html`, `hakkinda.html`, `robots.txt`, `sitemap.xml`).
-   Farklı bir alan adına geçerseniz bu dosyalardaki `sozcukyolu.com` ifadelerini
-   değiştirmeniz yeterli.
+4. **Alan adı ayarlandı**: Alan adı **sözcükyolu.com** (Türkçe karakterli IDN).
+   Tüm SEO etiketleri (`index.html`, `gizlilik.html`, `hakkinda.html`,
+   `robots.txt`, `sitemap.xml`) makine uyumu için punycode/ASCII karşılığını
+   kullanır: **`xn--szckyolu-n4a6d.com`**. Bu, tarayıcıda kullanıcıya
+   "sözcükyolu.com" olarak görünür; ikisi aynı adrestir. Farklı bir alan adına
+   geçerseniz bu dosyalardaki `xn--szckyolu-n4a6d.com` ifadelerini değiştirin.
+
+   > IDN notu: Cloudflare/Netlify gibi barındırıcılara custom domain eklerken
+   > Unicode form (`sözcükyolu.com`) veya punycode form kabul edilir; ikisi de
+   > çalışır. Firebase `authDomain`'i (`sozcukyolu.firebaseapp.com`) ayrı bir
+   > ASCII adrestir, site domaininden bağımsızdır.
 5. **Google Search Console**'a siteyi ekleyin, `sitemap.xml`'i gönderin.
 
 ## Analitik (Firebase / Google Analytics 4)

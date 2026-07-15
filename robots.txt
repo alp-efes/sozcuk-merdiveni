@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 
-# Yayına alırken sozcukyolu.com kısmını kendi alan adınızla değiştirin
-Sitemap: https://sozcukyolu.com/sitemap.xml
+# Alan adı sözcükyolu.com (IDN) — punycode/ASCII karşılığı: xn--szckyolu-n4a6d.com
+Sitemap: https://xn--szckyolu-n4a6d.com/sitemap.xml
