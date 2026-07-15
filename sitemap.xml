@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Yayına alırken ALANADINIZ.com kısımlarını kendi alan adınızla değiştirin -->
+<!-- Yayına alırken sozcukyolu.com kısımlarını kendi alan adınızla değiştirin -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ALANADINIZ.com/</loc>
+    <loc>https://sozcukyolu.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ALANADINIZ.com/hakkinda.html</loc>
+    <loc>https://sozcukyolu.com/hakkinda.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://ALANADINIZ.com/gizlilik.html</loc>
+    <loc>https://sozcukyolu.com/gizlilik.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

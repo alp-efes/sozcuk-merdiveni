@@ -8,12 +8,12 @@
   <meta name="theme-color" content="#121213">
   <title>Sözcük Merdiveni — Türkçe Kelime Oyunu</title>
 
-  <!-- SEO: yayına alırken ALANADINIZ.com kısımlarını kendi alan adınızla değiştirin -->
-  <link rel="canonical" href="https://ALANADINIZ.com/">
+  <!-- SEO: yayına alırken sozcukyolu.com kısımlarını kendi alan adınızla değiştirin -->
+  <link rel="canonical" href="https://sozcukyolu.com/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Sözcük Merdiveni — Türkçe Kelime Oyunu">
   <meta property="og:description" content="Her adımda tek harf değiştirerek hedef kelimeye ulaş! Ücretsiz Türkçe kelime bulmacası.">
-  <meta property="og:url" content="https://ALANADINIZ.com/">
+  <meta property="og:url" content="https://sozcukyolu.com/">
   <meta property="og:locale" content="tr_TR">
   <meta name="twitter:card" content="summary">
 
@@ -131,6 +131,40 @@
       <button class="btn-primary" id="btnNewGame" type="button">Yeni Oyun</button>
     </div>
   </div>
+
+  <!-- ===================== FIREBASE ANALYTICS =====================
+       Trafik ve oyun etkileşimlerini ölçer (AdSense stratejisi için önemli).
+       NOT: Web config'i (apiKey dahil) herkese açık olacak şekilde tasarlanmıştır;
+       gizli anahtar DEĞİLDİR, güvenlik Firebase kurallarıyla sağlanır — public
+       depoda durması normaldir. Modül biçimi gstatic CDN'den yüklenir; derleme
+       adımı gerektirmez (projenin "kütüphanesiz" yapısı korunur). -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getAnalytics, logEvent, isSupported } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCEC3qWvbF1sdiw164wyiNVMl7mYbo0-yI",
+      authDomain: "sozcukyolu.firebaseapp.com",
+      projectId: "sozcukyolu",
+      storageBucket: "sozcukyolu.firebasestorage.app",
+      messagingSenderId: "249798015158",
+      appId: "1:249798015158:web:cae1d26ec63a0b07550e17",
+      measurementId: "G-T13CV0JKZQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    let analytics = null;
+    // isSupported(): çerez/IndexedDB bulunmayan ortamlarda (gizli sekme, bazı
+    // gömülü tarayıcılar) getAnalytics hata vermesin diye önce destek sorulur
+    isSupported().then((ok) => { if (ok) analytics = getAnalytics(app); }).catch(() => {});
+
+    // app.js klasik script olduğu için bu modül kapsamına erişemez.
+    // Köprü: olayları global bir fonksiyon üzerinden gönderiyoruz. Analytics
+    // yüklenmese/engellense (reklam engelleyici) bile oyun sorunsuz çalışır.
+    window.trackEvent = (ad, veri) => {
+      try { if (analytics) logEvent(analytics, ad, veri); } catch (_) { /* yok say */ }
+    };
+  </script>
 
   <!-- Oyun mantığı: body sonunda, DOM hazır olduktan sonra çalışır -->
   <script src="app.js"></script>
