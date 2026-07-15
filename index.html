@@ -73,6 +73,13 @@
     </div>
   </header>
 
+  <!-- ======================= MOD SEKMELERİ ======================= -->
+  <!-- Günlük: herkese aynı, güne göre belirlenen bulmaca. Serbest: rastgele. -->
+  <nav class="mode-tabs" aria-label="Oyun modu">
+    <button class="mode-tab active" id="tabDaily" type="button">📅 Günün Bulmacası</button>
+    <button class="mode-tab" id="tabFree" type="button">🎲 Serbest Oyun</button>
+  </nav>
+
   <!-- ======================= OYUN ALANI ======================= -->
   <main class="game" id="game">
 
@@ -116,8 +123,11 @@
   <!-- ======================= BAŞARI MODALI ======================= -->
   <div class="modal-overlay hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal">
+      <button class="modal-close" id="btnCloseModal" type="button" aria-label="Kapat">✕</button>
       <h2 id="modalTitle">Tebrikler! 🎉</h2>
       <p id="modalText"></p>
+      <!-- Wordle tarzı emoji ızgarasını panoya kopyalar / paylaşım menüsü açar -->
+      <button class="btn-secondary" id="btnShare" type="button">Sonucu Paylaş 📋</button>
       <button class="btn-primary" id="btnNewGame" type="button">Yeni Oyun</button>
     </div>
   </div>

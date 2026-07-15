@@ -98,6 +98,9 @@ class WordLadder {
   // Türk alfabesindeki 29 büyük harf
   static TR_LETTER = /^[ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ]$/;
 
+  // Günün bulmacası takvimi: 1. gün = 15 Temmuz 2026 (ay 0 tabanlıdır)
+  static GUN_BASLANGIC = new Date(2026, 6, 15);
+
   constructor() {
     // DOM referansları tek noktada toplanır
     this.el = {
@@ -114,6 +117,10 @@ class WordLadder {
       btnNewGame: document.getElementById("btnNewGame"),
       btnRestart: document.getElementById("btnRestart"),
       btnMute:    document.getElementById("btnMute"),
+      btnShare:   document.getElementById("btnShare"),
+      btnCloseModal: document.getElementById("btnCloseModal"),
+      tabDaily:   document.getElementById("tabDaily"),
+      tabFree:    document.getElementById("tabFree"),
     };
 
     // Oyun durumu
@@ -125,6 +132,8 @@ class WordLadder {
     this.chain = [];      // [başlangıç, ...kabul edilen kelimeler]
     this.buffer = "";     // O an yazılan kelime
     this.over = false;    // Oyun bitti mi?
+    this.mode = "daily";  // "daily" (günün bulmacası) | "free" (serbest)
+    this.lastResult = null; // Son kazanılan oyunun {steps, grid} paylaşım verisi
     this.toastTimer = null;
   }
 
@@ -134,7 +143,7 @@ class WordLadder {
     this.db = await this.loadWords();
     this.buildKeyboard();
     this.bindEvents();
-    this.newGame();
+    this.newGame("daily"); // Açılışta günün bulmacası
   }
 
   // Harici sözlüğü Fetch API ile çeker; başarısız olursa mock'a düşer
@@ -153,16 +162,24 @@ class WordLadder {
 
   /* ---------- Yeni oyun ---------- */
 
-  newGame() {
-    // Bulmacası olan uzunluklardan rastgele birini seç (3/4/5)
-    const lengths = Object.keys(this.db).filter(k => this.db[k].puzzles?.length);
-    const len = this.pick(lengths);
-    // Bulmaca formatı: [başlangıç, hedef, enAzAdım] — üçüncü alan opsiyonel
-    const [start, target, optimal = 0] = this.pick(this.db[len].puzzles);
+  newGame(mode = this.mode) {
+    this.mode = mode;
+    this.updateTabs();
 
-    this.len = Number(len);
+    // Günlük modda herkese aynı bulmaca; serbest modda rastgele
+    let puzzle;
+    if (mode === "daily") {
+      puzzle = this.dailyPuzzle();
+    } else {
+      const lengths = Object.keys(this.db).filter(k => this.db[k].puzzles?.length);
+      puzzle = this.pick(this.db[this.pick(lengths)].puzzles);
+    }
+    // Bulmaca formatı: [başlangıç, hedef, enAzAdım] — üçüncü alan opsiyonel
+    const [start, target, optimal = 0] = puzzle;
+
+    this.len = start.length;
     this.optimal = optimal;
-    this.dict = new Set(this.db[len].words);
+    this.dict = new Set(this.db[String(this.len)].words);
     this.startWord = start;
     this.targetWord = target;
     this.chain = [start];
@@ -176,10 +193,61 @@ class WordLadder {
     this.el.parInfo.textContent = optimal ? `En az ${optimal} adımda çözülebilir` : "";
     this.renderInput();
     this.hideModal();
+
+    // Günün bulmacası bu cihazda zaten çözülmüşse paylaşım ekranıyla karşıla
+    if (mode === "daily") {
+      const kayit = this.dailyRecord();
+      if (kayit) {
+        this.lastResult = kayit;
+        this.showModal({ oncedenCozuldu: true });
+      }
+    }
   }
 
   pick(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  /* ---------- Günün bulmacası ---------- */
+
+  // Yerel saate göre YYYY-AA-GG anahtarı (kayıt için)
+  todayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  // Yayın başlangıcından bu yana kaçıncı gün (1 tabanlı)
+  dayNumber() {
+    const simdi = new Date();
+    const bugun = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate());
+    return Math.round((bugun - WordLadder.GUN_BASLANGIC) / 86400000) + 1;
+  }
+
+  // Tüm bulmacaları sabit sırayla birleştirip gün numarasına göre seçer.
+  // Not: words.json yeniden üretilirse sıralama —dolayısıyla o günün
+  // bulmacası— değişir; sözlük güncellemelerini gün içinde yayına almayın.
+  dailyPuzzle() {
+    const hepsi = [];
+    for (const boy of Object.keys(this.db).sort()) hepsi.push(...this.db[boy].puzzles);
+    const i = ((this.dayNumber() % hepsi.length) + hepsi.length) % hepsi.length;
+    return hepsi[i];
+  }
+
+  // localStorage erişimi try/catch içinde: gizli sekmede kayıt tutulamasa
+  // bile oyun çalışmaya devam eder
+  dailyRecord() {
+    try { return JSON.parse(localStorage.getItem("sm_gunluk_" + this.todayKey())); }
+    catch (_) { return null; }
+  }
+
+  saveDailyRecord(sonuc) {
+    try { localStorage.setItem("sm_gunluk_" + this.todayKey(), JSON.stringify(sonuc)); }
+    catch (_) { /* kayıt tutulamadı — önemli değil */ }
+  }
+
+  updateTabs() {
+    this.el.tabDaily.classList.toggle("active", this.mode === "daily");
+    this.el.tabFree.classList.toggle("active", this.mode !== "daily");
   }
 
   /* ---------- Render ---------- */
@@ -299,9 +367,10 @@ class WordLadder {
     setTimeout(() => row.classList.remove("invalid"), 600);
   }
 
-  showToast(message) {
+  showToast(message, ok = false) {
     const t = this.el.toast;
     t.textContent = message;
+    t.classList.toggle("ok", ok); // ok=true → yeşil bilgi, değilse kırmızı hata
     t.classList.add("show");
     clearTimeout(this.toastTimer);
     this.toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
@@ -312,21 +381,95 @@ class WordLadder {
   win() {
     this.over = true;
     AudioFX.win();
+
+    // Paylaşım ızgarası: her basamakta hedefle eşleşen konumlar 🟩 olur;
+    // kelimelerin kendisi gizli kalır (Wordle usulü)
+    const steps = this.chain.length - 1;
+    const grid = this.chain.slice(1).map(w =>
+      [...w].map((h, i) => (h === this.targetWord[i] ? "🟩" : "⬜")).join("")
+    ).join("\n");
+    this.lastResult = { steps, grid };
+
+    // Günün bulmacasında ilk çözüm kaydedilir (tekrar oynayış üzerine yazmaz)
+    if (this.mode === "daily" && !this.dailyRecord()) this.saveDailyRecord(this.lastResult);
+
     // Küçük bir gecikme: son satırın yeşile dönüşü görülsün,
     // ardından geçiş reklamı ve başarı modalı
     setTimeout(() => showInterstitialAd(() => this.showModal()), 650);
   }
 
-  showModal() {
-    const steps = this.chain.length - 1;
+  showModal({ oncedenCozuldu = false } = {}) {
+    const steps = this.lastResult ? this.lastResult.steps : this.chain.length - 1;
     // En kısa çözüme eşit sürede bitirene özel başlık
     const perfect = this.optimal && steps === this.optimal;
-    this.el.modalTitle.textContent = perfect ? "Mükemmel! 🏆" : "Tebrikler! 🎉";
-    this.el.modalText.textContent =
-      `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın!` +
-      (this.optimal && !perfect ? ` (En iyisi: ${this.optimal} adım)` : "");
+
+    if (oncedenCozuldu) {
+      this.el.modalTitle.textContent = "Bugünkü bulmaca çözüldü ✅";
+      this.el.modalText.textContent =
+        `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın. ` +
+        `Yarın yeni bulmaca seni bekliyor!`;
+    } else {
+      this.el.modalTitle.textContent = perfect ? "Mükemmel! 🏆" : "Tebrikler! 🎉";
+      this.el.modalText.textContent =
+        `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın!` +
+        (this.optimal && !perfect ? ` (En iyisi: ${this.optimal} adım)` : "");
+    }
+
+    // Günlük bulmaca günde bir tane: "sonraki" oyun serbest moddur
+    this.el.btnNewGame.textContent = this.mode === "daily" ? "Serbest Oyun" : "Yeni Oyun";
     this.el.modal.classList.remove("hidden");
     this.el.modal.setAttribute("aria-hidden", "false");
+  }
+
+  /* ---------- Sonuç paylaşımı ---------- */
+
+  async share() {
+    if (!this.lastResult) return;
+    const { steps, grid } = this.lastResult;
+    const perfect = this.optimal && steps === this.optimal;
+
+    const baslik = this.mode === "daily"
+      ? `Sözcük Merdiveni #${this.dayNumber()} 📅`
+      : "Sözcük Merdiveni 🪜";
+    const adres = location.href.split(/[?#]/)[0]; // Yayında alan adınız görünür
+
+    const metin = [
+      baslik,
+      `${this.startWord} → ${this.targetWord} · ${steps} adım` +
+        (this.optimal ? ` (en az ${this.optimal})` : "") + (perfect ? " 🏆" : ""),
+      "",
+      grid,
+      "",
+      adres,
+    ].join("\n");
+
+    // Dokunmatik cihazda sistem paylaşım menüsü, masaüstünde panoya kopyala
+    if (navigator.share && matchMedia("(pointer: coarse)").matches) {
+      try { await navigator.share({ text: metin }); }
+      catch (_) { /* kullanıcı paylaşımı iptal etti */ }
+    } else {
+      const ok = await this.copyToClipboard(metin);
+      this.showToast(ok ? "Panoya kopyalandı! 📋" : "Kopyalanamadı!", ok);
+    }
+  }
+
+  // Pano API'si izin vermezse (eski tarayıcı, kısıtlı ortam) seçme+kopyalama
+  // yedeğine düşer; başarı durumunu döndürür
+  async copyToClipboard(metin) {
+    try {
+      await navigator.clipboard.writeText(metin);
+      return true;
+    } catch (_) {
+      const alan = document.createElement("textarea");
+      alan.value = metin;
+      alan.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(alan);
+      alan.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch (_) { /* desteklenmiyor */ }
+      alan.remove();
+      return ok;
+    }
   }
 
   hideModal() {
@@ -389,19 +532,36 @@ class WordLadder {
       }
     });
 
-    // Yeni oyun (modal): önce geçiş reklamı, sonra sıfırla.
-    // blur(): buton odakta kalırsa oyun sırasındaki her Enter/Space
-    // yanlışlıkla yeni oyun başlatır.
+    // Modal ana butonu: günlükte "Serbest Oyun"a geçirir, serbestte yeni
+    // rastgele bulmaca açar. blur(): buton odakta kalırsa oyun sırasındaki
+    // her Enter/Space yanlışlıkla yeni oyun başlatır.
     this.el.btnNewGame.addEventListener("click", (e) => {
       e.currentTarget.blur();
-      showInterstitialAd(() => this.newGame());
+      showInterstitialAd(() => this.newGame("free"));
     });
 
-    // Yeni oyun (başlıktaki ↻): aynı akış
+    // Başlıktaki ↻: aktif modu sıfırlar (günlükte aynı bulmacayı baştan açar)
     this.el.btnRestart.addEventListener("click", (e) => {
       e.currentTarget.blur();
-      showInterstitialAd(() => this.newGame());
+      showInterstitialAd(() => this.newGame(this.mode));
     });
+
+    // Mod sekmeleri
+    this.el.tabDaily.addEventListener("click", (e) => {
+      e.currentTarget.blur();
+      if (this.mode !== "daily") this.newGame("daily");
+    });
+    this.el.tabFree.addEventListener("click", (e) => {
+      e.currentTarget.blur();
+      if (this.mode !== "free") this.newGame("free");
+    });
+
+    // Sonucu paylaş + modalı kapat
+    this.el.btnShare.addEventListener("click", (e) => {
+      e.currentTarget.blur();
+      this.share();
+    });
+    this.el.btnCloseModal.addEventListener("click", () => this.hideModal());
 
     // Ses aç/kapat
     this.el.btnMute.addEventListener("click", (e) => {

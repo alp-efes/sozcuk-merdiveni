@@ -88,6 +88,35 @@ body {
 }
 .icon-btn:active { background: var(--tile-filled); }
 
+/* ---------- Mod sekmeleri (Günlük / Serbest) ---------- */
+.mode-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px 0;
+  flex-shrink: 0;
+}
+.mode-tab {
+  flex: 1;
+  max-width: 200px;
+  min-height: 40px;                 /* Dokunmatik hedef */
+  background: none;
+  border: 1px solid var(--tile-border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.mode-tab.active {
+  background: var(--tile-filled);
+  color: var(--text);
+  border-color: #565658;
+}
+
 /* ---------- Oyun alanı ---------- */
 .game {
   flex: 1;
@@ -201,6 +230,7 @@ body {
   white-space: nowrap;
 }
 .toast.show { opacity: 1; }
+.toast.ok { background: var(--green); }  /* Başarı bildirimi (ör. panoya kopyalandı) */
 
 /* ---------- Sanal klavye ---------- */
 .keyboard {
@@ -263,8 +293,24 @@ body {
   transition: transform 0.25s ease;
 }
 .modal-overlay.hidden .modal { transform: translateY(14px); }
+.modal { position: relative; }      /* Kapat butonunun konumlanması için */
 .modal h2 { font-size: 1.4rem; }
 .modal p { color: var(--text-dim); line-height: 1.5; }
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 34px;
+  height: 34px;
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.modal-close:hover { color: var(--text); background: var(--tile-filled); }
 
 .btn-primary {
   min-height: 48px;
@@ -278,6 +324,19 @@ body {
   transition: filter 0.15s;
 }
 .btn-primary:active { filter: brightness(1.2); }
+
+.btn-secondary {
+  min-height: 48px;
+  border: 1px solid var(--tile-border);
+  border-radius: var(--radius);
+  background: var(--tile-filled);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.btn-secondary:active { filter: brightness(1.3); }
 
 /* ---------- Hedefin altındaki "en az adım" bilgisi ---------- */
 .par-info {

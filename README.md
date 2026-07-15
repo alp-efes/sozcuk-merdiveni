@@ -4,6 +4,16 @@ Her adımda tek harf değiştirerek başlangıç kelimesinden hedef kelimeye ula
 Vanilla JavaScript ile yazılmış Türkçe kelime oyunu (SPA). Harici kütüphane yok,
 derleme adımı yok — statik barındırma yeterli.
 
+**Özellikler:** Günün Bulmacası (herkese aynı, güne göre belirlenir; sonuç
+cihazda `localStorage` ile saklanır) · Serbest Oyun (rastgele) · Wordle tarzı
+emoji ızgarasıyla sonuç paylaşımı (mobilde sistem paylaşım menüsü, masaüstünde
+panoya kopyalama) · en-az-adım göstergesi ve "Mükemmel" derecesi · sanal
+Türkçe klavye + fiziksel klavye desteği.
+
+> Günün Bulmacası, `words.json` içindeki bulmaca sırasına göre seçilir.
+> Sözlüğü yeniden ürettiğinizde sıra değişeceği için güncellemeyi gün ortasında
+> değil, gece yarısına yakın yayına almak takvimi bozulmaktan kurtarır.
+
 ## Dosya Yapısı
 
 | Dosya | Görev |
