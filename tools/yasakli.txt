@@ -1,0 +1,12 @@
+# Oyuna alınmayacak kelimeler (kaba/argo — AdSense aile dostu içerik politikası).
+# TDK'da bulunsalar bile hem sözlükten hem bulmacalardan çıkarılır.
+# Her satırda bir kelime, BÜYÜK harf.
+BOK
+GÖT
+PİÇ
+SİK
+İBNE
+GAVAT
+AMCIK
+TAŞAK
+YARAK

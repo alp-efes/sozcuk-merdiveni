@@ -12,8 +12,11 @@ derleme adımı yok — statik barındırma yeterli.
 | `style.css` | Koyu tema, mobil öncelikli düzen, animasyonlar |
 | `app.js` | Oyun mantığı, sanal klavye, ses, `showInterstitialAd()` / `muteGame()` |
 | `words.json` | Sözlük + çözülebilirliği garanti bulmacalar (üretilen dosya — elle düzenlemeyin) |
-| `tools/kelimeler.txt` | Ana kelime listesi (elle düzenlenen kaynak) |
-| `tools/bulmaca_uret.py` | `kelimeler.txt` → `words.json` üretici |
+| `tools/kelimeler.txt` | Elle onaylı yaygın kelimeler — **bulmaca uçları yalnızca buradan seçilir** |
+| `tools/otomatik_kelimeler.txt` | Zemberek sözlüğünden süzülen geniş doğrulama sözlüğü (üretilen dosya) |
+| `tools/yasakli.txt` | Oyuna alınmayacak kaba/argo kelimeler (AdSense aile dostu içerik) |
+| `tools/sozluk_indir.py` | Zemberek sözlüğünü indirip filtreler → `otomatik_kelimeler.txt` |
+| `tools/bulmaca_uret.py` | Kaynak listeler → `words.json` üretici (BFS ile çözülebilirlik garantisi) |
 | `hakkinda.html`, `gizlilik.html` | AdSense onayı için zorunlu içerik sayfaları |
 | `ads.txt`, `robots.txt`, `sitemap.xml` | Reklam yetkilendirme + arama motoru dosyaları |
 
@@ -27,18 +30,41 @@ python3 -m http.server 8765
 (`words.json` Fetch ile çekildiği için yerel sunucu gerekir; `file://` ile
 açılırsa oyun `app.js` içindeki küçük yedek sözlükle çalışır.)
 
-## Sözlüğü Büyütme
+## Sözlük Mimarisi (iki katman)
 
-1. `tools/kelimeler.txt` dosyasına yeni kelimeleri ekleyin (BÜYÜK harf, 3/4/5 harfli).
-2. `python3 tools/bulmaca_uret.py` komutunu çalıştırın.
-3. Betik, kelimeler arasında "1 harf farkı" grafiği kurup **BFS ile çözülebilir**
-   bulmaca çiftleri üretir ve `words.json`'ı yeniden yazar. Çözümü olmayan
-   bulmaca üretilmez; her bulmacaya en kısa çözüm adımı da eklenir.
+Oyun, Wordle'ın "cevap listesi ⊂ tahmin listesi" tasarımını kullanır:
 
-> Not: TDK'nın resmî, ücretsiz dağıtılan bir kelime listesi API'si yoktur;
-> sozluk.gov.tr uç noktaları resmî olmayan kullanımlar için güvenilir/lisanslı
-> değildir. Bu yüzden proje, elle derlenen ve `tools/kelimeler.txt` üzerinden
-> büyütülebilen kendi sözlüğünü kullanır.
+- **Doğrulama sözlüğü** (~7.100 kelime): oyuncunun yazabileceği kelimeler.
+  `tools/kelimeler.txt` (elle) ∪ `tools/otomatik_kelimeler.txt` (Zemberek)
+  − `tools/yasakli.txt`.
+- **Bulmaca uçları** (~750 kelime): başlangıç/hedef kelimeleri yalnızca elle
+  onaylı yaygın kelimelerden seçilir — oyuncudan bilmediği bir kelimeye
+  "ulaşması" istenmez, ama çözüm yolunda sözlükteki her kelime kullanılabilir.
+
+Otomatik katmanın kaynağı, [Zemberek-NLP](https://github.com/ahmetaa/zemberek-nlp)
+projesinin TDK temelli ana sözlüğüdür (Apache 2.0 lisansı; ~29.000 madde).
+İçe aktarma filtresi: 3/4/5 harf, 29 harfli alfabe (â/î/û elenir), özel ad /
+kısaltma / noktalama / ikileme kökleri elenir.
+
+### Güncelleme akışı
+
+```bash
+python3 tools/sozluk_indir.py    # Zemberek sözlüğünü indir + filtrele (tek seferlik / güncellemede)
+python3 tools/bulmaca_uret.py    # words.json'ı yeniden üret
+```
+
+- Yeni yaygın kelime (bulmaca ucu adayı) eklemek için: `tools/kelimeler.txt`
+- Uygunsuz kelime engellemek için: `tools/yasakli.txt`
+- Her iki durumda da sonra `bulmaca_uret.py` çalıştırılır. Betik "1 harf farkı"
+  grafiği kurup **BFS ile çözülebilirliği garanti** bulmaca çiftleri üretir;
+  her bulmacaya en kısa çözüm adımı da eklenir.
+
+> Neden canlı TDK sorgusu değil? TDK'nın resmî bir API'si yok; sozluk.gov.tr'nin
+> belgesiz uç noktası tarayıcıdan CORS nedeniyle çağrılamaz, her an
+> değişebilir/engellenebilir ve toplu kelime listesi vermez (bulmaca üretimi ve
+> çözülebilirlik garantisi tam listeyi gerektirir). Statik, üretim anında
+> derlenen sözlük hem hızlı hem çevrimdışı çalışır — Wordle dahil tüm ciddi
+> kelime oyunlarının kullandığı yöntem budur.
 
 ## Yayına Alma (adım adım)
 
