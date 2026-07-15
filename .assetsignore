@@ -1,0 +1,11 @@
+# Cloudflare'a YÜKLENMEYECEK dosyalar (.gitignore ile aynı kurallar).
+# Yalnızca statik site sunulsun; kaynak/araç/git dosyaları dışarı açılmasın.
+.git
+.gitignore
+.assetsignore
+.claude
+.wrangler
+node_modules
+tools
+README.md
+wrangler.jsonc

@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers (statik varlık) yapılandırması.
+  // "npx wrangler deploy" bu dosyayı kullanır; olmazsa Cloudflare geçici bir
+  // tane üretir ve TÜM depoyu (.git dahil) yayınlar — bu yüzden kalıcı tutuyoruz.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sozcuk-merdiveni",
+  "compatibility_date": "2026-07-15",
+  "observability": { "enabled": true },
+  // Kök dizin sunulur; site dışı dosyalar .assetsignore ile hariç tutulur.
+  "assets": { "directory": "." }
+}
