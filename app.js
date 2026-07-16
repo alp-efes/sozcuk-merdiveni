@@ -121,7 +121,12 @@ class WordLadder {
       btnCloseModal: document.getElementById("btnCloseModal"),
       tabDaily:   document.getElementById("tabDaily"),
       tabFree:    document.getElementById("tabFree"),
+      nativeInput: document.getElementById("nativeInput"),
+      game:       document.getElementById("game"),
     };
+
+    // Dokunmatik cihazda kendi klavyemiz yerine cihazınki kullanılır
+    this.touch = matchMedia("(pointer: coarse)").matches;
 
     // Oyun durumu
     this.db = null;       // { "3": {words, puzzles}, ... }
@@ -272,6 +277,10 @@ class WordLadder {
 
   // Aktif giriş satırı: buffer'daki harfler + boş kutular
   renderInput(popLast = false) {
+    // Mobil giriş alanını tampon ile senkron tut (gönderim/yeni oyun sonrası temizler)
+    if (this.el.nativeInput && this.el.nativeInput.value !== this.buffer) {
+      this.el.nativeInput.value = this.buffer;
+    }
     this.el.input.innerHTML = "";
     for (let i = 0; i < this.len; i++) {
       const tile = document.createElement("div");
@@ -350,7 +359,8 @@ class WordLadder {
     row.className = "word-row";
     this.el.ladder.appendChild(row);
     this.renderWord(row, word, { compare: true, filled: true });
-    this.el.ladder.scrollTop = this.el.ladder.scrollHeight; // Son satır görünür kalsın
+    // Dar ekranda .game kayabilir; aktif giriş satırı görünür kalsın
+    this.el.input.scrollIntoView({ block: "nearest" });
 
     this.buffer = "";
     this.renderInput();
@@ -384,6 +394,7 @@ class WordLadder {
   win() {
     this.over = true;
     AudioFX.win();
+    this.el.nativeInput?.blur();   // Mobilde cihaz klavyesi kapansın, modal görünsün
 
     // Paylaşım ızgarası: her basamakta hedefle eşleşen konumlar 🟩 olur;
     // kelimelerin kendisi gizli kalır (Wordle usulü)
@@ -522,8 +533,42 @@ class WordLadder {
       this.pressKey(btn.dataset.key);
     });
 
+    /* --- Mobil: cihazın kendi klavyesi --- */
+    const ni = this.el.nativeInput;
+
+    // Yumuşak klavyelerde keydown güvenilmezdir (çoğu zaman "Unidentified"
+    // veya keyCode 229 verir), bu yüzden yazılanı input olayından okuyoruz.
+    ni.addEventListener("input", () => {
+      const temiz = [...ni.value.toLocaleUpperCase("tr-TR")]
+        .filter(h => WordLadder.TR_LETTER.test(h))   // boşluk/otomatik düzeltme artığını at
+        .slice(0, this.len)
+        .join("");
+      const harfEklendi = temiz.length > this.buffer.length;
+      this.buffer = temiz;
+      ni.value = temiz;                              // geçersizleri input'tan da temizle
+      if (harfEklendi) AudioFX.key();
+      this.renderInput(harfEklendi);
+    });
+
+    // Cihaz klavyesindeki "Git/Enter" tuşu
+    ni.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      if (this.over) { this.el.btnNewGame.click(); return; }
+      this.submit();
+    });
+
+    ni.addEventListener("focus", () => document.body.classList.add("kb-open"));
+    ni.addEventListener("blur", () => document.body.classList.remove("kb-open"));
+
+    // iOS klavyeyi yalnızca kullanıcı hareketiyle açar; tahtaya dokunmak yeter
+    if (this.touch) {
+      this.el.game.addEventListener("click", () => { if (!this.over) ni.focus(); });
+    }
+
     // Fiziksel klavye dinleyicisi (Türkçe karakter uyumlu)
     document.addEventListener("keydown", (e) => {
+      if (e.target === this.el.nativeInput) return;  // mobil giriş kendi işler
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       if (e.key === "Enter") {

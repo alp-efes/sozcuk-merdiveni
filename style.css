@@ -124,10 +124,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* safe center: sığınca ortalar, sığmayınca üstten başlatır (kaydırılabilir).
+     Böylece dar ekranda satırlar sekme/klavyeye binmek yerine kayar. */
+  justify-content: safe center;
   gap: 10px;
   padding: 10px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .row-group {
@@ -135,6 +137,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;          /* Başlangıç/hedef satırları asla sıkışmasın */
 }
 .row-label {
   font-size: 0.65rem;
@@ -174,15 +177,16 @@ body {
   background: transparent;
 }
 
-/* Ara kelimeler listesi: uzarsa kendi içinde kayar */
+/* Aktif giriş satırı da sabit yükseklikte kalsın (sıkışıp binmesin) */
+.input-row { flex-shrink: 0; }
+
+/* Ara kelimeler listesi. Kendi içinde kaymaz: sıkışınca satırları sıfıra indirip
+   girilen kelimeleri gizliyordu. Tek kaydırma alanı .game'dir (bkz. yukarısı). */
 .ladder {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  overflow-y: auto;
-  min-height: 0;
-  flex: 0 1 auto;
-  scrollbar-width: thin;
+  flex-shrink: 0;
 }
 .ladder .word-row { animation: slideIn 0.25s ease; }
 
@@ -231,6 +235,41 @@ body {
 }
 .toast.show { opacity: 1; }
 .toast.ok { background: var(--green); }  /* Başarı bildirimi (ör. panoya kopyalandı) */
+
+/* ---------- Mobil: cihazın kendi klavyesi ---------- */
+/* Masaüstünde bu alan hiç yok (sekme sırasını da kirletmesin diye display:none) */
+.native-input,
+.tap-hint { display: none; }
+
+@media (pointer: coarse) {
+  /* Dokunmatik cihazda kendi sanal klavyemizi gizle — telefonunki açılsın */
+  .keyboard { display: none; }
+
+  .native-input {
+    display: block;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    opacity: 0;                  /* Görünmez ama odaklanabilir (klavye açılır) */
+    pointer-events: none;
+    flex-shrink: 0;
+    font-size: 16px;             /* iOS'ta 16px altı otomatik yakınlaştırma yapar */
+    background: transparent;
+    color: transparent;
+  }
+
+  .tap-hint {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-align: center;
+    flex-shrink: 0;
+  }
+  /* Klavye açıkken ipucunu gizle */
+  body.kb-open .tap-hint { visibility: hidden; }
+}
 
 /* ---------- Sanal klavye ---------- */
 .keyboard {

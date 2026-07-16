@@ -97,6 +97,14 @@
     <!-- Aktif giriş satırı: kullanıcının o an yazdığı kelime -->
     <section class="word-row input-row" id="inputRow" aria-label="Kelime girişi"></section>
 
+    <!-- Mobilde cihazın KENDİ klavyesini açmak için kullanılan giriş alanı.
+         Görünmez ama odaklanabilir olmalı: display:none/visibility:hidden olan
+         eleman klavyeyi açmaz. Masaüstünde tamamen kapalıdır (bkz. style.css). -->
+    <input id="nativeInput" class="native-input" type="text" inputmode="text"
+           autocomplete="off" autocorrect="off" autocapitalize="characters"
+           spellcheck="false" enterkeyhint="go" aria-label="Kelimeyi yazın">
+    <p class="tap-hint" id="tapHint">Yazmak için tahtaya dokun</p>
+
     <!-- Altta: Hedef kelime (sabit) + en kısa çözüm bilgisi -->
     <section class="row-group">
       <span class="row-label">HEDEF</span>
