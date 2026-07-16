@@ -15,6 +15,18 @@ Filtreler:
     oyun klavyesinde bu harfler yok)
   - Noktalama (P:Punc), ikileme kökleri (P:Dup), özel adlar (Prop)
     ve kısaltmalar (Abbrv) elenir
+
+Fiiller:
+  Zemberek fiilleri MASTAR halinde tutar ve onlara açık bir P: etiketi
+  VERMEZ (ör. "gelmek [A:Aorist_I]", "almak", "gitmek [A:Voicing]").
+  -mak/-mek ile biten gerçek isimler ise açıkça etiketlidir
+  (ör. "ekmek [P:Noun]", "yemek [P:Noun]", "demek [P:Adv]").
+  Bu ayrımı kullanarak mastarı atıp fiil KÖKÜNÜ ekliyoruz — Türkçede kök
+  zaten emir kipidir: gelmek→gel, kalmak→kal, götürmek→götür.
+  Böylece "gel/kal/götür" geçerli olur, "etmek/almak" olmaz; ekmek ve
+  yemek gibi isimler ise sözlükte kalır.
+  (Çekimli biçimler —gitti, gidiyor, gitmiş— sözlükte hiç yoktur; Zemberek
+  yalnızca kök/lemma tutar.)
 """
 
 import sys
@@ -32,6 +44,12 @@ UZUNLUKLAR = (3, 4, 5)
 # Bu etiketlerden birini taşıyan satırlar oyuna alınmaz
 ELENEN_ETIKETLER = ("P:Punc", "P:Dup", "Prop", "Abbrv")
 
+# -mak/-mek ile bitip de mastar OLMAYAN gerçek kelimeler yalnızca bu etiketlerle
+# korunur: ekmek, yemek, emek, damak, ilmek, oymak, yamak (isim); ahmak, yumak
+# (sıfat). Sözlükteki tek P:Adv olan "demek" bilinçli olarak dışarıda bırakıldı —
+# mastarla birebir aynı göründüğü için oyuncuyu yanıltırdı.
+KORUYAN_ETIKETLER = ("P:Noun", "P:Adj")
+
 # Türkçeye özgü büyük harf dönüşümü (i→İ, ı→I; Python'un upper()'ı bunu bilmez)
 TR_BUYUT = str.maketrans("iı", "İI")
 
@@ -47,6 +65,7 @@ def sozlugu_getir():
 
 def main():
     kelimeler = set()
+    fiil_koku_sayisi = 0
     for satir in sozlugu_getir():
         satir = satir.strip()
         if not satir or satir.startswith("#"):
@@ -61,7 +80,16 @@ def main():
             continue
         if kelime[0].isupper():                 # özel ad güvenlik ağı
             continue
-        if len(kelime) not in UZUNLUKLAR:
+
+        # Mastar → kök (emir kipi). İsim/sıfat etiketi taşıyanlar gerçek
+        # kelimedir (ekmek, yemek, emek, ahmak), onlara dokunmuyoruz.
+        fiil_mi = (kelime.endswith(("mak", "mek"))
+                   and not any(e in etiket for e in KORUYAN_ETIKETLER))
+        if fiil_mi:
+            kelime = kelime[:-3]                # gelmek → gel, götürmek → götür
+            fiil_koku_sayisi += 1
+
+        if len(kelime) not in UZUNLUKLAR:       # kısalma sonrası ölçülür
             continue
         if not set(kelime) <= KUCUK_ALFABE:     # şapkalı/yabancı harf eler
             continue
@@ -83,6 +111,7 @@ def main():
     print(f"Yazıldı: {CIKTI}")
     print(f"Toplam {len(kelimeler)} kelime — " +
           ", ".join(f"{n} harfli: {boylar[n]}" for n in UZUNLUKLAR))
+    print(f"({fiil_koku_sayisi} mastar köke indirildi; 3-5 harf dışı kalanlar elendi)")
 
 
 if __name__ == "__main__":
