@@ -193,6 +193,7 @@ class WordLadder {
 
     // Ekranı sıfırla
     this.el.ladder.innerHTML = "";
+    this.el.game.classList.remove("bitti");   // Giriş satırını geri getir
     this.renderWord(this.el.start, start, { compare: true, filled: true });
     this.renderWord(this.el.target, target, { targetStyle: true });
     this.el.parInfo.textContent = optimal ? `En az ${optimal} adımda çözülebilir` : "";
@@ -395,6 +396,8 @@ class WordLadder {
     this.over = true;
     AudioFX.win();
     this.el.nativeInput?.blur();   // Mobilde cihaz klavyesi kapansın, modal görünsün
+    // Hedefe ulaşıldı: boş giriş satırı ve "dokun" ipucu artık gereksiz
+    this.el.game.classList.add("bitti");
 
     // Paylaşım ızgarası: her basamakta hedefle eşleşen konumlar 🟩 olur;
     // kelimelerin kendisi gizli kalır (Wordle usulü)

@@ -52,6 +52,10 @@
 </head>
 <body>
 
+<!-- Oyun kabuğu: tam ekran yüksekliğinde. Altındaki bilgi bölümü için
+     sayfa aşağı kaydırılabilir. -->
+<div class="app">
+
   <!-- ======================= ÜST REKLAM ALANI ======================= -->
   <!-- AdSense onayı sonrası: data-placeholder özniteliğini silin ve aşağıdaki
        şablonun yorumunu kaldırıp kendi reklam birimi kimliğinizi yazın.
@@ -123,12 +127,72 @@
   <!-- ======================= ALT REKLAM ALANI ======================= -->
   <div class="ad-container ad-bottom" id="adBottom" data-placeholder="REKLAM ALANI (Anchor / 320x100)"></div>
 
-  <!-- AdSense onayı için zorunlu sayfalara görünür bağlantılar -->
-  <nav class="site-footer">
-    <a href="hakkinda.html">Hakkında &amp; Nasıl Oynanır</a>
-    <span aria-hidden="true">·</span>
-    <a href="gizlilik.html">Gizlilik Politikası</a>
-  </nav>
+  <!-- Aşağıdaki bilgi bölümüne kaydırma ipucu -->
+  <a class="scroll-cue" href="#nasil-oynanir">Nasıl oynanır? ↓</a>
+</div><!-- /.app -->
+
+<!-- ======================= HAKKINDA & NASIL OYNANIR =======================
+     Eskiden ayrı hakkinda.html sayfasındaydı; tek sayfada toplandı.
+     (Gizlilik politikası yasal gereklilik olduğu için ayrı sayfada kalır.) -->
+<section class="info page" id="nasil-oynanir">
+  <h2>Sözcük Merdiveni Nedir?</h2>
+
+  <p>Sözcük Merdiveni, klasik "word ladder" bulmacasının Türkçe uyarlamasıdır.
+  Amaç, <strong>başlangıç kelimesinden hedef kelimeye</strong>, her adımda
+  yalnızca <strong>tek bir harf değiştirerek</strong> ulaşmaktır. Aradaki her
+  basamak, Türkçede gerçekten var olan bir kelime olmalıdır.</p>
+
+  <h3>Kurallar</h3>
+  <ol>
+    <li>Her hamlede bir önceki kelimenin <strong>sadece 1 harfini</strong>
+    değiştirebilirsiniz; harf ekleyemez veya çıkaramazsınız.</li>
+    <li>Yazdığınız her ara kelime <strong>sözlükte bulunan geçerli bir
+    Türkçe kelime</strong> olmalıdır.</li>
+    <li>Aynı kelimeyi merdivende iki kez kullanamazsınız.</li>
+    <li>Hedef kelimeye ulaştığınızda bulmaca tamamlanır. Hedefin altında
+    yazan "en az adım" sayısını yakalarsanız mükemmel çözüm yapmış
+    olursunuz!</li>
+  </ol>
+
+  <h3>Örnek Çözüm</h3>
+  <p>KÖY kelimesinden KEL kelimesine 3 adımda ulaşan bir merdiven:</p>
+  <p class="ornek">
+    KÖY<br>
+    KOY &nbsp;(Ö → O)<br>
+    KOL &nbsp;(Y → L)<br>
+    KEL &nbsp;(O → E)
+  </p>
+
+  <h3>İpuçları</h3>
+  <ul>
+    <li>Önce hedef kelimeyle <strong>ortak harflere</strong> bakın; yeşil
+    kutular doğru konumdaki harfleri gösterir.</li>
+    <li>Sesli harfleri değiştirmek (A→E, O→U gibi) çoğu zaman yeni geçerli
+    kelimeler türetmenin en kolay yoludur.</li>
+    <li>Takıldığınızda geriye doğru düşünün: hedef kelimeden başlangıca
+    doğru bir merdiven kurmayı deneyin.</li>
+  </ul>
+
+  <h3>Oyun Modları</h3>
+  <ul>
+    <li><strong>📅 Günün Bulmacası:</strong> Herkese aynı bulmaca gelir, her
+    gün yenilenir. Çözünce sonucunu emoji tablosuyla paylaşabilirsiniz.</li>
+    <li><strong>🎲 Serbest Oyun:</strong> İstediğiniz kadar rastgele bulmaca
+    çözersiniz.</li>
+  </ul>
+
+  <h3>Kelimeler Nereden Geliyor?</h3>
+  <p>Oyunda kullanılan sözlük, Türk Dil Kurumu yazımına uygun 3, 4 ve 5 harfli
+  kelimelerden oluşur. Bulmacalar bilgisayar tarafından önceden analiz edilir;
+  yayımlanan her bulmacanın <strong>çözülebilir olduğu garantidir</strong>.</p>
+
+  <!-- TODO: AdSense onayı için bir iletişim adresi gerekir. Alan adına ait
+       bir adres (ör. iletisim@sözcükyolu.com) kurulunca buraya eklenecek. -->
+</section>
+
+<nav class="site-footer">
+  <a href="gizlilik.html">Gizlilik Politikası</a>
+</nav>
 
   <!-- ======================= BAŞARI MODALI ======================= -->
   <div class="modal-overlay hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">

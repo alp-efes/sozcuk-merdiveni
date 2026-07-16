@@ -27,7 +27,7 @@ Türkçe klavye + fiziksel klavye desteği.
 | `tools/yasakli.txt` | Oyuna alınmayacak kaba/argo kelimeler (AdSense aile dostu içerik) |
 | `tools/sozluk_indir.py` | Zemberek sözlüğünü indirip filtreler → `otomatik_kelimeler.txt` |
 | `tools/bulmaca_uret.py` | Kaynak listeler → `words.json` üretici (BFS ile çözülebilirlik garantisi) |
-| `hakkinda.html`, `gizlilik.html` | AdSense onayı için zorunlu içerik sayfaları |
+| `gizlilik.html` | Gizlilik politikası (AdSense/KVKK gereği ayrı sayfa) |
 | `ads.txt`, `robots.txt`, `sitemap.xml` | Reklam yetkilendirme + arama motoru dosyaları |
 
 ## Yerelde Çalıştırma
@@ -88,7 +88,7 @@ python3 tools/bulmaca_uret.py    # words.json'ı yeniden üret
    - **Netlify / Vercel**: klasörü sürükle-bırak da yeterli.
 3. **Alan adını bağlayın** ve HTTPS'in aktif olduğunu doğrulayın (bu barındırıcılarda otomatik).
 4. **Alan adı ayarlandı**: Alan adı **sözcükyolu.com** (Türkçe karakterli IDN).
-   Tüm SEO etiketleri (`index.html`, `gizlilik.html`, `hakkinda.html`,
+   Tüm SEO etiketleri (`index.html`, `gizlilik.html`,
    `robots.txt`, `sitemap.xml`) makine uyumu için punycode/ASCII karşılığını
    kullanır: **`xn--szckyolu-n4a6d.com`**. Bu, tarayıcıda kullanıcıya
    "sözcükyolu.com" olarak görünür; ikisi aynı adrestir. Farklı bir alan adına

@@ -25,19 +25,22 @@
 /* ---------- Sıfırlama ve genel yerleşim ---------- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body { height: 100%; }
-
 body {
   font-family: var(--font);
   background: var(--bg);
   color: var(--text);
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;              /* Mobil adres çubuğu farklarını tolere eder */
   -webkit-user-select: none;
   user-select: none;               /* Çift dokunuşta metin seçimini engelle */
   -webkit-tap-highlight-color: transparent;
-  overflow: hidden;
+  /* Sayfa kayabilir: oyun kabuğunun altında "Nasıl Oynanır" bölümü var */
+}
+
+/* Oyun kabuğu: ilk ekranı tam kaplar, altındaki içeriğe kaydırılır.
+   Sabit yükseklik burada — böylece klavye/reklam alanı ilk ekranda kalır. */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;                  /* Mobil adres çubuğu farklarını tolere eder */
 }
 
 /* ---------- Reklam kapsayıcıları ---------- */
@@ -179,6 +182,10 @@ body {
 
 /* Aktif giriş satırı da sabit yükseklikte kalsın (sıkışıp binmesin) */
 .input-row { flex-shrink: 0; }
+
+/* Hedefe ulaşınca giriş satırı gizlenir — boş bir satır asılı kalmasın */
+.game.bitti .input-row,
+.game.bitti .tap-hint { display: none; }
 
 /* Ara kelimeler listesi. Kendi içinde kaymaz: sıkışınca satırları sıfıra indirip
    girilen kelimeleri gizliyordu. Tek kaydırma alanı .game'dir (bkz. yukarısı). */
@@ -439,6 +446,31 @@ body.page-body {
   letter-spacing: 2px;
   line-height: 1.9;
 }
+
+/* ---------- Aşağı kaydırma ipucu (oyun kabuğunun en altı) ---------- */
+.scroll-cue {
+  display: block;
+  text-align: center;
+  padding: 5px 0 7px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.scroll-cue:hover { color: var(--text); }
+
+/* ---------- Ana sayfadaki "Nasıl Oynanır" bölümü ---------- */
+/* .page ile aynı tipografiyi kullanır; bu kurallar .page'den SONRA gelmeli
+   ki başlık boyutları burada geçerli olsun. */
+.info {
+  border-top: 1px solid var(--tile-border);
+  -webkit-user-select: text;
+  user-select: text;               /* Bilgi metni seçilebilsin */
+}
+.info h2 { font-size: 1.35rem; margin-bottom: 14px; }
+.info h3 { font-size: 1.05rem; margin: 22px 0 8px; }
 
 /* ---------- Geniş ekran (tablet/masaüstü) iyileştirmeleri ---------- */
 @media (min-width: 600px) {
