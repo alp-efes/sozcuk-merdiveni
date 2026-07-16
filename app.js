@@ -101,6 +101,9 @@ class WordLadder {
   // Günün bulmacası takvimi: 1. gün = 15 Temmuz 2026 (ay 0 tabanlıdır)
   static GUN_BASLANGIC = new Date(2026, 6, 15);
 
+  // Desteklenen kelime boyları (words.json ile aynı olmalı)
+  static UZUNLUKLAR = [3, 4, 5];
+
   constructor() {
     // DOM referansları tek noktada toplanır
     this.el = {
@@ -123,7 +126,12 @@ class WordLadder {
       tabFree:    document.getElementById("tabFree"),
       nativeInput: document.getElementById("nativeInput"),
       game:       document.getElementById("game"),
+      lenPick:    document.getElementById("lenPick"),
+      lenBtns:    [...document.querySelectorAll(".len-btn")],
     };
+
+    // Serbest oyunda hangi uzunlukta bulmaca gelsin (kalıcı tercih)
+    this.lenPref = this.loadLenPref();
 
     // Dokunmatik cihazda kendi klavyemiz yerine cihazınki kullanılır
     this.touch = matchMedia("(pointer: coarse)").matches;
@@ -171,13 +179,16 @@ class WordLadder {
     this.mode = mode;
     this.updateTabs();
 
-    // Günlük modda herkese aynı bulmaca; serbest modda rastgele
+    // Günlük modda herkese aynı bulmaca; serbest modda seçilen uzunlukta
     let puzzle;
     if (mode === "daily") {
       puzzle = this.dailyPuzzle();
     } else {
-      const lengths = Object.keys(this.db).filter(k => this.db[k].puzzles?.length);
-      puzzle = this.pick(this.db[this.pick(lengths)].puzzles);
+      // Tercih edilen uzunlukta havuz yoksa (bozuk sözlük) mevcut ilk boya düş
+      const havuz = this.db[String(this.lenPref)]?.puzzles?.length
+        ? this.db[String(this.lenPref)].puzzles
+        : this.db[Object.keys(this.db).find(k => this.db[k].puzzles?.length)].puzzles;
+      puzzle = this.pick(havuz);
     }
     // Bulmaca formatı: [başlangıç, hedef, enAzAdım] — üçüncü alan opsiyonel
     const [start, target, optimal = 0] = puzzle;
@@ -257,6 +268,27 @@ class WordLadder {
   updateTabs() {
     this.el.tabDaily.classList.toggle("active", this.mode === "daily");
     this.el.tabFree.classList.toggle("active", this.mode !== "daily");
+    // Uzunluk seçimi yalnızca serbest oyunda anlamlı
+    this.el.lenPick.classList.toggle("hidden", this.mode === "daily");
+    for (const b of this.el.lenBtns) {
+      b.classList.toggle("active", Number(b.dataset.len) === this.lenPref);
+    }
+  }
+
+  /* ---------- Kelime uzunluğu tercihi ---------- */
+
+  // localStorage erişimi gizli sekmede hata verebilir; oyun yine çalışsın
+  loadLenPref() {
+    try {
+      const v = Number(localStorage.getItem("sm_uzunluk"));
+      if (WordLadder.UZUNLUKLAR.includes(v)) return v;
+    } catch (_) { /* kayıt okunamadı */ }
+    return 4;                       // Varsayılan: orta zorluk
+  }
+
+  saveLenPref(n) {
+    this.lenPref = n;
+    try { localStorage.setItem("sm_uzunluk", String(n)); } catch (_) { /* önemli değil */ }
   }
 
   /* ---------- Render ---------- */
@@ -617,6 +649,17 @@ class WordLadder {
     this.el.tabFree.addEventListener("click", (e) => {
       e.currentTarget.blur();
       if (this.mode !== "free") this.newGame("free");
+    });
+
+    // Uzunluk seçimi: tıklayınca tercih kaydedilir ve hemen o boyda bulmaca gelir
+    this.el.lenPick.addEventListener("click", (e) => {
+      const btn = e.target.closest(".len-btn");
+      if (!btn) return;
+      btn.blur();
+      const n = Number(btn.dataset.len);
+      if (n === this.lenPref && this.mode === "free") return;  // zaten seçili, boşuna yenileme
+      this.saveLenPref(n);
+      this.newGame("free");
     });
 
     // Sonucu paylaş + modalı kapat

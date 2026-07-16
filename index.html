@@ -86,6 +86,15 @@
     <button class="mode-tab" id="tabFree" type="button">🎲 Serbest Oyun</button>
   </nav>
 
+  <!-- Kelime uzunluğu seçimi: yalnızca Serbest Oyun'da görünür.
+       (Günün Bulmacası'nda uzunluk herkes için sabittir.)
+       Seçim localStorage'da saklanır, tıklayınca hemen yeni bulmaca gelir. -->
+  <div class="len-pick" id="lenPick" role="group" aria-label="Kelime uzunluğu seçimi">
+    <button class="len-btn" type="button" data-len="3">3 harf</button>
+    <button class="len-btn" type="button" data-len="4">4 harf</button>
+    <button class="len-btn" type="button" data-len="5">5 harf</button>
+  </div>
+
   <!-- ======================= OYUN ALANI ======================= -->
   <main class="game" id="game">
 
@@ -177,8 +186,10 @@
   <ul>
     <li><strong>📅 Günün Bulmacası:</strong> Herkese aynı bulmaca gelir, her
     gün yenilenir. Çözünce sonucunu emoji tablosuyla paylaşabilirsiniz.</li>
-    <li><strong>🎲 Serbest Oyun:</strong> İstediğiniz kadar rastgele bulmaca
-    çözersiniz.</li>
+    <li><strong>🎲 Serbest Oyun:</strong> İstediğiniz kadar bulmaca çözersiniz.
+    Üstteki <strong>3 / 4 / 5 harf</strong> düğmeleriyle hangi uzunlukta
+    oynayacağınızı seçebilirsiniz; seçiminiz hatırlanır ve istediğiniz zaman
+    değiştirebilirsiniz. Kelime uzadıkça bulmaca zorlaşır.</li>
   </ul>
 
   <h3>Kelimeler Nereden Geliyor?</h3>
