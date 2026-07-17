@@ -229,15 +229,24 @@ class WordLadder {
     this.buffer = "";
     this.over = false;
 
-    // Günün bulmacası bu cihazda bugün zaten çözülmüşse bitmiş say
+    // Günün bulmacası bu cihazda bugün zaten çözülmüşse bitmiş say ve
+    // gerçek çözüm zincirini kayıttan geri kur (varsa) — böylece merdiven ve
+    // adım sayısı doğru görünür, boş zincirden "0 adım" çıkmaz.
     let cozuldu = null;
     if (mode === "daily") {
-      cozuldu = this.dailyRecord();
-      if (cozuldu) { this.over = true; this.lastResult = cozuldu; }
+      cozuldu = this.dailyRecord();          // steps<1 kayıtları zaten null döner
+      if (cozuldu) {
+        this.over = true;
+        this.lastResult = cozuldu;
+        if (Array.isArray(cozuldu.chain) && cozuldu.chain[0] === start &&
+            cozuldu.chain[cozuldu.chain.length - 1] === target) {
+          this.chain = cozuldu.chain.slice();
+        }
+      }
     }
 
     this.render();          // over=true ise "bitti" sınıfını da uygular
-    this.saveState();       // doğru "over" değeriyle kaydeder
+    this.saveState();       // doğru "over" ve zincirle kaydeder
 
     // Analitik: oyun başlangıcı (window.trackEvent Firebase köprüsüdür)
     window.trackEvent?.("game_start", { mode, length: this.len, difficulty: puzzleDiff });
@@ -315,10 +324,15 @@ class WordLadder {
   }
 
   // localStorage erişimi try/catch içinde: gizli sekmede kayıt tutulamasa
-  // bile oyun çalışmaya devam eder
+  // bile oyun çalışmaya devam eder. Yalnızca GEÇERLİ kaydı döndürür:
+  // gerçek bir çözümde en az 1 adım vardır; steps<1 olan bozuk kayıtları
+  // (eski sürümlerden kalan) yok sayar — böylece "0 adımda çözüldü" hatası
+  // kendiliğinden temizlenir.
   dailyRecord() {
-    try { return JSON.parse(localStorage.getItem("sm_gunluk_" + this.todayKey())); }
-    catch (_) { return null; }
+    try {
+      const r = JSON.parse(localStorage.getItem("sm_gunluk_" + this.todayKey()));
+      return (r && r.steps >= 1) ? r : null;
+    } catch (_) { return null; }
   }
 
   saveDailyRecord(sonuc) {
@@ -561,10 +575,15 @@ class WordLadder {
     this.chain = Array.isArray(s.chain) && s.chain[0] === s.start ? s.chain : [s.start];
     this.buffer = "";
     this.over = !!s.over;
+    // Bozuk durum güvenliği: "bitti" işaretli ama gerçek hamle yoksa (zincirde
+    // yalnızca başlangıç) çözülmemiş say. Bu, eski bir hatadan kalan
+    // "0 adımda çözüldü" durumunu kendiliğinden temizler.
+    if (this.over && this.chain.length < 2) this.over = false;
     if (this.mode === "daily") this.gosterilenGun = this.dayNumber();
 
     this.updateTabs();
     this.render();
+    this.saveState();       // düzeltilmiş durumu (ör. over=false) geri yaz
 
     if (this.over) {
       this.lastResult = this.computeResult();
@@ -587,8 +606,12 @@ class WordLadder {
     const steps = this.lastResult.steps;
     this.saveState();               // "bitti" durumu da kaydedilsin
 
-    // Günün bulmacasında ilk çözüm kaydedilir (tekrar oynayış üzerine yazmaz)
-    if (this.mode === "daily" && !this.dailyRecord()) this.saveDailyRecord(this.lastResult);
+    // Günün bulmacasında ilk çözüm kaydedilir (tekrar oynayış üzerine yazmaz).
+    // Zinciri de saklıyoruz ki modda tekrar açıldığında gerçek merdiven ve
+    // adım sayısı yeniden kurulabilsin (boş zincirden "0 adım" çıkmasın).
+    if (this.mode === "daily" && !this.dailyRecord()) {
+      this.saveDailyRecord({ ...this.lastResult, chain: this.chain.slice() });
+    }
 
     // Analitik: kazanma (adım sayısı ve mükemmellik dağılımını görmek için)
     window.trackEvent?.("game_won", {
