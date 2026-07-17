@@ -150,6 +150,24 @@ body {
   color: #fff;
 }
 
+/* ---------- Günlük bulmaca geri sayımı ---------- */
+.daily-timer {
+  text-align: center;
+  padding: 10px 12px 0;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.daily-timer.hidden { display: none; }   /* Serbest oyunda gizli */
+.daily-timer strong {
+  color: var(--text);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  /* Rakamlar eşit genişlikte olsun ki sayaç titremesin */
+  font-variant-numeric: tabular-nums;
+}
+.daily-timer .tz-note { opacity: 0.65; }
+
 /* ---------- Oyun alanı ---------- */
 .game {
   flex: 1;

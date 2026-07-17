@@ -98,11 +98,24 @@ class WordLadder {
   // Türk alfabesindeki 29 büyük harf
   static TR_LETTER = /^[ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ]$/;
 
-  // Günün bulmacası takvimi: 1. gün = 15 Temmuz 2026 (ay 0 tabanlıdır)
-  static GUN_BASLANGIC = new Date(2026, 6, 15);
+  // Günün bulmacası Türkiye saatine (TRT) sabitlenmiştir: gün, dünyanın her
+  // yerinde aynı anda — TRT gece yarısında — değişir. Cihazın saat dilimi
+  // kullanılsaydı farklı ülkelerdeki oyuncular aynı anda farklı bulmaca görür,
+  // paylaşılan sonuçlar anlamsızlaşırdı.
+  // TRT = UTC+3 ve sabittir (Türkiye 2016'dan beri yaz saati uygulamıyor).
+  static TRT_OFFSET_MS = 3 * 3600 * 1000;
+
+  // Takvimin 1. günü: 15 Temmuz 2026 (TRT). Ay 0 tabanlıdır.
+  static GUN_BASLANGIC_UTC = Date.UTC(2026, 6, 15);
 
   // Desteklenen kelime boyları (words.json ile aynı olmalı)
   static UZUNLUKLAR = [3, 4, 5];
+
+  // "Şimdi"nin TRT karşılığı. Dönen Date'in UTC alanları (getUTCFullYear vb.)
+  // TRT takvim değerlerini verir — yerel saat alanları KULLANILMAMALI.
+  static trtNow() {
+    return new Date(Date.now() + WordLadder.TRT_OFFSET_MS);
+  }
 
   constructor() {
     // DOM referansları tek noktada toplanır
@@ -128,6 +141,8 @@ class WordLadder {
       game:       document.getElementById("game"),
       lenPick:    document.getElementById("lenPick"),
       lenBtns:    [...document.querySelectorAll(".len-btn")],
+      dailyTimer: document.getElementById("dailyTimer"),
+      countdown:  document.getElementById("dailyCountdown"),
     };
 
     // Serbest oyunda hangi uzunlukta bulmaca gelsin (kalıcı tercih)
@@ -157,6 +172,13 @@ class WordLadder {
     this.buildKeyboard();
     this.bindEvents();
     this.newGame("daily"); // Açılışta günün bulmacası
+
+    // Geri sayım: hemen bir kez yaz, sonra saniyede bir güncelle
+    this.tickCountdown();
+    setInterval(() => this.tickCountdown(), 1000);
+
+    // Konsoldan hata ayıklama/durum inceleme için tutamak (zararsız)
+    window.oyun = this;
   }
 
   // Harici sözlüğü Fetch API ile çeker; başarısız olursa mock'a düşer
@@ -183,6 +205,7 @@ class WordLadder {
     let puzzle;
     if (mode === "daily") {
       puzzle = this.dailyPuzzle();
+      this.gosterilenGun = this.dayNumber();   // sayaç gün değişimini buradan anlar
     } else {
       // Tercih edilen uzunlukta havuz yoksa (bozuk sözlük) mevcut ilk boya düş
       const havuz = this.db[String(this.lenPref)]?.puzzles?.length
@@ -230,17 +253,24 @@ class WordLadder {
 
   /* ---------- Günün bulmacası ---------- */
 
-  // Yerel saate göre YYYY-AA-GG anahtarı (kayıt için)
+  // TRT gününe göre YYYY-AA-GG anahtarı (kayıt için)
   todayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const d = WordLadder.trtNow();
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
   }
 
-  // Yayın başlangıcından bu yana kaçıncı gün (1 tabanlı)
+  // Yayın başlangıcından bu yana kaçıncı TRT günü (1 tabanlı)
   dayNumber() {
-    const simdi = new Date();
-    const bugun = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate());
-    return Math.round((bugun - WordLadder.GUN_BASLANGIC) / 86400000) + 1;
+    const d = WordLadder.trtNow();
+    const bugunUTC = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+    return Math.round((bugunUTC - WordLadder.GUN_BASLANGIC_UTC) / 86400000) + 1;
+  }
+
+  // Sonraki TRT gece yarısına kalan milisaniye
+  msUntilTrtMidnight() {
+    const d = WordLadder.trtNow();
+    const sonrakiGeceYarisi = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1);
+    return sonrakiGeceYarisi - d.getTime();
   }
 
   // Tüm bulmacaları sabit sırayla birleştirip gün numarasına göre seçer.
@@ -268,8 +298,9 @@ class WordLadder {
   updateTabs() {
     this.el.tabDaily.classList.toggle("active", this.mode === "daily");
     this.el.tabFree.classList.toggle("active", this.mode !== "daily");
-    // Uzunluk seçimi yalnızca serbest oyunda anlamlı
+    // Aynı satırda: serbest oyunda uzunluk seçici, günlükte geri sayım
     this.el.lenPick.classList.toggle("hidden", this.mode === "daily");
+    this.el.dailyTimer.classList.toggle("hidden", this.mode !== "daily");
     for (const b of this.el.lenBtns) {
       b.classList.toggle("active", Number(b.dataset.len) === this.lenPref);
     }
@@ -289,6 +320,31 @@ class WordLadder {
   saveLenPref(n) {
     this.lenPref = n;
     try { localStorage.setItem("sm_uzunluk", String(n)); } catch (_) { /* önemli değil */ }
+  }
+
+  /* ---------- Günlük bulmaca sayacı ---------- */
+
+  // Kalan süreyi insan diliyle ("3 saat 12 dakika") verir — modal metni için
+  kalanSureMetni() {
+    const dk = Math.max(1, Math.round(this.msUntilTrtMidnight() / 60000));
+    const saat = Math.floor(dk / 60);
+    const kalanDk = dk % 60;
+    if (!saat) return `${kalanDk} dakika`;
+    return kalanDk ? `${saat} saat ${kalanDk} dakika` : `${saat} saat`;
+  }
+
+  // Her saniye çalışır: kalan süreyi yazar ve TRT gece yarısı geçilince
+  // günlük bulmacayı kendiliğinden yeniler (sayfa açık kalsa bile).
+  tickCountdown() {
+    if (this.mode === "daily" && this.gosterilenGun !== this.dayNumber()) {
+      this.newGame("daily");   // gün değişti
+      return;
+    }
+    const s = Math.max(0, Math.floor(this.msUntilTrtMidnight() / 1000));
+    const ss = String(Math.floor(s / 3600)).padStart(2, "0");
+    const dd = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+    const sn = String(s % 60).padStart(2, "0");
+    this.el.countdown.textContent = `${ss}:${dd}:${sn}`;
   }
 
   /* ---------- Render ---------- */
@@ -376,10 +432,8 @@ class WordLadder {
     if (diff > 1) {
       return this.reject("Sadece 1 harf değişebilir!");
     }
-    // Kural 4: Aynı kelime zincirde tekrar kullanılamaz (döngüyü engeller)
-    if (this.chain.includes(word)) {
-      return this.reject("Bu kelimeyi zaten kullandın!");
-    }
+    // Not: Daha önce kullanılan bir kelimeye geri dönmek serbesttir; oyuncu
+    // istediği zaman bir adım geri gidip başka yol deneyebilir.
 
     this.accept(word);
   }
@@ -465,7 +519,7 @@ class WordLadder {
       this.el.modalTitle.textContent = "Bugünkü bulmaca çözüldü ✅";
       this.el.modalText.textContent =
         `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın. ` +
-        `Yarın yeni bulmaca seni bekliyor!`;
+        `Yeni bulmaca ${this.kalanSureMetni()} sonra!`;
     } else {
       this.el.modalTitle.textContent = perfect ? "Mükemmel! 🏆" : "Tebrikler! 🎉";
       this.el.modalText.textContent =
@@ -673,6 +727,14 @@ class WordLadder {
     this.el.btnMute.addEventListener("click", (e) => {
       e.currentTarget.blur();
       muteGame(!AudioFX.isMuted());
+    });
+
+    // Sekme arka plandayken tarayıcılar zamanlayıcıları kısıtlar (Chrome'da
+    // dakikada bire kadar düşer). Kullanıcı geri döndüğünde sayaç bayat
+    // görünmesin ve gece yarısı arka planda geçtiyse bulmaca anında
+    // yenilensin diye görünür olur olmaz güncelliyoruz.
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) this.tickCountdown();
     });
   }
 }

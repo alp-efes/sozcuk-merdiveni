@@ -95,6 +95,13 @@
     <button class="len-btn" type="button" data-len="5">5 harf</button>
   </div>
 
+  <!-- Günün Bulmacası'nda aynı satırda geri sayım görünür (uzunluk seçici gizlenir).
+       Süre Türkiye saatiyle gece yarısına kadardır; app.js her saniye günceller. -->
+  <div class="daily-timer hidden" id="dailyTimer">
+    Yeni bulmaca <strong id="dailyCountdown">--:--:--</strong> sonra
+    <span class="tz-note">(TSİ 00:00)</span>
+  </div>
+
   <!-- ======================= OYUN ALANI ======================= -->
   <main class="game" id="game">
 
