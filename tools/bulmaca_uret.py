@@ -16,8 +16,12 @@ Kaynaklar:
      yolunda sözlükteki HER kelimeyi kullanabilir,
   3. Bulmaca uçları (başlangıç/hedef) yalnızca elle onaylı kelimelerden
      seçilir — kimseden bilmediği bir kelimeye "ulaşması" istenmez,
-  4. BFS ile en kısa çözümü 2-5 adım olan çiftler örneklenir; üretilen
-     her bulmacanın ÇÖZÜLEBİLİR olduğu garantidir.
+  4. Her aday için BFS iki değeri verir: en kısa ADIM sayısı ve en kısa
+     YOL sayısı (kaç farklı en-kısa kombinasyonla çözülebildiği). Bu iki
+     değişkenden ZORLUK (kolay/orta/zor) hesaplanır.
+  5. Üretilen her bulmacanın ÇÖZÜLEBİLİR olduğu garantidir.
+
+Çıktı biçimi:  puzzles = [[başlangıç, hedef, adım, zorluk], ...]
 
 Kullanım:  python3 tools/bulmaca_uret.py
 """
@@ -31,8 +35,9 @@ from pathlib import Path
 # Türk alfabesi (29 harf) — doğrulama için
 ALFABE = set("ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")
 UZUNLUKLAR = (3, 4, 5)      # Desteklenen kelime boyları
-MIN_ADIM, MAX_ADIM = 2, 5   # Bulmaca zorluk aralığı (en kısa çözüm adımı)
-MAX_BULMACA = 300           # Uzunluk başına en fazla bulmaca sayısı
+MIN_ADIM, MAX_ADIM = 2, 6   # Bulmaca adım aralığı (en kısa çözüm adımı)
+ZORLUKLAR = ("kolay", "orta", "zor")
+BULMACA_BASINA_ZORLUK = 120 # Her (uzunluk, zorluk) kutusunda en fazla bulmaca
 TOHUM = 42                  # Tekrarlanabilir üretim için sabit seed
 
 ARACLAR = Path(__file__).resolve().parent
@@ -77,31 +82,65 @@ def komsuluk_kur(kelimeler):
     return komsular
 
 
-def bfs_mesafeler(kaynak, komsular):
-    """Kaynaktan erişilebilen tüm kelimelere en kısa adım sayısı."""
+def bfs_mesafe_ve_yol(kaynak, komsular):
+    """Her hedefe en kısa ADIM sayısı ve en kısa YOL adedini birlikte döndürür.
+
+    Yol sayımı klasik BFS ile: v, u'nun bir seviye üstündeyse v'nin yol sayısına
+    u'nunki eklenir. Grafik ağırlıksız olduğundan kenarlar hep ardışık seviyeler
+    arasındadır; bu yüzden sayım doğrudur.
+    """
     mesafe = {kaynak: 0}
+    yol = {kaynak: 1}
     kuyruk = deque([kaynak])
     while kuyruk:
-        simdiki = kuyruk.popleft()
-        for komsu in komsular[simdiki]:
-            if komsu not in mesafe:
-                mesafe[komsu] = mesafe[simdiki] + 1
-                kuyruk.append(komsu)
-    return mesafe
+        u = kuyruk.popleft()
+        for v in komsular[u]:
+            if v not in mesafe:
+                mesafe[v] = mesafe[u] + 1
+                yol[v] = yol[u]
+                kuyruk.append(v)
+            elif mesafe[v] == mesafe[u] + 1:
+                yol[v] += yol[u]
+    return mesafe, yol
+
+
+def zorluk_hesapla(adim, yol_sayisi):
+    """Adım (uzunluk) ve çözüm yolu sayısına (esneklik) göre zorluk etiketi.
+
+    Az adım → kolay (2 adım her zaman; 3 adım da çok yolluysa).
+    Çok adım / tek yol → zor (5+ adım, ya da 4 adım ama tek çözüm yolu).
+    Arası → orta.
+
+    Adım sayısı baskın değişkendir; yol sayısı (esneklik) sınır durumlarını
+    ayırır: aynı adımda çok yol daha kolay, tek yol daha zordur.
+    """
+    if adim <= 2 or (adim == 3 and yol_sayisi >= 3):
+        return "kolay"
+    if adim >= 5 or (adim == 4 and yol_sayisi <= 1):
+        return "zor"
+    return "orta"
 
 
 def bulmaca_uret(uclar, komsular, rasgele):
-    """Her iki ucu da onaylı listeden olan, 2-5 adımlık çiftleri örnekler."""
-    adaylar = []
+    """Her iki ucu da onaylı listeden olan çiftleri (uzunluk, zorluk) kutularına
+    böler ve her kutudan en fazla BULMACA_BASINA_ZORLUK adet örnekler."""
+    kovalar = {z: [] for z in ZORLUKLAR}
     for kaynak in uclar:
-        for hedef, adim in bfs_mesafeler(kaynak, komsular).items():
+        mesafe, yol = bfs_mesafe_ve_yol(kaynak, komsular)
+        for hedef, adim in mesafe.items():
             if hedef in uclar and MIN_ADIM <= adim <= MAX_ADIM and kaynak < hedef:
-                adaylar.append((kaynak, hedef, adim))
+                z = zorluk_hesapla(adim, yol[hedef])
+                kovalar[z].append((kaynak, hedef, adim, z))
 
-    rasgele.shuffle(adaylar)
-    secilen = adaylar[:MAX_BULMACA]
+    secilen = []
+    for z in ZORLUKLAR:
+        rasgele.shuffle(kovalar[z])
+        secilen.extend(kovalar[z][:BULMACA_BASINA_ZORLUK])
+
+    rasgele.shuffle(secilen)
     # Yön de rastgele olsun (A→B yerine bazen B→A)
-    return [([b, a, d] if rasgele.random() < 0.5 else [a, b, d]) for a, b, d in secilen]
+    return [([b, a, d, z] if rasgele.random() < 0.5 else [a, b, d, z])
+            for a, b, d, z in secilen]
 
 
 def main():
@@ -126,10 +165,13 @@ def main():
             sys.exit(f"HATA: {boy} harfli grupta hiç çözülebilir bulmaca bulunamadı")
         cikti[str(boy)] = {"words": kelimeler, "puzzles": bulmacalar}
 
-        adimlar = [b[2] for b in bulmacalar]
+        sayim = {z: sum(1 for b in bulmacalar if b[3] == z) for z in ZORLUKLAR}
+        eksik = [z for z, n in sayim.items() if n == 0]
+        if eksik:
+            print(f"  UYARI: {boy} harfli grupta şu zorluklar boş: {eksik}")
         print(f"{boy} harfli: {len(kelimeler)} kelime ({len(uclar)} onaylı uç), "
               f"{len(bulmacalar)} bulmaca "
-              f"(adım: min={min(adimlar)} / ort={sum(adimlar)/len(adimlar):.1f} / max={max(adimlar)})")
+              f"(kolay={sayim['kolay']} / orta={sayim['orta']} / zor={sayim['zor']})")
 
     HEDEF.write_text(json.dumps(cikti, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"\nYazıldı: {HEDEF}")

@@ -53,6 +53,11 @@ KORUYAN_ETIKETLER = ("P:Noun", "P:Adj")
 # Türkçeye özgü büyük harf dönüşümü (i→İ, ı→I; Python'un upper()'ı bunu bilmez)
 TR_BUYUT = str.maketrans("iı", "İI")
 
+# Şapkalı (düzeltme imli) harfleri standart Türkçe harflere indirger:
+# kâse→kase, âlim→alim, âdet→adet, hükûmet→hükumet. Böylece bu kelimeler,
+# oyuncunun standart klavyeyle yazdığı şapkasız biçimle oynanabilir.
+SAPKA_NORMAL = str.maketrans("âîûÂÎÛ", "aiuAIU")
+
 
 def sozlugu_getir():
     """Önbellekte varsa oradan okur, yoksa indirir."""
@@ -66,6 +71,7 @@ def sozlugu_getir():
 def main():
     kelimeler = set()
     fiil_koku_sayisi = 0
+    sapkali_sayisi = 0
     for satir in sozlugu_getir():
         satir = satir.strip()
         if not satir or satir.startswith("#"):
@@ -73,7 +79,10 @@ def main():
 
         # "kelime [P:Tür; A:Özellik]" → baş kelime + etiketler
         parcalar = satir.split(None, 1)
-        kelime = parcalar[0]
+        ham = parcalar[0]
+        kelime = ham.translate(SAPKA_NORMAL)           # şapkalı → standart harf
+        if kelime != ham:
+            sapkali_sayisi += 1
         etiket = parcalar[1] if len(parcalar) > 1 else ""
 
         if any(e in etiket for e in ELENEN_ETIKETLER):
@@ -111,7 +120,8 @@ def main():
     print(f"Yazıldı: {CIKTI}")
     print(f"Toplam {len(kelimeler)} kelime — " +
           ", ".join(f"{n} harfli: {boylar[n]}" for n in UZUNLUKLAR))
-    print(f"({fiil_koku_sayisi} mastar köke indirildi; 3-5 harf dışı kalanlar elendi)")
+    print(f"({fiil_koku_sayisi} mastar köke indirildi; "
+          f"{sapkali_sayisi} şapkalı kelime normalize edildi)")
 
 
 if __name__ == "__main__":

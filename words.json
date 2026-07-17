@@ -236,6 +236,7 @@
    "FİŞ",
    "GAF",
    "GAG",
+   "GAH",
    "GAK",
    "GAM",
    "GAR",
@@ -325,6 +326,7 @@
    "JÖN",
    "JÜT",
    "JİG",
+   "KAH",
    "KAK",
    "KAL",
    "KAM",
@@ -433,6 +435,7 @@
    "MAS",
    "MAT",
    "MAÇ",
+   "MAİ",
    "MAŞ",
    "MEN",
    "MET",
@@ -660,6 +663,7 @@
    "TİN",
    "TİP",
    "TİZ",
+   "UDİ",
    "ULA",
    "ULU",
    "UMU",
@@ -675,6 +679,7 @@
    "VIN",
    "VIZ",
    "VUR",
+   "YAD",
    "YAK",
    "YAL",
    "YAN",
@@ -801,6 +806,7 @@
    "İFA",
    "İKA",
    "İKİ",
+   "İLA",
    "İLE",
    "İLK",
    "İMA",
@@ -848,1504 +854,2164 @@
   ],
   "puzzles": [
    [
-    "KÖY",
-    "SON",
-    3
+    "ÜTÜ",
+    "AŞI",
+    5,
+    "zor"
    ],
    [
-    "COP",
-    "SAF",
-    3
-   ],
-   [
-    "YER",
-    "SIR",
-    2
-   ],
-   [
-    "OYA",
-    "ÖRS",
-    5
-   ],
-   [
-    "LOR",
-    "GÖZ",
-    4
-   ],
-   [
-    "TUZ",
-    "ŞER",
-    3
-   ],
-   [
-    "ZOR",
-    "BAŞ",
-    3
-   ],
-   [
-    "BAY",
-    "MUM",
-    4
-   ],
-   [
-    "SİZ",
-    "ÇUL",
-    3
-   ],
-   [
-    "KÖZ",
-    "TEL",
-    3
-   ],
-   [
-    "ŞIK",
-    "FON",
-    3
-   ],
-   [
-    "GRİ",
-    "DİP",
-    5
-   ],
-   [
-    "KİN",
-    "COP",
-    3
-   ],
-   [
-    "HER",
-    "DOZ",
-    4
-   ],
-   [
-    "FAR",
-    "ASA",
-    5
-   ],
-   [
-    "GÜZ",
-    "LAV",
-    4
-   ],
-   [
-    "PEK",
-    "ÇUL",
-    3
-   ],
-   [
-    "YOK",
-    "DİL",
-    3
-   ],
-   [
-    "BEL",
-    "BAZ",
-    2
-   ],
-   [
-    "ZIT",
-    "YOK",
-    4
-   ],
-   [
-    "TÜY",
-    "BEL",
-    3
-   ],
-   [
-    "SİZ",
-    "KIZ",
-    2
-   ],
-   [
-    "DİN",
-    "SİZ",
-    2
-   ],
-   [
-    "ÖRF",
-    "GÖÇ",
-    4
-   ],
-   [
-    "GÖK",
-    "RET",
-    4
-   ],
-   [
-    "TÜY",
-    "FEN",
-    3
-   ],
-   [
-    "MUM",
-    "LAV",
-    4
-   ],
-   [
-    "DON",
-    "BAL",
-    3
-   ],
-   [
-    "BİR",
-    "ARI",
-    4
-   ],
-   [
-    "BİR",
-    "SAZ",
-    3
-   ],
-   [
-    "DAL",
-    "FAN",
-    2
-   ],
-   [
-    "YAĞ",
-    "KOY",
-    3
-   ],
-   [
-    "DEF",
-    "ANT",
-    5
-   ],
-   [
-    "BOL",
-    "ÇAM",
-    3
-   ],
-   [
-    "KÖK",
-    "MUZ",
-    3
-   ],
-   [
-    "ÖTE",
-    "ADA",
-    3
-   ],
-   [
-    "ÇAN",
-    "ALT",
-    4
-   ],
-   [
-    "ÇÖL",
-    "TIP",
-    4
-   ],
-   [
-    "KAZ",
-    "MAL",
-    2
-   ],
-   [
-    "SOL",
-    "GÜL",
-    2
-   ],
-   [
-    "BEZ",
-    "SUÇ",
-    3
-   ],
-   [
-    "KÜR",
-    "PİL",
-    3
-   ],
-   [
-    "NAL",
-    "ÇEK",
-    3
-   ],
-   [
-    "KAN",
-    "KIL",
-    2
-   ],
-   [
-    "RET",
-    "TIP",
-    4
-   ],
-   [
-    "BEL",
-    "KİM",
-    3
-   ],
-   [
-    "ŞIK",
-    "GÜZ",
-    4
-   ],
-   [
-    "TİZ",
-    "DEF",
-    3
-   ],
-   [
-    "ANI",
-    "DOZ",
-    5
-   ],
-   [
-    "POZ",
-    "TUŞ",
-    3
-   ],
-   [
-    "KIR",
-    "ALA",
-    5
-   ],
-   [
-    "HAZ",
-    "ŞİŞ",
-    3
-   ],
-   [
-    "TÜY",
-    "TİZ",
-    3
-   ],
-   [
-    "SÖZ",
-    "ARA",
-    5
-   ],
-   [
-    "KAT",
-    "KİR",
-    2
-   ],
-   [
-    "SAF",
-    "DAĞ",
-    2
-   ],
-   [
-    "TEN",
-    "TAÇ",
-    2
-   ],
-   [
-    "DİK",
-    "KIZ",
-    4
-   ],
-   [
-    "KAS",
-    "HAN",
-    2
-   ],
-   [
-    "TÜR",
-    "KÖZ",
-    3
-   ],
-   [
-    "RAF",
-    "KEL",
-    4
-   ],
-   [
-    "TÜM",
-    "LOŞ",
-    4
-   ],
-   [
-    "KÖK",
-    "TEL",
-    3
-   ],
-   [
-    "ÇUL",
-    "AİT",
-    3
-   ],
-   [
-    "PİS",
-    "DEV",
-    4
-   ],
-   [
-    "FON",
-    "YER",
-    3
-   ],
-   [
-    "YAZ",
-    "HİS",
-    3
-   ],
-   [
-    "PEK",
-    "DİZ",
-    3
-   ],
-   [
-    "SÜT",
-    "ASİ",
-    4
-   ],
-   [
-    "NAM",
-    "GEM",
-    2
-   ],
-   [
-    "TER",
-    "ZİL",
-    3
-   ],
-   [
-    "TAY",
-    "PUT",
-    3
-   ],
-   [
-    "DEV",
-    "BEY",
-    3
-   ],
-   [
-    "BOŞ",
-    "SET",
-    3
-   ],
-   [
-    "KOL",
-    "BAR",
-    3
-   ],
-   [
-    "DUT",
-    "GAM",
-    4
-   ],
-   [
-    "SUÇ",
-    "LAF",
-    3
-   ],
-   [
-    "SON",
-    "SAĞ",
-    2
-   ],
-   [
-    "DAR",
-    "ÇİĞ",
-    3
-   ],
-   [
-    "HAT",
-    "MUZ",
-    4
-   ],
-   [
-    "HİS",
-    "GAM",
-    3
-   ],
-   [
-    "ALT",
-    "ATA",
-    2
-   ],
-   [
-    "PUL",
-    "HİÇ",
-    4
-   ],
-   [
-    "KUM",
-    "NEY",
-    3
-   ],
-   [
-    "YAŞ",
-    "ÇAP",
-    2
-   ],
-   [
-    "KUR",
-    "MOR",
-    2
-   ],
-   [
-    "TAN",
-    "ZIT",
-    3
-   ],
-   [
-    "HİS",
-    "ÇÖP",
-    3
-   ],
-   [
-    "MOR",
-    "BOL",
-    2
-   ],
-   [
-    "TÜL",
-    "NEM",
-    3
-   ],
-   [
-    "DAM",
-    "ÇİM",
-    2
-   ],
-   [
-    "DİN",
-    "KUL",
-    3
-   ],
-   [
-    "YEM",
-    "DİK",
-    3
-   ],
-   [
-    "ODA",
-    "AİT",
-    4
-   ],
-   [
-    "BAZ",
-    "KÖZ",
-    2
-   ],
-   [
-    "MAL",
-    "PAS",
-    2
-   ],
-   [
-    "ŞAL",
-    "BİR",
-    3
-   ],
-   [
-    "KAZ",
-    "ASA",
-    5
-   ],
-   [
-    "TÜY",
-    "BOY",
-    2
-   ],
-   [
-    "BUZ",
-    "BEL",
-    2
-   ],
-   [
-    "DİK",
-    "YER",
-    3
-   ],
-   [
-    "KAZ",
-    "TAŞ",
-    2
-   ],
-   [
-    "ZAR",
-    "BOY",
-    3
-   ],
-   [
-    "ZİL",
-    "ÇOK",
-    4
-   ],
-   [
-    "HAL",
-    "DEM",
-    3
-   ],
-   [
-    "SOY",
-    "TER",
-    3
-   ],
-   [
-    "DİK",
-    "KAT",
-    3
-   ],
-   [
-    "TEK",
-    "AİT",
-    4
-   ],
-   [
-    "SOL",
-    "BİT",
-    3
-   ],
-   [
-    "TİP",
-    "HİÇ",
-    3
-   ],
-   [
-    "FAN",
-    "PİS",
-    4
-   ],
-   [
-    "GAM",
-    "VAT",
-    3
-   ],
-   [
-    "LİF",
-    "ÇOK",
-    4
-   ],
-   [
-    "DEF",
-    "ANA",
-    5
-   ],
-   [
-    "JET",
-    "YAĞ",
-    3
-   ],
-   [
-    "FAN",
-    "BOŞ",
-    3
-   ],
-   [
-    "NAR",
-    "KIT",
-    3
-   ],
-   [
-    "NAR",
-    "TON",
-    3
-   ],
-   [
-    "AZI",
-    "PAY",
-    5
-   ],
-   [
-    "RUJ",
-    "FAL",
-    5
-   ],
-   [
-    "YEL",
-    "FİL",
-    2
-   ],
-   [
-    "KEP",
-    "FAY",
-    3
-   ],
-   [
-    "YAS",
-    "VAT",
-    2
-   ],
-   [
-    "PİS",
-    "TÜR",
-    3
-   ],
-   [
-    "PİL",
-    "ASA",
-    5
-   ],
-   [
-    "LOŞ",
-    "PAY",
-    4
-   ],
-   [
-    "KAR",
-    "ÇAM",
-    2
-   ],
-   [
-    "ZAN",
-    "DIŞ",
-    4
-   ],
-   [
-    "BAR",
-    "NAZ",
-    2
-   ],
-   [
-    "ÇAP",
-    "KIŞ",
-    3
-   ],
-   [
-    "BİT",
-    "GÜZ",
-    3
-   ],
-   [
-    "YAĞ",
-    "COP",
-    4
-   ],
-   [
-    "TAY",
-    "GÜÇ",
-    4
-   ],
-   [
-    "DİK",
-    "DON",
-    2
-   ],
-   [
-    "PUL",
-    "MAT",
-    3
-   ],
-   [
-    "FON",
-    "HER",
-    3
-   ],
-   [
-    "YÜN",
-    "DAĞ",
-    3
-   ],
-   [
-    "ŞAL",
-    "AYI",
-    5
-   ],
-   [
-    "GÜL",
-    "VAR",
-    3
-   ],
-   [
-    "YÜK",
-    "MOR",
-    3
-   ],
-   [
-    "BEŞ",
-    "KEP",
-    2
-   ],
-   [
-    "ÇUL",
     "BOZ",
-    3
+    "ÖRS",
+    6,
+    "zor"
    ],
    [
-    "KAT",
-    "ARI",
-    4
-   ],
-   [
-    "KÜR",
-    "ÇAĞ",
-    3
-   ],
-   [
-    "KAP",
-    "ART",
-    4
-   ],
-   [
-    "KIL",
-    "TEK",
-    3
-   ],
-   [
-    "MUM",
-    "DAL",
-    4
-   ],
-   [
-    "MOR",
-    "YÜZ",
-    3
-   ],
-   [
-    "DİK",
-    "LAV",
-    4
-   ],
-   [
-    "LOR",
-    "RAF",
-    4
-   ],
-   [
-    "ASA",
-    "PUL",
-    4
-   ],
-   [
-    "ŞAH",
-    "DİL",
-    3
-   ],
-   [
-    "SİZ",
-    "KÖR",
-    3
-   ],
-   [
-    "YİV",
-    "ŞAL",
-    4
-   ],
-   [
-    "FEN",
-    "YAY",
-    3
-   ],
-   [
-    "ZİL",
-    "KİP",
-    2
-   ],
-   [
-    "TEN",
-    "GAM",
-    3
-   ],
-   [
-    "DEF",
-    "BEY",
-    3
+    "FAY",
+    "BİR",
+    3,
+    "orta"
    ],
    [
     "SÜT",
-    "KEZ",
-    3
+    "ŞOK",
+    4,
+    "orta"
    ],
    [
-    "DAĞ",
-    "NAL",
-    2
+    "LİG",
+    "TUZ",
+    4,
+    "zor"
    ],
    [
-    "TÜP",
-    "TUR",
-    2
+    "BAŞ",
+    "NAZ",
+    2,
+    "kolay"
    ],
    [
-    "TEK",
-    "KEZ",
-    2
+    "İRİ",
+    "SİS",
+    5,
+    "zor"
    ],
    [
-    "HUY",
-    "GÖL",
-    4
+    "SAÇ",
+    "ERK",
+    6,
+    "zor"
    ],
    [
-    "HİÇ",
-    "FES",
-    4
-   ],
-   [
-    "ART",
-    "TAY",
-    4
-   ],
-   [
-    "GEM",
-    "ŞAL",
-    4
-   ],
-   [
-    "DEV",
-    "SES",
-    2
-   ],
-   [
-    "DEF",
-    "PİS",
-    4
-   ],
-   [
-    "ŞEY",
-    "TAN",
-    3
-   ],
-   [
-    "YÜN",
-    "DEV",
-    4
-   ],
-   [
-    "SAĞ",
-    "BOŞ",
-    3
-   ],
-   [
-    "DÜZ",
-    "NEY",
-    4
-   ],
-   [
-    "BİN",
-    "RAF",
-    4
-   ],
-   [
-    "SES",
-    "GOL",
-    3
-   ],
-   [
-    "PUL",
-    "GEM",
-    4
-   ],
-   [
-    "BEY",
-    "ÇÖL",
-    3
-   ],
-   [
-    "ŞEN",
-    "BEK",
-    2
-   ],
-   [
-    "DAR",
-    "GAM",
-    2
-   ],
-   [
-    "BUZ",
-    "ZAM",
-    4
-   ],
-   [
-    "ÇİL",
-    "BEY",
-    3
+    "SAP",
+    "BAY",
+    2,
+    "kolay"
    ],
    [
     "HIZ",
-    "ŞOK",
-    3
+    "POZ",
+    3,
+    "orta"
    ],
    [
-    "ZAR",
-    "CAM",
-    2
+    "AÇI",
+    "MOR",
+    6,
+    "zor"
    ],
    [
-    "BOZ",
-    "ZİL",
-    3
+    "RUJ",
+    "KEK",
+    4,
+    "zor"
    ],
    [
-    "ZAN",
-    "KOT",
-    3
+    "TEL",
+    "AMA",
+    6,
+    "zor"
    ],
    [
-    "ÖRF",
-    "ACI",
-    4
+    "AÇI",
+    "NUR",
+    6,
+    "zor"
    ],
    [
-    "ÇOK",
-    "ZAN",
-    3
+    "HAP",
+    "KOY",
+    3,
+    "kolay"
    ],
    [
-    "TAT",
-    "YOK",
-    3
+    "YOL",
+    "ADA",
+    6,
+    "zor"
    ],
    [
-    "ZAM",
-    "TÜL",
-    3
+    "BAR",
+    "ÇUL",
+    3,
+    "kolay"
    ],
    [
     "MAT",
-    "TUZ",
-    3
-   ],
-   [
     "DUL",
-    "SÜT",
-    3
+    3,
+    "orta"
    ],
    [
-    "SAÇ",
-    "DİL",
-    3
+    "AYI",
+    "HAM",
+    5,
+    "zor"
    ],
    [
-    "DEF",
-    "KÖK",
-    3
-   ],
-   [
-    "SET",
-    "DEF",
-    3
-   ],
-   [
-    "ADA",
-    "ÇİL",
-    5
-   ],
-   [
-    "HAN",
-    "ÇOK",
-    3
-   ],
-   [
-    "JEL",
-    "SAP",
-    3
-   ],
-   [
-    "KOT",
     "DAL",
-    3
+    "TEN",
+    3,
+    "kolay"
    ],
    [
-    "YÜZ",
-    "BOŞ",
-    3
-   ],
-   [
-    "JEL",
-    "VAR",
-    4
-   ],
-   [
-    "ŞER",
-    "YAY",
-    3
-   ],
-   [
-    "TİZ",
-    "ASA",
-    5
-   ],
-   [
-    "KUŞ",
-    "ŞAN",
-    3
-   ],
-   [
-    "ŞAN",
-    "HER",
-    3
-   ],
-   [
-    "KEP",
-    "SET",
-    2
-   ],
-   [
-    "GOL",
-    "SİZ",
-    3
-   ],
-   [
-    "YEL",
-    "KUŞ",
-    3
-   ],
-   [
-    "EFE",
-    "İKİ",
-    5
-   ],
-   [
-    "YAZ",
-    "SAP",
-    2
-   ],
-   [
-    "KIŞ",
-    "BAR",
-    3
-   ],
-   [
-    "KAŞ",
-    "DİN",
-    3
-   ],
-   [
-    "BEY",
-    "GÖZ",
-    3
-   ],
-   [
-    "ÇAY",
-    "KÖZ",
-    3
-   ],
-   [
-    "KUL",
-    "SÜT",
-    3
-   ],
-   [
-    "ŞEN",
-    "DÜN",
-    3
-   ],
-   [
-    "ZAR",
-    "KIR",
-    2
-   ],
-   [
-    "ŞEF",
-    "ROL",
-    4
-   ],
-   [
-    "KIT",
-    "ŞEF",
-    3
-   ],
-   [
-    "KIL",
-    "TAY",
-    3
-   ],
-   [
-    "AZI",
-    "FİL",
-    5
-   ],
-   [
-    "LAV",
-    "GAR",
-    3
-   ],
-   [
-    "ART",
-    "YİV",
-    3
-   ],
-   [
-    "KİR",
-    "SOL",
-    3
-   ],
-   [
-    "TEK",
-    "BİN",
-    3
-   ],
-   [
-    "ÇAP",
-    "SUR",
-    3
-   ],
-   [
-    "ROL",
-    "BAL",
-    2
-   ],
-   [
-    "SOY",
-    "BEZ",
-    3
-   ],
-   [
-    "KEP",
-    "TUZ",
-    3
-   ],
-   [
-    "ÇİT",
-    "HUY",
-    4
-   ],
-   [
-    "ARA",
-    "KOR",
-    5
-   ],
-   [
-    "TAM",
-    "BİN",
-    3
-   ],
-   [
-    "BAR",
-    "ÇAM",
-    2
-   ],
-   [
-    "YAZ",
-    "KİN",
-    3
-   ],
-   [
-    "ŞER",
-    "DAM",
-    3
-   ],
-   [
-    "BUZ",
-    "ÇÖP",
-    4
-   ],
-   [
-    "ASİ",
-    "KİR",
-    4
-   ],
-   [
-    "ZİL",
-    "JET",
-    4
-   ],
-   [
-    "YİV",
+    "BEN",
     "DİP",
-    3
-   ],
-   [
-    "TOZ",
-    "BEY",
-    3
-   ],
-   [
-    "TEL",
-    "MUZ",
-    3
-   ],
-   [
-    "HİÇ",
-    "CAM",
-    3
+    3,
+    "orta"
    ],
    [
     "KİL",
-    "TAÇ",
-    3
+    "KÖZ",
+    3,
+    "kolay"
    ],
    [
-    "GÖÇ",
-    "TÜL",
-    3
-   ],
-   [
-    "GÖK",
-    "VAR",
-    3
-   ],
-   [
-    "KIL",
-    "NAR",
-    3
-   ],
-   [
-    "YÜK",
-    "FAR",
-    3
-   ],
-   [
-    "TON",
-    "BAY",
-    3
-   ],
-   [
-    "DİP",
-    "KAP",
-    2
-   ],
-   [
-    "KOD",
-    "KEP",
-    2
-   ],
-   [
-    "PUL",
-    "AÇI",
-    5
-   ],
-   [
-    "GÜZ",
-    "TEK",
-    3
-   ],
-   [
+    "DAĞ",
     "BAR",
-    "TAN",
-    2
+    2,
+    "kolay"
    ],
    [
-    "KİN",
-    "HOL",
-    3
+    "NEM",
+    "KİM",
+    2,
+    "kolay"
    ],
    [
-    "BEK",
-    "NAZ",
-    3
+    "FİL",
+    "HAK",
+    3,
+    "orta"
    ],
    [
-    "ÇİĞ",
-    "KUL",
-    3
+    "SAL",
+    "HAZ",
+    2,
+    "kolay"
    ],
    [
-    "KEP",
-    "YOK",
-    3
+    "BEZ",
+    "ÇUL",
+    3,
+    "kolay"
    ],
    [
-    "NAR",
-    "KOT",
-    3
+    "ODA",
+    "YAZ",
+    6,
+    "zor"
    ],
    [
-    "SİZ",
-    "TON",
-    3
+    "ÇAM",
+    "AKS",
+    6,
+    "zor"
    ],
    [
-    "HAS",
-    "KOR",
-    3
+    "KAT",
+    "İLK",
+    6,
+    "zor"
    ],
    [
-    "NAL",
-    "NET",
-    3
+    "TOP",
+    "YER",
+    3,
+    "kolay"
    ],
    [
-    "DUT",
-    "ŞEF",
-    3
+    "PAY",
+    "TAS",
+    2,
+    "kolay"
    ],
    [
-    "ŞAN",
+    "ATA",
+    "ERK",
+    3,
+    "orta"
+   ],
+   [
+    "HAZ",
+    "DAĞ",
+    2,
+    "kolay"
+   ],
+   [
+    "LİF",
+    "FAY",
+    4,
+    "orta"
+   ],
+   [
+    "KİR",
+    "TEL",
+    3,
+    "kolay"
+   ],
+   [
+    "DİZ",
+    "YAZ",
+    2,
+    "kolay"
+   ],
+   [
+    "TİP",
+    "YOL",
+    3,
+    "orta"
+   ],
+   [
+    "DIŞ",
+    "ROL",
+    4,
+    "orta"
+   ],
+   [
     "GOL",
-    4
+    "ÇÖL",
+    2,
+    "kolay"
+   ],
+   [
+    "BUZ",
+    "PAS",
+    3,
+    "orta"
+   ],
+   [
+    "DİN",
+    "DIŞ",
+    2,
+    "kolay"
    ],
    [
     "ZAN",
-    "JET",
-    4
-   ],
-   [
-    "SOL",
-    "ASİ",
-    5
-   ],
-   [
-    "DUL",
-    "KOL",
-    2
-   ],
-   [
-    "TON",
-    "DIŞ",
-    4
-   ],
-   [
-    "SUR",
-    "BAĞ",
-    3
-   ],
-   [
-    "TAM",
-    "TÜY",
-    2
-   ],
-   [
-    "TAS",
-    "ÇAM",
-    2
-   ],
-   [
-    "TAŞ",
-    "ASA",
-    5
-   ],
-   [
-    "ALA",
-    "AHU",
-    2
-   ],
-   [
-    "TÜM",
-    "BAL",
-    3
-   ],
-   [
-    "LAF",
-    "KOY",
-    4
-   ],
-   [
-    "ÇİM",
-    "KAS",
-    3
-   ],
-   [
-    "SOS",
-    "FAR",
-    3
-   ],
-   [
-    "LOR",
-    "TOP",
-    2
+    "GÜN",
+    3,
+    "kolay"
    ],
    [
     "KAŞ",
-    "ZAN",
-    2
+    "GAZ",
+    2,
+    "kolay"
    ],
    [
-    "NET",
-    "ÇAN",
-    4
+    "BEZ",
+    "ELA",
+    6,
+    "zor"
    ],
    [
-    "YÜK",
-    "GÖL",
-    4
+    "KEK",
+    "DİL",
+    3,
+    "kolay"
    ],
    [
-    "HAK",
-    "SAÇ",
-    2
+    "TAV",
+    "TÜP",
+    2,
+    "kolay"
    ],
    [
-    "RUH",
-    "ÇİL",
-    4
+    "FAY",
+    "TOP",
+    3,
+    "orta"
+   ],
+   [
+    "KÜR",
+    "ŞIK",
+    4,
+    "orta"
+   ],
+   [
+    "BEŞ",
+    "NEM",
+    3,
+    "kolay"
+   ],
+   [
+    "SOS",
+    "ALA",
+    5,
+    "zor"
+   ],
+   [
+    "YAS",
+    "SUÇ",
+    4,
+    "orta"
+   ],
+   [
+    "ÖRF",
+    "SEL",
+    6,
+    "zor"
    ],
    [
     "TUZ",
-    "DÜZ",
-    3
+    "TEL",
+    2,
+    "kolay"
    ],
    [
-    "GÖÇ",
-    "TÜP",
-    4
+    "RAF",
+    "AYI",
+    6,
+    "zor"
    ],
    [
-    "POZ",
-    "KÜR",
-    3
+    "BAY",
+    "KAS",
+    2,
+    "kolay"
+   ],
+   [
+    "KAŞ",
+    "KÖY",
+    2,
+    "kolay"
+   ],
+   [
+    "ÖRS",
+    "KOT",
+    5,
+    "zor"
+   ],
+   [
+    "GEM",
+    "DİL",
+    3,
+    "orta"
+   ],
+   [
+    "ŞOK",
+    "RAF",
+    4,
+    "orta"
+   ],
+   [
+    "ÇAM",
+    "BAĞ",
+    2,
+    "kolay"
    ],
    [
     "NOT",
-    "KIT",
-    2
-   ],
-   [
-    "TEL",
-    "DİK",
-    3
-   ],
-   [
-    "ZAR",
-    "NAM",
-    2
-   ],
-   [
-    "ŞAL",
-    "BAŞ",
-    2
-   ],
-   [
-    "SOY",
-    "TEN",
-    3
-   ],
-   [
-    "SAĞ",
-    "YAT",
-    2
-   ],
-   [
-    "BEY",
-    "BOZ",
-    2
-   ],
-   [
-    "ÇİL",
-    "LOR",
-    3
-   ],
-   [
-    "PUT",
-    "YAY",
-    3
-   ],
-   [
     "TUR",
-    "YAĞ",
-    3
+    4,
+    "orta"
    ],
    [
-    "GÜL",
-    "ÇİL",
-    3
+    "KİL",
+    "ARI",
+    4,
+    "zor"
    ],
    [
-    "LOŞ",
-    "TAS",
-    4
+    "KEL",
+    "TİZ",
+    3,
+    "orta"
    ],
    [
-    "DEV",
-    "DİZ",
-    3
+    "KAP",
+    "AMA",
+    4,
+    "zor"
    ],
    [
-    "DÜZ",
+    "TUZ",
+    "KIZ",
+    2,
+    "kolay"
+   ],
+   [
+    "DAL",
+    "GÜN",
+    4,
+    "orta"
+   ],
+   [
+    "SAF",
+    "LİG",
+    3,
+    "orta"
+   ],
+   [
+    "VAT",
+    "EDA",
+    5,
+    "zor"
+   ],
+   [
+    "BOL",
+    "ANT",
+    4,
+    "orta"
+   ],
+   [
+    "DON",
+    "İRİ",
+    6,
+    "zor"
+   ],
+   [
+    "HAZ",
+    "KAR",
+    2,
+    "kolay"
+   ],
+   [
+    "YAY",
+    "AŞI",
+    6,
+    "zor"
+   ],
+   [
+    "DİP",
+    "AMA",
+    5,
+    "zor"
+   ],
+   [
+    "SIR",
+    "ARA",
+    5,
+    "zor"
+   ],
+   [
+    "NAZ",
+    "KEK",
+    3,
+    "orta"
+   ],
+   [
+    "TEN",
+    "ARA",
+    5,
+    "zor"
+   ],
+   [
+    "BOZ",
+    "HAZ",
+    2,
+    "kolay"
+   ],
+   [
+    "TÜL",
+    "KAT",
+    3,
+    "kolay"
+   ],
+   [
+    "BEZ",
+    "TOP",
+    3,
+    "kolay"
+   ],
+   [
+    "RAY",
+    "AHU",
+    6,
+    "zor"
+   ],
+   [
+    "TAY",
     "KUŞ",
-    3
+    3,
+    "kolay"
+   ],
+   [
+    "AHU",
+    "FAY",
+    6,
+    "zor"
+   ],
+   [
+    "ŞOK",
+    "ANA",
+    5,
+    "zor"
+   ],
+   [
+    "BEŞ",
+    "MAT",
+    3,
+    "kolay"
+   ],
+   [
+    "TON",
+    "ANT",
+    4,
+    "zor"
+   ],
+   [
+    "ZİL",
+    "ELA",
+    6,
+    "zor"
+   ],
+   [
+    "AÇI",
+    "TEN",
+    6,
+    "zor"
+   ],
+   [
+    "TAS",
+    "ÖRF",
+    6,
+    "zor"
+   ],
+   [
+    "SAF",
+    "GÜN",
+    3,
+    "orta"
+   ],
+   [
+    "LEŞ",
+    "ALA",
+    6,
+    "zor"
+   ],
+   [
+    "BOL",
+    "LEŞ",
+    3,
+    "kolay"
+   ],
+   [
+    "BİN",
+    "TUŞ",
+    3,
+    "orta"
+   ],
+   [
+    "ISI",
+    "SUÇ",
+    5,
+    "zor"
+   ],
+   [
+    "ZOR",
+    "HİS",
+    4,
+    "orta"
+   ],
+   [
+    "DİP",
+    "TAM",
+    3,
+    "orta"
+   ],
+   [
+    "GRİ",
+    "DUT",
+    4,
+    "zor"
+   ],
+   [
+    "ANA",
+    "SÜT",
+    4,
+    "orta"
    ],
    [
     "VAR",
-    "YOK",
-    3
+    "ÖTE",
+    6,
+    "zor"
    ],
    [
-    "YER",
+    "YEL",
+    "KÜL",
+    2,
+    "kolay"
+   ],
+   [
+    "YİV",
+    "RAF",
+    5,
+    "zor"
+   ],
+   [
+    "AİT",
+    "YAT",
+    2,
+    "kolay"
+   ],
+   [
+    "GEN",
+    "BOZ",
+    3,
+    "orta"
+   ],
+   [
+    "KEK",
+    "AİT",
+    3,
+    "orta"
+   ],
+   [
+    "ÇUL",
+    "ASİ",
+    5,
+    "zor"
+   ],
+   [
+    "ADA",
+    "BEZ",
+    6,
+    "zor"
+   ],
+   [
+    "SEN",
+    "ACI",
+    6,
+    "zor"
+   ],
+   [
+    "ZOR",
+    "ADA",
+    6,
+    "zor"
+   ],
+   [
+    "SUR",
+    "ŞEF",
+    3,
+    "orta"
+   ],
+   [
+    "KOR",
+    "GAM",
+    3,
+    "kolay"
+   ],
+   [
+    "GOL",
+    "ZOR",
+    3,
+    "kolay"
+   ],
+   [
+    "ANI",
+    "LİF",
+    5,
+    "zor"
+   ],
+   [
+    "ERK",
+    "KAŞ",
+    6,
+    "zor"
+   ],
+   [
+    "YAY",
+    "ODA",
+    6,
+    "zor"
+   ],
+   [
+    "FAY",
+    "ŞER",
+    3,
+    "orta"
+   ],
+   [
+    "DAĞ",
+    "ŞAL",
+    2,
+    "kolay"
+   ],
+   [
+    "DÜN",
+    "TAS",
+    3,
+    "orta"
+   ],
+   [
+    "ÖRS",
+    "POZ",
+    5,
+    "zor"
+   ],
+   [
+    "AZI",
+    "GÜN",
+    6,
+    "zor"
+   ],
+   [
+    "PİL",
+    "AİT",
+    3,
+    "kolay"
+   ],
+   [
+    "RUH",
+    "TON",
+    3,
+    "orta"
+   ],
+   [
+    "TAS",
+    "BOL",
+    3,
+    "kolay"
+   ],
+   [
+    "HAS",
+    "ARI",
+    5,
+    "zor"
+   ],
+   [
+    "ÖTE",
+    "BİR",
+    6,
+    "zor"
+   ],
+   [
+    "HAC",
+    "ÇEK",
+    3,
+    "orta"
+   ],
+   [
+    "SON",
     "HAT",
-    3
+    3,
+    "orta"
    ],
    [
-    "YÜZ",
-    "HUY",
-    4
+    "FAY",
+    "SİZ",
+    3,
+    "kolay"
+   ],
+   [
+    "HAL",
+    "ALA",
+    4,
+    "zor"
+   ],
+   [
+    "GÜL",
+    "ALA",
+    5,
+    "zor"
+   ],
+   [
+    "PİL",
+    "İRİ",
+    6,
+    "zor"
+   ],
+   [
+    "ASİ",
+    "BEY",
+    5,
+    "zor"
+   ],
+   [
+    "KIT",
+    "GEN",
+    4,
+    "orta"
+   ],
+   [
+    "TUZ",
+    "GÖZ",
+    2,
+    "kolay"
+   ],
+   [
+    "BEK",
+    "GAR",
+    3,
+    "orta"
+   ],
+   [
+    "NUR",
+    "TOP",
+    3,
+    "orta"
+   ],
+   [
+    "GÖK",
+    "ANA",
+    5,
+    "zor"
+   ],
+   [
+    "HAN",
+    "TOZ",
+    3,
+    "orta"
+   ],
+   [
+    "ODA",
+    "LAF",
+    6,
+    "zor"
+   ],
+   [
+    "ACI",
+    "SIR",
+    6,
+    "zor"
+   ],
+   [
+    "İRİ",
+    "ÜTÜ",
+    4,
+    "zor"
+   ],
+   [
+    "DAM",
+    "BAR",
+    2,
+    "kolay"
+   ],
+   [
+    "IRK",
+    "SAÇ",
+    6,
+    "zor"
+   ],
+   [
+    "KAN",
+    "YAT",
+    2,
+    "kolay"
+   ],
+   [
+    "ANI",
+    "YÜK",
+    6,
+    "zor"
+   ],
+   [
+    "FAY",
+    "NAM",
+    3,
+    "kolay"
+   ],
+   [
+    "HAM",
+    "YER",
+    3,
+    "kolay"
+   ],
+   [
+    "KEK",
+    "CAN",
+    3,
+    "orta"
+   ],
+   [
+    "DİP",
+    "MİL",
+    2,
+    "kolay"
+   ],
+   [
+    "LAF",
+    "ŞEN",
+    3,
+    "orta"
+   ],
+   [
+    "RET",
+    "FEN",
+    3,
+    "kolay"
+   ],
+   [
+    "ÇAĞ",
+    "PUL",
+    3,
+    "orta"
+   ],
+   [
+    "ARA",
+    "KAN",
+    4,
+    "zor"
+   ],
+   [
+    "PUL",
+    "EDA",
+    6,
+    "zor"
+   ],
+   [
+    "DON",
+    "DÜZ",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇAN",
+    "JEL",
+    3,
+    "orta"
+   ],
+   [
+    "ŞIK",
+    "SEL",
+    3,
+    "orta"
+   ],
+   [
+    "KAT",
+    "ALT",
+    3,
+    "orta"
+   ],
+   [
+    "KIL",
+    "ÇİL",
+    2,
+    "kolay"
+   ],
+   [
+    "CAM",
+    "KAS",
+    2,
+    "kolay"
+   ],
+   [
+    "KİL",
+    "TEL",
+    2,
+    "kolay"
+   ],
+   [
+    "ACI",
+    "TER",
+    6,
+    "zor"
+   ],
+   [
+    "YAN",
+    "ÇİL",
+    3,
+    "orta"
+   ],
+   [
+    "GAM",
+    "FAL",
+    3,
+    "kolay"
+   ],
+   [
+    "NAR",
+    "DEM",
+    3,
+    "kolay"
+   ],
+   [
+    "ŞAL",
+    "ÇAM",
+    2,
+    "kolay"
+   ],
+   [
+    "BAZ",
+    "KOR",
+    3,
+    "kolay"
+   ],
+   [
+    "ŞER",
+    "CAM",
+    3,
+    "kolay"
+   ],
+   [
+    "ÇEK",
+    "ALA",
+    6,
+    "zor"
+   ],
+   [
+    "ŞİŞ",
+    "SES",
+    4,
+    "orta"
+   ],
+   [
+    "BEN",
+    "GÜN",
+    2,
+    "kolay"
+   ],
+   [
+    "DAĞ",
+    "LEŞ",
+    3,
+    "orta"
+   ],
+   [
+    "TEZ",
+    "ANI",
+    5,
+    "zor"
+   ],
+   [
+    "EDA",
+    "BİR",
+    6,
+    "zor"
+   ],
+   [
+    "İMA",
+    "MAÇ",
+    5,
+    "zor"
+   ],
+   [
+    "BAĞ",
+    "İMA",
+    6,
+    "zor"
+   ],
+   [
+    "MAÇ",
+    "PİS",
+    3,
+    "orta"
+   ],
+   [
+    "YAŞ",
+    "İMA",
+    6,
+    "zor"
+   ],
+   [
+    "KAP",
+    "YAŞ",
+    2,
+    "kolay"
+   ],
+   [
+    "TUR",
+    "ÇÖP",
+    4,
+    "orta"
+   ],
+   [
+    "MAÇ",
+    "ARI",
+    5,
+    "zor"
+   ],
+   [
+    "YEL",
+    "İRİ",
+    6,
+    "zor"
+   ],
+   [
+    "HIZ",
+    "RUJ",
+    4,
+    "zor"
+   ],
+   [
+    "SÜS",
+    "LOR",
+    3,
+    "orta"
+   ],
+   [
+    "SEL",
+    "DİK",
+    3,
+    "kolay"
+   ],
+   [
+    "PUT",
+    "TEN",
+    3,
+    "orta"
+   ],
+   [
+    "ACI",
+    "YEL",
+    6,
+    "zor"
+   ],
+   [
+    "YAZ",
+    "DAR",
+    2,
+    "kolay"
+   ],
+   [
+    "NAZ",
+    "ŞİŞ",
+    3,
+    "orta"
+   ],
+   [
+    "NEM",
+    "KİP",
+    3,
+    "kolay"
+   ],
+   [
+    "TER",
+    "HOL",
+    3,
+    "kolay"
+   ],
+   [
+    "KÜP",
+    "PİL",
+    3,
+    "orta"
+   ],
+   [
+    "ÖRF",
+    "BEL",
+    6,
+    "zor"
+   ],
+   [
+    "TEZ",
+    "ASİ",
+    5,
+    "zor"
+   ],
+   [
+    "ASİ",
+    "DİN",
+    4,
+    "zor"
+   ],
+   [
+    "ANT",
+    "SAL",
+    4,
+    "orta"
+   ],
+   [
+    "VAT",
+    "AŞI",
+    6,
+    "zor"
+   ],
+   [
+    "RUH",
+    "ŞİŞ",
+    4,
+    "zor"
+   ],
+   [
+    "YAN",
+    "TÜM",
+    3,
+    "kolay"
+   ],
+   [
+    "SAÇ",
+    "AHU",
+    5,
+    "zor"
+   ],
+   [
+    "AÇI",
+    "ARA",
+    2,
+    "kolay"
+   ],
+   [
+    "KAR",
+    "ODA",
+    5,
+    "zor"
+   ],
+   [
+    "BOZ",
+    "TAŞ",
+    3,
+    "orta"
+   ],
+   [
+    "CİN",
+    "ALA",
+    5,
+    "zor"
+   ],
+   [
+    "PEK",
+    "RUJ",
+    5,
+    "zor"
+   ],
+   [
+    "DİL",
+    "TAS",
+    3,
+    "orta"
+   ],
+   [
+    "KOY",
+    "ÇİĞ",
+    4,
+    "orta"
+   ],
+   [
+    "JET",
+    "TEL",
+    2,
+    "kolay"
+   ],
+   [
+    "RAF",
+    "FAY",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇAP",
+    "TAÇ",
+    2,
+    "kolay"
+   ],
+   [
+    "BOL",
+    "LAV",
+    3,
+    "orta"
+   ],
+   [
+    "SOY",
+    "DAL",
+    3,
+    "kolay"
+   ],
+   [
+    "GÜZ",
+    "KAS",
+    3,
+    "orta"
+   ],
+   [
+    "ZIT",
+    "KOT",
+    2,
+    "kolay"
+   ],
+   [
+    "BOZ",
+    "KUL",
+    3,
+    "kolay"
+   ],
+   [
+    "İLK",
+    "ÇİM",
+    6,
+    "zor"
+   ],
+   [
+    "MUM",
+    "PAY",
+    4,
+    "zor"
+   ],
+   [
+    "GÖL",
+    "SİS",
+    4,
+    "orta"
+   ],
+   [
+    "GÜZ",
+    "ZAR",
+    3,
+    "orta"
+   ],
+   [
+    "DEV",
+    "PAS",
+    4,
+    "orta"
+   ],
+   [
+    "NAL",
+    "RAY",
+    3,
+    "kolay"
+   ],
+   [
+    "HİS",
+    "KOY",
+    4,
+    "orta"
+   ],
+   [
+    "HİS",
+    "DUL",
+    4,
+    "orta"
+   ],
+   [
+    "MİL",
+    "FEN",
+    3,
+    "orta"
+   ],
+   [
+    "ISI",
+    "TEL",
+    6,
+    "zor"
+   ],
+   [
+    "KOT",
+    "KEP",
+    2,
+    "kolay"
+   ],
+   [
+    "ŞER",
+    "HAK",
+    3,
+    "orta"
+   ],
+   [
+    "AŞI",
+    "BAZ",
+    6,
+    "zor"
+   ],
+   [
+    "TUŞ",
+    "KIR",
+    3,
+    "kolay"
+   ],
+   [
+    "AMA",
+    "KÜR",
+    5,
+    "zor"
+   ],
+   [
+    "BİN",
+    "HOŞ",
+    3,
+    "orta"
+   ],
+   [
+    "FON",
+    "TİP",
+    3,
+    "orta"
+   ],
+   [
+    "DİZ",
+    "GEM",
+    3,
+    "orta"
+   ],
+   [
+    "BOZ",
+    "GÜN",
+    3,
+    "orta"
+   ],
+   [
+    "BOŞ",
+    "ISI",
+    6,
+    "zor"
+   ],
+   [
+    "DAM",
+    "FAL",
+    2,
+    "kolay"
+   ],
+   [
+    "İMA",
+    "VAR",
+    5,
+    "zor"
+   ],
+   [
+    "ŞEF",
+    "ARA",
+    5,
+    "zor"
+   ],
+   [
+    "GOL",
+    "FAN",
+    3,
+    "orta"
+   ],
+   [
+    "NEY",
+    "TÜL",
+    4,
+    "orta"
+   ],
+   [
+    "EDA",
+    "ÜYE",
+    4,
+    "zor"
+   ],
+   [
+    "AŞI",
+    "ÖTE",
+    5,
+    "zor"
+   ],
+   [
+    "BAL",
+    "KAP",
+    2,
+    "kolay"
+   ],
+   [
+    "EGO",
+    "GRİ",
+    5,
+    "zor"
+   ],
+   [
+    "DEV",
+    "ASA",
+    5,
+    "zor"
+   ],
+   [
+    "ZAN",
+    "RUJ",
+    4,
+    "orta"
+   ],
+   [
+    "ALA",
+    "BAL",
+    5,
+    "zor"
+   ],
+   [
+    "ŞOK",
+    "SUÇ",
+    4,
+    "orta"
+   ],
+   [
+    "RET",
+    "HAZ",
+    4,
+    "orta"
+   ],
+   [
+    "HAM",
+    "KOY",
+    3,
+    "kolay"
+   ],
+   [
+    "LİF",
+    "TÜM",
+    3,
+    "orta"
+   ],
+   [
+    "KÜL",
+    "MUZ",
+    3,
+    "orta"
+   ],
+   [
+    "TAY",
+    "ŞIK",
+    3,
+    "orta"
+   ],
+   [
+    "TEZ",
+    "BEK",
+    2,
+    "kolay"
+   ],
+   [
+    "BOL",
+    "YER",
+    3,
+    "kolay"
+   ],
+   [
+    "FİL",
+    "DİN",
+    2,
+    "kolay"
+   ],
+   [
+    "GAZ",
+    "YÜN",
+    3,
+    "kolay"
+   ],
+   [
+    "KİN",
+    "SAL",
+    3,
+    "kolay"
+   ],
+   [
+    "ÇAP",
+    "KOD",
+    3,
+    "orta"
+   ],
+   [
+    "GEÇ",
+    "VAR",
+    3,
+    "orta"
+   ],
+   [
+    "FAN",
+    "BUZ",
+    3,
+    "kolay"
+   ],
+   [
+    "HİS",
+    "AZI",
+    5,
+    "zor"
+   ],
+   [
+    "DON",
+    "ASA",
+    5,
+    "zor"
+   ],
+   [
+    "ZİL",
+    "KOL",
+    2,
+    "kolay"
+   ],
+   [
+    "YAS",
+    "PUL",
+    3,
+    "kolay"
+   ],
+   [
+    "NEY",
+    "KİP",
+    4,
+    "orta"
+   ],
+   [
+    "BAL",
+    "ŞEF",
+    4,
+    "orta"
+   ],
+   [
+    "KIT",
+    "FAR",
+    3,
+    "kolay"
+   ],
+   [
+    "GÖL",
+    "PAS",
+    4,
+    "orta"
+   ],
+   [
+    "CİN",
+    "ADA",
+    6,
+    "zor"
+   ],
+   [
+    "SÖZ",
+    "TUŞ",
+    3,
+    "orta"
+   ],
+   [
+    "KOT",
+    "ÇİT",
+    2,
+    "kolay"
+   ],
+   [
+    "DUT",
+    "AŞI",
+    4,
+    "orta"
+   ],
+   [
+    "BAŞ",
+    "BOL",
+    2,
+    "kolay"
+   ],
+   [
+    "SET",
+    "TAÇ",
+    3,
+    "kolay"
+   ],
+   [
+    "ERK",
+    "TÜL",
+    6,
+    "zor"
+   ],
+   [
+    "ÇÖL",
+    "ANA",
+    5,
+    "zor"
+   ],
+   [
+    "ÜYE",
+    "AYI",
+    5,
+    "zor"
+   ],
+   [
+    "AHU",
+    "SOY",
+    6,
+    "zor"
+   ],
+   [
+    "KİN",
+    "HAL",
+    3,
+    "kolay"
+   ],
+   [
+    "KUŞ",
+    "YAT",
+    3,
+    "kolay"
+   ],
+   [
+    "KOR",
+    "ERK",
+    6,
+    "zor"
+   ],
+   [
+    "HAT",
+    "BUZ",
+    3,
+    "kolay"
+   ],
+   [
+    "SIR",
+    "ŞER",
+    2,
+    "kolay"
+   ],
+   [
+    "ZOR",
+    "LAF",
+    4,
+    "orta"
+   ],
+   [
+    "YOL",
+    "SOY",
+    2,
+    "kolay"
+   ],
+   [
+    "KAN",
+    "HİS",
+    3,
+    "kolay"
+   ],
+   [
+    "LEŞ",
+    "JEL",
+    3,
+    "kolay"
+   ],
+   [
+    "ŞAH",
+    "İLK",
+    5,
+    "zor"
+   ],
+   [
+    "NAR",
+    "KAP",
+    2,
+    "kolay"
+   ],
+   [
+    "GAM",
+    "KİR",
+    3,
+    "kolay"
+   ],
+   [
+    "HAN",
+    "BOY",
+    3,
+    "orta"
+   ],
+   [
+    "HAM",
+    "BEN",
+    3,
+    "orta"
+   ],
+   [
+    "GEM",
+    "ŞAN",
+    3,
+    "orta"
+   ],
+   [
+    "ŞEN",
+    "AÇI",
+    6,
+    "zor"
+   ],
+   [
+    "YOK",
+    "ARI",
+    6,
+    "zor"
+   ],
+   [
+    "DON",
+    "NUR",
+    3,
+    "orta"
+   ],
+   [
+    "HAC",
+    "GÖK",
+    3,
+    "orta"
+   ],
+   [
+    "BOZ",
+    "ZAN",
+    3,
+    "orta"
+   ],
+   [
+    "NET",
+    "DİP",
+    4,
+    "orta"
+   ],
+   [
+    "ELA",
+    "ŞEY",
+    6,
+    "zor"
+   ],
+   [
+    "TAT",
+    "TİP",
+    2,
+    "kolay"
+   ],
+   [
+    "ÖRF",
+    "AZI",
+    4,
+    "orta"
+   ],
+   [
+    "ASİ",
+    "TAÇ",
+    5,
+    "zor"
+   ],
+   [
+    "LİF",
+    "SUR",
+    4,
+    "orta"
+   ],
+   [
+    "İMA",
+    "ZAN",
+    6,
+    "zor"
+   ],
+   [
+    "KOL",
+    "SAÇ",
+    3,
+    "kolay"
+   ],
+   [
+    "YAZ",
+    "ALT",
+    4,
+    "orta"
+   ],
+   [
+    "YAŞ",
+    "ÖRS",
+    6,
+    "zor"
+   ],
+   [
+    "ÖRS",
+    "HAZ",
+    6,
+    "zor"
+   ],
+   [
+    "TON",
+    "BİR",
+    3,
+    "orta"
+   ],
+   [
+    "ADA",
+    "DİZ",
+    5,
+    "zor"
+   ],
+   [
+    "COP",
+    "BAL",
+    3,
+    "orta"
+   ],
+   [
+    "SOL",
+    "GÜL",
+    2,
+    "kolay"
+   ],
+   [
+    "NOT",
+    "TAY",
+    4,
+    "orta"
+   ],
+   [
+    "KÜL",
+    "PAY",
+    3,
+    "orta"
+   ],
+   [
+    "HAZ",
+    "AZI",
+    5,
+    "zor"
+   ],
+   [
+    "SAZ",
+    "PİS",
+    3,
+    "orta"
+   ],
+   [
+    "KIŞ",
+    "YAĞ",
+    3,
+    "orta"
+   ],
+   [
+    "NAM",
+    "DİZ",
+    3,
+    "orta"
+   ],
+   [
+    "BEK",
+    "KIL",
+    3,
+    "orta"
+   ],
+   [
+    "KAZ",
+    "KİM",
+    2,
+    "kolay"
+   ],
+   [
+    "PAY",
+    "ÇOK",
+    3,
+    "orta"
+   ],
+   [
+    "ZAN",
+    "GEN",
+    2,
+    "kolay"
+   ],
+   [
+    "EDA",
+    "YAT",
+    6,
+    "zor"
+   ],
+   [
+    "SAÇ",
+    "ACI",
+    6,
+    "zor"
+   ],
+   [
+    "FAL",
+    "DON",
+    3,
+    "kolay"
+   ],
+   [
+    "TEL",
+    "ŞAN",
+    3,
+    "kolay"
+   ],
+   [
+    "HAT",
+    "DEF",
+    4,
+    "orta"
+   ],
+   [
+    "GAZ",
+    "GÜL",
+    2,
+    "kolay"
+   ],
+   [
+    "FAN",
+    "KAS",
+    2,
+    "kolay"
+   ],
+   [
+    "DEV",
+    "YOK",
+    3,
+    "orta"
+   ],
+   [
+    "TUZ",
+    "HAT",
+    3,
+    "orta"
+   ],
+   [
+    "ŞOK",
+    "ASA",
+    5,
+    "zor"
+   ],
+   [
+    "KAS",
+    "BİN",
+    3,
+    "kolay"
+   ],
+   [
+    "ÇEK",
+    "HAP",
+    3,
+    "orta"
+   ],
+   [
+    "KAN",
+    "ÖTE",
+    6,
+    "zor"
+   ],
+   [
+    "MAT",
+    "ALT",
+    3,
+    "orta"
+   ],
+   [
+    "TEN",
+    "YÜK",
+    3,
+    "kolay"
+   ],
+   [
+    "KIT",
+    "ŞER",
+    3,
+    "kolay"
+   ],
+   [
+    "KUL",
+    "MOR",
+    3,
+    "orta"
+   ],
+   [
+    "BAZ",
+    "YAT",
+    2,
+    "kolay"
+   ],
+   [
+    "NEY",
+    "BAL",
+    3,
+    "orta"
+   ],
+   [
+    "SAÇ",
+    "DEV",
+    3,
+    "kolay"
+   ],
+   [
+    "HAZ",
+    "EBE",
+    6,
+    "zor"
+   ],
+   [
+    "KİP",
+    "BEL",
+    3,
+    "kolay"
+   ],
+   [
+    "HIZ",
+    "LAV",
+    3,
+    "orta"
+   ],
+   [
+    "FEN",
+    "ŞAH",
+    3,
+    "orta"
+   ],
+   [
+    "BEN",
+    "KEL",
+    2,
+    "kolay"
+   ],
+   [
+    "VAR",
+    "MUZ",
+    4,
+    "orta"
+   ],
+   [
+    "BAZ",
+    "TER",
+    3,
+    "orta"
+   ],
+   [
+    "KÜP",
+    "KAZ",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇUL",
+    "KOL",
+    2,
+    "kolay"
+   ],
+   [
+    "ALA",
+    "YEL",
+    5,
+    "zor"
+   ],
+   [
+    "BEL",
+    "GEN",
+    2,
+    "kolay"
+   ],
+   [
+    "BEŞ",
+    "ZAM",
+    4,
+    "orta"
+   ],
+   [
+    "HAK",
+    "ACI",
+    6,
+    "zor"
+   ],
+   [
+    "PAY",
+    "TUŞ",
+    3,
+    "orta"
+   ],
+   [
+    "TIP",
+    "VAT",
+    3,
+    "orta"
+   ],
+   [
+    "PAS",
+    "KAT",
+    2,
+    "kolay"
+   ],
+   [
+    "PUT",
+    "BAY",
+    3,
+    "kolay"
    ]
   ]
  },
@@ -2393,9 +3059,11 @@
    "AFİF",
    "AFİS",
    "AFİŞ",
+   "AGAH",
    "AGEL",
    "AGUŞ",
    "AHAR",
+   "AHDİ",
    "AHIR",
    "AHLA",
    "AHÇI",
@@ -2414,6 +3082,7 @@
    "AKIT",
    "AKIŞ",
    "AKLA",
+   "AKLİ",
    "AKNE",
    "AKOR",
    "AKSA",
@@ -2521,6 +3190,7 @@
    "ASIR",
    "ASKI",
    "ASLA",
+   "ASLİ",
    "ASMA",
    "ASRİ",
    "ASİL",
@@ -2644,6 +3314,7 @@
    "BAĞI",
    "BEBE",
    "BEKA",
+   "BELA",
    "BELE",
    "BELİ",
    "BENT",
@@ -2839,6 +3510,7 @@
    "DİNE",
    "DİNK",
    "DİNÇ",
+   "DİNİ",
    "DİRE",
    "DİRİ",
    "DİSK",
@@ -2865,6 +3537,7 @@
    "EDİP",
    "EFOR",
    "EHEM",
+   "EHLİ",
    "EHİL",
    "EKLE",
    "EKLİ",
@@ -2954,6 +3627,7 @@
    "EVCE",
    "EVER",
    "EVET",
+   "EVLA",
    "EVLİ",
    "EVRE",
    "EVSE",
@@ -3008,12 +3682,14 @@
    "FERT",
    "FERZ",
    "FERÇ",
+   "FERİ",
    "FEVK",
    "FEVT",
    "FEVÇ",
    "FEZA",
    "FIRT",
    "FIÇI",
+   "FLAŞ",
    "FLOK",
    "FLOR",
    "FLOŞ",
@@ -3052,6 +3728,7 @@
    "GABİ",
    "GACO",
    "GAGA",
+   "GAHİ",
    "GALA",
    "GALE",
    "GALİ",
@@ -3122,6 +3799,7 @@
    "HADİ",
    "HAFİ",
    "HAJE",
+   "HAKİ",
    "HALA",
    "HALE",
    "HALI",
@@ -3150,6 +3828,7 @@
    "HAŞA",
    "HEBA",
    "HECE",
+   "HELA",
    "HELE",
    "HERK",
    "HIFZ",
@@ -3182,6 +3861,7 @@
    "IRAK",
    "IRGA",
    "IRIP",
+   "IRKİ",
    "IRLA",
    "ISIL",
    "ISIN",
@@ -3190,6 +3870,7 @@
    "ISKA",
    "ISLA",
    "ITIR",
+   "ITRİ",
    "IĞIL",
    "IŞIK",
    "IŞIL",
@@ -3210,6 +3891,7 @@
    "KADI",
    "KAFA",
    "KAFE",
+   "KAFİ",
    "KAJU",
    "KAKA",
    "KAKI",
@@ -3235,20 +3917,24 @@
    "KART",
    "KARİ",
    "KASA",
+   "KASE",
    "KASK",
    "KAST",
    "KATI",
+   "KATİ",
    "KAVİ",
    "KAYA",
    "KAZA",
    "KAZI",
    "KAİL",
    "KAİM",
+   "KAİN",
    "KAŞE",
    "KAŞI",
    "KEBE",
    "KEDİ",
    "KEFE",
+   "KEKA",
    "KEKE",
    "KELE",
    "KEME",
@@ -3274,6 +3960,8 @@
    "KIYA",
    "KIYI",
    "KIĞI",
+   "KLAN",
+   "KLAS",
    "KLON",
    "KLOR",
    "KLOŞ",
@@ -3313,6 +4001,8 @@
    "KRON",
    "KROS",
    "KRİZ",
+   "KUFİ",
+   "KUHİ",
    "KUKA",
    "KULA",
    "KULE",
@@ -3402,6 +4092,7 @@
    "MALA",
    "MALT",
    "MALÇ",
+   "MALİ",
    "MAMA",
    "MANA",
    "MANİ",
@@ -3475,6 +4166,7 @@
    "MİNK",
    "MİNİ",
    "MİRA",
+   "MİRİ",
    "MİSK",
    "MİSO",
    "MİZA",
@@ -3682,10 +4374,12 @@
    "RUAM",
    "RUBA",
    "RUBU",
+   "RUHİ",
    "RULO",
    "RUPİ",
    "RÖLE",
    "RÜCU",
+   "RÜKU",
    "RÜYA",
    "RÜŞT",
    "RİCA",
@@ -3712,6 +4406,7 @@
    "SAKE",
    "SAKO",
    "SAKİ",
+   "SALA",
    "SALI",
    "SALT",
    "SANI",
@@ -3786,6 +4481,7 @@
    "SODA",
    "SOFA",
    "SOFU",
+   "SOFİ",
    "SOKU",
    "SOLO",
    "SOLU",
@@ -3880,6 +4576,7 @@
    "TEFE",
    "TEHİ",
    "TEKE",
+   "TELA",
    "TEMA",
    "TEPE",
    "TEPİ",
@@ -3912,6 +4609,7 @@
    "TRÜK",
    "TRİO",
    "TUBA",
+   "TULU",
    "TUNÇ",
    "TURA",
    "TURP",
@@ -3931,6 +4629,7 @@
    "UCUZ",
    "UFAK",
    "UFAL",
+   "UFKİ",
    "UFLA",
    "UFUK",
    "UHDE",
@@ -3943,6 +4642,7 @@
    "ULUM",
    "ULUS",
    "ULUŞ",
+   "ULVİ",
    "UMAR",
    "UMDE",
    "UMRE",
@@ -3978,6 +4678,7 @@
    "UZAY",
    "UZUN",
    "UZUV",
+   "UZVİ",
    "UÇAK",
    "UÇAR",
    "UÇUK",
@@ -4086,6 +4787,7 @@
    "ZAİL",
    "ZAİT",
    "ZEDE",
+   "ZEKA",
    "ZEKİ",
    "ZERK",
    "ZEVK",
@@ -4166,6 +4868,7 @@
    "ÖREK",
    "ÖREN",
    "ÖRET",
+   "ÖRFİ",
    "ÖRGE",
    "ÖRGÜ",
    "ÖRTÜ",
@@ -4202,6 +4905,7 @@
    "ÜLEŞ",
    "ÜLKE",
    "ÜLKÜ",
+   "ÜMMİ",
    "ÜMÜK",
    "ÜMİT",
    "ÜNLE",
@@ -4256,6 +4960,9 @@
    "İKNA",
    "İKON",
    "İKİZ",
+   "İLAH",
+   "İLAM",
+   "İLAN",
    "İLAÇ",
    "İLCA",
    "İLEN",
@@ -4263,7 +4970,10 @@
    "İLGA",
    "İLGİ",
    "İLKE",
+   "İLLA",
    "İLLE",
+   "İLLİ",
+   "İLMİ",
    "İLÇE",
    "İLİK",
    "İLİM",
@@ -4276,6 +4986,7 @@
    "İMDİ",
    "İMGE",
    "İMHA",
+   "İMLA",
    "İMLE",
    "İMZA",
    "İMİK",
@@ -4286,6 +4997,7 @@
    "İNAT",
    "İNCE",
    "İNCİ",
+   "İNDİ",
    "İNEK",
    "İNEÇ",
    "İNHA",
@@ -4300,6 +5012,7 @@
    "İRAP",
    "İRAT",
    "İRCA",
+   "İRSİ",
    "İRİN",
    "İRİS",
    "İRİŞ",
@@ -4372,6 +5085,7 @@
    "ŞENİ",
    "ŞERH",
    "ŞERÇ",
+   "ŞERİ",
    "ŞEVK",
    "ŞEYH",
    "ŞIRA",
@@ -4399,1509 +5113,2171 @@
   ],
   "puzzles": [
    [
-    "DENK",
-    "GEMİ",
-    4
+    "AYIP",
+    "AĞIR",
+    2,
+    "kolay"
    ],
    [
-    "BALE",
+    "AKIN",
+    "ALAN",
+    2,
+    "kolay"
+   ],
+   [
+    "KALE",
+    "ÇATI",
+    4,
+    "orta"
+   ],
+   [
+    "KARE",
+    "KÜME",
+    2,
+    "kolay"
+   ],
+   [
+    "KABA",
+    "FARE",
+    3,
+    "orta"
+   ],
+   [
+    "KAYA",
+    "KUZU",
+    4,
+    "zor"
+   ],
+   [
+    "ÇALI",
+    "YAZI",
+    2,
+    "kolay"
+   ],
+   [
+    "DOST",
+    "KONU",
+    6,
+    "zor"
+   ],
+   [
+    "DANA",
+    "BORÇ",
+    4,
+    "zor"
+   ],
+   [
+    "KARA",
+    "TAVA",
+    2,
+    "kolay"
+   ],
+   [
+    "GECE",
+    "KOCA",
+    6,
+    "zor"
+   ],
+   [
+    "KABA",
+    "SAHA",
+    2,
+    "kolay"
+   ],
+   [
     "KESE",
-    3
+    "GECE",
+    3,
+    "kolay"
+   ],
+   [
+    "SIRA",
+    "LALE",
+    4,
+    "orta"
+   ],
+   [
+    "SAYI",
+    "DEDE",
+    5,
+    "zor"
    ],
    [
     "ADET",
     "ADAK",
-    3
+    3,
+    "orta"
    ],
    [
-    "EZAN",
-    "AYAZ",
-    4
-   ],
-   [
-    "KARA",
-    "YUVA",
-    4
-   ],
-   [
-    "YAZI",
-    "PARA",
-    3
-   ],
-   [
-    "MAVİ",
     "SIRA",
-    5
+    "KAFA",
+    3,
+    "orta"
    ],
    [
-    "ÜNLÜ",
-    "İNCİ",
-    4
-   ],
-   [
-    "SENE",
-    "KONU",
-    4
-   ],
-   [
-    "SALI",
-    "KABA",
-    4
-   ],
-   [
-    "AHIR",
-    "OCAK",
-    5
-   ],
-   [
-    "KUZU",
-    "SERT",
-    4
-   ],
-   [
-    "EBAT",
+    "ORAN",
     "UFAK",
-    4
+    4,
+    "orta"
    ],
    [
-    "DAVA",
-    "KONU",
-    5
+    "VEDA",
+    "KÖŞE",
+    6,
+    "zor"
    ],
    [
-    "SOBA",
-    "KORO",
-    4
-   ],
-   [
-    "ŞAKA",
-    "DERİ",
-    5
-   ],
-   [
-    "DURU",
-    "ŞİŞE",
-    5
-   ],
-   [
-    "KALP",
-    "CEZA",
-    4
-   ],
-   [
-    "ÇABA",
-    "YARA",
-    2
-   ],
-   [
-    "AĞIR",
-    "EMİR",
-    4
-   ],
-   [
-    "MAYO",
-    "FARE",
-    5
-   ],
-   [
-    "FARE",
-    "NİNE",
-    4
-   ],
-   [
-    "DENK",
-    "DÖRT",
-    3
-   ],
-   [
-    "GAGA",
-    "BACA",
-    3
-   ],
-   [
-    "DERE",
-    "RENK",
-    3
-   ],
-   [
-    "BALE",
-    "TOKA",
-    5
-   ],
-   [
-    "MÜZE",
-    "KÖLE",
-    4
-   ],
-   [
-    "MÜZE",
-    "DERS",
-    5
-   ],
-   [
-    "SALI",
-    "KULE",
-    4
-   ],
-   [
-    "ALAY",
-    "AKIŞ",
-    4
+    "TAKI",
+    "KURU",
+    5,
+    "zor"
    ],
    [
     "HALK",
-    "BALE",
-    2
-   ],
-   [
-    "ZARF",
-    "VEDA",
-    5
-   ],
-   [
-    "YAZI",
     "DERT",
-    4
-   ],
-   [
-    "AKIL",
-    "AZAP",
-    4
-   ],
-   [
-    "GAGA",
-    "BİNA",
-    5
-   ],
-   [
-    "SAYI",
-    "NİNE",
-    5
-   ],
-   [
-    "KALP",
-    "KASA",
-    2
-   ],
-   [
-    "BACA",
-    "TAVA",
-    3
-   ],
-   [
-    "UZAY",
-    "AĞIR",
-    5
-   ],
-   [
-    "KONU",
-    "BATI",
-    5
-   ],
-   [
-    "KİRA",
-    "KAPI",
-    3
-   ],
-   [
-    "SALI",
-    "VADE",
-    4
-   ],
-   [
-    "ÖZEN",
-    "EKİM",
-    5
-   ],
-   [
-    "PİRE",
-    "KAZA",
-    4
-   ],
-   [
-    "KOKU",
-    "ÇATI",
-    5
-   ],
-   [
-    "NİNE",
-    "KEÇİ",
-    4
-   ],
-   [
-    "ZARF",
-    "KART",
-    3
-   ],
-   [
-    "KARE",
-    "KONU",
-    4
-   ],
-   [
-    "KARE",
-    "HATA",
-    3
-   ],
-   [
-    "DERT",
-    "SORU",
-    4
-   ],
-   [
-    "KASA",
-    "ÇARE",
-    3
-   ],
-   [
-    "AKIŞ",
-    "UMUT",
-    4
-   ],
-   [
-    "UÇAK",
-    "UZUN",
-    3
-   ],
-   [
-    "ŞART",
-    "TAVA",
-    3
-   ],
-   [
-    "EŞEK",
-    "EZAN",
-    4
-   ],
-   [
-    "ASIL",
-    "UMUT",
-    5
-   ],
-   [
-    "KESE",
-    "ÇARE",
-    3
-   ],
-   [
-    "FİLM",
-    "CİLT",
-    4
-   ],
-   [
-    "KÖŞE",
-    "GECE",
-    4
-   ],
-   [
-    "CEZA",
-    "BORÇ",
-    5
-   ],
-   [
-    "ETEK",
-    "AMAÇ",
-    5
-   ],
-   [
-    "KARE",
-    "DÖRT",
-    3
-   ],
-   [
-    "SIRA",
-    "ŞAİR",
-    5
-   ],
-   [
-    "DOLU",
-    "KÖLE",
-    5
-   ],
-   [
-    "ÖDEV",
-    "AĞIT",
-    5
-   ],
-   [
-    "SÜRE",
-    "BACA",
-    5
-   ],
-   [
-    "SAHA",
-    "DELİ",
-    5
-   ],
-   [
-    "ŞİŞE",
-    "SAAT",
-    5
-   ],
-   [
-    "GEZİ",
-    "BARO",
-    4
-   ],
-   [
-    "ÇALI",
-    "YARA",
-    3
-   ],
-   [
-    "DOĞA",
-    "ÇABA",
-    4
-   ],
-   [
-    "KESE",
-    "DERS",
-    3
-   ],
-   [
-    "LİSE",
-    "KARE",
-    5
-   ],
-   [
-    "ETEK",
-    "PUAN",
-    5
-   ],
-   [
-    "TAVA",
-    "KALE",
-    4
-   ],
-   [
-    "GAGA",
-    "YASA",
-    3
-   ],
-   [
-    "ÇARE",
-    "ÇALI",
-    4
-   ],
-   [
-    "GECE",
-    "DERE",
-    3
-   ],
-   [
-    "AMAÇ",
-    "ÖZEL",
-    4
-   ],
-   [
-    "KONU",
-    "TAVA",
-    5
-   ],
-   [
-    "ALAY",
-    "AHIR",
-    5
-   ],
-   [
-    "ALET",
-    "ESER",
-    5
-   ],
-   [
-    "EŞİK",
-    "ESER",
-    3
-   ],
-   [
-    "GAGA",
-    "KALE",
-    3
-   ],
-   [
-    "KARA",
-    "SAHA",
-    2
-   ],
-   [
-    "MİDE",
-    "PARK",
-    4
-   ],
-   [
-    "DERT",
-    "ŞİŞE",
-    4
-   ],
-   [
-    "ŞİŞE",
-    "PARA",
-    5
-   ],
-   [
-    "UFAK",
-    "EZAN",
-    3
-   ],
-   [
-    "RENK",
-    "HAVA",
-    5
-   ],
-   [
-    "ŞİŞE",
-    "MAYA",
-    5
-   ],
-   [
-    "BİNA",
-    "ÇABA",
-    4
-   ],
-   [
-    "ŞART",
-    "FARE",
-    3
-   ],
-   [
-    "DURU",
-    "HATA",
-    4
-   ],
-   [
-    "AYAK",
-    "AZAP",
-    3
-   ],
-   [
-    "DANA",
-    "ÇİLE",
-    4
-   ],
-   [
-    "UZAK",
-    "ODUN",
-    5
-   ],
-   [
-    "KENT",
-    "KASA",
-    3
-   ],
-   [
-    "BACA",
-    "MOLA",
-    3
-   ],
-   [
-    "EMEK",
-    "AYAK",
-    5
-   ],
-   [
-    "EBAT",
-    "ADAK",
-    4
-   ],
-   [
-    "DENK",
-    "SIRA",
-    5
+    4,
+    "zor"
    ],
    [
     "ÇENE",
-    "VİNÇ",
-    4
-   ],
-   [
-    "KASA",
-    "DÖRT",
-    4
-   ],
-   [
-    "ADIM",
-    "ATEŞ",
-    3
-   ],
-   [
-    "ADIM",
-    "EMEK",
-    5
-   ],
-   [
-    "LİSE",
-    "ÇİLE",
-    2
-   ],
-   [
-    "PİRE",
-    "KÖŞE",
-    4
-   ],
-   [
-    "CEZA",
-    "ZARF",
-    5
-   ],
-   [
-    "KİRA",
-    "NANE",
-    5
-   ],
-   [
-    "DERİ",
-    "KUTU",
-    5
-   ],
-   [
-    "ETEK",
-    "AYAR",
-    5
-   ],
-   [
-    "ASIL",
-    "AKIM",
-    2
-   ],
-   [
-    "HATA",
-    "ÇATI",
-    4
-   ],
-   [
-    "KARE",
-    "KEDİ",
-    4
-   ],
-   [
-    "BALE",
-    "KOKU",
-    5
-   ],
-   [
-    "KART",
-    "HATA",
-    3
-   ],
-   [
-    "KEDİ",
-    "KARA",
-    5
-   ],
-   [
-    "BARO",
-    "SAAT",
-    5
-   ],
-   [
-    "RÜYA",
-    "KABA",
-    5
-   ],
-   [
-    "KİRA",
-    "DERS",
-    5
-   ],
-   [
-    "KASA",
-    "CEZA",
-    3
-   ],
-   [
-    "ÇATI",
-    "DERİ",
-    5
-   ],
-   [
-    "ÇİLE",
-    "HAVA",
-    4
-   ],
-   [
-    "ÇAKI",
-    "HAVA",
-    4
-   ],
-   [
-    "KAZA",
-    "BERE",
-    4
-   ],
-   [
-    "CEZA",
-    "TAZE",
-    5
-   ],
-   [
-    "HALK",
-    "TAVA",
-    3
-   ],
-   [
-    "VİDA",
-    "KURT",
-    4
-   ],
-   [
-    "BATI",
-    "KULE",
-    5
-   ],
-   [
-    "KAFA",
-    "RÜYA",
-    5
-   ],
-   [
-    "KORO",
-    "DOLU",
-    3
-   ],
-   [
-    "KULE",
-    "DEDE",
-    4
-   ],
-   [
-    "AĞIL",
-    "İNAT",
-    5
-   ],
-   [
-    "EBAT",
-    "AYIP",
-    5
-   ],
-   [
-    "ALAN",
-    "UZUN",
-    3
-   ],
-   [
-    "BİNA",
-    "TANE",
-    5
-   ],
-   [
-    "BORU",
-    "DAVA",
-    4
-   ],
-   [
-    "TANE",
-    "VAZO",
-    4
-   ],
-   [
-    "KAPI",
-    "VEDA",
-    5
-   ],
-   [
-    "KESE",
-    "VİNÇ",
-    5
-   ],
-   [
-    "SERT",
-    "KARA",
-    3
-   ],
-   [
-    "VEDA",
-    "BACA",
-    5
-   ],
-   [
-    "TAKI",
-    "DEDE",
-    5
-   ],
-   [
-    "YASA",
-    "ZARF",
-    4
-   ],
-   [
-    "EZAN",
-    "AKIN",
-    4
-   ],
-   [
-    "ÇİLE",
-    "DERE",
-    3
-   ],
-   [
-    "ÇAKI",
-    "BORU",
-    5
-   ],
-   [
-    "BALE",
-    "KURT",
-    4
-   ],
-   [
-    "SAYI",
-    "DOĞA",
-    5
-   ],
-   [
-    "YAZI",
-    "CUMA",
-    5
-   ],
-   [
-    "UZAY",
-    "ORAN",
-    3
-   ],
-   [
-    "KABA",
-    "SIRA",
-    3
-   ],
-   [
-    "GENÇ",
-    "DERS",
-    4
-   ],
-   [
-    "FİLM",
-    "BALE",
-    3
-   ],
-   [
-    "KARE",
-    "KUYU",
-    4
-   ],
-   [
-    "PARA",
-    "GEZİ",
-    5
-   ],
-   [
-    "KURT",
-    "DOLU",
-    4
-   ],
-   [
-    "VAZO",
-    "BATI",
-    3
-   ],
-   [
-    "KÖŞE",
-    "KALP",
-    3
-   ],
-   [
-    "ÇALI",
-    "KURU",
-    5
-   ],
-   [
-    "YAPI",
-    "DURU",
-    4
-   ],
-   [
-    "İPEK",
-    "İSİM",
-    5
-   ],
-   [
-    "KUYU",
-    "PARA",
-    4
-   ],
-   [
-    "NANE",
-    "MAYA",
-    4
-   ],
-   [
-    "ÖZEL",
-    "ERİK",
-    4
-   ],
-   [
-    "AYAR",
-    "ATEŞ",
-    4
-   ],
-   [
-    "TEPE",
-    "TOKA",
-    5
-   ],
-   [
-    "BALE",
-    "HARF",
-    3
-   ],
-   [
-    "MOLA",
-    "DURU",
-    4
-   ],
-   [
-    "KÖLE",
-    "KARA",
-    3
-   ],
-   [
-    "ÇARE",
-    "KOKU",
-    5
-   ],
-   [
-    "SENE",
-    "KASA",
-    5
-   ],
-   [
-    "TEPE",
-    "PİRE",
-    3
-   ],
-   [
-    "ASIL",
-    "UZAY",
-    5
-   ],
-   [
-    "KAYA",
-    "MİDE",
-    5
-   ],
-   [
-    "ÇARE",
-    "MÜZE",
-    5
-   ],
-   [
-    "AYAR",
-    "ULUS",
-    5
-   ],
-   [
-    "KART",
-    "HALK",
-    3
-   ],
-   [
-    "PARK",
-    "SERT",
-    4
-   ],
-   [
-    "YARA",
-    "MAYO",
-    3
-   ],
-   [
-    "MAVİ",
-    "DENK",
-    4
-   ],
-   [
-    "ORAN",
-    "AKIŞ",
-    4
-   ],
-   [
-    "EMEK",
-    "İPEK",
-    3
-   ],
-   [
-    "PİRE",
-    "KALP",
-    4
-   ],
-   [
-    "ŞAKA",
-    "CAMİ",
-    4
-   ],
-   [
-    "DERİ",
-    "KÜME",
-    4
-   ],
-   [
-    "ŞART",
     "RENK",
-    5
+    2,
+    "kolay"
    ],
    [
-    "KASA",
+    "VADE",
+    "KALE",
+    2,
+    "kolay"
+   ],
+   [
+    "KARE",
+    "DERT",
+    3,
+    "kolay"
+   ],
+   [
     "MAYA",
-    2
+    "KULE",
+    4,
+    "orta"
    ],
    [
-    "PİDE",
-    "TAVA",
-    5
-   ],
-   [
-    "LEKE",
-    "SIRA",
-    5
-   ],
-   [
-    "ZARF",
-    "DERE",
-    4
-   ],
-   [
-    "DÖRT",
-    "ÇALI",
-    5
-   ],
-   [
-    "AÇIK",
-    "AYIP",
-    2
-   ],
-   [
-    "HALK",
-    "SALI",
-    2
-   ],
-   [
-    "SORU",
-    "YAPI",
-    5
-   ],
-   [
-    "SIRA",
-    "VEDA",
-    3
-   ],
-   [
-    "KÜME",
-    "KEDİ",
-    4
-   ],
-   [
-    "DELİ",
-    "DERE",
-    2
-   ],
-   [
-    "EKİP",
-    "EŞİK",
-    3
-   ],
-   [
-    "ÇABA",
-    "SORU",
-    5
-   ],
-   [
-    "YARA",
-    "FARE",
-    3
-   ],
-   [
-    "SAYI",
-    "KALP",
-    4
-   ],
-   [
-    "SERT",
-    "YARA",
-    3
-   ],
-   [
-    "ŞİŞE",
-    "PİDE",
-    3
-   ],
-   [
-    "MOLA",
-    "YAKA",
-    3
-   ],
-   [
-    "PARK",
-    "SÜRE",
-    3
-   ],
-   [
-    "TAVA",
-    "ZARF",
-    4
-   ],
-   [
-    "KORO",
-    "DEDE",
-    5
-   ],
-   [
-    "KURT",
-    "KALP",
-    4
-   ],
-   [
-    "YARA",
-    "DOĞA",
-    4
-   ],
-   [
-    "SAAT",
-    "NANE",
-    5
-   ],
-   [
-    "HATA",
-    "BORU",
-    4
-   ],
-   [
-    "SOBA",
-    "KÖLE",
-    5
-   ],
-   [
-    "PİDE",
-    "SAHA",
-    5
-   ],
-   [
-    "BALE",
-    "ÇAKI",
-    4
-   ],
-   [
-    "AKIM",
-    "EKİP",
-    3
-   ],
-   [
-    "EBAT",
-    "PLAJ",
-    5
-   ],
-   [
-    "VİNÇ",
-    "NANE",
-    4
-   ],
-   [
-    "FİLM",
-    "HARF",
-    5
-   ],
-   [
-    "SAAT",
-    "TAKI",
-    5
-   ],
-   [
-    "ADAK",
-    "AKIL",
-    4
-   ],
-   [
-    "YAZI",
-    "KENT",
-    4
-   ],
-   [
-    "SALI",
-    "FARE",
-    3
+    "BACA",
+    "BORÇ",
+    3,
+    "orta"
    ],
    [
     "İNEK",
-    "AZAP",
-    5
-   ],
-   [
-    "MİDE",
-    "ÇENE",
-    4
-   ],
-   [
-    "UFUK",
-    "AMAÇ",
-    5
-   ],
-   [
-    "DURU",
-    "KABA",
-    4
-   ],
-   [
-    "PARK",
-    "KUZU",
-    5
-   ],
-   [
-    "LALE",
-    "KAFA",
-    3
-   ],
-   [
-    "AĞIR",
-    "İSİM",
-    5
-   ],
-   [
-    "BERE",
-    "YAPI",
-    5
-   ],
-   [
-    "DÖRT",
-    "DURU",
-    3
-   ],
-   [
-    "KASA",
-    "BALE",
-    3
-   ],
-   [
-    "ÇATI",
-    "YAZI",
-    2
-   ],
-   [
-    "MAVİ",
-    "MAYO",
-    2
+    "ADET",
+    6,
+    "zor"
    ],
    [
     "PARA",
-    "KUTU",
-    4
+    "ÇİLE",
+    5,
+    "zor"
    ],
    [
-    "DOST",
-    "KORO",
-    5
+    "KUYU",
+    "BORU",
+    3,
+    "kolay"
    ],
    [
-    "DOST",
-    "TOKA",
-    5
+    "AKIM",
+    "EKİP",
+    3,
+    "orta"
    ],
    [
-    "DERT",
-    "SAYI",
-    4
+    "EKİP",
+    "UZAK",
+    6,
+    "zor"
    ],
    [
-    "ÇARE",
-    "KUTU",
-    5
+    "İPEK",
+    "UZAK",
+    6,
+    "zor"
    ],
    [
-    "MAVİ",
-    "KARE",
-    3
-   ],
-   [
-    "GAGA",
-    "KESE",
-    5
-   ],
-   [
-    "ORTA",
-    "AYNA",
-    4
-   ],
-   [
-    "KARA",
-    "HARF",
-    2
-   ],
-   [
+    "KONU",
     "KASA",
-    "DOLU",
-    4
-   ],
-   [
-    "LEKE",
-    "KOKU",
-    5
-   ],
-   [
-    "ALAY",
-    "UZUN",
-    4
-   ],
-   [
-    "EMEK",
-    "ARAÇ",
-    5
-   ],
-   [
-    "MAYO",
-    "VADE",
-    5
+    4,
+    "orta"
    ],
    [
     "ADAM",
+    "OKUL",
+    6,
+    "zor"
+   ],
+   [
+    "AYIP",
+    "İLAÇ",
+    5,
+    "zor"
+   ],
+   [
+    "ÖNEM",
     "AKIM",
-    2
-   ],
-   [
-    "TAVA",
-    "KABA",
-    2
-   ],
-   [
-    "SERT",
-    "ÇİLE",
-    5
-   ],
-   [
-    "BALE",
-    "GENÇ",
-    4
-   ],
-   [
-    "UZUN",
-    "PLAJ",
-    4
-   ],
-   [
-    "ORAN",
-    "ALAN",
-    2
-   ],
-   [
-    "CADI",
-    "KESE",
-    5
-   ],
-   [
-    "AĞIT",
-    "EZAN",
-    5
-   ],
-   [
-    "PARK",
-    "MAYO",
-    5
-   ],
-   [
-    "ALAY",
-    "AĞIZ",
-    4
-   ],
-   [
-    "TAVA",
-    "KUZU",
-    5
-   ],
-   [
-    "KOCA",
-    "SORU",
-    3
+    4,
+    "zor"
    ],
    [
     "HARF",
-    "TAKI",
-    4
+    "GENÇ",
+    6,
+    "zor"
+   ],
+   [
+    "KART",
+    "GECE",
+    5,
+    "zor"
+   ],
+   [
+    "KİRA",
+    "CUMA",
+    3,
+    "orta"
+   ],
+   [
+    "EKİP",
+    "EŞİK",
+    3,
+    "kolay"
+   ],
+   [
+    "KART",
+    "KENT",
+    2,
+    "kolay"
+   ],
+   [
+    "KALE",
+    "KART",
+    2,
+    "kolay"
+   ],
+   [
+    "UZAK",
+    "AÇIK",
+    4,
+    "zor"
+   ],
+   [
+    "KESE",
+    "SENE",
+    2,
+    "kolay"
+   ],
+   [
+    "DERİ",
+    "PİRE",
+    3,
+    "orta"
+   ],
+   [
+    "DERS",
+    "DENK",
+    2,
+    "kolay"
    ],
    [
     "DÖRT",
-    "BATI",
-    4
+    "DERE",
+    2,
+    "kolay"
    ],
    [
-    "EZAN",
-    "AKIŞ",
-    5
+    "HAVA",
+    "DANA",
+    2,
+    "kolay"
    ],
    [
-    "ÇENE",
-    "DOĞA",
-    4
+    "DÖRT",
+    "KASA",
+    4,
+    "orta"
    ],
    [
-    "PİDE",
     "ŞART",
-    5
-   ],
-   [
-    "NANE",
-    "PARA",
-    4
-   ],
-   [
-    "DAVA",
-    "LEKE",
-    4
-   ],
-   [
-    "KORO",
-    "DELİ",
-    5
-   ],
-   [
-    "YASA",
-    "YAPI",
-    3
-   ],
-   [
-    "AKIM",
-    "ATEŞ",
-    3
+    "MODA",
+    5,
+    "zor"
    ],
    [
     "UFAK",
-    "AÇIK",
-    4
+    "AKIL",
+    5,
+    "zor"
    ],
    [
-    "NİNE",
-    "TAVA",
-    5
-   ],
-   [
-    "HALI",
-    "DELİ",
-    5
-   ],
-   [
-    "SAYI",
-    "DÖRT",
-    4
-   ],
-   [
-    "ÇAKI",
-    "KİRA",
-    4
-   ],
-   [
-    "KARA",
-    "ÇALI",
-    3
-   ],
-   [
-    "HALK",
-    "PİRE",
-    4
-   ],
-   [
-    "ALAY",
     "PLAJ",
-    3
+    "ALAY",
+    3,
+    "orta"
    ],
    [
-    "KOKU",
-    "BERE",
-    5
+    "SENE",
+    "VEDA",
+    3,
+    "orta"
    ],
    [
-    "RÜYA",
-    "ÇABA",
-    5
+    "TAVA",
+    "MODA",
+    4,
+    "orta"
+   ],
+   [
+    "PARK",
+    "ÇATI",
+    4,
+    "orta"
+   ],
+   [
+    "KAFA",
+    "YARA",
+    2,
+    "kolay"
+   ],
+   [
+    "ŞAKA",
+    "SAHA",
+    2,
+    "kolay"
    ],
    [
     "ARAÇ",
     "EKİM",
-    5
+    5,
+    "zor"
    ],
    [
-    "BORU",
+    "KARA",
+    "BARO",
+    2,
+    "kolay"
+   ],
+   [
+    "DERİ",
+    "VADE",
+    5,
+    "zor"
+   ],
+   [
     "YARA",
-    3
+    "TAKI",
+    3,
+    "kolay"
    ],
    [
-    "PUAN",
-    "İLAÇ",
-    4
+    "AYAR",
+    "AFET",
+    4,
+    "orta"
    ],
    [
-    "DURU",
-    "VİDA",
-    5
+    "KİLO",
+    "GEZİ",
+    6,
+    "zor"
    ],
    [
-    "YAPI",
-    "TOKA",
-    4
+    "YASA",
+    "DENK",
+    4,
+    "zor"
+   ],
+   [
+    "HATA",
+    "ÇABA",
+    3,
+    "orta"
+   ],
+   [
+    "KALP",
+    "KASA",
+    2,
+    "kolay"
+   ],
+   [
+    "KAYA",
+    "VEDA",
+    4,
+    "orta"
+   ],
+   [
+    "BALE",
+    "KESE",
+    3,
+    "kolay"
+   ],
+   [
+    "DANA",
+    "DENK",
+    2,
+    "kolay"
+   ],
+   [
+    "DERE",
+    "TAVA",
+    4,
+    "zor"
+   ],
+   [
+    "AĞAÇ",
+    "AĞIL",
+    3,
+    "orta"
+   ],
+   [
+    "ÇALI",
+    "KÜME",
+    6,
+    "zor"
+   ],
+   [
+    "SAHA",
+    "SALI",
+    2,
+    "kolay"
+   ],
+   [
+    "MOLA",
+    "KASA",
+    3,
+    "kolay"
+   ],
+   [
+    "KAYA",
+    "SAHA",
+    2,
+    "kolay"
+   ],
+   [
+    "SERT",
+    "SIRA",
+    2,
+    "kolay"
+   ],
+   [
+    "AKIŞ",
+    "ATEŞ",
+    2,
+    "kolay"
+   ],
+   [
+    "SAHA",
+    "HALI",
+    3,
+    "orta"
+   ],
+   [
+    "NANE",
+    "DERS",
+    4,
+    "orta"
+   ],
+   [
+    "GEZİ",
+    "ŞART",
+    5,
+    "zor"
+   ],
+   [
+    "KİLO",
+    "BACA",
+    5,
+    "zor"
+   ],
+   [
+    "ERİK",
+    "ADAŞ",
+    5,
+    "zor"
+   ],
+   [
+    "DOLU",
+    "ÇABA",
+    4,
+    "zor"
+   ],
+   [
+    "PLAJ",
+    "ATEŞ",
+    6,
+    "zor"
+   ],
+   [
+    "AĞIR",
+    "AKIL",
+    2,
+    "kolay"
+   ],
+   [
+    "KARA",
+    "FARE",
+    2,
+    "kolay"
+   ],
+   [
+    "SÜRÜ",
+    "KOKU",
+    5,
+    "zor"
    ],
    [
     "BARO",
-    "VADE",
-    4
+    "KALE",
+    3,
+    "orta"
    ],
    [
-    "UÇAK",
-    "ATEŞ",
-    5
+    "ZARF",
+    "KABA",
+    4,
+    "orta"
    ],
    [
-    "KAZA",
+    "DÖRT",
+    "BORÇ",
+    5,
+    "zor"
+   ],
+   [
+    "UZAY",
+    "UFUK",
+    3,
+    "orta"
+   ],
+   [
+    "TAVA",
+    "HARF",
+    3,
+    "orta"
+   ],
+   [
+    "HARF",
+    "DOLU",
+    5,
+    "zor"
+   ],
+   [
+    "BACA",
+    "CAMİ",
+    4,
+    "orta"
+   ],
+   [
+    "BARO",
+    "MAAŞ",
+    4,
+    "zor"
+   ],
+   [
+    "KORO",
     "ŞART",
-    3
+    3,
+    "kolay"
    ],
    [
-    "DOĞA",
-    "KART",
-    5
+    "TOKA",
+    "PİDE",
+    6,
+    "zor"
+   ],
+   [
+    "GECE",
+    "TANE",
+    4,
+    "orta"
+   ],
+   [
+    "AĞIR",
+    "AKIM",
+    2,
+    "kolay"
+   ],
+   [
+    "MASA",
+    "VAZO",
+    5,
+    "zor"
+   ],
+   [
+    "MAVİ",
+    "BORÇ",
+    6,
+    "zor"
+   ],
+   [
+    "ÇENE",
+    "ZARF",
+    5,
+    "zor"
+   ],
+   [
+    "HATA",
+    "ÇARE",
+    3,
+    "orta"
+   ],
+   [
+    "SERT",
+    "LEKE",
+    4,
+    "orta"
+   ],
+   [
+    "VAZO",
+    "YAZI",
+    2,
+    "kolay"
+   ],
+   [
+    "PARA",
+    "HAVA",
+    2,
+    "kolay"
+   ],
+   [
+    "NİNE",
+    "DAVA",
+    4,
+    "orta"
+   ],
+   [
+    "ÇİLE",
+    "MİDE",
+    3,
+    "kolay"
+   ],
+   [
+    "PARA",
+    "BACA",
+    2,
+    "kolay"
+   ],
+   [
+    "KENT",
+    "KARE",
+    3,
+    "kolay"
+   ],
+   [
+    "MASA",
+    "BACA",
+    3,
+    "orta"
    ],
    [
     "KÖLE",
-    "KOKU",
-    5
+    "KUYU",
+    5,
+    "zor"
    ],
    [
-    "GEMİ",
-    "KENT",
-    4
+    "KORO",
+    "FARE",
+    3,
+    "orta"
    ],
    [
-    "HALK",
-    "SOBA",
-    5
+    "BİNA",
+    "KİRA",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇİLE",
+    "KİRA",
+    5,
+    "zor"
+   ],
+   [
+    "MASA",
+    "BATI",
+    5,
+    "zor"
+   ],
+   [
+    "VEDA",
+    "DELİ",
+    5,
+    "zor"
+   ],
+   [
+    "AÇIK",
+    "ORAN",
+    4,
+    "orta"
+   ],
+   [
+    "AMAÇ",
+    "ULUS",
+    6,
+    "zor"
+   ],
+   [
+    "BİNA",
+    "ÇABA",
+    4,
+    "zor"
+   ],
+   [
+    "SAAT",
+    "KART",
+    4,
+    "orta"
+   ],
+   [
+    "KULE",
+    "HALI",
+    3,
+    "orta"
+   ],
+   [
+    "ERİK",
+    "EKİP",
+    3,
+    "kolay"
+   ],
+   [
+    "BALE",
+    "GECE",
+    3,
+    "orta"
+   ],
+   [
+    "MAYO",
+    "HARF",
+    4,
+    "zor"
+   ],
+   [
+    "ÇARE",
+    "SAAT",
+    5,
+    "zor"
+   ],
+   [
+    "HALI",
+    "KEÇİ",
+    5,
+    "zor"
+   ],
+   [
+    "EŞİK",
+    "EDAT",
+    4,
+    "orta"
+   ],
+   [
+    "ŞAİR",
+    "YAZI",
+    6,
+    "zor"
+   ],
+   [
+    "NANE",
+    "DANA",
+    2,
+    "kolay"
+   ],
+   [
+    "UÇAK",
+    "PUAN",
+    4,
+    "orta"
+   ],
+   [
+    "SERT",
+    "MODA",
+    4,
+    "zor"
    ],
    [
     "ADAM",
-    "AYAZ",
-    3
+    "ALAY",
+    2,
+    "kolay"
+   ],
+   [
+    "BERE",
+    "DEDE",
+    2,
+    "kolay"
+   ],
+   [
+    "KOCA",
+    "MODA",
+    3,
+    "kolay"
+   ],
+   [
+    "SIRA",
+    "SAYI",
+    3,
+    "kolay"
+   ],
+   [
+    "ZARF",
+    "ÇARE",
+    3,
+    "orta"
+   ],
+   [
+    "EDAT",
+    "PUAN",
+    6,
+    "zor"
+   ],
+   [
+    "BARO",
+    "KARE",
+    2,
+    "kolay"
+   ],
+   [
+    "ŞAKA",
+    "KAPI",
+    3,
+    "kolay"
+   ],
+   [
+    "BERE",
+    "BACA",
+    4,
+    "orta"
+   ],
+   [
+    "KÖŞE",
+    "CAMİ",
+    5,
+    "zor"
+   ],
+   [
+    "NİNE",
+    "MASA",
+    5,
+    "zor"
+   ],
+   [
+    "AZAP",
+    "AKIN",
+    4,
+    "orta"
+   ],
+   [
+    "FARE",
+    "KAZA",
+    3,
+    "orta"
+   ],
+   [
+    "KARA",
+    "DERS",
+    4,
+    "orta"
+   ],
+   [
+    "KARE",
+    "YAKA",
+    3,
+    "orta"
+   ],
+   [
+    "MOLA",
+    "DOĞA",
+    2,
+    "kolay"
+   ],
+   [
+    "SORU",
+    "YARA",
+    4,
+    "orta"
+   ],
+   [
+    "KAYA",
+    "VİNÇ",
+    6,
+    "zor"
+   ],
+   [
+    "UMUT",
+    "AÇIK",
+    5,
+    "zor"
+   ],
+   [
+    "NİNE",
+    "DENK",
+    3,
+    "kolay"
+   ],
+   [
+    "EŞEK",
+    "AYIP",
+    6,
+    "zor"
+   ],
+   [
+    "YAKA",
+    "KAPI",
+    3,
+    "kolay"
+   ],
+   [
+    "NANE",
+    "HAVA",
+    4,
+    "orta"
+   ],
+   [
+    "SOBA",
+    "KİRA",
+    4,
+    "orta"
+   ],
+   [
+    "KALE",
+    "DERE",
+    3,
+    "orta"
+   ],
+   [
+    "BORÇ",
+    "BİNA",
+    3,
+    "orta"
+   ],
+   [
+    "KURU",
+    "DOĞA",
+    4,
+    "orta"
+   ],
+   [
+    "HARF",
+    "FARE",
+    2,
+    "kolay"
    ],
    [
     "KAPI",
-    "KABA",
-    2
-   ],
-   [
-    "KASA",
-    "SOBA",
-    3
-   ],
-   [
-    "ULUS",
-    "İLAÇ",
-    4
-   ],
-   [
-    "YUVA",
     "YAZI",
-    5
+    2,
+    "kolay"
+   ],
+   [
+    "TAZE",
+    "SENE",
+    4,
+    "orta"
    ],
    [
     "GENÇ",
+    "KAZA",
+    6,
+    "zor"
+   ],
+   [
+    "BACA",
+    "SALI",
+    3,
+    "orta"
+   ],
+   [
+    "YAKA",
+    "KENT",
+    4,
+    "orta"
+   ],
+   [
+    "CAMİ",
+    "PİRE",
+    5,
+    "zor"
+   ],
+   [
+    "PİDE",
+    "DEDE",
+    2,
+    "kolay"
+   ],
+   [
     "KİLO",
-    5
+    "KALE",
+    2,
+    "kolay"
+   ],
+   [
+    "CUMA",
+    "YAPI",
+    5,
+    "zor"
+   ],
+   [
+    "SALI",
+    "TOKA",
+    4,
+    "zor"
+   ],
+   [
+    "TAVA",
+    "KAFA",
+    3,
+    "kolay"
+   ],
+   [
+    "VEDA",
+    "BACA",
+    5,
+    "zor"
+   ],
+   [
+    "GEMİ",
+    "KAZA",
+    4,
+    "zor"
+   ],
+   [
+    "AKIN",
+    "AYAR",
+    3,
+    "orta"
+   ],
+   [
+    "ÜLKE",
+    "ELÇİ",
+    5,
+    "zor"
+   ],
+   [
+    "KİRA",
+    "MAVİ",
+    4,
+    "zor"
+   ],
+   [
+    "UZUN",
+    "ADIM",
+    6,
+    "zor"
+   ],
+   [
+    "SAAT",
+    "DÖRT",
+    5,
+    "zor"
+   ],
+   [
+    "TEPE",
+    "DERİ",
+    3,
+    "orta"
+   ],
+   [
+    "YAKA",
+    "LALE",
+    3,
+    "kolay"
+   ],
+   [
+    "GAGA",
+    "KASA",
+    3,
+    "kolay"
+   ],
+   [
+    "İNEK",
+    "ETEK",
+    2,
+    "kolay"
+   ],
+   [
+    "GAGA",
+    "KAYA",
+    3,
+    "kolay"
+   ],
+   [
+    "KAFA",
+    "MASA",
+    2,
+    "kolay"
+   ],
+   [
+    "BERE",
+    "KÖLE",
+    3,
+    "kolay"
+   ],
+   [
+    "ZARF",
+    "SERT",
+    3,
+    "orta"
+   ],
+   [
+    "TAKI",
+    "SALI",
+    3,
+    "kolay"
+   ],
+   [
+    "KARE",
+    "MOLA",
+    4,
+    "orta"
+   ],
+   [
+    "BİNA",
+    "SOBA",
+    5,
+    "zor"
+   ],
+   [
+    "KEDİ",
+    "BALE",
+    5,
+    "zor"
+   ],
+   [
+    "MASA",
+    "SORU",
+    5,
+    "zor"
+   ],
+   [
+    "AĞIT",
+    "AYAR",
+    3,
+    "kolay"
+   ],
+   [
+    "BALE",
+    "BARO",
+    2,
+    "kolay"
+   ],
+   [
+    "BATI",
+    "SERT",
+    5,
+    "zor"
+   ],
+   [
+    "GAGA",
+    "KARA",
+    3,
+    "kolay"
+   ],
+   [
+    "TANE",
+    "RENK",
+    4,
+    "orta"
+   ],
+   [
+    "AHIR",
+    "ADIM",
+    3,
+    "kolay"
+   ],
+   [
+    "TREN",
+    "EMİR",
+    4,
+    "orta"
+   ],
+   [
+    "PİRE",
+    "KARE",
+    2,
+    "kolay"
+   ],
+   [
+    "AKIL",
+    "ESER",
+    6,
+    "zor"
+   ],
+   [
+    "MAYA",
+    "MOLA",
+    2,
+    "kolay"
+   ],
+   [
+    "KALE",
+    "DERİ",
+    4,
+    "orta"
+   ],
+   [
+    "KAYA",
+    "BACA",
+    3,
+    "kolay"
+   ],
+   [
+    "VİDA",
+    "RÜYA",
+    3,
+    "orta"
+   ],
+   [
+    "KENT",
+    "DANA",
+    3,
+    "orta"
+   ],
+   [
+    "ÇALI",
+    "KARA",
+    3,
+    "orta"
+   ],
+   [
+    "SORU",
+    "BORÇ",
+    2,
+    "kolay"
+   ],
+   [
+    "TAVA",
+    "SIRA",
+    3,
+    "kolay"
+   ],
+   [
+    "KABA",
+    "PİRE",
+    4,
+    "orta"
+   ],
+   [
+    "SERT",
+    "GENÇ",
+    4,
+    "orta"
+   ],
+   [
+    "UZAY",
+    "EZAN",
+    2,
+    "kolay"
+   ],
+   [
+    "CAMİ",
+    "MAVİ",
+    3,
+    "orta"
+   ],
+   [
+    "EZAN",
+    "OYUN",
+    4,
+    "zor"
+   ],
+   [
+    "DÖRT",
+    "PİDE",
+    5,
+    "zor"
+   ],
+   [
+    "KABA",
+    "KAPI",
+    2,
+    "kolay"
+   ],
+   [
+    "MASA",
+    "DELİ",
+    5,
+    "zor"
+   ],
+   [
+    "KULE",
+    "KASA",
+    3,
+    "kolay"
+   ],
+   [
+    "AĞAÇ",
+    "AYAZ",
+    3,
+    "orta"
+   ],
+   [
+    "KUYU",
+    "KULE",
+    4,
+    "zor"
+   ],
+   [
+    "UFUK",
+    "UZAK",
+    2,
+    "kolay"
+   ],
+   [
+    "ÖNEM",
+    "ADIM",
+    3,
+    "orta"
+   ],
+   [
+    "AĞIR",
+    "AYAR",
+    2,
+    "kolay"
+   ],
+   [
+    "HALK",
+    "ÇENE",
+    5,
+    "zor"
+   ],
+   [
+    "BACA",
+    "KABA",
+    2,
+    "kolay"
+   ],
+   [
+    "PLAJ",
+    "UZAK",
+    3,
+    "orta"
+   ],
+   [
+    "ÇABA",
+    "YASA",
+    2,
+    "kolay"
+   ],
+   [
+    "AZAP",
+    "ÖNEM",
+    5,
+    "zor"
+   ],
+   [
+    "DOLU",
+    "TOKA",
+    4,
+    "orta"
+   ],
+   [
+    "KABA",
+    "SOBA",
+    2,
+    "kolay"
+   ],
+   [
+    "DERT",
+    "SOBA",
+    5,
+    "zor"
+   ],
+   [
+    "KEDİ",
+    "DENK",
+    4,
+    "zor"
+   ],
+   [
+    "KASA",
+    "DAVA",
+    3,
+    "kolay"
+   ],
+   [
+    "TAZE",
+    "MÜZE",
+    2,
+    "kolay"
+   ],
+   [
+    "KÖLE",
+    "KARE",
+    2,
+    "kolay"
+   ],
+   [
+    "KULE",
+    "ÇALI",
+    4,
+    "orta"
+   ],
+   [
+    "DOLU",
+    "KUYU",
+    4,
+    "orta"
+   ],
+   [
+    "SAYI",
+    "YAPI",
+    3,
+    "kolay"
+   ],
+   [
+    "BORÇ",
+    "PİDE",
+    6,
+    "zor"
+   ],
+   [
+    "KARA",
+    "BATI",
+    3,
+    "kolay"
+   ],
+   [
+    "RÜYA",
+    "BATI",
+    6,
+    "zor"
+   ],
+   [
+    "NİNE",
+    "BORU",
+    5,
+    "zor"
+   ],
+   [
+    "SAAT",
+    "MOLA",
+    4,
+    "orta"
+   ],
+   [
+    "MOLA",
+    "LALE",
+    3,
+    "orta"
+   ],
+   [
+    "KART",
+    "KUTU",
+    3,
+    "orta"
+   ],
+   [
+    "LALE",
+    "KÖLE",
+    2,
+    "kolay"
+   ],
+   [
+    "DOLU",
+    "BORU",
+    2,
+    "kolay"
+   ],
+   [
+    "SALI",
+    "MAYA",
+    3,
+    "kolay"
+   ],
+   [
+    "NANE",
+    "SAYI",
+    4,
+    "orta"
+   ],
+   [
+    "KOCA",
+    "KUZU",
+    4,
+    "orta"
+   ],
+   [
+    "MAYO",
+    "MAAŞ",
+    6,
+    "zor"
+   ],
+   [
+    "KORO",
+    "DERT",
+    3,
+    "orta"
+   ],
+   [
+    "AĞIR",
+    "AFET",
+    4,
+    "orta"
+   ],
+   [
+    "SAHA",
+    "GENÇ",
+    6,
+    "zor"
+   ],
+   [
+    "KOCA",
+    "KÖLE",
+    4,
+    "orta"
+   ],
+   [
+    "ARAÇ",
+    "ADAŞ",
+    3,
+    "orta"
+   ],
+   [
+    "BATI",
+    "HALI",
+    3,
+    "kolay"
+   ],
+   [
+    "VİNÇ",
+    "NANE",
+    4,
+    "orta"
+   ],
+   [
+    "DELİ",
+    "BARO",
+    4,
+    "orta"
+   ],
+   [
+    "BARO",
+    "TAVA",
+    3,
+    "orta"
+   ],
+   [
+    "SIRA",
+    "CEZA",
+    3,
+    "orta"
+   ],
+   [
+    "BACA",
+    "ÇABA",
+    2,
+    "kolay"
+   ],
+   [
+    "SALI",
+    "HALK",
+    2,
+    "kolay"
+   ],
+   [
+    "BATI",
+    "SALI",
+    2,
+    "kolay"
+   ],
+   [
+    "GEZİ",
+    "PARA",
+    5,
+    "zor"
+   ],
+   [
+    "NİNE",
+    "GEMİ",
+    6,
+    "zor"
+   ],
+   [
+    "DANA",
+    "DELİ",
+    4,
+    "orta"
+   ],
+   [
+    "AKIL",
+    "AYAZ",
+    3,
+    "orta"
+   ],
+   [
+    "MAYO",
+    "KÖLE",
+    5,
+    "zor"
+   ],
+   [
+    "AKIM",
+    "AĞIZ",
+    2,
+    "kolay"
+   ],
+   [
+    "TANE",
+    "TAKI",
+    2,
+    "kolay"
+   ],
+   [
+    "ORAN",
+    "İLAÇ",
+    4,
+    "orta"
+   ],
+   [
+    "DOLU",
+    "KOKU",
+    2,
+    "kolay"
+   ],
+   [
+    "BİNA",
+    "DELİ",
+    4,
+    "orta"
+   ],
+   [
+    "SÜRÜ",
+    "DEDE",
+    4,
+    "zor"
+   ],
+   [
+    "DERİ",
+    "SÜRÜ",
+    4,
+    "orta"
+   ],
+   [
+    "MAVİ",
+    "HAVA",
+    2,
+    "kolay"
+   ],
+   [
+    "TREN",
+    "ADIM",
+    6,
+    "zor"
+   ],
+   [
+    "TAKI",
+    "KOCA",
+    4,
+    "orta"
+   ],
+   [
+    "TAVA",
+    "KASA",
+    2,
+    "kolay"
+   ],
+   [
+    "KOCA",
+    "PİRE",
+    5,
+    "zor"
+   ],
+   [
+    "PARA",
+    "PİDE",
+    3,
+    "orta"
+   ],
+   [
+    "BORU",
+    "KABA",
+    4,
+    "orta"
+   ],
+   [
+    "ÇİLE",
+    "KİLO",
+    2,
+    "kolay"
+   ],
+   [
+    "TEPE",
+    "VİDA",
+    5,
+    "zor"
+   ],
+   [
+    "KUYU",
+    "DURU",
+    2,
+    "kolay"
+   ],
+   [
+    "KAPI",
+    "ŞİŞE",
+    6,
+    "zor"
+   ],
+   [
+    "KORO",
+    "SORU",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇİLE",
+    "DAVA",
+    5,
+    "zor"
+   ],
+   [
+    "ADAK",
+    "UFUK",
+    3,
+    "orta"
+   ],
+   [
+    "DENK",
+    "MOLA",
+    5,
+    "zor"
+   ],
+   [
+    "KALE",
+    "NANE",
+    2,
+    "kolay"
+   ],
+   [
+    "VİNÇ",
+    "SOBA",
+    6,
+    "zor"
+   ],
+   [
+    "NİNE",
+    "YAZI",
+    5,
+    "zor"
+   ],
+   [
+    "KORO",
+    "ÇİLE",
+    5,
+    "zor"
+   ],
+   [
+    "SIRA",
+    "SALI",
+    3,
+    "kolay"
+   ],
+   [
+    "SÜRÜ",
+    "PİRE",
+    3,
+    "orta"
+   ],
+   [
+    "LEKE",
+    "LİSE",
+    6,
+    "zor"
+   ],
+   [
+    "ÇARE",
+    "YARA",
+    3,
+    "kolay"
+   ],
+   [
+    "AĞIR",
+    "İNAT",
+    5,
+    "zor"
+   ],
+   [
+    "LALE",
+    "NİNE",
+    3,
+    "orta"
+   ],
+   [
+    "KURT",
+    "MAVİ",
+    4,
+    "zor"
+   ],
+   [
+    "ALAN",
+    "İLAÇ",
+    2,
+    "kolay"
+   ],
+   [
+    "ADIM",
+    "EŞİK",
+    5,
+    "zor"
+   ],
+   [
+    "PİRE",
+    "DOĞA",
+    5,
+    "zor"
+   ],
+   [
+    "ETEK",
+    "AĞAÇ",
+    6,
+    "zor"
+   ],
+   [
+    "TAVA",
+    "TOKA",
+    2,
+    "kolay"
+   ],
+   [
+    "PİDE",
+    "KARE",
+    3,
+    "orta"
+   ],
+   [
+    "DOST",
+    "DERİ",
+    5,
+    "zor"
+   ],
+   [
+    "MÜZE",
+    "SENE",
+    4,
+    "orta"
+   ],
+   [
+    "KAFA",
+    "KESE",
+    3,
+    "kolay"
+   ],
+   [
+    "KARA",
+    "DERT",
+    3,
+    "kolay"
+   ],
+   [
+    "UZUN",
+    "ESER",
+    6,
+    "zor"
+   ],
+   [
+    "SOBA",
+    "CEZA",
+    4,
+    "orta"
+   ],
+   [
+    "PARK",
+    "BORÇ",
+    4,
+    "orta"
+   ],
+   [
+    "AMAÇ",
+    "AYAK",
+    3,
+    "kolay"
+   ],
+   [
+    "DANA",
+    "PİRE",
+    4,
+    "orta"
+   ],
+   [
+    "DOĞA",
+    "PARA",
+    4,
+    "orta"
+   ],
+   [
+    "KESE",
+    "DAVA",
+    5,
+    "zor"
+   ],
+   [
+    "PARK",
+    "HALI",
+    4,
+    "orta"
+   ],
+   [
+    "KORO",
+    "YAPI",
+    4,
+    "orta"
+   ],
+   [
+    "SAYI",
+    "ÇABA",
+    3,
+    "orta"
+   ],
+   [
+    "TAVA",
+    "DOĞA",
+    4,
+    "orta"
+   ],
+   [
+    "YASA",
+    "KART",
+    3,
+    "kolay"
+   ],
+   [
+    "TAKI",
+    "LEKE",
+    4,
+    "zor"
+   ],
+   [
+    "KART",
+    "DELİ",
+    4,
+    "orta"
+   ],
+   [
+    "SENE",
+    "CUMA",
+    5,
+    "zor"
+   ],
+   [
+    "KARA",
+    "YUVA",
+    4,
+    "orta"
+   ],
+   [
+    "SENE",
+    "LEKE",
+    3,
+    "orta"
+   ],
+   [
+    "YAZI",
+    "YAKA",
+    2,
+    "kolay"
+   ],
+   [
+    "ETEK",
+    "EŞİK",
+    2,
+    "kolay"
+   ],
+   [
+    "BATI",
+    "KAZA",
+    3,
+    "kolay"
+   ],
+   [
+    "HALK",
+    "GEZİ",
+    5,
+    "zor"
+   ],
+   [
+    "KENT",
+    "PARA",
+    4,
+    "orta"
+   ],
+   [
+    "DURU",
+    "KUZU",
+    2,
+    "kolay"
+   ],
+   [
+    "KAZA",
+    "TAVA",
+    3,
+    "kolay"
+   ],
+   [
+    "GECE",
+    "BATI",
+    6,
+    "zor"
+   ],
+   [
+    "ALEV",
+    "AHIR",
+    5,
+    "zor"
+   ],
+   [
+    "SENE",
+    "DENK",
+    2,
+    "kolay"
+   ],
+   [
+    "FARE",
+    "KURU",
+    4,
+    "orta"
+   ],
+   [
+    "CİLT",
+    "TAVA",
+    6,
+    "zor"
+   ],
+   [
+    "YARA",
+    "ŞAKA",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇAKI",
+    "KART",
+    3,
+    "orta"
+   ],
+   [
+    "DEDE",
+    "DERİ",
+    2,
+    "kolay"
+   ],
+   [
+    "PİDE",
+    "DAVA",
+    5,
+    "zor"
+   ],
+   [
+    "HATA",
+    "DOĞA",
+    4,
+    "orta"
+   ],
+   [
+    "ÇARE",
+    "YASA",
+    4,
+    "orta"
+   ],
+   [
+    "BARO",
+    "ÇAKI",
+    3,
+    "orta"
+   ],
+   [
+    "DELİ",
+    "KUYU",
+    6,
+    "zor"
+   ],
+   [
+    "PİDE",
+    "FARE",
+    3,
+    "kolay"
+   ],
+   [
+    "KOKU",
+    "DURU",
+    3,
+    "kolay"
+   ],
+   [
+    "YASA",
+    "FARE",
+    4,
+    "orta"
+   ],
+   [
+    "ADAŞ",
+    "AYAZ",
+    3,
+    "orta"
+   ],
+   [
+    "KEÇİ",
+    "MAVİ",
+    5,
+    "zor"
+   ],
+   [
+    "AYIP",
+    "UZAK",
+    4,
+    "zor"
+   ],
+   [
+    "SENE",
+    "ZARF",
+    4,
+    "zor"
+   ],
+   [
+    "KORO",
+    "TANE",
+    5,
+    "zor"
+   ],
+   [
+    "YUVA",
+    "KENT",
+    5,
+    "zor"
+   ],
+   [
+    "YUVA",
+    "ŞART",
+    6,
+    "zor"
+   ],
+   [
+    "ÖZEL",
+    "ÖNEM",
+    2,
+    "kolay"
+   ],
+   [
+    "KALE",
+    "ÇENE",
+    3,
+    "orta"
    ]
   ]
  },
  "5": {
   "words": [
+   "ABADİ",
+   "ABANİ",
    "ABART",
    "ABAŞO",
    "ABDAL",
@@ -5921,10 +7297,13 @@
    "ACUZE",
    "ACİBE",
    "ADALE",
+   "ADALİ",
    "ADAMI",
    "ADDET",
    "ADDOL",
+   "ADEDİ",
    "ADESE",
+   "ADETA",
    "ADINA",
    "ADLAN",
    "ADRES",
@@ -5949,6 +7328,7 @@
    "AHDET",
    "AHENK",
    "AHFAT",
+   "AHKAM",
    "AHLAF",
    "AHLAK",
    "AHLAT",
@@ -6005,6 +7385,7 @@
    "ALDAN",
    "ALDAT",
    "ALDIR",
+   "ALENİ",
    "ALEYH",
    "ALGIN",
    "ALICI",
@@ -6032,6 +7413,7 @@
    "AMBAR",
    "AMBER",
    "AMELE",
+   "AMELİ",
    "AMFOR",
    "AMORF",
    "AMPER",
@@ -6065,6 +7447,7 @@
    "ANTİK",
    "ANYON",
    "ANÜRİ",
+   "ANİDE",
    "ANİME",
    "APACI",
    "APLİK",
@@ -6202,6 +7585,7 @@
    "AĞYAR",
    "AİDAT",
    "AŞAMA",
+   "AŞARİ",
    "AŞAĞI",
    "AŞEVİ",
    "AŞILA",
@@ -6335,6 +7719,7 @@
    "BEDÜK",
    "BEDİK",
    "BEDİR",
+   "BEDİİ",
    "BEGÜM",
    "BEHER",
    "BEHEY",
@@ -6371,6 +7756,7 @@
    "BENİZ",
    "BERAT",
    "BERKİ",
+   "BERRİ",
    "BERİL",
    "BESLE",
    "BESTE",
@@ -6381,6 +7767,7 @@
    "BETİM",
    "BEYAN",
    "BEYAZ",
+   "BEYZİ",
    "BEYİN",
    "BEYİT",
    "BEZEK",
@@ -6473,6 +7860,7 @@
    "BULGU",
    "BULUN",
    "BULUT",
+   "BULUĞ",
    "BULUŞ",
    "BUMLA",
    "BUNAK",
@@ -6600,6 +7988,7 @@
    "CAZİP",
    "CAİZE",
    "CEBEL",
+   "CEBRİ",
    "CEBİN",
    "CEBİR",
    "CEDRE",
@@ -6609,6 +7998,7 @@
    "CEHİL",
    "CEHİT",
    "CEKET",
+   "CELAL",
    "CELBE",
    "CELEP",
    "CELSE",
@@ -6635,6 +8025,7 @@
    "CEVİZ",
    "CEZAİ",
    "CEZBE",
+   "CEZRİ",
    "CEZVE",
    "CEZİR",
    "CIBIL",
@@ -6683,6 +8074,7 @@
    "CİMRİ",
    "CİNAS",
    "CİNAİ",
+   "CİNSİ",
    "CİRİM",
    "CİRİT",
    "CİSİM",
@@ -6732,6 +8124,7 @@
    "DAĞLA",
    "DAĞLI",
    "DAİMA",
+   "DAİMİ",
    "DAİRE",
    "DEBBE",
    "DEBİL",
@@ -6778,6 +8171,7 @@
    "DETAY",
    "DEVAM",
    "DEVRE",
+   "DEVRİ",
    "DEVİM",
    "DEVİN",
    "DEVİR",
@@ -6897,6 +8291,7 @@
    "DÜBEŞ",
    "DÜDEN",
    "DÜDÜK",
+   "DÜGAH",
    "DÜMEN",
    "DÜNYA",
    "DÜNÜR",
@@ -6998,14 +8393,17 @@
    "DİŞLİ",
    "DİŞİL",
    "EBCET",
+   "EBEDİ",
    "EBELE",
    "EBLEH",
    "ECDAT",
+   "EDEBİ",
    "EDVAR",
    "EDİNÇ",
    "EFDAL",
    "EFECE",
    "EFEKT",
+   "EFKAR",
    "EFLAK",
    "EFRAT",
    "EFRİZ",
@@ -7045,6 +8443,7 @@
    "ELZEM",
    "ELÇEK",
    "ELÇİM",
+   "ELİFİ",
    "ELİPS",
    "EMARE",
    "EMAYE",
@@ -7087,6 +8486,7 @@
    "ERGÜR",
    "ERGİN",
    "ERGİT",
+   "ERKAN",
    "ERKEK",
    "ERKEN",
    "ERKEÇ",
@@ -7138,6 +8538,7 @@
    "EVGİN",
    "EVHAM",
    "EVKAF",
+   "EVLAT",
    "EVLEK",
    "EVLEN",
    "EVRAK",
@@ -7156,7 +8557,9 @@
    "EYVAH",
    "EYVAN",
    "EYYAM",
+   "EZANİ",
    "EZBER",
+   "EZELİ",
    "EZGİN",
    "EZGİÇ",
    "EZİNÇ",
@@ -7173,6 +8576,7 @@
    "EŞARP",
    "EŞELE",
    "EŞHAS",
+   "EŞKAL",
    "EŞKİN",
    "EŞLEK",
    "EŞLEM",
@@ -7180,6 +8584,7 @@
    "EŞREF",
    "FACİA",
    "FAGOT",
+   "FAHRİ",
    "FAHTE",
    "FAHUR",
    "FAHİŞ",
@@ -7212,17 +8617,21 @@
    "FAZIL",
    "FAZLA",
    "FECİR",
+   "FEDAİ",
    "FEHVA",
    "FEHİM",
    "FEKÜL",
+   "FELAH",
    "FELEK",
    "FENER",
+   "FENNİ",
    "FENOL",
    "FENİK",
    "FERAH",
    "FERAĞ",
    "FERDA",
    "FERDE",
+   "FERDİ",
    "FERMA",
    "FERİH",
    "FERİK",
@@ -7233,6 +8642,7 @@
    "FETÜS",
    "FETİH",
    "FETİŞ",
+   "FEVRİ",
    "FEYİZ",
    "FIKIH",
    "FIKRA",
@@ -7242,8 +8652,10 @@
    "FIRÇA",
    "FISLA",
    "FITIK",
+   "FITRİ",
    "FIŞKI",
    "FIŞLA",
+   "FLAMA",
    "FLEOL",
    "FLORA",
    "FLORİ",
@@ -7275,10 +8687,12 @@
    "FUAYE",
    "FUHUŞ",
    "FUJER",
+   "FULAR",
    "FULYA",
    "FUNDA",
    "FURYA",
    "FÜCUR",
+   "FÜLUS",
    "FÜLÜS",
    "FÜNYE",
    "FÜSUN",
@@ -7290,6 +8704,7 @@
    "FİFRE",
    "FİGAN",
    "FİGÜR",
+   "FİKRİ",
    "FİKİR",
    "FİLAN",
    "FİLAR",
@@ -7313,6 +8728,7 @@
    "FİTİN",
    "FİYAT",
    "FİZİK",
+   "FİİLİ",
    "FİŞEK",
    "FİŞKA",
    "FİŞLE",
@@ -7333,6 +8749,7 @@
    "GAMZE",
    "GARAJ",
    "GARAZ",
+   "GARBİ",
    "GAREZ",
    "GAROZ",
    "GARİP",
@@ -7340,6 +8757,7 @@
    "GASİL",
    "GAUSS",
    "GAVOT",
+   "GAVUR",
    "GAYDA",
    "GAYET",
    "GAYRI",
@@ -7405,6 +8823,7 @@
    "GIPTA",
    "GIRLA",
    "GIYAP",
+   "GLASE",
    "GNAYS",
    "GOCUK",
    "GOCUN",
@@ -7421,6 +8840,7 @@
    "GUATR",
    "GUDDE",
    "GUGUK",
+   "GULAŞ",
    "GULET",
    "GURLA",
    "GURUP",
@@ -7550,10 +8970,12 @@
    "HAKLA",
    "HAKİM",
    "HAKİR",
+   "HALAS",
    "HALAT",
    "HALAY",
    "HALEF",
    "HALEL",
+   "HALEN",
    "HALET",
    "HALFA",
    "HALKA",
@@ -7601,6 +9023,7 @@
    "HARİÇ",
    "HASAR",
    "HASAT",
+   "HASBİ",
    "HASEP",
    "HASET",
    "HASIL",
@@ -7622,6 +9045,7 @@
    "HATİP",
    "HAVAN",
    "HAVAS",
+   "HAVAİ",
    "HAVLA",
    "HAVLU",
    "HAVRA",
@@ -7666,6 +9090,8 @@
    "HEDER",
    "HEDİK",
    "HEKİM",
+   "HELAK",
+   "HELAL",
    "HELKE",
    "HELME",
    "HELVA",
@@ -7740,6 +9166,7 @@
    "HÖYÜK",
    "HÜCRE",
    "HÜCUM",
+   "HÜKMİ",
    "HÜKÜM",
    "HÜLLE",
    "HÜLYA",
@@ -7752,10 +9179,13 @@
    "HÜZÜN",
    "HİCAP",
    "HİCAZ",
+   "HİCRİ",
    "HİCİV",
    "HİDRA",
    "HİDİV",
    "HİKEM",
+   "HİLAF",
+   "HİLAL",
    "HİLAT",
    "HİLYE",
    "HİMEN",
@@ -7763,6 +9193,7 @@
    "HİPPİ",
    "HİSAR",
    "HİSSE",
+   "HİSSİ",
    "HİTAM",
    "HİTAN",
    "HİTAP",
@@ -7810,6 +9241,7 @@
    "KABLO",
    "KABUK",
    "KABUL",
+   "KABUS",
    "KABZA",
    "KABİL",
    "KABİN",
@@ -7825,9 +9257,16 @@
    "KADİR",
    "KADİT",
    "KAFES",
+   "KAFFE",
+   "KAFUR",
+   "KAFİR",
+   "KAGİR",
    "KAHIR",
    "KAHPE",
    "KAHVE",
+   "KAHYA",
+   "KAHİL",
+   "KAHİN",
    "KAHİR",
    "KAKAO",
    "KAKAÇ",
@@ -7836,9 +9275,11 @@
    "KAKIŞ",
    "KAKMA",
    "KAKUM",
+   "KAKÜL",
    "KALAK",
    "KALAS",
    "KALAY",
+   "KALBİ",
    "KALEM",
    "KALFA",
    "KALGI",
@@ -7856,6 +9297,7 @@
    "KAMIŞ",
    "KAMUS",
    "KAMÇI",
+   "KAMİL",
    "KANAL",
    "KANAT",
    "KANCA",
@@ -7904,6 +9346,7 @@
    "KASIT",
    "KASKO",
    "KASNI",
+   "KASTİ",
    "KASİS",
    "KATAR",
    "KATET",
@@ -7917,6 +9360,7 @@
    "KATOT",
    "KATRE",
    "KATİL",
+   "KATİP",
    "KAVAF",
    "KAVAK",
    "KAVAL",
@@ -7925,6 +9369,7 @@
    "KAVGA",
    "KAVKI",
    "KAVLA",
+   "KAVMİ",
    "KAVRA",
    "KAVUK",
    "KAVUN",
@@ -7978,6 +9423,7 @@
    "KAŞIK",
    "KAŞIN",
    "KAŞLA",
+   "KAŞİF",
    "KEBAP",
    "KEBZE",
    "KEBİR",
@@ -7989,10 +9435,12 @@
    "KEFİL",
    "KEFİR",
    "KEHLE",
+   "KEKAH",
    "KEKEÇ",
    "KEKLE",
    "KEKRE",
    "KEKİK",
+   "KELAM",
    "KELEK",
    "KELEM",
    "KELEP",
@@ -8045,6 +9493,7 @@
    "KETUM",
    "KEVEL",
    "KEVEN",
+   "KEYFİ",
    "KEYİF",
    "KEŞEN",
    "KEŞKE",
@@ -8090,6 +9539,7 @@
    "KISIŞ",
    "KISKA",
    "KISKI",
+   "KISMİ",
    "KISSA",
    "KITAL",
    "KITIK",
@@ -8117,6 +9567,8 @@
    "KIŞIN",
    "KIŞIR",
    "KIŞLA",
+   "KLAPA",
+   "KLAPE",
    "KLİMA",
    "KLİPS",
    "KLİŞE",
@@ -8139,6 +9591,7 @@
    "KOKOŞ",
    "KOKUT",
    "KOKUŞ",
+   "KOLAJ",
    "KOLAN",
    "KOLAY",
    "KOLCU",
@@ -8267,6 +9720,7 @@
    "KUTLU",
    "KUTNU",
    "KUTSA",
+   "KUTSİ",
    "KUTUP",
    "KUTUR",
    "KUVER",
@@ -8308,8 +9762,10 @@
    "KÜBİK",
    "KÜFÜR",
    "KÜKRE",
+   "KÜLAH",
    "KÜLEK",
    "KÜLLE",
+   "KÜLLİ",
    "KÜLOT",
    "KÜLTE",
    "KÜLÇE",
@@ -8318,6 +9774,7 @@
    "KÜNDE",
    "KÜNYE",
    "KÜRAR",
+   "KÜRDİ",
    "KÜREK",
    "KÜRNE",
    "KÜRSÜ",
@@ -8339,6 +9796,7 @@
    "KİBAR",
    "KİBİR",
    "KİFAF",
+   "KİKLA",
    "KİLER",
    "KİLLE",
    "KİLÜS",
@@ -8360,6 +9818,7 @@
    "KİRVE",
    "KİRİK",
    "KİRİŞ",
+   "KİSPİ",
    "KİSVE",
    "KİTAP",
    "KİTLE",
@@ -8372,6 +9831,7 @@
    "LADİN",
    "LAFIZ",
    "LAFLA",
+   "LAFZİ",
    "LAGAR",
    "LAGOS",
    "LAGÜN",
@@ -8416,6 +9876,7 @@
    "LERZE",
    "LEVHA",
    "LEVYE",
+   "LEYLİ",
    "LEZAR",
    "LEZİZ",
    "LEÇEK",
@@ -8475,6 +9936,7 @@
    "MACUN",
    "MADAM",
    "MADDE",
+   "MADDİ",
    "MADEM",
    "MADEN",
    "MADER",
@@ -8505,6 +9967,7 @@
    "MAKTA",
    "MAKTU",
    "MAKUL",
+   "MAKUS",
    "MALAK",
    "MALAZ",
    "MALCA",
@@ -8530,6 +9993,7 @@
    "MANTO",
    "MANTİ",
    "MANYA",
+   "MANİA",
    "MAPUS",
    "MARAL",
    "MARAZ",
@@ -8592,12 +10056,14 @@
    "MEDİH",
    "MEFUL",
    "MEHAZ",
+   "MEHDİ",
    "MEHEL",
    "MEHLE",
    "MEHİL",
    "MEKAN",
    "MEKİK",
    "MELAL",
+   "MELAS",
    "MELEK",
    "MELES",
    "MELEZ",
@@ -8645,6 +10111,7 @@
    "METİS",
    "MEVDU",
    "MEVKİ",
+   "MEVLA",
    "MEVTA",
    "MEVUT",
    "MEVZU",
@@ -8713,6 +10180,7 @@
    "MUKNİ",
    "MUKUS",
    "MUKİM",
+   "MULAJ",
    "MUMLA",
    "MUMYA",
    "MUNİS",
@@ -8743,6 +10211,7 @@
    "MÜHİM",
    "MÜJDE",
    "MÜLGA",
+   "MÜLKİ",
    "MÜMAS",
    "MÜMİN",
    "MÜNŞİ",
@@ -8753,9 +10222,12 @@
    "MÜZİÇ",
    "MÜŞİR",
    "MİDYE",
+   "MİKAP",
    "MİKOZ",
    "MİKRO",
+   "MİLAT",
    "MİLEL",
+   "MİLLİ",
    "MİLİM",
    "MİLİS",
    "MİMAR",
@@ -8799,9 +10271,11 @@
    "NAHOŞ",
    "NAHİF",
    "NAHİV",
+   "NAKDİ",
    "NAKIS",
    "NAKIZ",
    "NAKIŞ",
+   "NAKLİ",
    "NAKİL",
    "NAKİP",
    "NAKİT",
@@ -8844,6 +10318,7 @@
    "NEFER",
    "NEFES",
    "NEFHA",
+   "NEFTİ",
    "NEFİR",
    "NEFİS",
    "NEFİY",
@@ -8893,6 +10368,8 @@
    "NİCEL",
    "NİFAK",
    "NİHAN",
+   "NİHAİ",
+   "NİKAH",
    "NİKAP",
    "NİKEL",
    "NİMET",
@@ -8900,6 +10377,8 @@
    "NİPEL",
    "NİSAN",
    "NİSAP",
+   "NİSAİ",
+   "NİSPİ",
    "NİTEL",
    "NİYAZ",
    "NİYET",
@@ -9182,6 +10661,7 @@
    "REFİK",
    "REHİN",
    "REJİM",
+   "REKAT",
    "REKOR",
    "REKİZ",
    "REMEL",
@@ -9189,6 +10669,7 @@
    "REMİZ",
    "RENDE",
    "RESEN",
+   "RESMİ",
    "RESUL",
    "RESİF",
    "RESİM",
@@ -9197,6 +10678,7 @@
    "REVAÇ",
    "REVİR",
    "REVİŞ",
+   "REYBİ",
    "REYON",
    "REZİL",
    "REÇEL",
@@ -9212,6 +10694,7 @@
    "ROTOR",
    "ROTİL",
    "ROZET",
+   "RUBAİ",
    "RUBLE",
    "RUGAN",
    "RUGBİ",
@@ -9285,8 +10768,10 @@
    "SAKİM",
    "SAKİN",
    "SAKİT",
+   "SALAH",
    "SALAK",
    "SALAM",
+   "SALAT",
    "SALAŞ",
    "SALEP",
    "SALGI",
@@ -9341,6 +10826,7 @@
    "SARİH",
    "SATAŞ",
    "SATEN",
+   "SATHİ",
    "SATIH",
    "SATIM",
    "SATIR",
@@ -9393,6 +10879,7 @@
    "SEFİH",
    "SEFİL",
    "SEFİR",
+   "SEGAH",
    "SEHER",
    "SEHPA",
    "SEHİM",
@@ -9412,6 +10899,7 @@
    "SELİS",
    "SEMAH",
    "SEMAN",
+   "SEMAİ",
    "SEMEN",
    "SEMER",
    "SEMİH",
@@ -9465,6 +10953,8 @@
    "SICAK",
    "SIFAT",
    "SIFIR",
+   "SIHHİ",
+   "SIHRİ",
    "SIKIL",
    "SIKIM",
    "SIKIN",
@@ -9472,6 +10962,7 @@
    "SIKIŞ",
    "SIKÇA",
    "SINAV",
+   "SINAİ",
    "SINDI",
    "SINIF",
    "SINIK",
@@ -9621,7 +11112,11 @@
    "SÜBYE",
    "SÜCUT",
    "SÜDRE",
+   "SÜFLİ",
    "SÜKSE",
+   "SÜKUN",
+   "SÜKUT",
+   "SÜLUK",
    "SÜLÜK",
    "SÜLÜN",
    "SÜLÜS",
@@ -9666,6 +11161,7 @@
    "SİHİR",
    "SİKKE",
    "SİKLE",
+   "SİLAH",
    "SİLAJ",
    "SİLGİ",
    "SİLKİ",
@@ -9709,6 +11205,7 @@
    "TABYA",
    "TABİP",
    "TABİR",
+   "TABİİ",
    "TACİL",
    "TACİR",
    "TACİZ",
@@ -9737,6 +11234,7 @@
    "TAKVA",
    "TAKİM",
    "TAKİP",
+   "TALAK",
    "TALAN",
    "TALAZ",
    "TALAŞ",
@@ -9834,6 +11332,7 @@
    "TEKİN",
    "TEKİR",
    "TEKİT",
+   "TELAŞ",
    "TELEF",
    "TELEK",
    "TELEM",
@@ -9900,6 +11399,7 @@
    "TEŞNE",
    "TEŞRİ",
    "TEŞYİ",
+   "TIBBİ",
    "TIFIL",
    "TIKAÇ",
    "TIKIM",
@@ -10061,12 +11561,14 @@
    "TİTİZ",
    "UCUBE",
    "UFALA",
+   "UKALA",
    "UKNUM",
    "ULEMA",
    "ULUFE",
    "ULULA",
    "UMACI",
    "UMMAN",
+   "UMUMİ",
    "UNSUR",
    "UNVAN",
    "URGAN",
@@ -10107,6 +11609,7 @@
    "VAHİM",
    "VAHİT",
    "VAHİY",
+   "VAHŞİ",
    "VAKAR",
    "VAKFE",
    "VAKIA",
@@ -10163,6 +11666,7 @@
    "VIRLA",
    "VIZLA",
    "VOKAL",
+   "VOLAN",
    "VOLTA",
    "VONOZ",
    "VOTKA",
@@ -10180,6 +11684,8 @@
    "VÜRUT",
    "VÜSAT",
    "VİDEO",
+   "VİGLA",
+   "VİLLA",
    "VİRAJ",
    "VİRAL",
    "VİRAN",
@@ -10250,6 +11756,7 @@
    "YARAT",
    "YARAŞ",
    "YARDA",
+   "YAREN",
    "YARGI",
    "YARIK",
    "YARIM",
@@ -10303,7 +11810,10 @@
    "YEDEK",
    "YEDİR",
    "YEDİZ",
+   "YEGAH",
+   "YEGAN",
    "YEKTA",
+   "YEKUN",
    "YEKİN",
    "YELEK",
    "YELEÇ",
@@ -10332,6 +11842,7 @@
    "YETİN",
    "YETİR",
    "YETİŞ",
+   "YEVMİ",
    "YEYGİ",
    "YEZİT",
    "YEĞEN",
@@ -10444,10 +11955,12 @@
    "ZEBAN",
    "ZEBRA",
    "ZEBUN",
+   "ZECRİ",
    "ZECİR",
    "ZEFİR",
    "ZEHAP",
    "ZEHİR",
+   "ZEKAT",
    "ZEKER",
    "ZELVE",
    "ZELİL",
@@ -10464,6 +11977,7 @@
    "ZIBIN",
    "ZIHLA",
    "ZIMBA",
+   "ZIMNİ",
    "ZIPIR",
    "ZIPKA",
    "ZIPLA",
@@ -10480,6 +11994,8 @@
    "ZURNA",
    "ZÜBDE",
    "ZÜHUL",
+   "ZÜKAM",
+   "ZÜLAL",
    "ZÜLÜF",
    "ZÜMRE",
    "ZÜPPE",
@@ -10492,9 +12008,12 @@
    "ZİGON",
    "ZİGOT",
    "ZİHAF",
+   "ZİHNİ",
    "ZİHİN",
    "ZİKİR",
+   "ZİMMİ",
    "ZİNDE",
+   "ZİRAİ",
    "ZİRVE",
    "ZİYAN",
    "ÇABUK",
@@ -10802,6 +12321,8 @@
    "ÜŞENÇ",
    "İBARE",
    "İBATE",
+   "İBDAİ",
+   "İBLAĞ",
    "İBLİS",
    "İBRAZ",
    "İBRET",
@@ -10809,7 +12330,9 @@
    "İBZAL",
    "İCBAR",
    "İCMAL",
+   "İDADİ",
    "İDARE",
+   "İDARİ",
    "İDDİA",
    "İDEAL",
    "İDMAN",
@@ -10818,6 +12341,8 @@
    "İFADE",
    "İFFET",
    "İFHAM",
+   "İFLAH",
+   "İFLAS",
    "İFRAT",
    "İFRAZ",
    "İFRAĞ",
@@ -10828,6 +12353,8 @@
    "İHATA",
    "İHBAR",
    "İHDAS",
+   "İHLAL",
+   "İHLAS",
    "İHMAL",
    "İHRAM",
    "İHRAZ",
@@ -10849,6 +12376,9 @@
    "İKRAZ",
    "İKSİR",
    "İKİLE",
+   "İLAHE",
+   "İLAHİ",
+   "İLAVE",
    "İLBAY",
    "İLENÇ",
    "İLERİ",
@@ -10870,6 +12400,7 @@
    "İMBİK",
    "İMDAT",
    "İMECE",
+   "İMKAN",
    "İMLEK",
    "İMLEÇ",
    "İMREN",
@@ -10885,6 +12416,7 @@
    "İNFAK",
    "İNFAZ",
    "İNGİN",
+   "İNKAR",
    "İNSAF",
    "İNSAN",
    "İNTAK",
@@ -10902,6 +12434,7 @@
    "İPUCU",
    "İPİLE",
    "İRADE",
+   "İRADİ",
    "İRFAN",
    "İRKİL",
    "İRMİK",
@@ -10912,6 +12445,7 @@
    "İRŞAT",
    "İSALE",
    "İSHAL",
+   "İSKAN",
    "İSLİM",
    "İSMEN",
    "İSMET",
@@ -10933,13 +12467,16 @@
    "İTHAF",
    "İTHAL",
    "İTHAM",
+   "İTLAF",
    "İTLEN",
    "İTMAM",
+   "İTİLA",
    "İTİNA",
    "İVEDİ",
    "İVESİ",
    "İZABE",
    "İZAFE",
+   "İZAFİ",
    "İZALE",
    "İZHAR",
    "İZLEK",
@@ -10957,7 +12494,9 @@
    "İĞDİŞ",
    "İĞFAL",
    "İĞREN",
+   "İŞARİ",
    "İŞGAL",
+   "İŞKAL",
    "İŞKİL",
    "İŞLEK",
    "İŞLEM",
@@ -10991,6 +12530,7 @@
    "ŞAPLA",
    "ŞARAP",
    "ŞARKI",
+   "ŞARKİ",
    "ŞARLA",
    "ŞARPİ",
    "ŞARYO",
@@ -11011,14 +12551,17 @@
    "ŞEDDE",
    "ŞEDİT",
    "ŞEFİK",
+   "ŞEHLA",
    "ŞEHİR",
    "ŞEHİT",
    "ŞEKEL",
    "ŞEKER",
+   "ŞEKLİ",
    "ŞEKVA",
    "ŞEKİL",
    "ŞELEK",
    "ŞEMSE",
+   "ŞEMSİ",
    "ŞENEL",
    "ŞEPİT",
    "ŞERAN",
@@ -11053,6 +12596,7 @@
    "ŞİFLE",
    "ŞİFON",
    "ŞİFRE",
+   "ŞİKAR",
    "ŞİLEM",
    "ŞİLEP",
    "ŞİLTE",
@@ -11070,1504 +12614,2092 @@
   ],
   "puzzles": [
    [
-    "YALAN",
-    "KABAK",
-    3
-   ],
-   [
-    "KANAT",
-    "YAZAR",
-    4
-   ],
-   [
-    "MAKAS",
-    "YILAN",
-    5
-   ],
-   [
-    "FİKİR",
-    "DEMİR",
-    5
-   ],
-   [
-    "KAPAK",
-    "YANIT",
-    4
-   ],
-   [
-    "KONAK",
-    "TARİH",
-    5
-   ],
-   [
-    "ÇELİK",
-    "KAPAK",
-    5
-   ],
-   [
-    "DOLAP",
-    "TOHUM",
-    5
-   ],
-   [
+    "BAYIR",
     "BAKIM",
-    "SALON",
-    4
+    2,
+    "kolay"
    ],
    [
-    "BALIK",
-    "TARİH",
-    5
-   ],
-   [
-    "MASAL",
-    "TARİH",
-    5
-   ],
-   [
-    "BADEM",
-    "KABAK",
-    5
-   ],
-   [
-    "MEKAN",
-    "MASAL",
-    5
-   ],
-   [
-    "SATIR",
-    "KAYIK",
-    3
-   ],
-   [
-    "TENİS",
-    "BEYİN",
-    5
-   ],
-   [
-    "AYRAN",
-    "AHLAK",
-    3
-   ],
-   [
-    "KAYIP",
-    "SATIR",
-    3
-   ],
-   [
-    "BAYAT",
-    "ÇATAL",
-    5
-   ],
-   [
-    "GİRİŞ",
-    "KİLİM",
-    4
-   ],
-   [
-    "BİLİM",
-    "NEHİR",
-    5
-   ],
-   [
-    "KEMAN",
-    "DEMİR",
-    5
-   ],
-   [
-    "BİLİM",
-    "BALIK",
-    5
-   ],
-   [
-    "SINIF",
-    "BALIK",
-    4
-   ],
-   [
-    "TATİL",
-    "TABAK",
-    5
-   ],
-   [
-    "ÇELİK",
-    "ŞEKER",
-    4
-   ],
-   [
-    "BEYAZ",
-    "YALAN",
-    4
-   ],
-   [
-    "FİKİR",
-    "ZEHİR",
-    4
-   ],
-   [
-    "HAMUR",
+    "KAZAK",
     "TAVUK",
-    5
+    3,
+    "orta"
    ],
    [
-    "KALEM",
-    "KANAL",
-    5
-   ],
-   [
-    "TAKIM",
-    "BALIK",
-    4
-   ],
-   [
-    "YANIT",
-    "KADIN",
-    4
-   ],
-   [
-    "ZAMAN",
-    "KANAL",
-    4
-   ],
-   [
-    "BALIK",
-    "YAKIN",
-    4
-   ],
-   [
-    "ÇAYIR",
+    "HAYAL",
     "KABAK",
-    4
+    5,
+    "zor"
    ],
    [
-    "KANAT",
-    "BAHAR",
-    5
-   ],
-   [
-    "TATİL",
-    "KAYIK",
-    4
-   ],
-   [
-    "ÇELİK",
-    "BİLİM",
-    4
-   ],
-   [
-    "KABAK",
-    "YILAN",
-    4
-   ],
-   [
-    "ÇELİK",
-    "MERAK",
-    4
-   ],
-   [
-    "SİNEK",
-    "GİRİŞ",
-    5
-   ],
-   [
-    "TABAK",
-    "BAHAR",
-    5
-   ],
-   [
-    "DURAK",
-    "KAPAK",
-    4
-   ],
-   [
-    "KANAL",
     "YALAN",
-    4
+    "FİDAN",
+    3,
+    "orta"
    ],
    [
-    "SİNEK",
-    "TEMEL",
-    5
+    "YAKIN",
+    "BAKIM",
+    2,
+    "kolay"
    ],
    [
-    "TUZAK",
-    "DUVAR",
-    5
+    "RESİM",
+    "ÇEKİÇ",
+    5,
+    "zor"
    ],
    [
-    "ÇATAL",
-    "ÇAYIR",
-    4
+    "SATIR",
+    "KALEM",
+    4,
+    "orta"
    ],
    [
-    "HAYAT",
-    "KAZAK",
-    4
-   ],
-   [
-    "HAMUR",
-    "TAVAN",
-    5
-   ],
-   [
+    "YILAN",
     "SANAT",
-    "SARAY",
-    2
-   ],
-   [
-    "KAZAK",
-    "VATAN",
-    5
-   ],
-   [
-    "BAKIR",
-    "SANAT",
-    5
+    5,
+    "zor"
    ],
    [
     "DİKEN",
-    "ÇİÇEK",
-    4
+    "KEMAN",
+    6,
+    "zor"
    ],
    [
-    "KAYIK",
-    "SOKAK",
-    4
-   ],
-   [
-    "TABAK",
-    "KAZAK",
-    2
-   ],
-   [
-    "KUMAŞ",
-    "KAĞIT",
-    5
-   ],
-   [
-    "SAHİL",
-    "ÇELİK",
-    5
-   ],
-   [
-    "SANAT",
-    "KANAL",
-    2
-   ],
-   [
-    "ÇABUK",
-    "TATİL",
-    5
-   ],
-   [
-    "SAHİL",
-    "KAZAK",
-    5
-   ],
-   [
-    "YAZAR",
-    "ZAYIF",
-    5
-   ],
-   [
-    "TARAK",
-    "BAKIM",
-    5
-   ],
-   [
-    "YAZAR",
-    "BAKIM",
-    5
-   ],
-   [
-    "DENİZ",
-    "ÇELİK",
-    5
-   ],
-   [
-    "VATAN",
-    "YAKIN",
-    4
-   ],
-   [
-    "HAZIR",
-    "HAYAT",
-    3
-   ],
-   [
-    "MERAK",
-    "KURAL",
-    4
-   ],
-   [
-    "KUMAŞ",
-    "KAPAK",
-    5
-   ],
-   [
-    "METAL",
-    "MASAL",
-    3
-   ],
-   [
-    "SANAT",
-    "YATAK",
-    4
-   ],
-   [
-    "YILAN",
-    "SABAH",
-    4
-   ],
-   [
-    "BEYİN",
-    "TEMİZ",
-    4
-   ],
-   [
-    "ÇORAP",
-    "BURUN",
-    5
-   ],
-   [
-    "TARAK",
-    "BEYİN",
-    5
-   ],
-   [
-    "YANIT",
-    "SOKAK",
-    5
-   ],
-   [
-    "KADIN",
-    "SABAH",
-    5
-   ],
-   [
-    "SAHİL",
-    "YAZAR",
-    5
-   ],
-   [
-    "YALAN",
-    "MEKAN",
-    5
-   ],
-   [
-    "YEMEK",
-    "HEDEF",
-    5
-   ],
-   [
-    "KADIN",
-    "KONAK",
-    5
-   ],
-   [
-    "KAZAK",
-    "SARAY",
-    3
-   ],
-   [
-    "SARAY",
-    "TAKIM",
-    5
-   ],
-   [
-    "ÇEKİÇ",
-    "NEHİR",
-    5
-   ],
-   [
-    "ÇİLEK",
-    "NİYET",
-    5
-   ],
-   [
-    "YAZAR",
-    "NEHİR",
-    4
-   ],
-   [
-    "SAHİL",
-    "KANAL",
-    4
-   ],
-   [
-    "TAVAN",
-    "DAVUL",
-    4
-   ],
-   [
-    "ZAMAN",
-    "KAYAK",
-    4
-   ],
-   [
-    "BAYAT",
-    "YALAN",
-    3
-   ],
-   [
-    "DUDAK",
-    "YALAN",
-    5
-   ],
-   [
-    "KEMİK",
-    "SEPET",
-    5
-   ],
-   [
-    "KONAK",
-    "DAMAR",
-    5
-   ],
-   [
-    "KAYIT",
-    "ÇATAL",
-    5
-   ],
-   [
-    "HAMUR",
-    "KAVUN",
-    4
-   ],
-   [
-    "KONAK",
-    "KANAL",
-    5
-   ],
-   [
-    "DAVUL",
-    "TAVUK",
-    5
-   ],
-   [
-    "ÇELİK",
-    "YATAK",
-    5
-   ],
-   [
-    "YALAN",
-    "ÇORAP",
-    5
-   ],
-   [
-    "PAZAR",
-    "KADIN",
-    5
-   ],
-   [
-    "ÇELİK",
-    "DİREK",
-    4
-   ],
-   [
-    "TARAK",
-    "ÇABUK",
-    4
-   ],
-   [
-    "KAPAK",
-    "BAHAR",
-    4
-   ],
-   [
-    "FİKİR",
-    "ŞEHİR",
-    5
-   ],
-   [
-    "HAZIR",
-    "KAZAK",
-    3
-   ],
-   [
-    "ÇELİK",
-    "BALIK",
-    5
-   ],
-   [
-    "BİBER",
-    "MELEK",
-    5
-   ],
-   [
-    "YILAN",
+    "SABUN",
     "KAYIP",
-    5
+    5,
+    "zor"
    ],
    [
-    "YATAK",
-    "KONAK",
-    5
-   ],
-   [
-    "YAKIN",
-    "BEYAZ",
-    5
-   ],
-   [
-    "KALEM",
-    "BEBEK",
-    4
-   ],
-   [
-    "KÖPEK",
-    "YEMEK",
-    4
-   ],
-   [
-    "BAKIM",
-    "KALEM",
-    3
-   ],
-   [
-    "KAĞIT",
-    "KAVUN",
-    5
-   ],
-   [
-    "BALIK",
-    "BAKIM",
-    3
-   ],
-   [
-    "KAYIK",
-    "KAZAK",
-    2
-   ],
-   [
-    "KAYIK",
-    "YAKIN",
-    3
-   ],
-   [
-    "ÇABUK",
-    "SABAH",
-    5
-   ],
-   [
-    "ÇAYIR",
-    "VAPUR",
-    5
-   ],
-   [
-    "GÜVEN",
-    "GELİN",
-    3
-   ],
-   [
-    "KABAK",
-    "BEYİN",
-    5
-   ],
-   [
-    "PAZAR",
-    "BAKIR",
-    5
-   ],
-   [
-    "KAPAK",
-    "BEYAZ",
-    5
-   ],
-   [
-    "KAPAK",
-    "TATİL",
-    5
-   ],
-   [
-    "HAZIR",
-    "KADIN",
-    3
-   ],
-   [
-    "HAYAL",
-    "PAMUK",
-    5
-   ],
-   [
-    "TAVUK",
-    "ÇAMUR",
-    5
-   ],
-   [
-    "TAVAN",
-    "VİRAJ",
-    4
-   ],
-   [
-    "KAĞIT",
-    "YAKIN",
-    4
-   ],
-   [
-    "KAYIP",
-    "DAMAR",
-    5
-   ],
-   [
-    "SATIR",
-    "BAHAR",
-    3
-   ],
-   [
-    "BAYAT",
-    "TAVAN",
-    4
-   ],
-   [
-    "YILAN",
-    "BAKIM",
-    5
-   ],
-   [
-    "NEHİR",
-    "FİKİR",
-    5
-   ],
-   [
-    "BAYAT",
-    "VATAN",
-    4
-   ],
-   [
-    "BANKA",
-    "PASTA",
-    5
-   ],
-   [
-    "FİDAN",
-    "TABAK",
-    5
-   ],
-   [
-    "HAVUZ",
-    "DAVUL",
-    5
-   ],
-   [
-    "ÇEKİÇ",
-    "BEYİN",
-    3
-   ],
-   [
-    "KAĞIT",
-    "KADIN",
-    3
-   ],
-   [
-    "SARAY",
-    "YAKIN",
-    5
-   ],
-   [
-    "GELİN",
-    "DİLEK",
-    5
-   ],
-   [
-    "PAMUK",
-    "MASAL",
-    5
-   ],
-   [
-    "TATİL",
-    "KALEM",
-    5
-   ],
-   [
-    "TEMEL",
-    "GÜVEN",
-    5
-   ],
-   [
-    "ÇORAP",
-    "TARİH",
-    5
-   ],
-   [
-    "TAKIM",
-    "TAVAN",
-    4
-   ],
-   [
-    "TABAK",
-    "BAYIR",
-    5
-   ],
-   [
-    "ÇAYIR",
-    "SALON",
-    5
-   ],
-   [
-    "KAPAK",
-    "BAKIR",
-    5
-   ],
-   [
-    "MASAL",
-    "ÇATAL",
-    5
-   ],
-   [
-    "KAYAK",
-    "BAYAT",
-    3
-   ],
-   [
-    "HAVUZ",
-    "KAVUN",
-    2
-   ],
-   [
-    "VİRAJ",
-    "BAYAT",
-    5
-   ],
-   [
-    "DUDAK",
-    "KAYAK",
-    5
-   ],
-   [
-    "ÇİLEK",
-    "KİLİM",
-    5
-   ],
-   [
-    "SOKAK",
-    "VATAN",
-    5
-   ],
-   [
-    "YATAK",
-    "SALON",
-    5
-   ],
-   [
-    "KAYIK",
-    "MISIR",
-    4
-   ],
-   [
-    "FİDAN",
-    "YILAN",
-    4
-   ],
-   [
-    "TAVAN",
-    "BIÇAK",
-    5
-   ],
-   [
-    "TAVAN",
-    "BALIK",
-    5
-   ],
-   [
-    "ZAMAN",
-    "YILAN",
-    3
-   ],
-   [
-    "KADIN",
-    "BEYİN",
-    5
-   ],
-   [
-    "TABAK",
-    "KUMAŞ",
-    5
-   ],
-   [
-    "KAYIP",
-    "KALEM",
-    3
-   ],
-   [
-    "KAYAK",
-    "HAYAL",
-    4
-   ],
-   [
-    "SINIF",
-    "SARAY",
-    5
-   ],
-   [
-    "MASAL",
-    "KAYIT",
-    5
-   ],
-   [
-    "HAZIR",
-    "KALEM",
-    4
+    "KANAL",
+    "SAHİL",
+    4,
+    "orta"
    ],
    [
     "ŞEKER",
-    "BAKIR",
-    4
+    "KÖPEK",
+    6,
+    "zor"
    ],
    [
-    "SOKAK",
-    "KAZAK",
-    3
-   ],
-   [
-    "SATIR",
-    "PAMUK",
-    5
-   ],
-   [
-    "DURAK",
-    "BURUN",
-    3
-   ],
-   [
-    "YILAN",
-    "BEYİN",
-    5
-   ],
-   [
-    "KİLİM",
-    "DİLEK",
-    4
-   ],
-   [
-    "KAYAK",
-    "ÇABUK",
-    3
-   ],
-   [
-    "BAYAT",
-    "MELEK",
-    5
-   ],
-   [
-    "ÇATAL",
-    "KABAK",
-    4
-   ],
-   [
-    "SOKAK",
-    "KANAT",
-    4
-   ],
-   [
-    "ÇAMUR",
-    "HAVUÇ",
-    4
-   ],
-   [
-    "TARİH",
-    "TAKIM",
-    4
-   ],
-   [
-    "MELEK",
-    "BÖREK",
-    5
-   ],
-   [
-    "BAYIR",
-    "KAYAK",
-    3
-   ],
-   [
-    "GELİN",
-    "TENİS",
-    3
-   ],
-   [
-    "KAYIK",
-    "ÇABUK",
-    4
-   ],
-   [
-    "BAYAT",
-    "SANAT",
-    5
-   ],
-   [
-    "TABAK",
-    "SANAT",
-    4
-   ],
-   [
-    "ÇAMUR",
-    "KAVUN",
-    4
-   ],
-   [
-    "KAPAK",
-    "TARİH",
-    5
-   ],
-   [
-    "TAVAN",
-    "DOLAP",
-    4
-   ],
-   [
-    "MASAL",
-    "HAMUR",
-    5
-   ],
-   [
-    "TEMEL",
-    "ZEHİR",
-    5
-   ],
-   [
-    "MERAK",
-    "BEBEK",
-    4
-   ],
-   [
-    "TAVAN",
-    "YANIT",
-    5
-   ],
-   [
-    "KAZAK",
     "FIRIN",
-    5
+    "KAYIT",
+    4,
+    "orta"
    ],
    [
-    "YEMEK",
-    "ÇİÇEK",
-    4
-   ],
-   [
-    "SOKAK",
-    "TAVAN",
-    4
-   ],
-   [
-    "YANIT",
-    "TAKIM",
-    3
-   ],
-   [
-    "KANAT",
-    "ZAYIF",
-    5
-   ],
-   [
-    "KONAK",
-    "DURAK",
-    5
-   ],
-   [
-    "SOKAK",
-    "MERAK",
-    4
-   ],
-   [
-    "KAYAK",
-    "ÇAYIR",
-    3
-   ],
-   [
-    "GELİN",
-    "FİKİR",
-    5
-   ],
-   [
-    "YANIT",
-    "BAKIR",
-    4
-   ],
-   [
-    "SATIR",
-    "YATAK",
-    3
-   ],
-   [
-    "YANIT",
-    "HAZIR",
-    4
-   ],
-   [
-    "SABAH",
-    "YATAK",
-    5
-   ],
-   [
-    "GÜMÜŞ",
-    "YÜREK",
-    5
-   ],
-   [
-    "YALAN",
-    "ÇOBAN",
-    4
-   ],
-   [
-    "BAYAT",
-    "YAKIN",
-    4
-   ],
-   [
-    "YATAK",
-    "KURAL",
-    5
-   ],
-   [
-    "MERAK",
-    "DESEN",
-    5
-   ],
-   [
-    "HAZIR",
-    "MISIR",
-    4
-   ],
-   [
-    "YAKIN",
-    "KAYIP",
-    3
-   ],
-   [
-    "MERAK",
-    "KÖPEK",
-    5
-   ],
-   [
-    "TARİH",
-    "ÇELİK",
-    5
-   ],
-   [
-    "YAKIN",
-    "BAYIR",
-    3
-   ],
-   [
-    "SARAY",
-    "KAĞIT",
-    5
-   ],
-   [
-    "TABAK",
-    "SOKAK",
-    4
-   ],
-   [
-    "KAYAK",
     "ÇATAL",
-    4
+    "YAKIN",
+    4,
+    "zor"
    ],
    [
-    "DENİZ",
-    "KEMİK",
-    5
+    "YAKIN",
+    "METAL",
+    6,
+    "zor"
    ],
    [
-    "BEYİN",
-    "BAKIR",
-    5
+    "SİNEK",
+    "TENİS",
+    6,
+    "zor"
    ],
    [
-    "BIÇAK",
-    "KANAL",
-    5
+    "PERDE",
+    "TEPKİ",
+    6,
+    "zor"
    ],
    [
-    "KAZAK",
-    "KEMİK",
-    5
-   ],
-   [
-    "SATIR",
-    "SABAH",
-    4
+    "SİNEK",
+    "DİREK",
+    2,
+    "kolay"
    ],
    [
     "KABAK",
-    "SATIR",
-    4
+    "KAYIP",
+    3,
+    "orta"
    ],
    [
-    "ÇATAL",
-    "KAPAK",
-    3
-   ],
-   [
-    "BAKIR",
-    "TAKIM",
-    2
-   ],
-   [
+    "KADIN",
     "ZAMAN",
-    "YAZAR",
-    4
+    5,
+    "zor"
    ],
    [
-    "KÖPEK",
-    "KOYUN",
-    5
-   ],
-   [
-    "MADEN",
-    "KAYAK",
-    5
-   ],
-   [
-    "DAVUL",
-    "YALAN",
-    5
-   ],
-   [
-    "YALAN",
-    "TUZAK",
-    5
-   ],
-   [
-    "SEPET",
-    "DİLEK",
-    5
-   ],
-   [
-    "BAKIR",
-    "MAKAS",
-    4
-   ],
-   [
-    "YALAN",
-    "MASAL",
-    4
-   ],
-   [
-    "ZAMAN",
-    "SARAY",
-    5
-   ],
-   [
-    "BAYIR",
-    "SALON",
-    5
-   ],
-   [
-    "KEMİK",
-    "DİLEK",
-    5
-   ],
-   [
-    "ÇATAL",
-    "TUZAK",
-    5
-   ],
-   [
-    "PAZAR",
-    "YALAN",
-    4
+    "HAZIR",
+    "MERAK",
+    6,
+    "zor"
    ],
    [
     "MELEK",
-    "BALIK",
-    5
+    "TAKIM",
+    6,
+    "zor"
    ],
    [
-    "KAYIP",
-    "KUMAŞ",
-    4
+    "YÜZÜK",
+    "YÜREK",
+    2,
+    "kolay"
    ],
    [
     "YEMEK",
-    "KEMİK",
-    4
-   ],
-   [
-    "GELİN",
     "TEMEL",
-    5
+    2,
+    "kolay"
    ],
    [
-    "BIÇAK",
-    "YATAK",
-    4
+    "ÇABUK",
+    "TABAK",
+    3,
+    "orta"
    ],
    [
-    "KURAL",
+    "TARAK",
     "KAPAK",
-    4
-   ],
-   [
-    "ŞEHİR",
-    "SATIR",
-    5
-   ],
-   [
-    "KAYIP",
-    "BEYAZ",
-    5
-   ],
-   [
-    "KURAL",
-    "MASAL",
-    4
-   ],
-   [
-    "BAYAT",
-    "ZAMAN",
-    4
-   ],
-   [
-    "BEYAZ",
-    "BAYAT",
-    3
-   ],
-   [
-    "TATİL",
-    "KAYAK",
-    5
+    3,
+    "kolay"
    ],
    [
     "HAYAT",
-    "YANIT",
-    4
+    "KANAL",
+    5,
+    "zor"
    ],
    [
-    "HAVUÇ",
-    "MASAL",
-    5
+    "DİLEK",
+    "SİNEK",
+    2,
+    "kolay"
+   ],
+   [
+    "KAPAK",
+    "KANAT",
+    2,
+    "kolay"
+   ],
+   [
+    "KAZAK",
+    "KAVUN",
+    3,
+    "orta"
+   ],
+   [
+    "KONAK",
+    "KAPAK",
+    3,
+    "kolay"
+   ],
+   [
+    "ZAYIF",
+    "BAYIR",
+    3,
+    "orta"
+   ],
+   [
+    "KAYAK",
+    "YALAN",
+    3,
+    "orta"
+   ],
+   [
+    "TERZİ",
+    "DERGİ",
+    3,
+    "orta"
    ],
    [
     "SOKAK",
-    "BALIK",
-    4
+    "TATİL",
+    6,
+    "zor"
    ],
    [
-    "HEDEF",
-    "SİNEK",
-    5
+    "YALAN",
+    "TARAK",
+    3,
+    "kolay"
    ],
    [
-    "BADEM",
-    "KAYIK",
-    5
+    "YALAN",
+    "KADIN",
+    3,
+    "orta"
    ],
    [
-    "ZAMAN",
-    "YATAK",
-    3
+    "SABUN",
+    "ÇAMUR",
+    3,
+    "orta"
+   ],
+   [
+    "AHLAK",
+    "ANLAM",
+    2,
+    "kolay"
    ],
    [
     "SEPET",
-    "YEMEK",
-    4
+    "SİNEK",
+    3,
+    "orta"
    ],
    [
-    "ÇİÇEK",
-    "TEMEL",
-    5
+    "KONAK",
+    "SOKAK",
+    2,
+    "kolay"
+   ],
+   [
+    "YILAN",
+    "TARAK",
+    4,
+    "orta"
+   ],
+   [
+    "ÇİLEK",
+    "BALIK",
+    6,
+    "zor"
+   ],
+   [
+    "ÇELİK",
+    "MELEK",
+    2,
+    "kolay"
+   ],
+   [
+    "BAYIR",
+    "SATIR",
+    2,
+    "kolay"
+   ],
+   [
+    "VATAN",
+    "DOLAP",
+    6,
+    "zor"
+   ],
+   [
+    "ÇİLEK",
+    "DİKEN",
+    3,
+    "orta"
+   ],
+   [
+    "KONAK",
+    "TAVUK",
+    4,
+    "zor"
+   ],
+   [
+    "KONAK",
+    "SABAH",
+    6,
+    "zor"
+   ],
+   [
+    "BAHAR",
+    "PAZAR",
+    4,
+    "orta"
+   ],
+   [
+    "BAHAR",
+    "FİKİR",
+    4,
+    "orta"
+   ],
+   [
+    "TABAK",
+    "KAYAK",
+    2,
+    "kolay"
+   ],
+   [
+    "TAVUK",
+    "HAVUÇ",
+    4,
+    "orta"
+   ],
+   [
+    "YATAK",
+    "BAKIR",
+    4,
+    "orta"
+   ],
+   [
+    "KANAT",
+    "KAYIP",
+    3,
+    "orta"
+   ],
+   [
+    "YANIT",
+    "KANAL",
+    3,
+    "orta"
+   ],
+   [
+    "BAKIR",
+    "ÇAYIR",
+    2,
+    "kolay"
+   ],
+   [
+    "BEYİN",
+    "KAYIP",
+    5,
+    "zor"
+   ],
+   [
+    "ÇELİK",
+    "ÇEKİÇ",
+    2,
+    "kolay"
+   ],
+   [
+    "YATAK",
+    "SANAT",
+    4,
+    "orta"
+   ],
+   [
+    "BAYAT",
+    "KAYIT",
+    3,
+    "orta"
    ],
    [
     "KAYIT",
-    "ZAYIF",
-    3
+    "BAYIR",
+    2,
+    "kolay"
    ],
    [
-    "KAYAK",
-    "BIÇAK",
-    5
+    "ÇELİK",
+    "BAYAT",
+    6,
+    "zor"
+   ],
+   [
+    "MERAK",
+    "METAL",
+    2,
+    "kolay"
+   ],
+   [
+    "CEVAP",
+    "TARAK",
+    5,
+    "zor"
+   ],
+   [
+    "BİLİM",
+    "FİKİR",
+    3,
+    "orta"
+   ],
+   [
+    "PAZAR",
+    "HAZIR",
+    2,
+    "kolay"
+   ],
+   [
+    "SAHİL",
+    "PAZAR",
+    6,
+    "zor"
+   ],
+   [
+    "SABAH",
+    "ZAMAN",
+    3,
+    "orta"
+   ],
+   [
+    "BAKIM",
+    "ÇAYIR",
+    3,
+    "kolay"
+   ],
+   [
+    "YAKIN",
+    "YILAN",
+    3,
+    "orta"
    ],
    [
     "TAKIM",
-    "BALON",
-    5
+    "BAKIR",
+    2,
+    "kolay"
    ],
    [
-    "TABLO",
-    "BANKA",
-    4
+    "KEMAN",
+    "KAZAK",
+    5,
+    "zor"
+   ],
+   [
+    "KAYIP",
+    "SATIR",
+    3,
+    "orta"
+   ],
+   [
+    "SALON",
+    "KAYIT",
+    4,
+    "orta"
+   ],
+   [
+    "ÇAMUR",
+    "SAHİL",
+    6,
+    "zor"
+   ],
+   [
+    "TABAK",
+    "YALAN",
+    3,
+    "kolay"
+   ],
+   [
+    "HAYAL",
+    "BAYAT",
+    2,
+    "kolay"
    ],
    [
     "KALEM",
-    "BEDEN",
-    5
+    "HEDEF",
+    5,
+    "zor"
    ],
    [
-    "MAKAS",
-    "BAKIM",
-    3
+    "DİREK",
+    "ÇİLEK",
+    2,
+    "kolay"
+   ],
+   [
+    "YATAK",
+    "KAPAK",
+    2,
+    "kolay"
+   ],
+   [
+    "ANLAM",
+    "ALTIN",
+    5,
+    "zor"
+   ],
+   [
+    "METAL",
+    "MEKAN",
+    2,
+    "kolay"
+   ],
+   [
+    "PAMUK",
+    "KAYIP",
+    6,
+    "zor"
+   ],
+   [
+    "SOKAK",
+    "KÖPEK",
+    6,
+    "zor"
+   ],
+   [
+    "SATIR",
+    "YANIT",
+    4,
+    "orta"
+   ],
+   [
+    "KAYIP",
+    "KADIN",
+    2,
+    "kolay"
+   ],
+   [
+    "SATIR",
+    "ÇAYIR",
+    3,
+    "kolay"
+   ],
+   [
+    "SABUN",
+    "TABAK",
+    3,
+    "orta"
+   ],
+   [
+    "BURUN",
+    "KÖPEK",
+    6,
+    "zor"
+   ],
+   [
+    "YEMEK",
+    "SEPET",
+    4,
+    "zor"
+   ],
+   [
+    "BAYIR",
+    "KAPAK",
+    4,
+    "orta"
+   ],
+   [
+    "DOLAP",
+    "TARAK",
+    4,
+    "zor"
+   ],
+   [
+    "MERAK",
+    "YEMEK",
+    4,
+    "orta"
+   ],
+   [
+    "BAYAT",
+    "TARAK",
+    4,
+    "orta"
+   ],
+   [
+    "TARAK",
+    "KAZAK",
+    3,
+    "kolay"
+   ],
+   [
+    "KAYIP",
+    "TARAK",
+    5,
+    "zor"
+   ],
+   [
+    "YAKIN",
+    "TAKIM",
+    2,
+    "kolay"
+   ],
+   [
+    "KAĞIT",
+    "KAYIK",
+    2,
+    "kolay"
+   ],
+   [
+    "ZEHİR",
+    "NEFES",
+    4,
+    "orta"
+   ],
+   [
+    "ÇELİK",
+    "DİLEK",
+    3,
+    "orta"
+   ],
+   [
+    "CEVAP",
+    "MELEK",
+    6,
+    "zor"
+   ],
+   [
+    "KÖPEK",
+    "YEMEK",
+    4,
+    "zor"
+   ],
+   [
+    "VİRAJ",
+    "BIÇAK",
+    6,
+    "zor"
+   ],
+   [
+    "SATIR",
+    "HAVUZ",
+    6,
+    "zor"
+   ],
+   [
+    "YILAN",
+    "KAPAK",
+    4,
+    "orta"
+   ],
+   [
+    "KAPAK",
+    "KAYIK",
+    2,
+    "kolay"
    ],
    [
     "KAYAK",
-    "KURAL",
-    4
+    "BAKIR",
+    4,
+    "orta"
+   ],
+   [
+    "ÇELİK",
+    "ÇİÇEK",
+    3,
+    "orta"
+   ],
+   [
+    "KAYIT",
+    "YANIT",
+    2,
+    "kolay"
+   ],
+   [
+    "ZAYIF",
+    "YATAK",
+    6,
+    "zor"
+   ],
+   [
+    "YALAN",
+    "ZAMAN",
+    2,
+    "kolay"
+   ],
+   [
+    "BAYIR",
+    "KAZAK",
+    4,
+    "orta"
+   ],
+   [
+    "KAZAK",
+    "KAYIK",
+    2,
+    "kolay"
+   ],
+   [
+    "YEMEK",
+    "MELEK",
+    2,
+    "kolay"
+   ],
+   [
+    "KAYIT",
+    "BAKIM",
+    4,
+    "orta"
+   ],
+   [
+    "KAYIK",
+    "FİKİR",
+    6,
+    "zor"
+   ],
+   [
+    "TUZAK",
+    "BALIK",
+    6,
+    "zor"
+   ],
+   [
+    "DİLEK",
+    "ÇİÇEK",
+    2,
+    "kolay"
+   ],
+   [
+    "SANAT",
+    "YALAN",
+    4,
+    "orta"
+   ],
+   [
+    "PAMUK",
+    "ÇAMUR",
+    5,
+    "zor"
+   ],
+   [
+    "BİLİM",
+    "BAKIM",
+    5,
+    "zor"
+   ],
+   [
+    "BAYIR",
+    "KAYIP",
+    2,
+    "kolay"
+   ],
+   [
+    "KAYIP",
+    "KAYAK",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇATAL",
+    "TUZAK",
+    5,
+    "zor"
+   ],
+   [
+    "SİNEK",
+    "BİBER",
+    3,
+    "orta"
+   ],
+   [
+    "ÇİÇEK",
+    "ÇEKİÇ",
+    5,
+    "zor"
+   ],
+   [
+    "KADIN",
+    "YAKIN",
+    3,
+    "kolay"
+   ],
+   [
+    "AHLAK",
+    "AYRAN",
+    3,
+    "orta"
+   ],
+   [
+    "BAKIM",
+    "MASAL",
+    5,
+    "zor"
+   ],
+   [
+    "KEMİK",
+    "ÇİLEK",
+    4,
+    "orta"
+   ],
+   [
+    "KEMAN",
+    "KEMİK",
+    6,
+    "zor"
+   ],
+   [
+    "KABAK",
+    "NEHİR",
+    6,
+    "zor"
+   ],
+   [
+    "KAPAK",
+    "BAKIR",
+    5,
+    "zor"
+   ],
+   [
+    "HAZIR",
+    "BAYIR",
+    2,
+    "kolay"
+   ],
+   [
+    "SAYFA",
+    "YAYLA",
+    2,
+    "kolay"
+   ],
+   [
+    "KEMİK",
+    "DEMİR",
+    2,
+    "kolay"
+   ],
+   [
+    "KEMAN",
+    "KADIN",
+    6,
+    "zor"
+   ],
+   [
+    "KAZAK",
+    "SİNEK",
+    6,
+    "zor"
+   ],
+   [
+    "MERAK",
+    "SABUN",
+    6,
+    "zor"
+   ],
+   [
+    "DİKEN",
+    "DİLEK",
+    2,
+    "kolay"
+   ],
+   [
+    "MAKAS",
+    "ÇAMUR",
+    5,
+    "zor"
+   ],
+   [
+    "KAZAK",
+    "HAYAT",
+    4,
+    "zor"
+   ],
+   [
+    "MASAL",
+    "MERAK",
+    3,
+    "orta"
    ],
    [
     "TAVAN",
-    "TABAK",
-    2
+    "KABAK",
+    3,
+    "orta"
+   ],
+   [
+    "KEMİK",
+    "NEHİR",
+    4,
+    "orta"
+   ],
+   [
+    "TATİL",
+    "TARAK",
+    4,
+    "orta"
+   ],
+   [
+    "HAMUR",
+    "SABUN",
+    3,
+    "orta"
+   ],
+   [
+    "TARİH",
+    "ÇATAL",
+    6,
+    "zor"
+   ],
+   [
+    "SANAT",
+    "FİDAN",
+    6,
+    "zor"
+   ],
+   [
+    "TAVAN",
+    "ÇOBAN",
+    6,
+    "zor"
+   ],
+   [
+    "BEBEK",
+    "MELEK",
+    2,
+    "kolay"
    ],
    [
     "TAVAN",
     "SABUN",
-    3
-   ],
-   [
-    "KAĞIT",
-    "MISIR",
-    4
-   ],
-   [
-    "MAKAS",
-    "BADEM",
-    4
-   ],
-   [
-    "KEMİK",
-    "PETEK",
-    4
-   ],
-   [
-    "HAMUR",
-    "KANAT",
-    5
-   ],
-   [
-    "TAVUK",
-    "SARAY",
-    5
-   ],
-   [
-    "DUVAR",
-    "KURAL",
-    4
-   ],
-   [
-    "MAKAS",
-    "KAZAK",
-    3
-   ],
-   [
-    "HAYAL",
-    "HAVUÇ",
-    5
-   ],
-   [
-    "SABAH",
-    "SANAT",
-    4
-   ],
-   [
-    "BEDEN",
-    "ÇİLEK",
-    4
-   ],
-   [
-    "YÜREK",
-    "YEMEK",
-    5
-   ],
-   [
-    "SEPET",
-    "BEDEN",
-    5
-   ],
-   [
-    "DAMAR",
-    "DURAK",
-    4
-   ],
-   [
-    "BEYAZ",
-    "YILAN",
-    5
-   ],
-   [
-    "ÇAYIR",
-    "ZAYIF",
-    3
+    3,
+    "kolay"
    ],
    [
     "ÇELİK",
-    "KAYAK",
-    5
+    "ÇİLEK",
+    2,
+    "kolay"
    ],
    [
-    "BEBEK",
-    "ÇEKİÇ",
-    5
+    "ÇELİK",
+    "SİNEK",
+    4,
+    "orta"
+   ],
+   [
+    "TAVUK",
+    "KAVUN",
+    2,
+    "kolay"
+   ],
+   [
+    "KANAT",
+    "KAYIT",
+    2,
+    "kolay"
+   ],
+   [
+    "SABAH",
+    "KAYAK",
+    4,
+    "orta"
+   ],
+   [
+    "KİLİM",
+    "KONAK",
+    5,
+    "zor"
+   ],
+   [
+    "ÇİLEK",
+    "MELEK",
+    2,
+    "kolay"
+   ],
+   [
+    "KAYAK",
+    "KONAK",
+    2,
+    "kolay"
+   ],
+   [
+    "MASAL",
+    "YATAK",
+    3,
+    "orta"
+   ],
+   [
+    "SANAT",
+    "KANAL",
+    2,
+    "kolay"
+   ],
+   [
+    "DAVUL",
+    "KEMAN",
+    6,
+    "zor"
    ],
    [
     "DUDAK",
-    "SOKAK",
-    4
+    "YANIT",
+    6,
+    "zor"
    ],
    [
-    "KANAL",
-    "KAZAK",
-    3
+    "ÇAMUR",
+    "HAYAL",
+    6,
+    "zor"
+   ],
+   [
+    "SOKAK",
+    "SALON",
+    5,
+    "zor"
+   ],
+   [
+    "YAYLA",
+    "DAMLA",
+    3,
+    "kolay"
    ],
    [
     "HAZIR",
-    "BAYAT",
-    4
+    "KAYIK",
+    3,
+    "orta"
    ],
    [
-    "ÇAYIR",
-    "KADIN",
-    3
+    "YALAN",
+    "KABAK",
+    3,
+    "orta"
    ],
    [
-    "ÇABUK",
-    "KANAL",
-    5
+    "KEMİK",
+    "BEBEK",
+    4,
+    "orta"
    ],
    [
-    "SAHİL",
-    "METAL",
-    5
+    "YALAN",
+    "DAMAR",
+    4,
+    "orta"
    ],
    [
-    "KAYAK",
+    "KAYIT",
+    "SANAT",
+    3,
+    "orta"
+   ],
+   [
+    "TARİH",
     "BADEM",
-    5
+    6,
+    "zor"
+   ],
+   [
+    "MERAK",
+    "BAYAT",
+    6,
+    "zor"
    ],
    [
     "KABAK",
-    "HAYAL",
-    5
+    "TARAK",
+    2,
+    "kolay"
    ],
    [
-    "SOĞAN",
-    "SOKAK",
-    5
+    "ÇAYIR",
+    "KAYIP",
+    2,
+    "kolay"
    ],
    [
-    "NEHİR",
-    "GELİN",
-    5
-   ],
-   [
-    "SOKAK",
-    "BIÇAK",
-    5
-   ],
-   [
-    "TATİL",
-    "TAKIM",
-    4
-   ],
-   [
-    "DEMİR",
-    "ZEHİR",
-    4
+    "TUZAK",
+    "TABAK",
+    6,
+    "zor"
    ],
    [
     "KAVUN",
+    "TOPAÇ",
+    6,
+    "zor"
+   ],
+   [
+    "KAYAK",
+    "BAYAT",
+    3,
+    "orta"
+   ],
+   [
+    "SINIF",
+    "SABUN",
+    6,
+    "zor"
+   ],
+   [
+    "SOKAK",
+    "KABAK",
+    4,
+    "orta"
+   ],
+   [
+    "KALEM",
+    "KAYIT",
+    3,
+    "orta"
+   ],
+   [
+    "TABAK",
+    "KAPAK",
+    2,
+    "kolay"
+   ],
+   [
+    "BAYAT",
+    "KAPAK",
+    4,
+    "orta"
+   ],
+   [
+    "BEDEN",
+    "FİKİR",
+    6,
+    "zor"
+   ],
+   [
+    "SALON",
+    "SARAY",
+    5,
+    "zor"
+   ],
+   [
+    "SARAY",
+    "SANAT",
+    2,
+    "kolay"
+   ],
+   [
+    "BAHAR",
+    "NEHİR",
+    4,
+    "zor"
+   ],
+   [
+    "KABAK",
+    "DOLAP",
+    4,
+    "zor"
+   ],
+   [
+    "KADIN",
+    "KAĞIT",
+    3,
+    "kolay"
+   ],
+   [
+    "TOPAÇ",
+    "TARİH",
+    5,
+    "zor"
+   ],
+   [
+    "KAYAK",
+    "SOKAK",
+    3,
+    "orta"
+   ],
+   [
+    "DUVAR",
+    "DAMAR",
+    2,
+    "kolay"
+   ],
+   [
+    "YANIT",
+    "TAKIM",
+    3,
+    "orta"
+   ],
+   [
+    "KADIN",
+    "KAPAK",
+    4,
+    "orta"
+   ],
+   [
+    "ÇATAL",
+    "KANAL",
+    4,
+    "zor"
+   ],
+   [
+    "PETEK",
+    "ÇİÇEK",
+    6,
+    "zor"
+   ],
+   [
+    "KADIN",
+    "KAYIT",
+    2,
+    "kolay"
+   ],
+   [
+    "VATAN",
+    "KAZAK",
+    5,
+    "zor"
+   ],
+   [
+    "KAĞIT",
+    "DUVAR",
+    6,
+    "zor"
+   ],
+   [
+    "SANAT",
+    "SABAH",
+    3,
+    "orta"
+   ],
+   [
+    "SABUN",
+    "KAVUN",
+    2,
+    "kolay"
+   ],
+   [
+    "KANAT",
+    "KADIN",
+    4,
+    "orta"
+   ],
+   [
+    "YATAK",
+    "BAHAR",
+    3,
+    "orta"
+   ],
+   [
+    "KEMİK",
+    "MELEK",
+    3,
+    "orta"
+   ],
+   [
+    "TARİH",
+    "TARAK",
+    2,
+    "kolay"
+   ],
+   [
+    "ŞEHİR",
+    "NEFES",
+    4,
+    "orta"
+   ],
+   [
+    "KAZAK",
+    "KAYIP",
+    3,
+    "orta"
+   ],
+   [
+    "YANIT",
+    "KANAT",
+    2,
+    "kolay"
+   ],
+   [
+    "KÖPEK",
+    "MELEK",
+    3,
+    "orta"
+   ],
+   [
+    "DUVAR",
+    "ÇABUK",
+    6,
+    "zor"
+   ],
+   [
+    "TARAK",
+    "SARAY",
+    2,
+    "kolay"
+   ],
+   [
+    "YÜREK",
+    "BEBEK",
+    5,
+    "zor"
+   ],
+   [
+    "YAYLA",
+    "HASTA",
+    3,
+    "orta"
+   ],
+   [
+    "SANAT",
+    "KABAK",
+    4,
+    "orta"
+   ],
+   [
+    "KANAT",
+    "YAZAR",
+    4,
+    "orta"
+   ],
+   [
+    "BAKIR",
+    "FİKİR",
+    3,
+    "kolay"
+   ],
+   [
+    "KAYIP",
+    "KAĞIT",
+    2,
+    "kolay"
+   ],
+   [
+    "YAZAR",
+    "HAZIR",
+    2,
+    "kolay"
+   ],
+   [
+    "KAZAK",
+    "TABAK",
+    2,
+    "kolay"
+   ],
+   [
+    "HAVUÇ",
+    "HAMUR",
+    3,
+    "orta"
+   ],
+   [
+    "ZEHİR",
+    "BAKIM",
+    5,
+    "zor"
+   ],
+   [
+    "BEBEK",
+    "BAYAT",
+    5,
+    "zor"
+   ],
+   [
+    "YEŞİL",
+    "DEMİR",
+    6,
+    "zor"
+   ],
+   [
+    "PETEK",
+    "SEPET",
+    5,
+    "zor"
+   ],
+   [
+    "TARAK",
+    "BAHAR",
+    4,
+    "orta"
+   ],
+   [
+    "TAVAN",
+    "KAPAK",
+    3,
+    "orta"
+   ],
+   [
+    "SABUN",
+    "SANAT",
+    4,
+    "orta"
+   ],
+   [
+    "KAVUN",
+    "HAVUZ",
+    2,
+    "kolay"
+   ],
+   [
+    "SATIR",
+    "BİLİM",
+    6,
+    "zor"
+   ],
+   [
+    "VAPUR",
+    "PAZAR",
+    5,
+    "zor"
+   ],
+   [
+    "KONAK",
+    "KABAK",
+    3,
+    "kolay"
+   ],
+   [
+    "ZEHİR",
+    "SATIR",
+    5,
+    "zor"
+   ],
+   [
+    "KANAT",
+    "KEMAN",
+    6,
+    "zor"
+   ],
+   [
+    "DİLEK",
+    "YEMEK",
+    4,
+    "orta"
+   ],
+   [
+    "YANIT",
+    "KAĞIT",
+    2,
+    "kolay"
+   ],
+   [
+    "SALON",
+    "YAKIN",
+    3,
+    "orta"
+   ],
+   [
+    "SİNEK",
+    "DİKEN",
+    3,
+    "orta"
+   ],
+   [
+    "TABAK",
+    "TARİH",
+    3,
+    "orta"
+   ],
+   [
+    "BAHAR",
+    "BALIK",
+    3,
+    "orta"
+   ],
+   [
+    "BEDEN",
+    "HAZIR",
+    6,
+    "zor"
+   ],
+   [
+    "TAKIM",
+    "ZAYIF",
+    6,
+    "zor"
+   ],
+   [
+    "MERAK",
+    "TARİH",
+    5,
+    "zor"
+   ],
+   [
+    "TATİL",
+    "KAYIK",
+    4,
+    "zor"
+   ],
+   [
+    "KABAK",
+    "SOĞAN",
+    6,
+    "zor"
+   ],
+   [
+    "YANIT",
+    "SALON",
+    4,
+    "zor"
+   ],
+   [
+    "BAKIR",
+    "ŞEHİR",
+    5,
+    "zor"
+   ],
+   [
+    "KANAL",
+    "KABAK",
+    3,
+    "orta"
+   ],
+   [
+    "PAZAR",
+    "KALEM",
+    6,
+    "zor"
+   ],
+   [
+    "BEYAZ",
+    "BEYİN",
+    2,
+    "kolay"
+   ],
+   [
+    "VATAN",
+    "PAMUK",
+    6,
+    "zor"
+   ],
+   [
+    "KAĞIT",
+    "KANAT",
+    2,
+    "kolay"
+   ],
+   [
+    "SAHİL",
+    "TATİL",
+    3,
+    "orta"
+   ],
+   [
+    "KAYIK",
+    "ÇAYIR",
+    2,
+    "kolay"
+   ],
+   [
+    "KABAK",
+    "ÇABUK",
+    2,
+    "kolay"
+   ],
+   [
+    "YATAK",
+    "KAYIK",
+    3,
+    "orta"
+   ],
+   [
+    "BURUN",
+    "BULUT",
+    2,
+    "kolay"
+   ],
+   [
+    "KAZAK",
     "ZAMAN",
-    4
+    4,
+    "orta"
+   ],
+   [
+    "METAL",
+    "MASAL",
+    3,
+    "orta"
+   ],
+   [
+    "ZAYIF",
+    "HAZIR",
+    3,
+    "orta"
+   ],
+   [
+    "KAVUN",
+    "KABAK",
+    3,
+    "orta"
+   ],
+   [
+    "KAYIK",
+    "KABAK",
+    2,
+    "kolay"
+   ],
+   [
+    "YALAN",
+    "YAKIN",
+    2,
+    "kolay"
+   ],
+   [
+    "BALIK",
+    "YATAK",
+    3,
+    "kolay"
+   ],
+   [
+    "SATIR",
+    "HAZIR",
+    2,
+    "kolay"
+   ],
+   [
+    "KAZAK",
+    "KONAK",
+    2,
+    "kolay"
+   ],
+   [
+    "HAYAT",
+    "HAZIR",
+    3,
+    "orta"
+   ],
+   [
+    "YAKIN",
+    "HAZIR",
+    3,
+    "orta"
+   ],
+   [
+    "HAZIR",
+    "ÇAYIR",
+    2,
+    "kolay"
+   ],
+   [
+    "YATAK",
+    "ÇATAL",
+    2,
+    "kolay"
+   ],
+   [
+    "KAZAK",
+    "YILAN",
+    4,
+    "zor"
+   ],
+   [
+    "KEMAN",
+    "METAL",
+    3,
+    "orta"
+   ],
+   [
+    "KAYAK",
+    "KANAL",
+    3,
+    "orta"
+   ],
+   [
+    "BIÇAK",
+    "KAZAK",
+    5,
+    "zor"
+   ],
+   [
+    "KÖPEK",
+    "ÇEKİÇ",
+    6,
+    "zor"
+   ],
+   [
+    "TEPKİ",
+    "TERZİ",
+    2,
+    "kolay"
+   ],
+   [
+    "TAVAN",
+    "SANAT",
+    3,
+    "orta"
+   ],
+   [
+    "SOĞAN",
+    "KAYAK",
+    6,
+    "zor"
+   ],
+   [
+    "KABAK",
+    "BALIK",
+    3,
+    "orta"
+   ],
+   [
+    "KAYAK",
+    "SATIR",
+    4,
+    "orta"
+   ],
+   [
+    "GELİN",
+    "TENİS",
+    3,
+    "orta"
+   ],
+   [
+    "DİKEN",
+    "DİREK",
+    2,
+    "kolay"
+   ],
+   [
+    "KURAL",
+    "DURAK",
+    2,
+    "kolay"
+   ],
+   [
+    "DUVAR",
+    "DUDAK",
+    2,
+    "kolay"
+   ],
+   [
+    "HAZIR",
+    "KALEM",
+    4,
+    "zor"
+   ],
+   [
+    "ÇAYIR",
+    "TARAK",
+    6,
+    "zor"
+   ],
+   [
+    "BAKIR",
+    "YAKIN",
+    2,
+    "kolay"
+   ],
+   [
+    "MERAK",
+    "KEMİK",
+    5,
+    "zor"
+   ],
+   [
+    "KABAK",
+    "BAHAR",
+    4,
+    "orta"
+   ],
+   [
+    "YEMEK",
+    "ÇİLEK",
+    3,
+    "orta"
+   ],
+   [
+    "BAYIR",
+    "KAYIK",
+    2,
+    "kolay"
+   ],
+   [
+    "DİKEN",
+    "GİRİŞ",
+    6,
+    "zor"
+   ],
+   [
+    "MELEK",
+    "MERAK",
+    2,
+    "kolay"
+   ],
+   [
+    "YALAN",
+    "KONAK",
+    5,
+    "zor"
+   ],
+   [
+    "AHLAK",
+    "UZMAN",
+    6,
+    "zor"
+   ],
+   [
+    "KAYIK",
+    "SANAT",
+    4,
+    "orta"
+   ],
+   [
+    "KEMAN",
+    "ZAMAN",
+    3,
+    "orta"
+   ],
+   [
+    "TABAK",
+    "TAVAN",
+    2,
+    "kolay"
+   ],
+   [
+    "DAMAR",
+    "SABAH",
+    5,
+    "zor"
+   ],
+   [
+    "BEDEN",
+    "ÇELİK",
+    4,
+    "orta"
+   ],
+   [
+    "YANIT",
+    "SANAT",
+    3,
+    "orta"
+   ],
+   [
+    "PAMUK",
+    "MAKAS",
+    6,
+    "zor"
+   ],
+   [
+    "KABAK",
+    "TUZAK",
+    6,
+    "zor"
+   ],
+   [
+    "BIÇAK",
+    "BAHAR",
+    5,
+    "zor"
+   ],
+   [
+    "BALIK",
+    "BAYIR",
+    3,
+    "orta"
+   ],
+   [
+    "MISIR",
+    "TARAK",
+    6,
+    "zor"
+   ],
+   [
+    "ZAMAN",
+    "YATAK",
+    3,
+    "orta"
+   ],
+   [
+    "KABAK",
+    "MAKAS",
+    4,
+    "orta"
+   ],
+   [
+    "KALEM",
+    "BADEM",
+    2,
+    "kolay"
+   ],
+   [
+    "SAYFA",
+    "TABLO",
+    4,
+    "orta"
+   ],
+   [
+    "ÇATAL",
+    "TARAK",
+    4,
+    "orta"
+   ],
+   [
+    "KAYAK",
+    "KAYIT",
+    2,
+    "kolay"
+   ],
+   [
+    "DAMAR",
+    "KAVUN",
+    6,
+    "zor"
+   ],
+   [
+    "BEYAZ",
+    "TAVAN",
+    5,
+    "zor"
+   ],
+   [
+    "KAYIT",
+    "ÇAYIR",
+    2,
+    "kolay"
+   ],
+   [
+    "ÇEKİÇ",
+    "MELEK",
+    4,
+    "orta"
+   ],
+   [
+    "MAKAS",
+    "SANAT",
+    3,
+    "kolay"
+   ],
+   [
+    "KAYIT",
+    "HAYAT",
+    2,
+    "kolay"
+   ],
+   [
+    "DUVAR",
+    "DURAK",
+    2,
+    "kolay"
+   ],
+   [
+    "KAYAK",
+    "HAYAT",
+    3,
+    "orta"
+   ],
+   [
+    "TOPAÇ",
+    "MAKAS",
+    5,
+    "zor"
+   ],
+   [
+    "DOLAP",
+    "YATAK",
+    4,
+    "orta"
+   ],
+   [
+    "KAYIK",
+    "YANIT",
+    3,
+    "kolay"
+   ],
+   [
+    "KEMİK",
+    "ÇELİK",
+    2,
+    "kolay"
+   ],
+   [
+    "KADIN",
+    "KAYIK",
+    2,
+    "kolay"
+   ],
+   [
+    "BAKIR",
+    "KADIN",
+    4,
+    "orta"
+   ],
+   [
+    "TAVAN",
+    "YALAN",
+    2,
+    "kolay"
+   ],
+   [
+    "TARAK",
+    "TAVAN",
+    2,
+    "kolay"
+   ],
+   [
+    "KEMAN",
+    "DİREK",
+    6,
+    "zor"
+   ],
+   [
+    "ÇEKİÇ",
+    "ŞEKER",
+    4,
+    "orta"
+   ],
+   [
+    "KAYAK",
+    "SANAT",
+    4,
+    "orta"
+   ],
+   [
+    "YALAN",
+    "YATAK",
+    2,
+    "kolay"
+   ],
+   [
+    "MAKAS",
+    "DURAK",
+    6,
+    "zor"
+   ],
+   [
+    "SABUN",
+    "SABAH",
+    2,
+    "kolay"
+   ],
+   [
+    "BAYAT",
+    "BALIK",
+    3,
+    "orta"
+   ],
+   [
+    "BAYAT",
+    "YATAK",
+    4,
+    "orta"
+   ],
+   [
+    "DİLEK",
+    "NEFES",
+    6,
+    "zor"
+   ],
+   [
+    "KAVUN",
+    "KADIN",
+    6,
+    "zor"
+   ],
+   [
+    "BAHAR",
+    "BAYAT",
+    3,
+    "orta"
+   ],
+   [
+    "YATAK",
+    "FIRIN",
+    6,
+    "zor"
+   ],
+   [
+    "KAZAK",
+    "DEMİR",
+    6,
+    "zor"
+   ],
+   [
+    "BAKIR",
+    "SATIR",
+    2,
+    "kolay"
+   ],
+   [
+    "HAYAT",
+    "KAĞIT",
+    3,
+    "orta"
+   ],
+   [
+    "BADEM",
+    "MADEN",
+    2,
+    "kolay"
+   ],
+   [
+    "VAPUR",
+    "MAKAS",
+    6,
+    "zor"
+   ],
+   [
+    "YANIT",
+    "YAKIN",
+    2,
+    "kolay"
+   ],
+   [
+    "RESİM",
+    "GELİN",
+    6,
+    "zor"
    ]
   ]
  }

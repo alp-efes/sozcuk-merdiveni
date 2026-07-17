@@ -71,9 +71,17 @@ body {
   border-bottom: 1px solid var(--tile-border);
   flex-shrink: 0;
 }
-.header h1 {
-  font-size: 1.05rem;
+/* Marka bloğu: üstte site adı (Sözcük Yolu), altında oyun adı */
+.brand { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-site {
+  font-size: 0.62rem;
   letter-spacing: 3px;
+  font-weight: 700;
+  color: var(--amber);
+}
+.brand-game {
+  font-size: 1.05rem;
+  letter-spacing: 1px;
   font-weight: 800;
 }
 .header-actions { display: flex; gap: 8px; }
@@ -120,18 +128,35 @@ body {
   border-color: #565658;
 }
 
-/* ---------- Kelime uzunluğu seçici (yalnızca Serbest Oyun) ---------- */
-.len-pick {
+/* ---------- Serbest oyun ayarları: zorluk + uzunluk (yalnızca Serbest Oyun) ---------- */
+.free-settings {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 6px;
-  padding: 6px 12px 0;
+  padding: 8px 12px 0;
   flex-shrink: 0;
 }
-.len-pick.hidden { display: none; }   /* Günün Bulmacası'nda gizli */
+.free-settings.hidden { display: none; }   /* Günün Bulmacası'nda gizli */
 
-.len-btn {
-  min-width: 64px;
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.setting-label {
+  width: 58px;
+  text-align: right;
+  font-size: 0.62rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.btn-group { display: flex; gap: 6px; }
+
+.pick-btn {
+  min-width: 62px;
   min-height: 34px;                   /* Dokunmatik hedef */
   background: none;
   border: 1px solid var(--tile-border);
@@ -144,7 +169,8 @@ body {
   touch-action: manipulation;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-.len-btn.active {
+.pick-btn:active { transform: scale(0.96); }
+.pick-btn.active {
   background: var(--green);
   border-color: var(--green);
   color: #fff;
@@ -523,6 +549,7 @@ body.page-body {
 /* ---------- Geniş ekran (tablet/masaüstü) iyileştirmeleri ---------- */
 @media (min-width: 600px) {
   :root { --tile-size: 62px; }
-  .header h1 { font-size: 1.3rem; }
+  .brand-game { font-size: 1.3rem; }
+  .brand-site { font-size: 0.7rem; }
   .key { min-height: 58px; }
 }

@@ -69,8 +69,12 @@
   <div class="ad-container ad-top" id="adTop" data-placeholder="REKLAM ALANI (320x50)"></div>
 
   <!-- ======================= BAŞLIK ======================= -->
+  <!-- Site markası (Sözcük Yolu) + oyun adı (Sözcük Merdiveni) birlikte. -->
   <header class="header">
-    <h1>SÖZCÜK MERDİVENİ</h1>
+    <div class="brand">
+      <span class="brand-site">SÖZCÜK YOLU</span>
+      <h1 class="brand-game">Sözcük Merdiveni</h1>
+    </div>
     <div class="header-actions">
       <!-- Ses aç/kapat: app.js -> muteGame() fonksiyonuna bağlı -->
       <button class="icon-btn" id="btnMute" type="button" aria-label="Sesi aç/kapat">🔊</button>
@@ -86,13 +90,26 @@
     <button class="mode-tab" id="tabFree" type="button">🎲 Serbest Oyun</button>
   </nav>
 
-  <!-- Kelime uzunluğu seçimi: yalnızca Serbest Oyun'da görünür.
-       (Günün Bulmacası'nda uzunluk herkes için sabittir.)
-       Seçim localStorage'da saklanır, tıklayınca hemen yeni bulmaca gelir. -->
-  <div class="len-pick" id="lenPick" role="group" aria-label="Kelime uzunluğu seçimi">
-    <button class="len-btn" type="button" data-len="3">3 harf</button>
-    <button class="len-btn" type="button" data-len="4">4 harf</button>
-    <button class="len-btn" type="button" data-len="5">5 harf</button>
+  <!-- Serbest oyun ayarları: zorluk + kelime uzunluğu. Yalnızca Serbest
+       Oyun'da görünür (Günün Bulmacası'nda ikisi de sabittir). Seçimler
+       localStorage'da saklanır; tıklayınca hemen o ayarda yeni bulmaca gelir. -->
+  <div class="free-settings hidden" id="freeSettings">
+    <div class="setting-row">
+      <span class="setting-label">Zorluk</span>
+      <div class="btn-group" role="group" aria-label="Zorluk seçimi">
+        <button class="pick-btn" type="button" data-diff="kolay">Kolay</button>
+        <button class="pick-btn" type="button" data-diff="orta">Orta</button>
+        <button class="pick-btn" type="button" data-diff="zor">Zor</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">Uzunluk</span>
+      <div class="btn-group" role="group" aria-label="Kelime uzunluğu seçimi">
+        <button class="pick-btn" type="button" data-len="3">3 harf</button>
+        <button class="pick-btn" type="button" data-len="4">4 harf</button>
+        <button class="pick-btn" type="button" data-len="5">5 harf</button>
+      </div>
+    </div>
   </div>
 
   <!-- Günün Bulmacası'nda aynı satırda geri sayım görünür (uzunluk seçici gizlenir).
@@ -153,10 +170,10 @@
 <section class="info page" id="nasil-oynanir">
   <h2>Sözcük Merdiveni Nedir?</h2>
 
-  <p>Sözcük Merdiveni, klasik "word ladder" bulmacasının Türkçe uyarlamasıdır.
-  Amaç, <strong>başlangıç kelimesinden hedef kelimeye</strong>, her adımda
-  yalnızca <strong>tek bir harf değiştirerek</strong> ulaşmaktır. Aradaki her
-  basamak, Türkçede gerçekten var olan bir kelime olmalıdır.</p>
+  <p>Sözcük Merdiveni, Türkçe bir kelime bulmacasıdır. Amaç,
+  <strong>başlangıç kelimesinden hedef kelimeye</strong>, her adımda yalnızca
+  <strong>tek bir harf değiştirerek</strong> ulaşmaktır. Aradaki her basamak,
+  Türkçede gerçekten var olan bir kelime olmalıdır.</p>
 
   <h3>Kurallar</h3>
   <ol>
@@ -194,10 +211,16 @@
     <li><strong>📅 Günün Bulmacası:</strong> Herkese aynı bulmaca gelir, her
     gün yenilenir. Çözünce sonucunu emoji tablosuyla paylaşabilirsiniz.</li>
     <li><strong>🎲 Serbest Oyun:</strong> İstediğiniz kadar bulmaca çözersiniz.
-    Üstteki <strong>3 / 4 / 5 harf</strong> düğmeleriyle hangi uzunlukta
-    oynayacağınızı seçebilirsiniz; seçiminiz hatırlanır ve istediğiniz zaman
-    değiştirebilirsiniz. Kelime uzadıkça bulmaca zorlaşır.</li>
+    <strong>Zorluk</strong> (Kolay / Orta / Zor) ve <strong>uzunluk</strong>
+    (3 / 4 / 5 harf) düğmeleriyle bulmacaları kendinize göre ayarlarsınız;
+    seçimleriniz hatırlanır, istediğiniz an değiştirebilirsiniz.</li>
   </ul>
+
+  <h3>Zorluk Nasıl Belirlenir?</h3>
+  <p>Bir bulmacanın zorluğu iki şeye bağlıdır: hedefe ulaşmak için gereken
+  <strong>en az adım sayısı</strong> ve <strong>farklı çözüm yollarının
+  sayısı</strong>. Az adımlı ve çok yollu bulmacalar <em>kolay</em>; uzun ve
+  tek çözümlü olanlar <em>zor</em> sayılır.</p>
 
   <h3>Kelimeler Nereden Geliyor?</h3>
   <p>Oyunda kullanılan sözlük, Türk Dil Kurumu yazımına uygun 3, 4 ve 5 harfli
