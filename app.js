@@ -148,6 +148,8 @@ class WordLadder {
       diffBtns:   [...document.querySelectorAll("[data-diff]")],
       dailyTimer: document.getElementById("dailyTimer"),
       countdown:  document.getElementById("dailyCountdown"),
+      dailySolved: document.getElementById("dailySolved"),
+      btnDailyShare: document.getElementById("btnDailyShare"),
     };
 
     // Serbest oyun tercihleri (kalıcı): kelime uzunluğu ve zorluk
@@ -245,13 +247,13 @@ class WordLadder {
       }
     }
 
-    this.render();          // over=true ise "bitti" sınıfını da uygular
+    this.render();          // over=true ise "bitti" sınıfını + çözüldü göstergesini uygular
     this.saveState();       // doğru "over" ve zincirle kaydeder
 
     // Analitik: oyun başlangıcı (window.trackEvent Firebase köprüsüdür)
     window.trackEvent?.("game_start", { mode, length: this.len, difficulty: puzzleDiff });
-
-    if (cozuldu) this.showModal({ oncedenCozuldu: true });
+    // Not: Zaten çözülmüş günlük bulmacaya dönüldüğünde modal açılmaz;
+    // cevaplar tahtada görünür kalır (üstteki "çözüldü + paylaş" satırı bilgilendirir).
   }
 
   // Serbest oyunda tercih edilen (uzunluk, zorluk) havuzu; boşsa esnek geri düşer
@@ -283,6 +285,8 @@ class WordLadder {
       zorlukAd && `Zorluk: ${zorlukAd}`,
       this.optimal && `en az ${this.optimal} adım`,
     ].filter(Boolean).join(" · ");
+    // Günlük çözüldüyse tahtada "çözüldü + paylaş" göster (modal örtmesin)
+    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over));
     this.renderInput();
     this.hideModal();
   }
@@ -585,11 +589,10 @@ class WordLadder {
     this.render();
     this.saveState();       // düzeltilmiş durumu (ör. over=false) geri yaz
 
-    if (this.over) {
-      this.lastResult = this.computeResult();
-      // Günlük çözülmüşse "bugünkü bulmaca çözüldü", serbestse normal başarı
-      this.showModal(this.mode === "daily" ? { oncedenCozuldu: true } : {});
-    }
+    // Yenilemede çözülmüş oyun: cevaplar tahtada görünür; modal AÇILMAZ
+    // (kullanıcı "cevaplar görünür kalsın" istedi). Paylaşım için lastResult
+    // hazırlanır; günlükte üstteki "çözüldü + paylaş" satırı erişim sağlar.
+    if (this.over) this.lastResult = this.computeResult();
     return true;
   }
 
@@ -842,8 +845,12 @@ class WordLadder {
       this.newGame("free");
     });
 
-    // Sonucu paylaş + modalı kapat
+    // Sonucu paylaş (modaldaki ve çözüldü satırındaki butonlar)
     this.el.btnShare.addEventListener("click", (e) => {
+      e.currentTarget.blur();
+      this.share();
+    });
+    this.el.btnDailyShare.addEventListener("click", (e) => {
       e.currentTarget.blur();
       this.share();
     });

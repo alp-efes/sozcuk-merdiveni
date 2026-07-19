@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <!-- Mobil öncelikli görünüm: kullanıcı ölçekleyemez, oyun tahtası sabit kalır -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Sözcük Merdiveni — her adımda tek harf değiştirerek başlangıç kelimesinden hedef kelimeye ulaşın. Türkçe, ücretsiz, mobil uyumlu kelime oyunu.">
+  <meta name="description" content="Her gün yeni bir Türkçe kelime bulmacası! Tek harf değiştirerek kelimeden kelimeye tırman, hedefe ulaş. Ücretsiz, üyeliksiz, mobil uyumlu — hemen oyna.">
   <meta name="theme-color" content="#121213">
   <title>Sözcük Merdiveni — Türkçe Kelime Oyunu</title>
 
@@ -13,14 +13,26 @@
        kullanıcıya "sözcükyolu.com" olarak gösterir. -->
   <link rel="canonical" href="https://xn--szckyolu-n4a6d.com/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sözcük Yolu">
   <meta property="og:title" content="Sözcük Merdiveni — Türkçe Kelime Oyunu">
-  <meta property="og:description" content="Her adımda tek harf değiştirerek hedef kelimeye ulaş! Ücretsiz Türkçe kelime bulmacası.">
+  <meta property="og:description" content="Her gün yeni bir Türkçe kelime bulmacası! Tek harf değiştirerek hedefe tırman. Ücretsiz, üyeliksiz, mobil uyumlu.">
   <meta property="og:url" content="https://xn--szckyolu-n4a6d.com/">
+  <meta property="og:image" content="https://xn--szckyolu-n4a6d.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="tr_TR">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sözcük Merdiveni — Türkçe Kelime Oyunu">
+  <meta name="twitter:description" content="Her gün yeni bir Türkçe kelime bulmacası! Tek harf değiştirerek hedefe tırman. Ücretsiz, mobil uyumlu.">
+  <meta name="twitter:image" content="https://xn--szckyolu-n4a6d.com/og-image.png">
 
-  <!-- Favicon: harici dosya gerektirmeyen satır içi SVG emoji -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪜</text></svg>">
+  <!-- Favicon: Google arama sonuçları ve tarayıcı sekmeleri için gerçek dosyalar.
+       (Satır içi data: URI'yi Google güvenilir biçimde kullanmıyordu.) -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Arama motorları için yapılandırılmış veri -->
   <script type="application/ld+json">
@@ -115,6 +127,12 @@
   <!-- Günün Bulmacası'nda aynı satırda geri sayım görünür (uzunluk seçici gizlenir).
        Süre Türkiye saatiyle gece yarısına kadardır; app.js her saniye günceller. -->
   <div class="daily-timer hidden" id="dailyTimer">
+    <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, modal örtmez.
+         Paylaşım burada erişilebilir olsun diye küçük buton eklendi. -->
+    <div class="daily-solved hidden" id="dailySolved">
+      Bugünkü bulmaca çözüldü ✅
+      <button class="mini-btn" id="btnDailyShare" type="button">Sonucu paylaş 📋</button>
+    </div>
     Yeni bulmaca <strong id="dailyCountdown">--:--:--</strong> sonra
     <span class="tz-note">(TSİ 00:00)</span>
   </div>

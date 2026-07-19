@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sözcük Merdiveni">
+  <!-- Marka ikonu: yükselen 3 harf kutusu — hem kelime oyunu hem "merdiven"
+       (ladder) çağrışımı. Koyu zeminde yeşil → krem → amber köşegen. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#24242b"/>
+      <stop offset="1" stop-color="#131315"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- En üst (amber) -->
+  <rect x="286" y="96"  width="130" height="130" rx="26" fill="#c9a94a"/>
+  <!-- Orta (krem) -->
+  <rect x="191" y="191" width="130" height="130" rx="26" fill="#e9e7e0"/>
+  <!-- En alt (yeşil) -->
+  <rect x="96"  y="286" width="130" height="130" rx="26" fill="#4a9d4f"/>
+</svg>
