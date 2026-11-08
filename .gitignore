@@ -1,3 +1,7 @@
 .DS_Store
 tools/.cache/
 .wrangler/
+
+# Python
+__pycache__/
+*.pyc
