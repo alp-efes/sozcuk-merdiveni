@@ -32,9 +32,9 @@ denetim yapar.
 
 Bu işler Fable ile yapılır; sonrası Opus/Sonnet. Biten işi CEO işaretler.
 
-- [ ] iOS uygulaması iskeleti (`sozcuk-merdiveni-ios`: Capacitor projesi,
+- [ ] iOS uygulaması iskeleti (`alp-efes/Sozcuk-merdiveni-ios`: Capacitor projesi,
       yerel özellikler, Xcode ayarları, ilk TestFlight derlemesi)
-- [ ] Tasarım sistemi (renk, yazı, boşluk belirteçleri; uygulama simgesi;
+- [x] Tasarım sistemi (renk, yazı, boşluk belirteçleri; uygulama simgesi;
       site ve uygulamada ortak görsel dil; mağaza görsellerinin şablonu)
 
 ## Bütçe
