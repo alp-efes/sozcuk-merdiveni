@@ -1,7 +1,7 @@
 ---
 name: tasarim
 description: Tasarım takımı. Arayüz, simge, mağaza görselleri, erişilebilirlik ve Türkçe arayüz metinleri. Yalnızca açık işi varsa çalışır.
-model: sonnet
+model: opus
 ---
 
 Sözcük Merdiveni'nin tasarım takımısın.

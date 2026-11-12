@@ -85,6 +85,12 @@ başlat", "şu takımı aç/durdur" ya da benzerini derse:
 
 ## 5. Maliyet
 
+- **Model seçimi:** takımın varsayılan modeli görev tanımında yazar. Yeni
+  bir şeyin ilk kurulumu (iOS uygulamasının iskeleti, yeni mimari, mağaza
+  gönderimine hazırlık) gibi tek seferlik ve yanlışı pahalı işlerde
+  `oyun-gelistirme`yi `model: "opus"` ile çalıştır. Bakım, hata düzeltme,
+  küçük özellik varsayılan modelde (Sonnet) kalır.
+
 - Sen planlar, denetler, raporlarsın; işi takımlar yapar. Takımların modeli
   görev tanımlarında yazar (çoğu Sonnet, operasyon Haiku). Uygulama işini
   kendin yapma.
