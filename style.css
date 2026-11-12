@@ -64,7 +64,10 @@
   --space-14: 56px;
 
   /* Ölçü */
-  --tap-min:    44px;    /* Dokunma hedefinin en küçük kenarı */
+  --tap-min:    44px;    /* Dokunma alanının en küçük kenarı (bkz. "Dokunma alanı") */
+  --ctl-md:     40px;    /* Görünür boy: ikon düğmesi, mod sekmesi */
+  --ctl-sm:     34px;    /* Görünür boy: zorluk / uzunluk düğmesi */
+  --ctl-xs:     28px;    /* Görünür boy: küçük düğme (Sonucu paylaş) */
   --btn-height: 48px;
   --key-height: 52px;
   --tile-size:  clamp(42px, 12vw, 58px);
@@ -162,8 +165,8 @@ body {
 .header-actions { display: flex; gap: var(--space-2); }
 
 .icon-btn {
-  width: var(--tap-min);
-  height: var(--tap-min);
+  width: var(--ctl-md);
+  height: var(--ctl-md);
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -173,6 +176,38 @@ body {
   transition: background var(--dur-base);
 }
 .icon-btn:active { background: var(--surface-2); }
+
+/* ---------- Dokunma alanı ----------
+   Kabuk 100dvh sabit: küçük telefonda her piksel oyun alanından gider. Bu
+   yüzden bazı denetimler 44 px'ten kısa GÖRÜNÜR, dokunma alanı ise
+   yerleşimi büyütmeyen görünmez bir katmanla --tap-min'e tamamlanır.
+   Katman, komşu denetimle örtüşmeyecek yöne uzar (aralıklar buna göre).
+   tools/test_tarayici.js her denetimin gerçek dokunma alanını ölçer. */
+.icon-btn, .mode-tab, .pick-btn, .mini-btn, .scroll-cue { position: relative; }
+.icon-btn::before, .mode-tab::before, .pick-btn::before, .mini-btn::before, .scroll-cue::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Varsayılan: eksik boy üste ve alta eşit bölünür (% = kendi yüksekliği) */
+  top: calc((100% - var(--tap-min)) / 2);
+  bottom: calc((100% - var(--tap-min)) / 2);
+}
+/* 40×40: dört yana eşit */
+.icon-btn::before { left: calc((100% - var(--tap-min)) / 2); right: calc((100% - var(--tap-min)) / 2); }
+/* Sekme yalnızca yukarı uzar: altındaki satır kendi payını sekmenin dibine kadar alır */
+.mode-tab::before { top: calc(100% - var(--tap-min)); bottom: 0; }
+/* İki satır arasında yalnızca --space-1h var: üst satır yukarı, alt satır aşağı uzar */
+.setting-row:first-child .pick-btn::before {
+  top: calc(-1 * var(--space-2));
+  bottom: calc(100% - var(--tap-min) + var(--space-2));
+}
+.setting-row + .setting-row .pick-btn::before {
+  top: calc(-1 * var(--space-1));
+  bottom: calc(100% - var(--tap-min) + var(--space-1));
+}
+/* Kabuğun en altında: üstü reklam alanı, yalnızca aşağı uzar */
+.scroll-cue::before { top: 0; bottom: calc(100% - var(--tap-min)); }
 
 /* ---------- Mod sekmeleri (Günlük / Serbest) ---------- */
 .mode-tabs {
@@ -185,7 +220,7 @@ body {
 .mode-tab {
   flex: 1;
   max-width: 200px;
-  min-height: var(--tap-min);
+  min-height: var(--ctl-md);
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -232,7 +267,7 @@ body {
 
 .pick-btn {
   min-width: 62px;
-  min-height: var(--tap-min);
+  min-height: var(--ctl-sm);
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -279,7 +314,7 @@ body {
   background: var(--surface-2);
   color: var(--text);
   border-radius: var(--radius);
-  min-height: var(--tap-min);
+  min-height: var(--ctl-xs);
   padding: 0 var(--space-3);
   font-family: var(--font);
   font-size: var(--fs-xs);
@@ -633,10 +668,9 @@ body.page-body {
 
 /* ---------- Aşağı kaydırma ipucu (oyun kabuğunun en altı) ---------- */
 .scroll-cue {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: var(--tap-min);
+  display: block;
+  text-align: center;
+  padding: var(--space-1h) 0;
   font-size: var(--fs-2xs);
   font-weight: var(--fw-bold);
   letter-spacing: var(--track-sm);
