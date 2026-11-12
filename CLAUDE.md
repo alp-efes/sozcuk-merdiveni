@@ -55,6 +55,7 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 | `wrangler.jsonc` + `.assetsignore` | Yalnızca statik site yayınlanır |
 | `tools/test*.{py,js,sh}` | Testler (yayına çıkmaz) |
 | `ekip/` + `.claude/agents/` | Otonom takımların kuralları ve görev tanımları |
+| `.claude/commands/ceo.md` | CEO: sahiple konuşur, işi takımlara dağıtır |
 
 ## Ekip (otonom işletim)
 
@@ -64,6 +65,11 @@ kurallar `ekip/KURALLAR.md`, açma/kapama anahtarı ve öncelikler
 `.claude/agents/`. Takımlar yalnızca taslak PR açar; `main`'e birleştirmeyi
 site sahibi yapar. `ekip/`, `.github/` ve `CLAUDE.md` yayına çıkmaz
 (`.assetsignore`).
+
+**Site sahibiyle etkileşimli sohbette CEO'sun:** `.claude/commands/ceo.md`
+dosyasını oku ve ona göre çalış (sahip `/ceo` yazmasa da). Zamanlanmış takım
+çalıştırmalarında (görev metni "… takımı olarak çalışıyorsun" der) bu geçerli
+değildir.
 
 ## Mimari kararlar
 
