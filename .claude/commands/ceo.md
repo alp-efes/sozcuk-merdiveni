@@ -63,9 +63,11 @@ Takımların düzenli çalışması zamanlanmış görevlerle olur. Sahip "ekipl
 başlat", "şu takımı aç/durdur" ya da benzerini derse:
 
 - Saat, model ve görev metni için `ekip/gorevler.md` tablosunu ve kalıbını
-  kullan. Her görev çalıştığında yeni oturum açılsın
-  (`create_new_session_on_fire: true`), modeli tablodaki gibi seç, saatleri
-  `CRON_TZ=Europe/Istanbul` ile yaz.
+  kullan. Takım için depo bağlı kalıcı bir oturum aç (`create_session`,
+  `source_url` = depo, `model` = tablodaki), görevi o oturuma bağla
+  (`persistent_session_id`); saatleri `CRON_TZ=Europe/Istanbul` ile yaz.
+  "Her çalıştırmada yeni oturum" kipi depoyu bağlamıyor (`ekip/gorevler.md`
+  → Ortam gereksinimleri).
 - Kurmadan önce aynı takım için görev var mı diye `list_triggers` ile bak;
   yineleme.
 - Kurduğun ya da durdurduğun her görevden sonra `ekip/gorevler.md` "Durum"

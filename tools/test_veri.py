@@ -17,6 +17,8 @@ Denetlenenler:
      .assetsignore kaynak dosyaları dışarıda tutuyor
   8. Güvenlik: dış betikler yalnızca izinli adreslerden, tehlikeli DOM
      kalıpları yok, depoda gizli anahtar yok
+  9. Tasarım sistemi: style.css içinde :root dışında sabit renk yok, simgeler
+     aynı paletten, uygulama simgesi 1024×1024 ve alfasız
 
 Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
@@ -251,10 +253,138 @@ def guvenlik_testleri():
                     f"{yol.relative_to(KOK)}: olası {tur} — depodan çıkarın ve anahtarı iptal edin")
 
 
+# CSS renk adları (adlandırılmış ve sistem renkleri). transparent, currentColor,
+# inherit, initial, unset, none renk değeri sayılmaz; listede yoklar.
+CSS_RENK_ADLARI = """
+aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond
+blue blueviolet brown burlywood cadetblue chartreuse chocolate coral
+cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray
+darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid
+darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey
+darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue
+firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod
+gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki
+lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan
+lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon
+lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue
+lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue
+mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen
+mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin
+navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod
+palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum
+powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon
+sandybrown seagreen seashell sienna silver skyblue slateblue slategray
+slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet
+wheat white whitesmoke yellow yellowgreen
+accentcolor accentcolortext activetext buttonborder buttonface buttontext
+canvas canvastext field fieldtext graytext highlight highlighttext linktext
+mark marktext selecteditem selecteditemtext visitedtext
+""".split()
+
+# tools/ikon_uret.py çıktıları: her biri ürettiği paleti "palet" metin parçasında taşır
+URETILEN_PNG = ("favicon-48.png", "favicon-192.png", "apple-touch-icon.png", "og-image.png",
+                "tools/uygulama/simge-1024.png", "tools/uygulama/acilis-2732.png")
+
+
+def png_bilgi(yol):
+    """PNG başlığını bağımlılıksız okur: (en, boy, alfa_var_mi, {tEXt anahtarı: metin})."""
+    veri = yol.read_bytes()
+    if veri[:8] != b"\x89PNG\r\n\x1a\n" or veri[12:16] != b"IHDR":
+        return None
+    en, boy = int.from_bytes(veri[16:20], "big"), int.from_bytes(veri[20:24], "big")
+    alfa = veri[25] in (4, 6)                 # renk türü: gri+alfa ya da RGBA
+    metinler = {}
+    konum = 8
+    while konum + 8 <= len(veri):             # parçaları gez: tRNS de saydamlık demektir
+        uzunluk, tur = int.from_bytes(veri[konum:konum + 4], "big"), veri[konum + 4:konum + 8]
+        if tur == b"tRNS":
+            alfa = True
+        elif tur == b"tEXt":
+            anahtar, _, metin = veri[konum + 8:konum + 8 + uzunluk].partition(b"\0")
+            metinler[anahtar.decode("latin-1")] = metin.decode("latin-1")
+        elif tur == b"IEND":
+            break
+        konum += 12 + uzunluk
+    return en, boy, alfa, metinler
+
+
+def css_degerleri(css):
+    """Kural gövdelerindeki bildirim değerleri (seçiciler ve özellik adları hariç).
+    Dizgiler, url() ve --ad belirteç adları atılır; var(--x, red) gibi bir
+    yedek değer ise kalır ve denetlenir."""
+    degerler = []
+    for govde in re.findall(r"\{([^{}]*)\}", css):
+        for bildirim in govde.split(";"):
+            if ":" in bildirim:
+                deger = bildirim.split(":", 1)[1]
+                deger = re.sub(r'"[^"]*"|\'[^\']*\'|url\([^)]*\)|--[\w-]+', " ", deger)
+                degerler.append(deger)
+    return degerler
+
+
+def tasarim_testleri():
+    """Tasarım sistemi (ekip/tasarim-sistemi.md): tek palet, uygulama görselleri."""
+    css = re.sub(r"/\*.*?\*/", "", (KOK / "style.css").read_text(encoding="utf-8"), flags=re.S)
+    kok_bloklari = re.findall(r":root\s*\{([^}]*)\}", css)
+    denetle(bool(kok_bloklari), "style.css: :root bloğu yok")
+    kok = "".join(kok_bloklari)
+    tanimli = set(re.findall(r"(--[\w-]+)\s*:", kok))
+    adli_palet = {ad: h.lower() for ad, h in re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})\b", kok)}
+    palet = set(adli_palet.values())
+
+    # :root dışında sabit renk yok (hex, renk işlevi, renk adı); her belirteç tanımlı
+    renk_adi = re.compile(r"(?<![\w-])(?:" + "|".join(CSS_RENK_ADLARI) + r")(?![\w-])", re.I)
+    sabit = set()
+    for deger in css_degerleri(re.sub(r":root\s*\{[^}]*\}", "", css)):
+        sabit.update(re.findall(r"#[0-9a-fA-F]{3,8}\b", deger))
+        sabit.update(m + "(" for m in re.findall(
+            r"\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color|color-mix|light-dark)\(", deger, re.I))
+        sabit.update(m.lower() for m in renk_adi.findall(deger))
+    denetle(not sabit, f"style.css: :root dışında sabit renk: {sorted(sabit)[:5]} — belirteç kullanın")
+    eksik = sorted(set(re.findall(r"var\((--[\w-]+)", css)) - tanimli)
+    denetle(not eksik, f"style.css: tanımsız belirteç: {eksik[:5]}")
+
+    # Simgeler ve tarayıcı çubuğu rengi aynı paletten
+    for ad in ("favicon.svg", "tools/og-image.svg"):
+        renkler = {h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b", (KOK / ad).read_text(encoding="utf-8"))}
+        denetle(renkler <= palet, f"{ad}: palet dışı renk: {sorted(renkler - palet)} (style.css :root)")
+    for ad in ("index.html", "gizlilik.html"):
+        tema = re.search(r'<meta name="theme-color" content="([^"]+)"', (KOK / ad).read_text(encoding="utf-8"))
+        denetle(bool(tema) and tema.group(1).lower() in palet, f"{ad}: theme-color palette yok")
+    uretici = (ARACLAR / "ikon_uret.py").read_text(encoding="utf-8")
+    denetle("style.css" in uretici and not re.search(r"#[0-9a-fA-F]{6}\b", uretici),
+            "tools/ikon_uret.py: sabit renk var — renkler style.css'ten okunmalı")
+
+    # Üretilen PNG'ler güncel paletle mi üretilmiş (bayat simge yakalanır)
+    for ad in URETILEN_PNG:
+        yol = KOK / ad
+        bilgi = png_bilgi(yol) if yol.exists() else None
+        ozet = dict(re.findall(r"([\w-]+)=(#[0-9a-f]{6})", bilgi[3].get("palet", ""))) if bilgi else {}
+        farkli = sorted(f"--{a} {h}≠{adli_palet.get(a)}" for a, h in ozet.items() if adli_palet.get(a) != h)
+        denetle(bool(ozet) and not farkli,
+                f"{ad}: güncel paletle üretilmemiş {farkli[:3] or '(palet özeti yok)'} — python3 tools/ikon_uret.py")
+
+    # iOS deposuyla sözleşme: yol, ölçü, alfasız simge
+    beklenen = {"simge-1024.png": (1024, 1024), "acilis-2732.png": (2732, 2732)}
+    for ad, olcu in beklenen.items():
+        yol = ARACLAR / "uygulama" / ad
+        bilgi = png_bilgi(yol) if yol.exists() else None
+        denetle(bool(bilgi), f"tools/uygulama/{ad} yok ya da PNG değil — python3 tools/ikon_uret.py")
+        if bilgi:
+            denetle(bilgi[:2] == olcu, f"tools/uygulama/{ad}: {bilgi[0]}×{bilgi[1]}, {olcu[0]}×{olcu[1]} olmalı")
+            denetle(not bilgi[2], f"tools/uygulama/{ad}: alfa kanalı var — App Store reddeder")
+    magaza = sorted((ARACLAR / "uygulama" / "magaza").glob("*.png"))
+    denetle(3 <= len(magaza) <= 5, f"tools/uygulama/magaza: {len(magaza)} görsel, 3–5 olmalı")
+    for yol in magaza:
+        bilgi = png_bilgi(yol)
+        denetle(bool(bilgi) and bilgi[:2] == (1320, 2868), f"tools/uygulama/magaza/{yol.name}: 1320×2868 olmalı")
+
+
 def main():
     veri_testleri()
     site_testleri()
     guvenlik_testleri()
+    tasarim_testleri()
     if hatalar:
         print(f"BAŞARISIZ — {len(hatalar)} hata, {gecen} denetim geçti\n")
         for h in hatalar[:60]:

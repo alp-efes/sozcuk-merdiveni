@@ -69,7 +69,9 @@ nedenini yaz:
 - Hukuki onay. `hukuk-uyum` avukat değildir; bulgu üretir, karar vermez.
 - 8. bölümün dışında kalan PR'ları birleştirmek.
 - App Store'a gönderim, AdSense/AdMob başvurusu.
-- Cloudflare DNS/zone/kural değişikliği (erişimimiz salt okunur).
+- Cloudflare: zone silmek, hesap/fatura/üyelik/API anahtarı işleri, e-posta
+  (Email Routing, MX/SPF/DKIM/DMARC kayıtları) ve alan adı kaydı. Diğer
+  Cloudflare işleri 9. bölümdeki kurallarla takımlara açıktır.
 - Oyunculara ya da üçüncü kişilere e-posta/mesaj göndermek. Yalnızca taslak hazırla.
 
 ## 6. Güvenlik
@@ -129,3 +131,23 @@ PR'ını birleştirir. Başka saatte açık bırak.
 4. Haftalık plan issue'suna tek satır yaz: hangi PR birleşti.
 
 Sahip bir PR'a "bekle" ya da "birleştirme" yazdıysa o PR'ı birleştirme.
+
+## 9. Cloudflare değişiklikleri
+
+Takımlar Cloudflare API'sini (`api.cloudflare.com`; anahtar ortamda kayıtlı,
+depoya yazılmaz) kullanabilir. Kurallar:
+
+- **Önce issue.** Değişikliği takım etiketli bir issue'da yaz: ne, neden, eski
+  değer, yeni değer, geri alma adımı. Okuma (GET) için gerekmez.
+- **Alan:** `operasyon` yayın sorunu ve geri alma (önceki dağıtıma dönme),
+  `guvenlik` güvenlik başlıkları ve kurallar, `buyume` yönlendirme ve önbellek,
+  `oyun-gelistirme` Workers Builds ayarları. Başka takımın alanındaki değişiklik
+  için o takıma issue açılır.
+- **Tek seferde tek değişiklik**, hemen ardından canlı denetim (`/canli`
+  adımları). Bozulduysa eski değere dön ve `[sahip]` issue'su aç.
+- **Asla:** 5. bölümdeki Cloudflare maddeleri; `main` dışındaki dalların
+  canlıya çıkmasını sağlayan derleme ayarı (dal derlemeleri
+  `npx wrangler versions upload` kalmalı); sahibin hesabındaki başka zone ve
+  Worker'lar.
+- Yapılan her değişiklik haftalık plan issue'suna tek satır yazılır.
+

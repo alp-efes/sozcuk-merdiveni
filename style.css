@@ -1,29 +1,107 @@
 /* =========================================================
    SÖZCÜK MERDİVENİ — style.css
-   Mobil öncelikli (Mobile-First), koyu tema, Wordle benzeri UI
+   Mobil öncelikli, koyu tema. Site ve iOS uygulaması aynı dosyayı kullanır.
    ========================================================= */
 
-/* ---------- Renk paleti ve ölçüler (CSS Variables) ---------- */
+/* ---------- Tasarım belirteçleri ----------
+   Renk, yazı, boşluk, köşe, gölge ve hareket değerlerinin TEK kaynağı.
+   Kurallar ve kontrast tablosu: ekip/tasarim-sistemi.md
+   Bu bloğun dışında sabit renk yazılmaz (tools/test_veri.py denetler).
+   tools/ikon_uret.py renkleri buradan okur; favicon.svg ve
+   tools/og-image.svg aynı değerlerin kopyasını taşır. */
 :root {
-  --bg:          #121213;  /* Nötr koyu arka plan */
-  --surface:     #1e1e20;  /* Kart / modal yüzeyi */
-  --tile-border: #3a3a3c;  /* Boş kutu kenarlığı */
-  --tile-filled: #2c2c2e;  /* Dolu ama eşleşmemiş kutu */
-  --text:        #f5f5f7;
-  --text-dim:    #9a9aa0;
-  --green:       #538d4e;  /* Doğru harf */
-  --amber:       #b59f3b;  /* Hedef kelime vurgusu */
-  --red:         #d64545;  /* Hata / uyarı */
-  --key-bg:      #818384;
-  --key-text:    #ffffff;
-  --radius:      6px;
-  --gap:         6px;
-  --tile-size:   clamp(42px, 12vw, 58px); /* Dokunmatik için min 42px */
+  /* Renk — zemin ve çizgi */
+  --bg:            #121213;  /* Sayfa zemini (index.html theme-color ile aynı) */
+  --surface:       #1e1e20;  /* Kart / pencere yüzeyi */
+  --surface-2:     #2c2c2e;  /* Dolu kutu, ikincil düğme, basılı durum */
+  --border:        #3a3a3c;  /* Boş kutu ve düğme kenarlığı */
+  --border-strong: #565658;  /* Dolu kutu, seçili sekme kenarlığı */
+
+  /* Renk — metin */
+  --text:          #f5f5f7;
+  --text-dim:      #9a9aa0;  /* İkincil metin; --surface-2 üstünde bile AA */
+  --link:          #7aa7ff;
+  --on-accent:     #ffffff;  /* --green / --red / --key-bg dolgusu üstündeki metin */
+
+  /* Renk — anlam. Dolgu tonları beyaz metinle AA (>= 4,5:1) verir;
+     koyu zeminde renkli METİN için "-text" tonu kullanılır. */
+  --green:         #3f8245;  /* Doğru harf, birincil düğme, başarı bildirimi */
+  --green-text:    #5aa85f;
+  --amber:         #c9a94a;  /* Hedef kelime, marka vurgusu, odak halkası */
+  --red:           #cf3f3f;  /* Hata bildirimi dolgusu */
+  --red-text:      #ef6b6b;  /* Geçersiz girişte harf ve kenarlık */
+  --cream:         #e9e7e0;  /* Marka işaretinin orta kutusu (simgeler) */
+  --key-bg:        #6e6f71;  /* Ekran klavyesi tuşu */
+  --key-text:      var(--on-accent);
+  --overlay:       rgba(0, 0, 0, 0.65);
+
+  /* Yazı */
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --fs-2xs:  0.6875rem;  /* 11 px — etiket, dipnot (en küçük boyut) */
+  --fs-xs:   0.75rem;    /* 12 px */
+  --fs-sm:   0.875rem;   /* 14 px */
+  --fs-md:   1rem;       /* 16 px — gövde, düğme */
+  --fs-lg:   1.125rem;   /* 18 px */
+  --fs-xl:   1.375rem;   /* 22 px */
+  --fs-2xl:  1.5rem;     /* 24 px */
+  --fw-bold:  700;
+  --fw-heavy: 800;
+  --lh-tight: 1.1;
+  --lh-body:  1.5;
+  --lh-loose: 1.7;
+  --track-sm: 0.5px;     /* Harf aralığı */
+  --track-md: 1px;
+  --track-lg: 3px;
+
+  /* Boşluk — 4 px tabanlı ölçek (1h = 6 px yarım adım) */
+  --space-1:  4px;
+  --space-1h: 6px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-14: 56px;
+
+  /* Ölçü */
+  --tap-min:    44px;    /* Dokunma alanının en küçük kenarı (bkz. "Dokunma alanı") */
+  --ctl-md:     40px;    /* Görünür boy: ikon düğmesi, mod sekmesi */
+  --ctl-sm:     34px;    /* Görünür boy: zorluk / uzunluk düğmesi */
+  --ctl-xs:     28px;    /* Görünür boy: küçük düğme (Sonucu paylaş) */
+  --btn-height: 48px;
+  --key-height: 52px;
+  --tile-size:  clamp(42px, 12vw, 58px);
+  --gap:        var(--space-1h);   /* Harf kutuları arası */
+
+  /* Köşe, gölge, hareket, katman */
+  --radius:    6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --dur-fast:  0.1s;
+  --dur-base:  0.2s;
+  --dur-slow:  0.5s;
+  --ease:      ease;
+  --z-toast:   30;
+  --z-modal:   40;
 }
 
 /* ---------- Sıfırlama ve genel yerleşim ---------- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Klavyeyle gezinirken odak her zaman görünür */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* İşletim sisteminde "hareketi azalt" açıksa animasyonlar anında biter */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 body {
   font-family: var(--font);
@@ -57,8 +135,8 @@ body {
    HTML'deki data-placeholder özniteliğini silmeniz yeterli */
 .ad-container::after {
   content: attr(data-placeholder);
-  font-size: 0.65rem;
-  letter-spacing: 2px;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--track-lg);
   color: var(--text-dim);
 }
 
@@ -67,65 +145,98 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--tile-border);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 /* Marka bloğu: üstte site adı (Sözcük Yolu), altında oyun adı */
-.brand { display: flex; flex-direction: column; line-height: 1.1; }
+.brand { display: flex; flex-direction: column; line-height: var(--lh-tight); }
 .brand-site {
-  font-size: 0.62rem;
-  letter-spacing: 3px;
-  font-weight: 700;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--track-lg);
+  font-weight: var(--fw-bold);
   color: var(--amber);
 }
 .brand-game {
-  font-size: 1.05rem;
-  letter-spacing: 1px;
-  font-weight: 800;
+  font-size: var(--fs-md);
+  letter-spacing: var(--track-md);
+  font-weight: var(--fw-heavy);
 }
-.header-actions { display: flex; gap: 8px; }
+.header-actions { display: flex; gap: var(--space-2); }
 
 .icon-btn {
-  width: 40px;
-  height: 40px;                    /* Dokunmatik hedef: min 40px */
+  width: var(--ctl-md);
+  height: var(--ctl-md);
   background: none;
-  border: 1px solid var(--tile-border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text);
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background var(--dur-base);
 }
-.icon-btn:active { background: var(--tile-filled); }
+.icon-btn:active { background: var(--surface-2); }
+
+/* ---------- Dokunma alanı ----------
+   Kabuk 100dvh sabit: küçük telefonda her piksel oyun alanından gider. Bu
+   yüzden bazı denetimler 44 px'ten kısa GÖRÜNÜR, dokunma alanı ise
+   yerleşimi büyütmeyen görünmez bir katmanla --tap-min'e tamamlanır.
+   Katman, komşu denetimle örtüşmeyecek yöne uzar (aralıklar buna göre).
+   tools/test_tarayici.js her denetimin gerçek dokunma alanını ölçer. */
+.icon-btn, .mode-tab, .pick-btn, .mini-btn, .scroll-cue { position: relative; }
+.icon-btn::before, .mode-tab::before, .pick-btn::before, .mini-btn::before, .scroll-cue::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Varsayılan: eksik boy üste ve alta eşit bölünür (% = kendi yüksekliği) */
+  top: calc((100% - var(--tap-min)) / 2);
+  bottom: calc((100% - var(--tap-min)) / 2);
+}
+/* 40×40: dört yana eşit */
+.icon-btn::before { left: calc((100% - var(--tap-min)) / 2); right: calc((100% - var(--tap-min)) / 2); }
+/* Sekme yalnızca yukarı uzar: altındaki satır kendi payını sekmenin dibine kadar alır */
+.mode-tab::before { top: calc(100% - var(--tap-min)); bottom: 0; }
+/* İki satır arasında yalnızca --space-1h var: üst satır yukarı, alt satır aşağı
+   uzar. Alt satırın payı .game'in kenarlığında kalır (kayan içeriğin üstüne değil). */
+.setting-row:first-child .pick-btn::before {
+  top: calc(-1 * var(--space-2));
+  bottom: calc(100% - var(--tap-min) + var(--space-2));
+}
+.setting-row + .setting-row .pick-btn::before {
+  top: calc(-1 * var(--space-1));
+  bottom: calc(100% - var(--tap-min) + var(--space-1));
+}
+/* Kabuğun en altında: üstü reklam alanı, yalnızca aşağı uzar */
+.scroll-cue::before { top: 0; bottom: calc(100% - var(--tap-min)); }
 
 /* ---------- Mod sekmeleri (Günlük / Serbest) ---------- */
 .mode-tabs {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  padding: 8px 12px 0;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3) 0;
   flex-shrink: 0;
 }
 .mode-tab {
   flex: 1;
   max-width: 200px;
-  min-height: 40px;                 /* Dokunmatik hedef */
+  min-height: var(--ctl-md);
   background: none;
-  border: 1px solid var(--tile-border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text-dim);
   font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
   cursor: pointer;
   touch-action: manipulation;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background var(--dur-base), color var(--dur-base), border-color var(--dur-base);
 }
 .mode-tab.active {
-  background: var(--tile-filled);
+  background: var(--surface-2);
   color: var(--text);
-  border-color: #565658;
+  border-color: var(--border-strong);
 }
 
 /* ---------- Serbest oyun ayarları: zorluk + uzunluk (yalnızca Serbest Oyun) ---------- */
@@ -133,8 +244,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px 0;
+  gap: var(--space-1h);
+  padding: var(--space-2) var(--space-3) 0;
   flex-shrink: 0;
 }
 .free-settings.hidden { display: none; }   /* Günün Bulmacası'nda gizli */
@@ -142,45 +253,45 @@ body {
 .setting-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .setting-label {
-  width: 58px;
+  width: 64px;
   text-align: right;
-  font-size: 0.62rem;
-  letter-spacing: 1px;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--track-md);
   text-transform: uppercase;
   color: var(--text-dim);
   flex-shrink: 0;
 }
-.btn-group { display: flex; gap: 6px; }
+.btn-group { display: flex; gap: var(--space-1h); }
 
 .pick-btn {
   min-width: 62px;
-  min-height: 34px;                   /* Dokunmatik hedef */
+  min-height: var(--ctl-sm);
   background: none;
-  border: 1px solid var(--tile-border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text-dim);
   font-family: var(--font);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
   cursor: pointer;
   touch-action: manipulation;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background var(--dur-base), color var(--dur-base), border-color var(--dur-base);
 }
 .pick-btn:active { transform: scale(0.96); }
 .pick-btn.active {
   background: var(--green);
   border-color: var(--green);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 /* ---------- Günlük bulmaca geri sayımı ---------- */
 .daily-timer {
   text-align: center;
-  padding: 10px 12px 0;
-  font-size: 0.72rem;
+  padding: var(--space-2) var(--space-3) 0;
+  font-size: var(--fs-xs);
   color: var(--text-dim);
   flex-shrink: 0;
 }
@@ -188,38 +299,38 @@ body {
 
 /* Günlük çözüldü göstergesi + paylaş butonu (cevaplar tahtada görünür kalır) */
 .daily-solved {
-  margin-bottom: 6px;
-  font-size: 0.78rem;
-  color: var(--green);
-  font-weight: 700;
+  margin-bottom: var(--space-1h);
+  font-size: var(--fs-xs);
+  color: var(--green-text);
+  font-weight: var(--fw-bold);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 .daily-solved.hidden { display: none; }
 .mini-btn {
-  border: 1px solid var(--tile-border);
-  background: var(--tile-filled);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
   color: var(--text);
   border-radius: var(--radius);
-  padding: 4px 10px;
+  min-height: var(--ctl-xs);
+  padding: 0 var(--space-3);
   font-family: var(--font);
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
   cursor: pointer;
   touch-action: manipulation;
 }
 .mini-btn:active { filter: brightness(1.3); }
 .daily-timer strong {
   color: var(--text);
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--track-sm);
   /* Rakamlar eşit genişlikte olsun ki sayaç titremesin */
   font-variant-numeric: tabular-nums;
 }
-.daily-timer .tz-note { opacity: 0.65; }
 
 /* ---------- Oyun alanı ---------- */
 .game {
@@ -231,8 +342,12 @@ body {
   /* safe center: sığınca ortalar, sığmayınca üstten başlatır (kaydırılabilir).
      Böylece dar ekranda satırlar sekme/klavyeye binmek yerine kayar. */
   justify-content: safe center;
-  gap: 10px;
-  padding: 10px;
+  gap: var(--space-2);
+  /* Üst boşluk dolgu değil kenarlık: kayan içerik kenarlığın altında kırpılır.
+     Üstteki uzunluk düğmelerinin görünmez dokunma alanı bu şeride iner;
+     dolgu olsaydı kayan harf kutuları oraya gelir, dokunuş düğmeye giderdi. */
+  border-top: var(--space-2) solid transparent;
+  padding: 0 var(--space-2) var(--space-2);
   overflow-y: auto;
 }
 
@@ -240,12 +355,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   flex-shrink: 0;          /* Başlangıç/hedef satırları asla sıkışmasın */
 }
 .row-label {
-  font-size: 0.65rem;
-  letter-spacing: 3px;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--track-lg);
   color: var(--text-dim);
 }
 
@@ -260,19 +375,19 @@ body {
   display: grid;
   place-items: center;
   font-size: calc(var(--tile-size) * 0.5);
-  font-weight: 700;
-  border: 2px solid var(--tile-border);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--border);
   border-radius: var(--radius);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  transition: background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), transform var(--dur-fast) var(--ease);
 }
 .tile.filled {
-  background: var(--tile-filled);
-  border-color: #565658;
+  background: var(--surface-2);
+  border-color: var(--border-strong);
 }
 .tile.green {                       /* Hedefle aynı konumda eşleşen harf */
   background: var(--green);
   border-color: var(--green);
-  color: #fff;
+  color: var(--on-accent);
 }
 .tile.target {                      /* Hedef kelime kutuları */
   border-style: dashed;
@@ -296,13 +411,13 @@ body {
   gap: var(--gap);
   flex-shrink: 0;
 }
-.ladder .word-row { animation: slideIn 0.25s ease; }
+.ladder .word-row { animation: slideIn var(--dur-base) var(--ease); }
 
 /* ---------- Animasyonlar ---------- */
 @keyframes pop {                    /* Harf girişinde kutu zıplaması */
   50% { transform: scale(1.14); }
 }
-.tile.pop { animation: pop 0.12s ease; }
+.tile.pop { animation: pop var(--dur-fast) var(--ease); }
 
 @keyframes slideIn {                /* Kabul edilen kelimenin listeye inişi */
   from { opacity: 0; transform: translateY(-8px); }
@@ -315,12 +430,12 @@ body {
   30%, 50%, 70% { transform: translateX(-6px); }
   40%, 60% { transform: translateX(6px); }
 }
-.shake { animation: shake 0.5s ease; }
+.shake { animation: shake var(--dur-slow) var(--ease); }
 
 /* Geçersiz girişte kutular kısa süreliğine kırmızıya döner */
 .input-row.invalid .tile.filled {
-  border-color: var(--red);
-  color: var(--red);
+  border-color: var(--red-text);
+  color: var(--red-text);
 }
 
 /* ---------- Hata mesajı (toast) ---------- */
@@ -330,15 +445,16 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: var(--red);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
+  color: var(--on-accent);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-sm);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 30;
+  transition: opacity var(--dur-base) var(--ease);
+  z-index: var(--z-toast);
   white-space: nowrap;
 }
 .toast.show { opacity: 1; }
@@ -370,7 +486,7 @@ body {
 
   .tap-hint {
     display: block;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     color: var(--text-dim);
     text-align: center;
     flex-shrink: 0;
@@ -384,43 +500,43 @@ body {
   width: 100%;
   max-width: 560px;
   margin: 0 auto;
-  padding: 6px 4px 10px;
+  padding: var(--space-1h) var(--space-1) var(--space-2);
   flex-shrink: 0;
 }
 .kb-row {
   display: flex;
   justify-content: center;
-  gap: 5px;
-  margin-bottom: 6px;
+  gap: var(--space-1);
+  margin-bottom: var(--space-1h);
 }
 .key {
   flex: 1;
   max-width: 46px;
-  min-height: 52px;                 /* Dokunmatik uyumlu büyük tuş */
+  min-height: var(--key-height);
   border: none;
   border-radius: var(--radius);
   background: var(--key-bg);
   color: var(--key-text);
   font-family: var(--font);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
   cursor: pointer;
   touch-action: manipulation;       /* Çift dokunuş zoom'unu engelle */
-  transition: filter 0.1s, transform 0.05s;
+  transition: filter var(--dur-fast), transform var(--dur-fast);
 }
 .key:active { transform: scale(0.94); filter: brightness(1.25); }
-.key.wide { flex: 1.7; max-width: 82px; font-size: 0.72rem; }
+.key.wide { flex: 1.7; max-width: 82px; font-size: var(--fs-xs); }
 
 /* ---------- Başarı modalı ---------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: var(--overlay);
   display: grid;
   place-items: center;
-  z-index: 40;
+  z-index: var(--z-modal);
   opacity: 1;
-  transition: opacity 0.25s ease;
+  transition: opacity var(--dur-base) var(--ease);
 }
 .modal-overlay.hidden {
   opacity: 0;
@@ -428,67 +544,68 @@ body {
 }
 .modal {
   background: var(--surface);
-  border: 1px solid var(--tile-border);
-  border-radius: 12px;
-  padding: 28px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
   width: min(90vw, 340px);
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--space-3);
   transform: translateY(0);
-  transition: transform 0.25s ease;
+  transition: transform var(--dur-base) var(--ease);
 }
-.modal-overlay.hidden .modal { transform: translateY(14px); }
+.modal-overlay.hidden .modal { transform: translateY(var(--space-3)); }
 .modal { position: relative; }      /* Kapat butonunun konumlanması için */
-.modal h2 { font-size: 1.4rem; }
-.modal p { color: var(--text-dim); line-height: 1.5; }
+.modal h2 { font-size: var(--fs-xl); }
+.modal p { color: var(--text-dim); line-height: var(--lh-body); }
 
 .modal-close {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 34px;
-  height: 34px;
+  top: var(--space-1);
+  right: var(--space-1);
+  width: var(--tap-min);
+  height: var(--tap-min);
   background: none;
   border: none;
   border-radius: var(--radius);
   color: var(--text-dim);
-  font-size: 1rem;
+  font-size: var(--fs-md);
   cursor: pointer;
 }
-.modal-close:hover { color: var(--text); background: var(--tile-filled); }
+.modal-close:hover { color: var(--text); background: var(--surface-2); }
 
 .btn-primary {
-  min-height: 48px;
+  min-height: var(--btn-height);
   border: none;
   border-radius: var(--radius);
   background: var(--green);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
+  color: var(--on-accent);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
   cursor: pointer;
-  transition: filter 0.15s;
+  transition: filter var(--dur-base);
 }
 .btn-primary:active { filter: brightness(1.2); }
 
 .btn-secondary {
-  min-height: 48px;
-  border: 1px solid var(--tile-border);
+  min-height: var(--btn-height);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--tile-filled);
+  background: var(--surface-2);
   color: var(--text);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
   cursor: pointer;
-  transition: filter 0.15s;
+  transition: filter var(--dur-base);
 }
 .btn-secondary:active { filter: brightness(1.3); }
 
 /* ---------- Hedefin altındaki "en az adım" bilgisi ---------- */
 .par-info {
-  font-size: 0.68rem;
-  letter-spacing: 0.5px;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--track-sm);
   color: var(--text-dim);
   min-height: 1em;
 }
@@ -498,13 +615,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 6px 0 9px;
-  font-size: 0.68rem;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  font-size: var(--fs-2xs);
   color: var(--text-dim);
   flex-shrink: 0;
 }
 .site-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  padding: 0 var(--space-3);
   color: var(--text-dim);
   text-decoration: none;
 }
@@ -523,39 +644,41 @@ body.page-body {
 .page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 24px 20px 56px;
+  padding: var(--space-6) var(--space-5) var(--space-14);
 }
-.page h1 { font-size: 1.5rem; margin-bottom: 18px; }
-.page h2 { font-size: 1.12rem; margin: 22px 0 8px; }
-.page p, .page li { color: var(--text-dim); line-height: 1.7; margin-bottom: 10px; }
-.page ul, .page ol { padding-left: 22px; }
-.page a { color: #7aa7ff; }
+.page h1 { font-size: var(--fs-2xl); margin-bottom: var(--space-5); }
+.page h2 { font-size: var(--fs-lg); margin: var(--space-6) 0 var(--space-2); }
+.page p, .page li { color: var(--text-dim); line-height: var(--lh-loose); margin-bottom: var(--space-3); }
+.page ul, .page ol { padding-left: var(--space-6); }
+.page a { color: var(--link); }
 .page .back {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: #7aa7ff;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  margin-bottom: var(--space-2);
+  color: var(--link);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 .page .back:hover { text-decoration: underline; }
 .page .ornek {
   background: var(--surface);
-  border: 1px solid var(--tile-border);
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  line-height: 1.9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--track-lg);
+  line-height: var(--lh-loose);
 }
 
 /* ---------- Aşağı kaydırma ipucu (oyun kabuğunun en altı) ---------- */
 .scroll-cue {
   display: block;
   text-align: center;
-  padding: 5px 0 7px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  padding: var(--space-1h) 0;
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--track-sm);
   color: var(--text-dim);
   text-decoration: none;
   flex-shrink: 0;
@@ -566,17 +689,18 @@ body.page-body {
 /* .page ile aynı tipografiyi kullanır; bu kurallar .page'den SONRA gelmeli
    ki başlık boyutları burada geçerli olsun. */
 .info {
-  border-top: 1px solid var(--tile-border);
+  border-top: 1px solid var(--border);
   -webkit-user-select: text;
   user-select: text;               /* Bilgi metni seçilebilsin */
 }
-.info h2 { font-size: 1.35rem; margin-bottom: 14px; }
-.info h3 { font-size: 1.05rem; margin: 22px 0 8px; }
+.info h2 { font-size: var(--fs-xl); margin-bottom: var(--space-4); }
+.info h3 { font-size: var(--fs-lg); margin: var(--space-6) 0 var(--space-2); }
 
 /* ---------- Geniş ekran (tablet/masaüstü) iyileştirmeleri ---------- */
 @media (min-width: 600px) {
-  :root { --tile-size: 62px; }
-  .brand-game { font-size: 1.3rem; }
-  .brand-site { font-size: 0.7rem; }
-  .key { min-height: 58px; }
+  :root { --tile-size: 62px; --key-height: 58px; }
+  .brand-game { font-size: var(--fs-xl); }
+  .brand-site { font-size: var(--fs-xs); }
+  /* Zorluk ve uzunluk yan yana: dikey yer oyun tahtasına kalır */
+  .free-settings { flex-direction: row; justify-content: center; gap: var(--space-4); }
 }

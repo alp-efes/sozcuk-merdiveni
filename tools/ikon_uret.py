@@ -1,37 +1,87 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Sözcük Merdiveni — favicon ve sosyal kart üretici
---------------------------------------------------
-Pillow ile markalı ikonları çizer (favicon.svg / og-image.svg ile aynı motif):
-koyu zeminde yükselen üç kutu (yeşil → krem → amber) — kelime oyunu + merdiven.
+Sözcük Merdiveni — simge, sosyal kart ve uygulama görseli üretici
+------------------------------------------------------------------
+Pillow ile marka işaretini çizer: koyu zeminde yükselen üç kutu
+(yeşil → krem → amber) — kelime oyunu + merdiven.
 
-Üretilenler (proje köküne):
-  favicon.ico            16/32/48 çok boyutlu (klasik, Google + tarayıcılar)
-  favicon-48.png         Google arama sonucu ikonu
-  favicon-192.png        Android
-  apple-touch-icon.png   180x180, iOS ana ekran
-  og-image.png           1200x630 sosyal paylaşım kartı
+Renkler bu dosyada YAZMAZ: style.css içindeki :root belirteçlerinden okunur
+(tek palet; bkz. ekip/tasarim-sistemi.md). favicon.svg ve tools/og-image.svg
+aynı değerlerin elle tutulan kopyasıdır; tools/test_veri.py eşleşmeyi denetler.
+
+Üretilenler:
+  favicon.ico                    16/32/48 çok boyutlu (Google + tarayıcılar)
+  favicon-48.png                 Google arama sonucu ikonu
+  favicon-192.png                Android
+  apple-touch-icon.png           180x180, iOS ana ekran
+  og-image.png                   1200x630 sosyal paylaşım kartı
+  tools/uygulama/simge-1024.png  iOS uygulama simgesi: opak RGB, köşesiz
+  tools/uygulama/acilis-2732.png iOS açılış ekranı: zemin + ortada işaret
 
 Kullanım:  python3 tools/ikon_uret.py
-(Yeniden çalıştırmak için Pillow gerekir: pip install Pillow)
+(Pillow gerekir: pip install Pillow)
 """
 
+import re
+import sys
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
+from PIL.PngImagePlugin import PngInfo
 
 KOK = Path(__file__).resolve().parent.parent
-FONT_BOLD = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
+UYGULAMA = KOK / "tools" / "uygulama"
 
-KOYU_UST = (36, 36, 43)      # #24242b
-KOYU_ALT = (19, 19, 21)      # #131315
-YESIL = (74, 157, 79)        # #4a9d4f
-KREM = (233, 231, 224)       # #e9e7e0
-AMBER = (201, 169, 74)       # #c9a94a
-GRI = (154, 154, 160)
-GRI2 = (201, 201, 208)
-BEYAZ = (245, 245, 247)
+
+def belirtec_oku():
+    """style.css :root bloğundaki hex renkleri {ad: (r, g, b)} olarak döndürür."""
+    css = (KOK / "style.css").read_text(encoding="utf-8")
+    kok = css[css.index(":root"):]
+    kok = kok[:kok.index("}")]
+    return {ad: tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+            for ad, h in re.findall(r"--([\w-]+):\s*#([0-9a-fA-F]{6})\b", kok)}
+
+
+RENK = belirtec_oku()
+ZEMIN_UST = RENK["surface"]
+ZEMIN_ALT = RENK["bg"]
+YESIL = RENK["green"]
+KREM = RENK["cream"]
+AMBER = RENK["amber"]
+METIN = RENK["text"]
+SOLUK = RENK["text-dim"]
+
+# Her PNG'ye çizimde kullanılan renklerin özeti yazılır ("palet" metin parçası).
+# tools/test_veri.py bunu style.css ile karşılaştırır: palet değişip bu betik
+# çalıştırılmazsa bayat görsel yakalanır.
+KULLANILAN = ("amber", "bg", "cream", "green", "surface", "text", "text-dim")
+
+
+def png_kaydet(img, yol):
+    bilgi = PngInfo()
+    bilgi.add_text("palet", " ".join(f"{ad}=#{''.join(f'{c:02x}' for c in RENK[ad])}" for ad in KULLANILAN))
+    img.save(yol, pnginfo=bilgi)
+
+
+def font_bul(adaylar):
+    """İlk bulunan yazı tipi dosyası. Arial ile Liberation Sans aynı ölçülere
+    sahiptir; kart macOS'ta da Linux'ta da aynı yerleşimle çıkar."""
+    for yol in adaylar:
+        if Path(yol).exists():
+            return yol
+    sys.exit("Yazı tipi bulunamadı. Şunlardan biri kurulu olmalı:\n  " + "\n  ".join(adaylar))
+
+
+FONT_BOLD = font_bul([
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+])
+FONT_REG = font_bul([
+    "/System/Library/Fonts/Supplemental/Arial.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+])
 
 SS = 4  # süper örnekleme (kenarlar yumuşasın diye yüksek çöz + küçültme)
 
@@ -45,25 +95,42 @@ def dikey_gradyan(w, h, ust, alt):
     return taban.resize((w, h))
 
 
-def favicon_ciz(boy):
-    """Verilen kenar uzunluğunda favicon (RGBA) döndürür."""
+def isaret_ciz(d, x0, y0, boy):
+    """Marka işareti: (x0, y0) köşesinden başlayan boy×boy alana üç kutu.
+    Oranlar favicon.svg ile aynı (320 birimlik alanda 130'luk kutu, 95 adım)."""
+    k = boy / 320
+    for (x, y, renk) in [(190, 0, AMBER), (95, 95, KREM), (0, 190, YESIL)]:
+        d.rounded_rectangle([x0 + x * k, y0 + y * k, x0 + (x + 130) * k, y0 + (y + 130) * k],
+                            radius=26 * k, fill=renk)
+
+
+def simge_ciz(boy, yuvarlak=True):
+    """Kare simge. yuvarlak=True: saydam köşeli RGBA (favicon).
+    yuvarlak=False: tam dolu, opak RGB (iOS köşeyi kendi maskeler)."""
     S = boy * SS
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-
-    # Yuvarlak köşeli koyu zemin (gradyan) — yuvarlak maske ile
-    grad = dikey_gradyan(S, S, KOYU_UST, KOYU_ALT).convert("RGBA")
-    maske = Image.new("L", (S, S), 0)
-    ImageDraw.Draw(maske).rounded_rectangle([0, 0, S - 1, S - 1], radius=int(112 * S / 512), fill=255)
-    img.paste(grad, (0, 0), maske)
-
-    d = ImageDraw.Draw(img)
-    k = S / 512  # 512 mantıksal → gerçek ölçek
-    r = int(26 * k)
-    # amber (üst), krem (orta), yeşil (alt) — köşegen
-    for (x, y, renk) in [(286, 96, AMBER), (191, 191, KREM), (96, 286, YESIL)]:
-        d.rounded_rectangle([x * k, y * k, (x + 130) * k, (y + 130) * k], radius=r, fill=renk)
-
+    grad = dikey_gradyan(S, S, ZEMIN_UST, ZEMIN_ALT)
+    if yuvarlak:
+        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+        maske = Image.new("L", (S, S), 0)
+        ImageDraw.Draw(maske).rounded_rectangle([0, 0, S - 1, S - 1], radius=int(112 * S / 512), fill=255)
+        img.paste(grad, (0, 0), maske)
+    else:
+        img = grad
+    isaret_ciz(ImageDraw.Draw(img), 96 * S / 512, 96 * S / 512, 320 * S / 512)
     return img.resize((boy, boy), Image.LANCZOS)
+
+
+def acilis_ciz(boy=2732, isaret=640):
+    """Açılış ekranı: düz zemin (uygulamanın zeminiyle aynı, geçiş görünmez)
+    ve ortada işaret. İşaret, her ekran oranında görünen ortadaki
+    ~1200 px güvenli alanın içinde kalır."""
+    S = isaret * SS
+    katman = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    isaret_ciz(ImageDraw.Draw(katman), 0, 0, S)
+    katman = katman.resize((isaret, isaret), Image.LANCZOS)
+    img = Image.new("RGB", (boy, boy), ZEMIN_ALT)
+    img.paste(katman, ((boy - isaret) // 2, (boy - isaret) // 2), katman)
+    return img
 
 
 def yaz(d, xy, metin, font, renk, spacing=0, anchor="lm"):
@@ -80,7 +147,7 @@ def yaz(d, xy, metin, font, renk, spacing=0, anchor="lm"):
 def og_ciz():
     """1200x630 sosyal paylaşım kartı."""
     W, H = 1200 * 2, 630 * 2       # 2x render, sonra küçült
-    img = dikey_gradyan(W, H, KOYU_UST, KOYU_ALT).convert("RGBA")
+    img = dikey_gradyan(W, H, ZEMIN_UST, ZEMIN_ALT)
     d = ImageDraw.Draw(img)
     k = 2  # 1200 mantıksal → gerçek ölçek
 
@@ -93,34 +160,35 @@ def og_ciz():
     f_url = ImageFont.truetype(FONT_BOLD, 34 * k)
 
     yaz(d, (90 * k, 222 * k), "SÖZCÜK YOLU", f_brand, AMBER, spacing=7 * k)
-    d.text((88 * k, 292 * k), "Sözcük Merdiveni", font=f_title, fill=BEYAZ, anchor="lm")
-    d.text((90 * k, 390 * k), "Türkçe kelime oyunu · Her gün yeni bulmaca", font=f_tag, fill=GRI2, anchor="lm")
-    d.text((90 * k, 445 * k), "Ücretsiz · Üyeliksiz · Mobil uyumlu", font=f_sub, fill=GRI, anchor="lm")
+    d.text((88 * k, 292 * k), "Sözcük Merdiveni", font=f_title, fill=METIN, anchor="lm")
+    d.text((90 * k, 390 * k), "Türkçe kelime oyunu · Her gün yeni bulmaca", font=f_tag, fill=METIN, anchor="lm")
+    d.text((90 * k, 445 * k), "Ücretsiz · Üyeliksiz · Mobil uyumlu", font=f_sub, fill=SOLUK, anchor="lm")
     d.text((90 * k, 553 * k), "sözcükyolu.com", font=f_url, fill=AMBER, anchor="lm")
 
-    # Sağ: yükselen kutu ikonu
-    ox, oy, r = 902 * k, 150 * k, 20 * k
-    for (x, y, renk) in [(150, 0, AMBER), (75, 75, KREM), (0, 150, YESIL)]:
-        d.rounded_rectangle([ox + x * k, oy + y * k, ox + (x + 100) * k, oy + (y + 100) * k], radius=r, fill=renk)
+    isaret_ciz(d, 902 * k, 150 * k, 250 * k)    # sağda marka işareti
 
     return img.resize((1200, 630), Image.LANCZOS)
 
 
 def main():
     # Favicon PNG'leri
-    favicon_ciz(48).save(KOK / "favicon-48.png")
-    favicon_ciz(192).save(KOK / "favicon-192.png")
-    favicon_ciz(180).save(KOK / "apple-touch-icon.png")
+    png_kaydet(simge_ciz(48), KOK / "favicon-48.png")
+    png_kaydet(simge_ciz(192), KOK / "favicon-192.png")
+    png_kaydet(simge_ciz(180), KOK / "apple-touch-icon.png")
 
     # Çok boyutlu favicon.ico (16/32/48)
-    ico = favicon_ciz(64)
-    ico.save(KOK / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
+    simge_ciz(64).save(KOK / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
 
     # Sosyal kart
-    og_ciz().convert("RGB").save(KOK / "og-image.png", quality=92)
+    png_kaydet(og_ciz(), KOK / "og-image.png")
 
-    print("Üretildi: favicon.ico, favicon-48.png, favicon-192.png, "
-          "apple-touch-icon.png, og-image.png")
+    # iOS uygulaması (yollar iOS deposuyla sözleşmedir; adları değiştirmeyin)
+    UYGULAMA.mkdir(exist_ok=True)
+    png_kaydet(simge_ciz(1024, yuvarlak=False), UYGULAMA / "simge-1024.png")
+    png_kaydet(acilis_ciz(), UYGULAMA / "acilis-2732.png")
+
+    print("Üretildi: favicon.ico, favicon-48.png, favicon-192.png, apple-touch-icon.png, "
+          "og-image.png, tools/uygulama/simge-1024.png, tools/uygulama/acilis-2732.png")
 
 
 if __name__ == "__main__":

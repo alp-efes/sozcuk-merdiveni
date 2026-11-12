@@ -17,6 +17,7 @@
  *   7. Serbest oyun seçilen uzunlukta bulmaca veriyor
  *   8. Dokunmatikte ekran klavyesi gizli, cihaz klavyesi çalışıyor
  *   9. TRT gece yarısında bulmaca kendiliğinden değişiyor
+ *  10. Küçük telefonda HEDEF/giriş satırı ilk ekranda; dokunma alanları ≥ 44 px
  *
  * Dış ağ (reklam, analitik) engellenir; test internetsiz de aynı sonucu verir.
  *
@@ -234,6 +235,109 @@ async function main() {
     denetle(sonraki === `${beklenenSonra[0]}→${beklenenSonra[1]}`,
             `gece yarısından sonra ${sonraki}, beklenen ${beklenenSonra[0]}→${beklenenSonra[1]}`);
     denetle(onceki !== sonraki, "gece yarısında bulmaca değişmedi");
+
+    /* Küçük telefon: kabuk 100dvh sabit, üstteki her piksel oyun alanından
+       gider. Beklentiler main'deki düzenin sağladığı kadardır (ölçüldü). */
+    console.log("10. Küçük telefonda ilk görünüm ve dokunma alanı");
+    const t = new Date(Date.now() + TRT_MS);
+    const oglen = Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDate(), 12) - TRT_MS;
+    let kisaGun = oglen;                     // önümüzdeki en az adımlı günlük bulmaca
+    for (let g = 1; g < 400; g++) {
+      if (beklenenBulmaca(oglen + g * 86400000)[2] < beklenenBulmaca(kisaGun)[2]) kisaGun = oglen + g * 86400000;
+    }
+    async function kucukEkran(en, boy, cozulmus) {
+      const b = await tarayici.newContext({ viewport: { width: en, height: boy }, hasTouch: true, isMobile: true });
+      await disAgiKapat(b);
+      const s = await b.newPage();
+      s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await s.clock.install({ time: new Date(kisaGun) });
+      await s.goto(ADRES);
+      await oyunHazir(s);
+      if (cozulmus) {
+        const [kb, kh] = beklenenBulmaca(kisaGun);
+        await s.tap("#game");
+        for (const k of enKisaYol(kb, kh) || []) {
+          await s.keyboard.type(k.toLocaleLowerCase("tr"));
+          await s.keyboard.press("Enter");
+        }
+        await s.reload();                    // çözülmüş bulmacaya geri dönen oyuncunun ilk ekranı
+        await oyunHazir(s);
+      } else {
+        await s.tap("#tabFree");
+      }
+      // Satır, oyun alanının ve ekranın görünen kısmında mı (kaydırmadan)
+      const gorunen = await s.evaluate(() => {
+        const g = document.getElementById("game").getBoundingClientRect();
+        const icinde = (id) => {
+          const r = document.getElementById(id).getBoundingClientRect();
+          return r.height > 0 && r.top >= Math.max(0, g.top) - 0.5 && r.bottom <= Math.min(innerHeight, g.bottom) + 0.5;
+        };
+        return { bitti: oyun.over, hedef: icinde("targetWord"), giris: icinde("inputRow") };
+      });
+      return { b, s, gorunen };
+    }
+    // Gerçek dokunma alanı: merkezden dört yöne elementFromPoint ile yürünür.
+    // Komşu denetimin örttüğü kısım sayılmaz; görünmez genişletme de ölçülür.
+    const dokunmaAlani = (s, secici) => s.evaluate((sec) => [...document.querySelectorAll(sec)].map((el) => {
+      el.scrollIntoView({ block: "center" });
+      const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const vurur = (x, y) => { const e = document.elementFromPoint(x, y); return !!e && el.contains(e); };
+      const uzunluk = (nokta) => {
+        let n = 1;
+        for (const yon of [-1, 1]) for (let k = 1; k < 60 && vurur(...nokta(yon * k)); k++) n++;
+        return n;
+      };
+      return { ad: (el.textContent.trim() || el.getAttribute("aria-label")).slice(0, 20),
+               en: uzunluk((k) => [cx + k, cy]), boy: uzunluk((k) => [cx, cy + k]) };
+    }), secici);
+
+    const durumlar = [
+      [360, 560, false, ["hedef", "giris"]],
+      [375, 548, false, ["hedef", "giris"]],
+      [320, 460, false, ["giris"]],
+      [360, 560, true, ["hedef"]],
+      [375, 548, true, ["hedef"]],
+    ];
+    for (const [en, boy, cozulmus, beklenen] of durumlar) {
+      const { b, s, gorunen } = await kucukEkran(en, boy, cozulmus);
+      const ad = `${en}×${boy} ${cozulmus ? "çözülmüş günlük" : "serbest oyun"}`;
+      denetle(gorunen.bitti === cozulmus, `${ad}: oyun durumu beklenen değil`);
+      for (const satir of beklenen) {
+        denetle(gorunen[satir], `${ad}: ${satir === "hedef" ? "HEDEF" : "giriş"} satırı ilk ekranda görünmüyor`);
+      }
+      if (en === 360) {
+        const secici = cozulmus ? ".mini-btn"
+          : ".icon-btn, .mode-tab, .pick-btn, .scroll-cue, .site-footer a";
+        for (const a of await dokunmaAlani(s, secici)) {
+          denetle(a.en >= 44 && a.boy >= 44, `${ad}: '${a.ad}' dokunma alanı ${a.en}×${a.boy}, en az 44×44 olmalı`);
+        }
+      }
+      if (en === 360 && !cozulmus) {
+        // Görünmez dokunma alanı kaydırılan tahtaya taşmamalı: tahta kayınca
+        // harf kutuları oraya gelir ve dokunuş ayar düğmesine gidip oyunu sıfırlar.
+        await s.tap('[data-diff="zor"]');                // uzun yol: tahta kaysın
+        const [zb, zh] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        await s.tap("#game");
+        for (const k of (enKisaYol(zb, zh) || []).slice(0, -1)) {
+          await s.keyboard.type(k.toLocaleLowerCase("tr"));
+          await s.keyboard.press("Enter");
+        }
+        const tahta = await s.evaluate(() => {
+          const g = document.getElementById("game");
+          g.scrollTop = g.scrollHeight;
+          const r = g.getBoundingClientRect(), ust = r.top + g.clientTop;   // kutuların çizilebildiği ilk satır
+          const ayar = [];
+          for (let y = ust; y < ust + 10; y++) for (let x = r.left + 2; x < r.right - 2; x += 4) {
+            const e = document.elementFromPoint(x, y);
+            if (e && e.closest(".free-settings, .mode-tabs, .header")) ayar.push(e.textContent.trim());
+          }
+          return { kaydi: g.scrollTop > 0, ayar: [...new Set(ayar)] };
+        });
+        denetle(tahta.kaydi, `${ad}: tahta kaydırılamadı, örtüşme denetimi yapılamadı`);
+        denetle(!tahta.ayar.length, `${ad}: kayan tahtanın üst kenarına dokunuş ayar düğmesine gidiyor: ${tahta.ayar.join(", ")}`);
+      }
+      await b.close();
+    }
 
     denetle(sayfaHatalari.length === 0, "sayfada yakalanmamış hata: " + sayfaHatalari.join(" | "));
   } finally {

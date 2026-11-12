@@ -105,8 +105,17 @@ aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 tazelemez. Doğrulama: `WordLadder.prototype.<yeniMetot>` var mı diye bak, ya da
 `link.href = "style.css?v=" + Date.now()` ile CSS'i zorla yükle.
 
-**Cloudflare MCP salt okunur.** Build/log/DNS okunur, ama zone/DNS/kural yazma
-`Authentication error` verir. Yazma işlerini panoda kullanıcı yapar.
+**Cloudflare: eski MCP'ler salt okunur, `cloudflare` bağlayıcısı yazabilir.**
+`cloudefalre_build`/`cloudflare_observe`/`cloudflare_binding` yalnızca okur.
+`mcp__cloudflare__execute` (Cloudflare API) Workers Builds ayarlarını
+değiştirebildi (2026-11-12); DNS/zone yetkisi denenmedi. Takım oturumları bu
+bağlayıcıyı almaz; onlar ortamda kayıtlı API anahtarıyla `api.cloudflare.com`'a
+istek atar. Kurallar: `ekip/KURALLAR.md` 9. bölüm.
+
+**Yalnızca `main` canlıya çıkar.** Workers Builds'te `main` dışındaki dallar
+`npx wrangler versions upload` çalıştırır (önizleme sürümü). 2026-11-12'ye kadar
+her dal `wrangler deploy` ile doğrudan canlıya çıkıyordu; ayar değişirse bu
+kural bozulur — `builds/triggers` ile denetleyin.
 
 **`git push` ara sıra ağ hatası verir.** Aynı komutu tekrar deneyin.
 
