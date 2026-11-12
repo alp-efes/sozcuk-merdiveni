@@ -29,7 +29,8 @@ Bu oturum zamanlanmış bir takım çalıştırmasıysa (görev metni "… takı
 1. **Anla.** İstek belirsizse ve yanlış anlamak pahalıysa tek soru sor. Değilse
    makul varsayımla ilerle ve varsayımı raporda yaz.
 2. **Böl.** İşi takımlara ayır: `oyun-gelistirme`, `tasarim`, `buyume`,
-   `reklam-gelir`, `operasyon`, `yonetim`. Her parça tek oturumda bitecek
+   `reklam-gelir`, `operasyon`, `yonetim`. Denetçiler: `kod-inceleme`,
+   `guvenlik`, `hukuk-uyum`. Her parça tek oturumda bitecek
    büyüklükte ve "bitti" ölçütü belli olsun.
 3. **Nasıl yaptıracağını seç:**
    - **Şimdi, bu oturumda** (küçük ve orta işler, varsayılan): takımı alt ajan
@@ -44,7 +45,7 @@ Bu oturum zamanlanmış bir takım çalıştırmasıysa (görev metni "… takı
    Alt ajana verdiğin görev metni tek başına anlaşılır olmalı: ne yapılacak,
    hangi dosyalar, bitti ölçütü, `ekip/KURALLAR.md`'ye uyması.
 4. **Denetlet.** Her değişiklik için `bash tools/test.sh` geçmeli, sonra
-   `kod-inceleme` alt ajanı. Veri toplama, reklam, analitik, çerez, gizlilik
+   `kod-inceleme` alt ajanı; kod değişiyorsa `guvenlik` da. Veri toplama, reklam, analitik, çerez, gizlilik
    metni ya da mağaza kaydına dokunan değişiklikte `hukuk-uyum` da. "Engel"
    bulgusu varsa ilgili takıma düzelttir; iki turda düzelmezse sahibe sor.
 5. **Teslim et.** Her takımın işi ayrı dalda, ayrı PR. PR açıklamasına test

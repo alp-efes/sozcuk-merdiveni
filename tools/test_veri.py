@@ -15,6 +15,8 @@ Denetlenenler:
   6. Örnek kelimeler (KASE/GEL var, ETMEK/ALMAK yok)
   7. Site dosyaları: yerel bağlantılar var, makine alanlarında punycode,
      .assetsignore kaynak dosyaları dışarıda tutuyor
+  8. Güvenlik: dış betikler yalnızca izinli adreslerden, tehlikeli DOM
+     kalıpları yok, depoda gizli anahtar yok
 
 Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
@@ -34,6 +36,20 @@ UZUNLUKLAR = ("3", "4", "5")
 ZORLUKLAR = ("kolay", "orta", "zor")
 MIN_ADIM, MAX_ADIM = 2, 6
 PUNYCODE_ALAN = "xn--szckyolu-n4a6d.com"
+
+# Betik/modül yüklenebilecek dış adresler. Genişletmek güvenlik incelemesi ister.
+IZINLI_BETIK_ALANLARI = {"www.gstatic.com", "pagead2.googlesyndication.com"}
+SITE_DOSYALARI = ("index.html", "gizlilik.html", "app.js")
+# Gerçek gizli bilgi biçimleri. Firebase web apiKey (AIza…) herkese açık
+# olacak şekilde tasarlandığı için listede yok.
+GIZLI_KALIPLAR = {
+    "özel anahtar": r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
+    "GitHub token": r"\b(?:ghp|gho|ghs|ghu)_[A-Za-z0-9]{36}\b|\bgithub_pat_[A-Za-z0-9_]{40,}",
+    "Anthropic anahtarı": r"\bsk-ant-[A-Za-z0-9_-]{20,}",
+    "AWS anahtarı": r"\bAKIA[0-9A-Z]{16}\b",
+    "Slack token": r"\bxox[abprs]-[A-Za-z0-9-]{10,}",
+    "Cloudflare API token": r"(?i)cloudflare[^\n]{0,20}token[^\n]{0,5}[=:][^\n]{0,5}[A-Za-z0-9_-]{40}",
+}
 
 hatalar = []
 gecen = 0
@@ -189,9 +205,56 @@ def site_testleri():
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
 
 
+def guvenlik_testleri():
+    for ad in SITE_DOSYALARI:
+        metin = (KOK / ad).read_text(encoding="utf-8")
+        # Dış betik ve modül kaynakları (HTML yorumundaki şablonlar dahil)
+        alanlar = re.findall(r'<script[^>]*\ssrc="https?://([^/"]+)', metin)
+        alanlar += re.findall(r'(?:\bfrom\s*|\bimport\s*\(\s*)["\']https?://([^/"\']+)', metin)
+        for alan in alanlar:
+            denetle(alan in IZINLI_BETIK_ALANLARI,
+                    f"{ad}: izinsiz dış betik adresi: {alan} (IZINLI_BETIK_ALANLARI)")
+        denetle("javascript:" not in metin, f"{ad}: javascript: bağlantısı")
+
+    js = (KOK / "app.js").read_text(encoding="utf-8")
+    tehlikeli = {
+        "eval(": r"\beval\s*\(",
+        "new Function": r"\bnew\s+Function\b",
+        "document.write": r"\bdocument\.write",
+        "insertAdjacentHTML": r"\binsertAdjacentHTML\b",
+        "outerHTML atama": r"\.outerHTML\s*=",
+        "setTimeout(metin)": r"\bset(?:Timeout|Interval)\s*\(\s*[\"'`]",
+    }
+    for ad, kalip in tehlikeli.items():
+        denetle(not re.search(kalip, js), f"app.js: tehlikeli kalıp: {ad}")
+    # innerHTML yalnızca temizlemek için ("") kullanılabilir; metin textContent ile
+    for satir_no, satir in enumerate(js.splitlines(), 1):
+        m = re.search(r"\.innerHTML\s*(\+?=)\s*(.*)", satir)
+        if m:
+            denetle(m.group(1) == "=" and re.match(r'^(""|\'\'|``)\s*;?\s*$', m.group(2)),
+                    f"app.js:{satir_no}: innerHTML'e içerik yazılıyor — textContent kullanın")
+
+    # Depoda gizli bilgi yok (.git hariç bütün metin dosyaları)
+    for yol in KOK.rglob("*"):
+        if ".git" in yol.relative_to(KOK).parts[:1] or not yol.is_file():
+            continue
+        if yol.suffix.lower() in {".png", ".ico", ".jpg", ".jpeg", ".webp", ".gif"}:
+            continue
+        if yol.stat().st_size > 2_000_000:
+            continue
+        try:
+            metin = yol.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        for tur, kalip in GIZLI_KALIPLAR.items():
+            denetle(not re.search(kalip, metin),
+                    f"{yol.relative_to(KOK)}: olası {tur} — depodan çıkarın ve anahtarı iptal edin")
+
+
 def main():
     veri_testleri()
     site_testleri()
+    guvenlik_testleri()
     if hatalar:
         print(f"BAŞARISIZ — {len(hatalar)} hata, {gecen} denetim geçti\n")
         for h in hatalar[:60]:

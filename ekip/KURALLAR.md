@@ -17,7 +17,7 @@ tanımları `.claude/agents/` altındadır; zamanlamalar `ekip/gorevler.md` içi
 Takımlar çalıştırmalar arasında hiçbir şey hatırlamaz.
 
 - **İş listesi:** GitHub issue'ları. Başlığın başına takım etiketi yazılır:
-  `[oyun]`, `[tasarim]`, `[buyume]`, `[reklam]`, `[hukuk]`, `[operasyon]`,
+  `[oyun]`, `[tasarim]`, `[buyume]`, `[reklam]`, `[hukuk]`, `[guvenlik]`, `[operasyon]`,
   `[yonetim]`. Aynı adla GitHub etiketi (`ekip:oyun` …) de eklenir.
 - **Başka takıma iş:** o takımın etiketiyle issue aç. Kendi alanın dışındaki
   dosyayı kendin değiştirme.
@@ -34,9 +34,12 @@ Takımlar çalıştırmalar arasında hiçbir şey hatırlamaz.
 - PR açmadan önce `bash tools/test.sh` geçmeli. Test atlamak, kapatmak ya da
   beklentiyi koda uydurmak yasak; test yanlışsa bunu PR'da açıkça yaz.
 - Davranış değiştiren her PR, onu yakalayacak testi de ekler.
-- PR açmadan önce `kod-inceleme` alt ajanını çalıştır. Değişiklik veri toplama,
-  reklam, analitik, çerez, gizlilik metni ya da mağaza kaydına dokunuyorsa
-  `hukuk-uyum` alt ajanını da çalıştır. İkisinin sonucunu PR açıklamasına koy.
+- PR açmadan önce `kod-inceleme` alt ajanını çalıştır. Kod değiştiren her PR
+  için (`.html`, `.js`, `.css`, yapılandırma, iOS deposundaki her şey; yalnızca
+  `words.json`/kelime listesi/metin belgesi değişiyorsa gerekmez) `guvenlik`
+  alt ajanını da çalıştır. Değişiklik veri toplama, reklam, analitik, çerez,
+  gizlilik metni ya da mağaza kaydına dokunuyorsa `hukuk-uyum` alt ajanını da
+  çalıştır. Sonuçların hepsini PR açıklamasına koy.
   "Engel" bulgusu varken PR'ı hazır olarak işaretleme.
 - **`words.json` elle düzenlenmez.** Yeniden üretim günün bulmacasını
   değiştirir; böyle bir PR'ın başlığına `[words.json]` yaz ve açıklamada
@@ -89,8 +92,8 @@ sağlanmıyorsa birleştirme; PR açık kalır ve nedenini PR'a yaz.
 
 1. `bash tools/test.sh` yerelde geçti ve PR'ın son commit'inde GitHub
    denetimlerinin hepsi yeşil (test + Cloudflare derlemesi). Çakışma yok.
-2. `kod-inceleme` sonucu "Engel" içermiyor. Gerekiyorsa `hukuk-uyum` da
-   "Engel" içermiyor. İkisinin sonucu PR açıklamasında yazılı.
+2. `kod-inceleme`, gerekiyorsa `guvenlik` ve `hukuk-uyum` sonuçlarında
+   "Engel" yok. Sonuçların hepsi PR açıklamasında yazılı.
 3. Bugün (TRT) yapılan birleştirme sayısı `durum.md`'deki üst sınırın altında.
    Saymak için: bugün `main`'e giren birleştirme commit'leri.
 4. PR **istisna** değil (aşağıda).
@@ -104,6 +107,9 @@ başlığa `[sahip-onayı]` ekle, `[sahip]` issue'su aç:
 - `gizlilik.html`, reklam kodu, analitik, çerez ya da yeni veri toplama.
 - Para, hesap, mağaza gönderimi gerektiren her şey.
 - 300 satırdan büyük değişiklik (üretilen `words.json` hariç).
+- `tools/test_veri.py` içindeki `IZINLI_BETIK_ALANLARI` listesini genişleten,
+  yeni dış betik/eklenti/paket ekleyen ya da iOS uygulamasına yeni izin
+  (bildirim, takip, konum…) isteten PR.
 
 **`words.json` değiştiren PR** yalnızca TRT 00:00–00:59 arasında birleştirilir.
 O saatte çalışan operasyon takımı, koşulları sağlayan bekleyen `[words.json]`

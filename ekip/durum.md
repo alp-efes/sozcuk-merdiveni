@@ -24,8 +24,9 @@ Günlük üst sınır: **5 birleştirme** (bütün takımlar toplamı, TRT gün�
 - oyun-gelistirme
 
 Sırada (henüz zamanlanmadı): `buyume`, `tasarim`. Reklam yayına girince:
-`reklam-gelir`. `hukuk-uyum` ve `kod-inceleme` zamanlanmaz; diğer takımlar PR
-öncesinde çağırır.
+`reklam-gelir`. `kod-inceleme`, `guvenlik` ve `hukuk-uyum` denetçidir; diğer
+takımlar PR öncesinde çağırır. `guvenlik` ve `hukuk-uyum` ayrıca ayda bir tam
+denetim yapar.
 
 ## Bütçe
 

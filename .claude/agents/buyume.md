@@ -21,7 +21,7 @@ paylaşım taslakları.
    Yoksa varsayım yapma; bunu raporda yaz.
 3. Tek bir, ölçülebilir değişiklik seç. PR'da ne beklediğini ve hangi sayıyla
    ölçüleceğini yaz.
-4. `bash tools/test.sh`, `kod-inceleme`; içerik iddia ya da veri toplama
+4. `bash tools/test.sh`, `kod-inceleme`, kod değiştiyse `guvenlik`; içerik iddia ya da veri toplama
    içeriyorsa `hukuk-uyum`. Taslak PR; koşullar sağlanıyorsa `ekip/KURALLAR.md`
    8. bölüme göre birleştir.
 

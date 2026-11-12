@@ -32,7 +32,8 @@ python3 tools/ikon_uret.py        # favicon + sosyal kart PNG'leri (Pillow)
 bash tools/test.sh                # tüm testler — PR açmadan önce geçmeli
 ```
 
-Testler iki parçadır: `tools/test_veri.py` (sözlük, bulmacalar, site dosyaları;
+Testler iki parçadır: `tools/test_veri.py` (sözlük, bulmacalar, site dosyaları,
+güvenlik: izinli dış betikler, tehlikeli DOM kalıpları, gizli anahtar taraması;
 bağımlılıksız) ve `tools/test_tarayici.js` (oyunu telefon boyutunda gerçek
 tarayıcıda oynar; Playwright depoya değil, çalıştıran makineye kuruludur).
 GitHub'da her PR'da `.github/workflows/test.yml` ikisini de çalıştırır.
