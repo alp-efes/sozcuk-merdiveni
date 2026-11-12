@@ -47,6 +47,8 @@ issue'ları olarak aç."
   `source_url` = depo, `model` = tablodaki) ve görevi o oturuma bağlar
   (`persistent_session_id`). Yeni takım açarken de böyle yapılır. Kalıcı
   oturumun konuşma geçmişi büyür; sorun olursa oturum arşivlenip yenisi açılır.
+  **Elle "şimdi çalıştır" kalıcı oturumu kullanmaz** (depo yok, yeni oturum
+  açar); denemek için o oturuma bağlı tek seferlik görev kurulur.
 - **Ağ:** operasyon takımı canlı siteye erişebilmeli (`xn--szckyolu-n4a6d.com`,
   `xn--szckmerdiveni-imb6g.com`). Varsayılan ortam şu an sınırsız ağda; ortam
   "Limited"e alınırsa bu iki adres izinli adreslere eklenmeli.
