@@ -8,21 +8,25 @@ ya da görevi zamanlanmış görevler listesinden kapat.
 
 | Görev | Takım | Zaman (TRT) | Model | Durum |
 |---|---|---|---|---|
-| Günlük operasyon | operasyon | Her gün 00:20 | Haiku | Kurulmadı |
-| Haftalık plan | yonetim | Pazartesi 10:13 | Opus | Kurulmadı |
-| Oyun geliştirme | oyun-gelistirme | Salı 10:17 | Sonnet | Kurulmadı |
+| Günlük operasyon | operasyon | Her gün 00:20 | Haiku | Kuruldu (2026-11-12) |
+| Haftalık plan | yonetim | Pazartesi 10:13 | Opus | Kuruldu (2026-11-12) |
+| Oyun geliştirme | oyun-gelistirme | Salı 10:17 | Sonnet | Kuruldu (2026-11-12) |
 | Tasarım | tasarim | Çarşamba 10:11 | Opus | Sırada |
 | Büyüme | buyume | Perşembe 10:19 | Sonnet | Sırada |
 | Aylık uyum denetimi | hukuk-uyum | Ayın 1'i 11:07 | Opus | Sırada |
-| Aylık güvenlik denetimi | guvenlik | Ayın 2'si 11:13 | Opus | Kurulmadı |
+| Aylık güvenlik denetimi | guvenlik | Ayın 2'si 11:13 | Opus | Kuruldu (2026-11-12) |
 | Reklam ve gelir | reklam-gelir | Cuma 10:23 | Sonnet | Reklam yayına girince |
 
 ## Görev metni
 
 Her görev aynı kalıbı kullanır; yalnızca takım adı değişir:
 
-> Sözcük Merdiveni'nin `<takım>` takımı olarak çalışıyorsun. Önce
-> `ekip/KURALLAR.md` ve `ekip/durum.md` dosyalarını, sonra
+> Sözcük Merdiveni'nin `<takım>` takımı olarak çalışıyorsun. Başlamadan:
+> çalışma dizininde `ekip/KURALLAR.md` yoksa depo bu oturuma eklenmemiştir;
+> `add_repo` aracıyla `alp-efes/sozcuk-merdiveni` deposunu (access: push) ekle,
+> aracın verdiği komutla klonla, `register_repo_root` çağır ve o klasörde
+> çalış. Depoya erişemezsen tek satırla "depo erişimi yok" yaz ve bitir. Sonra
+> `ekip/KURALLAR.md` ve `ekip/durum.md` dosyalarını, ardından
 > `.claude/agents/<takım>.md` dosyasındaki görev tanımını oku ve o tanıma göre
 > bu çalıştırmayı yap. Anahtar kapalıysa ya da iş yoksa tek satır rapor yazıp
 > bitir. Site sahibine yalnızca karar gerektiren ya da bozuk bir şey varsa
@@ -37,6 +41,10 @@ issue'ları olarak aç."
 
 ## Ortam gereksinimleri
 
+- **Depo:** CEO oturumundan kurulan görevler depoyu kendiliğinden klonlamıyor
+  (görev kaynağı boş); bu yüzden görev metni depoyu `add_repo` ile ekletir.
+  Görevi claude.ai'daki zamanlanmış görevler ekranından depo seçerek kurmak da
+  aynı işi görür.
 - **Ağ:** operasyon takımı canlı siteye erişebilmeli (`xn--szckyolu-n4a6d.com`,
   `xn--szckmerdiveni-imb6g.com`). Varsayılan ortam şu an sınırsız ağda; ortam
   "Limited"e alınırsa bu iki adres izinli adreslere eklenmeli.
