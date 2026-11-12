@@ -29,7 +29,8 @@ Takımlar çalıştırmalar arasında hiçbir şey hatırlamaz.
 ## 3. Değişiklik nasıl yapılır
 
 - `main`'e **asla** doğrudan push yok; `main`'e giren her şey anında yayına
-  çıkar. Oturumun sana verdiği dalda çalış, **taslak PR** aç.
+  çıkar. Oturumun sana verdiği dalda çalış, **taslak PR** aç. Birleştirme
+  yalnızca 8. bölümdeki yolla olur.
 - PR açmadan önce `bash tools/test.sh` geçmeli. Test atlamak, kapatmak ya da
   beklentiyi koda uydurmak yasak; test yanlışsa bunu PR'da açıkça yaz.
 - Davranış değiştiren her PR, onu yakalayacak testi de ekler.
@@ -59,7 +60,7 @@ nedenini yaz:
 - Para harcamak (reklam, satın alma, ücretli hizmet). Bütçe `durum.md`'de yazar.
 - Sözleşme, vergi, banka, hesap açma, iki adımlı doğrulama.
 - Hukuki onay. `hukuk-uyum` avukat değildir; bulgu üretir, karar vermez.
-- PR birleştirmek (1. aşamada).
+- 8. bölümün dışında kalan PR'ları birleştirmek.
 - App Store'a gönderim, AdSense/AdMob başvurusu.
 - Cloudflare DNS/zone/kural değişikliği (erişimimiz salt okunur).
 - Oyunculara ya da üçüncü kişilere e-posta/mesaj göndermek. Yalnızca taslak hazırla.
@@ -77,3 +78,44 @@ nedenini yaz:
 
 Ne yapıldıysa onu yaz. Test geçmediyse çıktısıyla söyle. Atlanan adımı atlandı
 diye yaz. Canlı siteyi gerçekten denemeden "yayında" deme.
+
+## 8. Otomatik birleştirme
+
+`ekip/durum.md` içinde **OTOMATİK BİRLEŞTİRME: AÇIK** ise, PR'ı açan takım
+aşağıdakilerin **hepsi** sağlanınca kendi PR'ını birleştirir. Biri bile
+sağlanmıyorsa birleştirme; PR açık kalır ve nedenini PR'a yaz.
+
+**Koşullar**
+
+1. `bash tools/test.sh` yerelde geçti ve PR'ın son commit'inde GitHub
+   denetimlerinin hepsi yeşil (test + Cloudflare derlemesi). Çakışma yok.
+2. `kod-inceleme` sonucu "Engel" içermiyor. Gerekiyorsa `hukuk-uyum` da
+   "Engel" içermiyor. İkisinin sonucu PR açıklamasında yazılı.
+3. Bugün (TRT) yapılan birleştirme sayısı `durum.md`'deki üst sınırın altında.
+   Saymak için: bugün `main`'e giren birleştirme commit'leri.
+4. PR **istisna** değil (aşağıda).
+
+**İstisnalar — her zaman sahip birleştirir.** PR'ı hazır olarak işaretle,
+başlığa `[sahip-onayı]` ekle, `[sahip]` issue'su aç:
+
+- `ekip/`, `.claude/`, `.github/`, `CLAUDE.md`, `.assetsignore`,
+  `wrangler.jsonc` ya da `tools/test*` dosyalarına dokunan PR'lar. Takımlar
+  kendi kurallarını ve denetimlerini değiştiremez.
+- `gizlilik.html`, reklam kodu, analitik, çerez ya da yeni veri toplama.
+- Para, hesap, mağaza gönderimi gerektiren her şey.
+- 300 satırdan büyük değişiklik (üretilen `words.json` hariç).
+
+**`words.json` değiştiren PR** yalnızca TRT 00:00–00:59 arasında birleştirilir.
+O saatte çalışan operasyon takımı, koşulları sağlayan bekleyen `[words.json]`
+PR'ını birleştirir. Başka saatte açık bırak.
+
+**Nasıl**
+
+1. PR taslaksa hazır olarak işaretle, "squash" ile birleştir, dalı sil.
+2. Yaklaşık 2 dakika bekle, sonra canlı siteyi `/canli` adımlarıyla dene.
+3. Canlı site bozulduysa hemen geri al: birleştirme commit'ini geri alan PR
+   aç ve testler geçince **beklemeden** birleştir (geri alma PR'ı 3. ve 4.
+   koşuldan muaftır). Sonra `[sahip]` issue'su aç: ne bozuldu, ne geri alındı.
+4. Haftalık plan issue'suna tek satır yaz: hangi PR birleşti.
+
+Sahip bir PR'a "bekle" ya da "birleştirme" yazdıysa o PR'ı birleştirme.

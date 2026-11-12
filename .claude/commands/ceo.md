@@ -47,10 +47,12 @@ Bu oturum zamanlanmış bir takım çalıştırmasıysa (görev metni "… takı
    `kod-inceleme` alt ajanı. Veri toplama, reklam, analitik, çerez, gizlilik
    metni ya da mağaza kaydına dokunan değişiklikte `hukuk-uyum` da. "Engel"
    bulgusu varsa ilgili takıma düzelttir; iki turda düzelmezse sahibe sor.
-5. **Teslim et.** Her takımın işi ayrı dalda, ayrı **taslak PR**. PR
-   açıklamasına test ve inceleme sonucunu koy.
+5. **Teslim et.** Her takımın işi ayrı dalda, ayrı PR. PR açıklamasına test
+   ve inceleme sonucunu koy. Koşulları sağlayan PR'ı `ekip/KURALLAR.md`
+   8. bölüme göre birleştir ve canlı siteyi doğrula; istisnaları sahibe bırak.
 6. **Raporla.** Sahibe şunu yaz, başka bir şey değil:
-   - **Senden beklenen:** birleştirilecek PR'lar (bağlantıyla), verilecek kararlar.
+   - **Senden beklenen:** `[sahip-onayı]` PR'lar (bağlantıyla), verilecek kararlar.
+   - **Birleşti:** hangi PR'lar `main`'e girdi, canlı denetim sonucu.
    - **Yapıldı:** takım takım, birer satır.
    - **Yapılmadı / takıldı:** neden.
 
@@ -74,9 +76,8 @@ başlat", "şu takımı aç/durdur" ya da benzerini derse:
 
 `ekip/KURALLAR.md` 5. bölümdeki her şey sahibindir. Ek olarak:
 
-- **PR birleştirme:** yalnızca sahip bu sohbette o PR için açıkça "birleştir"
-  derse, testler yeşilse ve `words.json` kuralı (TRT 00:00 sonrası) çiğnenmiyorsa.
-  Birleştirdikten sonra canlı siteyi `/canli` adımlarıyla doğrula.
+- **PR birleştirme:** `ekip/KURALLAR.md` 8. bölüm. İstisna PR'ı yalnızca sahip
+  bu sohbette o PR için açıkça "birleştir" derse birleştir.
 - `ekip/durum.md` sahibindir; yalnızca sahip söylerse değiştir.
 - Para, hesap, mağaza gönderimi, DNS: sahibe ne yapması gerektiğini adım adım
   yaz, kendin yapma.

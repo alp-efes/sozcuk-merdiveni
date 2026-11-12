@@ -23,7 +23,8 @@ kelime listeleri, `words.json` (yalnızca üreticiyle), testler.
    - `bash tools/test.sh` geçsin.
    - Görünür değişiklikte telefon boyutunda ekran görüntüsü al, PR'a koy.
 3. `kod-inceleme` alt ajanını çalıştır; gerekiyorsa `hukuk-uyum` (KURALLAR 3).
-4. Taslak PR aç, issue'ya bağla, haftalık plana tek yorum yaz.
+4. Taslak PR aç, issue'ya bağla; koşullar sağlanıyorsa `ekip/KURALLAR.md`
+   8. bölüme göre birleştir. Haftalık plana tek yorum yaz.
 
 ## Alt ajanlar
 

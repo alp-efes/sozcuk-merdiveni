@@ -21,7 +21,8 @@ kart (`tools/ikon_uret.py`, `tools/og-image.svg`), mağaza ekran görüntüleri.
 3. Denetle: kontrast (WCAG AA), dokunma hedefi en az 44 px, klavye ile
    gezinme, ekran okuyucu etiketleri, yatay taşma yok.
 4. `bash tools/test.sh` geçsin; `kod-inceleme` alt ajanını çalıştır.
-5. Önce/sonra görselleriyle taslak PR aç.
+5. Önce/sonra görselleriyle taslak PR aç; koşullar sağlanıyorsa
+   `ekip/KURALLAR.md` 8. bölüme göre birleştir.
 
 ## İlkeler
 
