@@ -17,6 +17,8 @@ Denetlenenler:
      .assetsignore kaynak dosyaları dışarıda tutuyor
   8. Güvenlik: dış betikler yalnızca izinli adreslerden, tehlikeli DOM
      kalıpları yok, depoda gizli anahtar yok
+  9. Tasarım sistemi: style.css içinde :root dışında sabit renk yok, simgeler
+     aynı paletten, uygulama simgesi 1024×1024 ve alfasız
 
 Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
@@ -251,10 +253,71 @@ def guvenlik_testleri():
                     f"{yol.relative_to(KOK)}: olası {tur} — depodan çıkarın ve anahtarı iptal edin")
 
 
+def png_bilgi(yol):
+    """PNG başlığını bağımlılıksız okur: (en, boy, alfa_var_mi)."""
+    veri = yol.read_bytes()
+    if veri[:8] != b"\x89PNG\r\n\x1a\n" or veri[12:16] != b"IHDR":
+        return None
+    en, boy = int.from_bytes(veri[16:20], "big"), int.from_bytes(veri[20:24], "big")
+    alfa = veri[25] in (4, 6)                 # renk türü: gri+alfa ya da RGBA
+    konum = 8
+    while konum + 8 <= len(veri):             # parçaları gez: tRNS de saydamlık demektir
+        uzunluk, tur = int.from_bytes(veri[konum:konum + 4], "big"), veri[konum + 4:konum + 8]
+        if tur == b"tRNS":
+            alfa = True
+        if tur in (b"IDAT", b"IEND"):
+            break
+        konum += 12 + uzunluk
+    return en, boy, alfa
+
+
+def tasarim_testleri():
+    """Tasarım sistemi (ekip/tasarim-sistemi.md): tek palet, uygulama görselleri."""
+    css = re.sub(r"/\*.*?\*/", "", (KOK / "style.css").read_text(encoding="utf-8"), flags=re.S)
+    kok_bloklari = re.findall(r":root\s*\{([^}]*)\}", css)
+    denetle(bool(kok_bloklari), "style.css: :root bloğu yok")
+    tanimli = set(re.findall(r"(--[\w-]+)\s*:", "".join(kok_bloklari)))
+    palet = {h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b", "".join(kok_bloklari))}
+
+    # :root dışında sabit renk yok; kullanılan her belirteç tanımlı
+    govde = re.sub(r":root\s*\{[^}]*\}", "", css)
+    sabit = re.findall(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgb|hsl)a?\(", govde)
+    denetle(not sabit, f"style.css: :root dışında sabit renk: {sorted(set(sabit))[:5]} — belirteç kullanın")
+    eksik = sorted(set(re.findall(r"var\((--[\w-]+)", css)) - tanimli)
+    denetle(not eksik, f"style.css: tanımsız belirteç: {eksik[:5]}")
+
+    # Simgeler ve tarayıcı çubuğu rengi aynı paletten
+    for ad in ("favicon.svg", "tools/og-image.svg"):
+        renkler = {h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b", (KOK / ad).read_text(encoding="utf-8"))}
+        denetle(renkler <= palet, f"{ad}: palet dışı renk: {sorted(renkler - palet)} (style.css :root)")
+    for ad in ("index.html", "gizlilik.html"):
+        tema = re.search(r'<meta name="theme-color" content="([^"]+)"', (KOK / ad).read_text(encoding="utf-8"))
+        denetle(bool(tema) and tema.group(1).lower() in palet, f"{ad}: theme-color palette yok")
+    uretici = (ARACLAR / "ikon_uret.py").read_text(encoding="utf-8")
+    denetle("style.css" in uretici and not re.search(r"#[0-9a-fA-F]{6}\b", uretici),
+            "tools/ikon_uret.py: sabit renk var — renkler style.css'ten okunmalı")
+
+    # iOS deposuyla sözleşme: yol, ölçü, alfasız simge
+    beklenen = {"simge-1024.png": (1024, 1024), "acilis-2732.png": (2732, 2732)}
+    for ad, olcu in beklenen.items():
+        yol = ARACLAR / "uygulama" / ad
+        bilgi = png_bilgi(yol) if yol.exists() else None
+        denetle(bool(bilgi), f"tools/uygulama/{ad} yok ya da PNG değil — python3 tools/ikon_uret.py")
+        if bilgi:
+            denetle(bilgi[:2] == olcu, f"tools/uygulama/{ad}: {bilgi[0]}×{bilgi[1]}, {olcu[0]}×{olcu[1]} olmalı")
+            denetle(not bilgi[2], f"tools/uygulama/{ad}: alfa kanalı var — App Store reddeder")
+    magaza = sorted((ARACLAR / "uygulama" / "magaza").glob("*.png"))
+    denetle(3 <= len(magaza) <= 5, f"tools/uygulama/magaza: {len(magaza)} görsel, 3–5 olmalı")
+    for yol in magaza:
+        bilgi = png_bilgi(yol)
+        denetle(bool(bilgi) and bilgi[:2] == (1320, 2868), f"tools/uygulama/magaza/{yol.name}: 1320×2868 olmalı")
+
+
 def main():
     veri_testleri()
     site_testleri()
     guvenlik_testleri()
+    tasarim_testleri()
     if hatalar:
         print(f"BAŞARISIZ — {len(hatalar)} hata, {gecen} denetim geçti\n")
         for h in hatalar[:60]:
