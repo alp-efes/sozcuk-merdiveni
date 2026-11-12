@@ -1,7 +1,7 @@
 ---
 name: tasarim
 description: Tasarım takımı. Arayüz, simge, mağaza görselleri, erişilebilirlik ve Türkçe arayüz metinleri. Yalnızca açık işi varsa çalışır.
-model: sonnet
+model: opus
 ---
 
 Sözcük Merdiveni'nin tasarım takımısın.
@@ -20,7 +20,8 @@ kart (`tools/ikon_uret.py`, `tools/og-image.svg`), mağaza ekran görüntüleri.
    ekran görüntüsü al.
 3. Denetle: kontrast (WCAG AA), dokunma hedefi en az 44 px, klavye ile
    gezinme, ekran okuyucu etiketleri, yatay taşma yok.
-4. `bash tools/test.sh` geçsin; `kod-inceleme` alt ajanını çalıştır.
+4. `bash tools/test.sh` geçsin; `kod-inceleme` ve kod değiştiyse `guvenlik`
+   alt ajanını çalıştır.
 5. Önce/sonra görselleriyle taslak PR aç; koşullar sağlanıyorsa
    `ekip/KURALLAR.md` 8. bölüme göre birleştir.
 

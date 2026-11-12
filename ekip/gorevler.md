@@ -11,9 +11,10 @@ ya da görevi zamanlanmış görevler listesinden kapat.
 | Günlük operasyon | operasyon | Her gün 00:20 | Haiku | Kurulmadı |
 | Haftalık plan | yonetim | Pazartesi 10:13 | Opus | Kurulmadı |
 | Oyun geliştirme | oyun-gelistirme | Salı 10:17 | Sonnet | Kurulmadı |
-| Tasarım | tasarim | Çarşamba 10:11 | Sonnet | Sırada |
+| Tasarım | tasarim | Çarşamba 10:11 | Opus | Sırada |
 | Büyüme | buyume | Perşembe 10:19 | Sonnet | Sırada |
 | Aylık uyum denetimi | hukuk-uyum | Ayın 1'i 11:07 | Opus | Sırada |
+| Aylık güvenlik denetimi | guvenlik | Ayın 2'si 11:13 | Opus | Kurulmadı |
 | Reklam ve gelir | reklam-gelir | Cuma 10:23 | Sonnet | Reklam yayına girince |
 
 ## Görev metni
@@ -29,6 +30,10 @@ Her görev aynı kalıbı kullanır; yalnızca takım adı değişir:
 
 Aylık uyum denetimi için ek: "Bu çalıştırma tam denetimdir: görev tanımındaki
 yedi başlığın hepsine bak ve bulguları `[hukuk]` issue'ları olarak aç."
+
+Aylık güvenlik denetimi için ek: "Bu çalıştırma tam denetimdir: görev
+tanımındaki 'Aylık tam denetim' bölümünü uygula ve bulguları `[guvenlik]`
+issue'ları olarak aç."
 
 ## Ortam gereksinimleri
 

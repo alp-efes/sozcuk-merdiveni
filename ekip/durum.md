@@ -24,8 +24,18 @@ Günlük üst sınır: **5 birleştirme** (bütün takımlar toplamı, TRT gün�
 - oyun-gelistirme
 
 Sırada (henüz zamanlanmadı): `buyume`, `tasarim`. Reklam yayına girince:
-`reklam-gelir`. `hukuk-uyum` ve `kod-inceleme` zamanlanmaz; diğer takımlar PR
-öncesinde çağırır.
+`reklam-gelir`. `kod-inceleme`, `guvenlik` ve `hukuk-uyum` denetçidir; diğer
+takımlar PR öncesinde çağırır. `guvenlik` ve `hukuk-uyum` ayrıca ayda bir tam
+denetim yapar.
+
+## İlk kurulum
+
+Bu işler Fable ile yapılır; sonrası Opus/Sonnet. Biten işi CEO işaretler.
+
+- [ ] iOS uygulaması iskeleti (`sozcuk-merdiveni-ios`: Capacitor projesi,
+      yerel özellikler, Xcode ayarları, ilk TestFlight derlemesi)
+- [ ] Tasarım sistemi (renk, yazı, boşluk belirteçleri; uygulama simgesi;
+      site ve uygulamada ortak görsel dil; mağaza görsellerinin şablonu)
 
 ## Bütçe
 
