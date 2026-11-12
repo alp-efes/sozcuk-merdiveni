@@ -104,11 +104,17 @@ Kalınlık `--fw-bold` (700), `--fw-heavy` (800). Satır yüksekliği `--lh-tigh
   Bu yüzden ikon düğmesi, sekme, zorluk/uzunluk, "Sonucu paylaş" ve
   "Nasıl oynanır?" `--ctl-*` boyunda görünür; dokunma alanı `style.css`
   "Dokunma alanı" bölümündeki görünmez `::before` katmanıyla 44 px'e
-  tamamlanır. Katman komşu denetimle örtüşmeyecek yöne uzar. Kabuğa yeni
-  denetim eklerken aynı yolu izle; yerleşimi büyütme.
-- `tools/test_tarayici.js` (10. adım) 360×560, 375×548 ve 320×460'ta HEDEF ve
-  giriş satırının ilk ekranda kaldığını, denetimlerin gerçek dokunma alanının
-  (komşunun örttüğü kısım hariç) 44×44 olduğunu ölçer.
+  tamamlanır. Katman komşu denetimle örtüşmeyecek yöne uzar ve kaydırılan
+  alanın (`.game`) içine girmez: tahta kayınca harf kutuları katmanın altına
+  gelir, dokunuş düğmeye gider. `.game`'in üst boşluğu bu yüzden dolgu değil
+  saydam kenarlıktır. Kabuğa yeni denetim eklerken aynı yolu izle; yerleşimi
+  büyütme.
+- `tools/test_tarayici.js` (10. adım) dokunmatik ekranda şunları ölçer:
+  360×560 ve 375×548 serbest oyunda HEDEF ve giriş satırı, 320×460 serbest
+  oyunda giriş satırı, 360×560 ve 375×548 çözülmüş günlükte HEDEF satırı
+  ilk ekranda; denetimlerin gerçek dokunma alanı (komşunun örttüğü kısım
+  hariç) 44×44; tahta kaydırılınca üst kenarındaki dokunuş ayar düğmesine
+  gitmiyor.
 - Tek istisna ekran klavyesi tuşları: yükseklik 52 px, genişlik dar ekranda
   ~35 px; dokunmatik cihazda bu klavye gizlenir, telefonun kendi klavyesi açılır.
 - Odak halkası (`:focus-visible`, amber) kaldırılmaz.

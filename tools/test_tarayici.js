@@ -293,7 +293,7 @@ async function main() {
 
     const durumlar = [
       [360, 560, false, ["hedef", "giris"]],
-      [375, 548, false, ["giris"]],
+      [375, 548, false, ["hedef", "giris"]],
       [320, 460, false, ["giris"]],
       [360, 560, true, ["hedef"]],
       [375, 548, true, ["hedef"]],
@@ -311,6 +311,30 @@ async function main() {
         for (const a of await dokunmaAlani(s, secici)) {
           denetle(a.en >= 44 && a.boy >= 44, `${ad}: '${a.ad}' dokunma alanı ${a.en}×${a.boy}, en az 44×44 olmalı`);
         }
+      }
+      if (en === 360 && !cozulmus) {
+        // Görünmez dokunma alanı kaydırılan tahtaya taşmamalı: tahta kayınca
+        // harf kutuları oraya gelir ve dokunuş ayar düğmesine gidip oyunu sıfırlar.
+        await s.tap('[data-diff="zor"]');                // uzun yol: tahta kaysın
+        const [zb, zh] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        await s.tap("#game");
+        for (const k of (enKisaYol(zb, zh) || []).slice(0, -1)) {
+          await s.keyboard.type(k.toLocaleLowerCase("tr"));
+          await s.keyboard.press("Enter");
+        }
+        const tahta = await s.evaluate(() => {
+          const g = document.getElementById("game");
+          g.scrollTop = g.scrollHeight;
+          const r = g.getBoundingClientRect(), ust = r.top + g.clientTop;   // kutuların çizilebildiği ilk satır
+          const ayar = [];
+          for (let y = ust; y < ust + 10; y++) for (let x = r.left + 2; x < r.right - 2; x += 4) {
+            const e = document.elementFromPoint(x, y);
+            if (e && e.closest(".free-settings, .mode-tabs, .header")) ayar.push(e.textContent.trim());
+          }
+          return { kaydi: g.scrollTop > 0, ayar: [...new Set(ayar)] };
+        });
+        denetle(tahta.kaydi, `${ad}: tahta kaydırılamadı, örtüşme denetimi yapılamadı`);
+        denetle(!tahta.ayar.length, `${ad}: kayan tahtanın üst kenarına dokunuş ayar düğmesine gidiyor: ${tahta.ayar.join(", ")}`);
       }
       await b.close();
     }

@@ -197,7 +197,8 @@ body {
 .icon-btn::before { left: calc((100% - var(--tap-min)) / 2); right: calc((100% - var(--tap-min)) / 2); }
 /* Sekme yalnızca yukarı uzar: altındaki satır kendi payını sekmenin dibine kadar alır */
 .mode-tab::before { top: calc(100% - var(--tap-min)); bottom: 0; }
-/* İki satır arasında yalnızca --space-1h var: üst satır yukarı, alt satır aşağı uzar */
+/* İki satır arasında yalnızca --space-1h var: üst satır yukarı, alt satır aşağı
+   uzar. Alt satırın payı .game'in kenarlığında kalır (kayan içeriğin üstüne değil). */
 .setting-row:first-child .pick-btn::before {
   top: calc(-1 * var(--space-2));
   bottom: calc(100% - var(--tap-min) + var(--space-2));
@@ -342,7 +343,11 @@ body {
      Böylece dar ekranda satırlar sekme/klavyeye binmek yerine kayar. */
   justify-content: safe center;
   gap: var(--space-2);
-  padding: var(--space-2);
+  /* Üst boşluk dolgu değil kenarlık: kayan içerik kenarlığın altında kırpılır.
+     Üstteki uzunluk düğmelerinin görünmez dokunma alanı bu şeride iner;
+     dolgu olsaydı kayan harf kutuları oraya gelir, dokunuş düğmeye giderdi. */
+  border-top: var(--space-2) solid transparent;
+  padding: 0 var(--space-2) var(--space-2);
   overflow-y: auto;
 }
 
