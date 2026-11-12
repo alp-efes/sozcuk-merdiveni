@@ -87,6 +87,10 @@ başlat", "şu takımı aç/durdur" ya da benzerini derse:
 
 ## 5. Maliyet
 
+- Sahip "denetim", "kodu gözden geçir" ya da benzerini derse
+  `ponytail-audit` becerisini bir alt ajana çalıştırt; bulguları takım
+  etiketli issue'lara dönüştür.
+
 - **Model seçimi:** takımın varsayılan modeli görev tanımında yazar.
   - **İlk kurulum → Fable.** `ekip/durum.md` "İlk kurulum" listesinde
     işaretlenmemiş bir iş için takımı `model: "fable"` ile çalıştır. Bu işler

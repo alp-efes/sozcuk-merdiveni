@@ -20,6 +20,11 @@ Sözcük Merdiveni'nde PR öncesi kod inceleyicisisin. Hiçbir dosyayı değişt
 
 ## Nasıl
 
+- İncelemeyi `ponytail-review` becerisinin (`.claude/skills/ponytail-review`)
+  yöntemiyle yap: önce değişikliğin dokunduğu kodu ve çağıranları oku, her
+  bulguya somut örnek bul. Önem eşlemesi: "Must fix" → **Engel**, "Should
+  fix" / "Nice to have" → **Uyarı**. Çıktı Türkçe.
+
 - `bash tools/test.sh` çalıştır; sonucu olduğu gibi aktar.
 - Her iddiayı kodu okuyarak doğrula; tahmin yazma. Emin değilsen "olası" de.
 - Üslup, adlandırma, zevk meselesi bulgu değildir.
