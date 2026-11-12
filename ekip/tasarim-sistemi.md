@@ -7,8 +7,11 @@ değişirse önce `style.css`, sonra bu tablo güncellenir.
 
 ## Kurallar
 
-1. **Sabit renk yasak.** `:root` dışında `#hex`, `rgb()`, `hsl()` yazılmaz;
-   `tools/test_veri.py` bunu ve tanımsız `var(--…)` kullanımını yakalar.
+1. **Sabit renk yasak.** `:root` dışında `#hex`, renk işlevi (`rgb()`,
+   `hsl()`, `oklch()`…) ya da renk adı (`white`, `red`…) yazılmaz;
+   `transparent` ve `currentColor` serbesttir. `tools/test_veri.py` bunu,
+   `var(--x, red)` gibi yedek değerleri ve tanımsız `var(--…)` kullanımını
+   yakalar.
 2. **Önce var olan belirteç.** Yeni renk/boyut eklemeden önce tablodakilerden
    biri işi görüyor mu diye bak. Gerçekten yenisi gerekiyorsa `:root` içine
    anlamıyla adlandırarak ekle (`--uyari` gibi; `--sari-2` değil), kontrastını
@@ -86,7 +89,7 @@ Kalınlık `--fw-bold` (700), `--fw-heavy` (800). Satır yüksekliği `--lh-tigh
 | Grup | Belirteçler |
 |---|---|
 | Boşluk (4 px tabanlı) | `--space-1` 4 · `-1h` 6 · `-2` 8 · `-3` 12 · `-4` 16 · `-5` 20 · `-6` 24 · `-14` 56 |
-| Ölçü | `--tap-min` 44 · `--btn-height` 48 · `--key-height` 52 (geniş ekranda 58) · `--tile-size` · `--gap` |
+| Ölçü | `--tap-min` 44 (dokunma alanı) · görünür boy `--ctl-md` 40 · `--ctl-sm` 34 · `--ctl-xs` 28 · `--btn-height` 48 · `--key-height` 52 (geniş ekranda 58) · `--tile-size` · `--gap` |
 | Köşe | `--radius` 6 · `--radius-md` 8 · `--radius-lg` 12 |
 | Gölge | `--shadow-md` (bildirim ve pencere; başka yerde gölge yok) |
 | Süre | `--dur-fast` 0,1 s · `--dur-base` 0,2 s · `--dur-slow` 0,5 s · `--ease` |
@@ -95,9 +98,19 @@ Kalınlık `--fw-bold` (700), `--fw-heavy` (800). Satır yüksekliği `--lh-tigh
 ## Erişilebilirlik
 
 - Metin/zemin çifti AA tutmadan yayına girmez; yeni çifti yukarıdaki tabloya ekle.
-- Dokunma hedefi en az 44×44 px (`--tap-min`). Tek istisna ekran klavyesi
-  tuşları: yükseklik 52 px, genişlik dar ekranda ~35 px; dokunmatik cihazda
-  bu klavye gizlenir, telefonun kendi klavyesi açılır.
+- Dokunma alanı en az 44×44 px (`--tap-min`). Görünür boy daha küçük
+  olabilir: oyun kabuğu `100dvh` sabit olduğundan üstteki her piksel küçük
+  telefonda oyun alanından gider (360×560'ta HEDEF satırı ekrandan çıkıyordu).
+  Bu yüzden ikon düğmesi, sekme, zorluk/uzunluk, "Sonucu paylaş" ve
+  "Nasıl oynanır?" `--ctl-*` boyunda görünür; dokunma alanı `style.css`
+  "Dokunma alanı" bölümündeki görünmez `::before` katmanıyla 44 px'e
+  tamamlanır. Katman komşu denetimle örtüşmeyecek yöne uzar. Kabuğa yeni
+  denetim eklerken aynı yolu izle; yerleşimi büyütme.
+- `tools/test_tarayici.js` (10. adım) 360×560, 375×548 ve 320×460'ta HEDEF ve
+  giriş satırının ilk ekranda kaldığını, denetimlerin gerçek dokunma alanının
+  (komşunun örttüğü kısım hariç) 44×44 olduğunu ölçer.
+- Tek istisna ekran klavyesi tuşları: yükseklik 52 px, genişlik dar ekranda
+  ~35 px; dokunmatik cihazda bu klavye gizlenir, telefonun kendi klavyesi açılır.
 - Odak halkası (`:focus-visible`, amber) kaldırılmaz.
 - Animasyon bilgi taşımaz; `prefers-reduced-motion` açıkken süreler sıfırlanır.
 - Renk tek başına anlam taşımaz: hata hem kırmızı hem yazılı bildirimdir.
@@ -115,6 +128,9 @@ Renkleri `style.css` `:root` bloğundan okur. Marka işareti: zemin gradyanı
 (`--surface` → `--bg`) üstünde köşegen üç kutu — `--green`, `--cream`,
 `--amber`. `favicon.svg` ve `tools/og-image.svg` aynı değerlerin elle tutulan
 kopyasıdır; palet değişirse onları da güncelle (test eşleşmeyi denetler).
+Her PNG, çiziminde kullandığı renkleri `palet` metin parçasında taşır; palet
+değişip betik çalıştırılmazsa `tools/test_veri.py` bayat görseli yakalar.
+(`favicon.ico` ve mağaza görselleri bu denetimin dışında.)
 
 | Dosya | Ne |
 |---|---|

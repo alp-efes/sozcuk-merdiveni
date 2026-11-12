@@ -27,6 +27,7 @@ import re
 import sys
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
+from PIL.PngImagePlugin import PngInfo
 
 KOK = Path(__file__).resolve().parent.parent
 UYGULAMA = KOK / "tools" / "uygulama"
@@ -49,6 +50,17 @@ KREM = RENK["cream"]
 AMBER = RENK["amber"]
 METIN = RENK["text"]
 SOLUK = RENK["text-dim"]
+
+# Her PNG'ye çizimde kullanılan renklerin özeti yazılır ("palet" metin parçası).
+# tools/test_veri.py bunu style.css ile karşılaştırır: palet değişip bu betik
+# çalıştırılmazsa bayat görsel yakalanır.
+KULLANILAN = ("amber", "bg", "cream", "green", "surface", "text", "text-dim")
+
+
+def png_kaydet(img, yol):
+    bilgi = PngInfo()
+    bilgi.add_text("palet", " ".join(f"{ad}=#{''.join(f'{c:02x}' for c in RENK[ad])}" for ad in KULLANILAN))
+    img.save(yol, pnginfo=bilgi)
 
 
 def font_bul(adaylar):
@@ -160,20 +172,20 @@ def og_ciz():
 
 def main():
     # Favicon PNG'leri
-    simge_ciz(48).save(KOK / "favicon-48.png")
-    simge_ciz(192).save(KOK / "favicon-192.png")
-    simge_ciz(180).save(KOK / "apple-touch-icon.png")
+    png_kaydet(simge_ciz(48), KOK / "favicon-48.png")
+    png_kaydet(simge_ciz(192), KOK / "favicon-192.png")
+    png_kaydet(simge_ciz(180), KOK / "apple-touch-icon.png")
 
     # Çok boyutlu favicon.ico (16/32/48)
     simge_ciz(64).save(KOK / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
 
     # Sosyal kart
-    og_ciz().save(KOK / "og-image.png")
+    png_kaydet(og_ciz(), KOK / "og-image.png")
 
     # iOS uygulaması (yollar iOS deposuyla sözleşmedir; adları değiştirmeyin)
     UYGULAMA.mkdir(exist_ok=True)
-    simge_ciz(1024, yuvarlak=False).save(UYGULAMA / "simge-1024.png")
-    acilis_ciz().save(UYGULAMA / "acilis-2732.png")
+    png_kaydet(simge_ciz(1024, yuvarlak=False), UYGULAMA / "simge-1024.png")
+    png_kaydet(acilis_ciz(), UYGULAMA / "acilis-2732.png")
 
     print("Üretildi: favicon.ico, favicon-48.png, favicon-192.png, apple-touch-icon.png, "
           "og-image.png, tools/uygulama/simge-1024.png, tools/uygulama/acilis-2732.png")
