@@ -28,6 +28,15 @@ Sırada (henüz zamanlanmadı): `buyume`, `tasarim`. Reklam yayına girince:
 takımlar PR öncesinde çağırır. `guvenlik` ve `hukuk-uyum` ayrıca ayda bir tam
 denetim yapar.
 
+## İlk kurulum
+
+Bu işler Fable ile yapılır; sonrası Opus/Sonnet. Biten işi CEO işaretler.
+
+- [ ] iOS uygulaması iskeleti (`sozcuk-merdiveni-ios`: Capacitor projesi,
+      yerel özellikler, Xcode ayarları, ilk TestFlight derlemesi)
+- [ ] Tasarım sistemi (renk, yazı, boşluk belirteçleri; uygulama simgesi;
+      site ve uygulamada ortak görsel dil; mağaza görsellerinin şablonu)
+
 ## Bütçe
 
 Harcama yetkisi: **0 TL.** Para gerektiren her şey `[sahip]` issue'su olur.

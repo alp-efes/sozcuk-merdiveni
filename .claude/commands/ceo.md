@@ -79,17 +79,25 @@ başlat", "şu takımı aç/durdur" ya da benzerini derse:
 
 - **PR birleştirme:** `ekip/KURALLAR.md` 8. bölüm. İstisna PR'ı yalnızca sahip
   bu sohbette o PR için açıkça "birleştir" derse birleştir.
-- `ekip/durum.md` sahibindir; yalnızca sahip söylerse değiştir.
+- `ekip/durum.md` sahibindir; yalnızca sahip söylerse değiştir. İstisnalar:
+  sahibin istediği görev değişikliğinden sonra aktif takımlar listesi (3. bölüm)
+  ve "İlk kurulum" kutuları (5. bölüm).
 - Para, hesap, mağaza gönderimi, DNS: sahibe ne yapması gerektiğini adım adım
   yaz, kendin yapma.
 
 ## 5. Maliyet
 
-- **Model seçimi:** takımın varsayılan modeli görev tanımında yazar. Yeni
-  bir şeyin ilk kurulumu (iOS uygulamasının iskeleti, yeni mimari, mağaza
-  gönderimine hazırlık) gibi tek seferlik ve yanlışı pahalı işlerde
-  `oyun-gelistirme`yi `model: "opus"` ile çalıştır. Bakım, hata düzeltme,
-  küçük özellik varsayılan modelde (Sonnet) kalır.
+- **Model seçimi:** takımın varsayılan modeli görev tanımında yazar.
+  - **İlk kurulum → Fable.** `ekip/durum.md` "İlk kurulum" listesinde
+    işaretlenmemiş bir iş için takımı `model: "fable"` ile çalıştır. Bu işler
+    sonraki her şeyin kuralını koyar; bir kez yapılır. Denetçiler
+    (`kod-inceleme`, `guvenlik`, `hukuk-uyum`) kendi modelinde kalır.
+  - İş birleşip canlıda/TestFlight'ta doğrulanınca listedeki kutuyu işaretle
+    (PR ile). Bundan
+    sonra o alan için Fable kullanma.
+  - **Büyük yeni parça** (yeni mimari, mağaza gönderimine hazırlık) →
+    `oyun-gelistirme`yi `model: "opus"` ile çalıştır.
+  - **Bakım, hata düzeltme, küçük özellik** → varsayılan model (Sonnet).
 
 - Sen planlar, denetler, raporlarsın; işi takımlar yapar. Takımların modeli
   görev tanımlarında yazar (çoğu Sonnet, operasyon Haiku). Uygulama işini
