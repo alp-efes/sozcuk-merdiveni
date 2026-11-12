@@ -45,6 +45,10 @@ Takımlar çalıştırmalar arasında hiçbir şey hatırlamaz.
   değiştirir; böyle bir PR'ın başlığına `[words.json]` yaz ve açıklamada
   "TRT 00:00'dan hemen sonra birleştirilmeli" de.
 - Saf HTML/CSS/JS. Depoya npm, derleme adımı, kütüphane eklenmez.
+- **Kod yazan her takım `ponytail` becerisini (`.claude/skills/ponytail`,
+  "full" düzey) uygular:** önce var olanı kullan, en küçük eksiksiz değişikliği
+  yap; doğrulama, hata yönetimi, güvenlik ve erişilebilirlik asla kısılmaz.
+  Becerinin İngilizce çıktı biçimi yerine depo kuralı geçerlidir: Türkçe.
 - Kod yorumları ve kullanıcıya görünen her metin Türkçe.
 - Makine alanlarında (canonical, sitemap, mailto, DNS) punycode.
 

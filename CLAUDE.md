@@ -57,6 +57,7 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 | `tools/test*.{py,js,sh}` | Testler (yayına çıkmaz) |
 | `ekip/` + `.claude/agents/` | Otonom takımların kuralları ve görev tanımları |
 | `.claude/commands/ceo.md` | CEO: sahiple konuşur, işi takımlara dağıtır |
+| `.claude/skills/ponytail*` | Kod yazma ve inceleme becerileri (MIT, dışarıdan; sürümü `LICENSE`'ta) |
 
 ## Ekip (otonom işletim)
 
