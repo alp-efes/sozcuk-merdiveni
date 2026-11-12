@@ -29,7 +29,13 @@ Kod içi yorumlar ve kullanıcıya görünen her metin **Türkçe**.
 python3 tools/sozluk_indir.py     # Zemberek'ten sözlüğü indir + süz
 python3 tools/bulmaca_uret.py     # words.json üret (sözlük + bulmacalar)
 python3 tools/ikon_uret.py        # favicon + sosyal kart PNG'leri (Pillow)
+bash tools/test.sh                # tüm testler — PR açmadan önce geçmeli
 ```
+
+Testler iki parçadır: `tools/test_veri.py` (sözlük, bulmacalar, site dosyaları;
+bağımlılıksız) ve `tools/test_tarayici.js` (oyunu telefon boyutunda gerçek
+tarayıcıda oynar; Playwright depoya değil, çalıştıran makineye kuruludur).
+GitHub'da her PR'da `.github/workflows/test.yml` ikisini de çalıştırır.
 
 Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 `words.json` fetch ile çekildiği için `file://` ile açmak yetmez.
@@ -47,6 +53,17 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 | `tools/yasakli.txt` | Oyuna alınmayan kaba kelimeler |
 | `gizlilik.html` | Tek ayrı sayfa (yasal gereklilik) |
 | `wrangler.jsonc` + `.assetsignore` | Yalnızca statik site yayınlanır |
+| `tools/test*.{py,js,sh}` | Testler (yayına çıkmaz) |
+| `ekip/` + `.claude/agents/` | Otonom takımların kuralları ve görev tanımları |
+
+## Ekip (otonom işletim)
+
+Oyunu zamanlanmış bulut oturumları olarak çalışan takımlar yürütür. Ortak
+kurallar `ekip/KURALLAR.md`, açma/kapama anahtarı ve öncelikler
+`ekip/durum.md`, zamanlamalar `ekip/gorevler.md`, takım görev tanımları
+`.claude/agents/`. Takımlar yalnızca taslak PR açar; `main`'e birleştirmeyi
+site sahibi yapar. `ekip/`, `.github/` ve `CLAUDE.md` yayına çıkmaz
+(`.assetsignore`).
 
 ## Mimari kararlar
 
