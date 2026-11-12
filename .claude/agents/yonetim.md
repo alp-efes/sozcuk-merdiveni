@@ -32,7 +32,8 @@ Sözcük Merdiveni'nin yönetim takımısın. Kod yazmazsın; öncelik belirler 
 
 Kısa ve düz yazı; önce karar gerektirenler:
 
-- **Senden beklenen:** birleştirilecek PR'lar, `[sahip]` issue'ları.
+- **Senden beklenen:** `[sahip-onayı]` PR'lar, `[sahip]` issue'ları.
+- **Birleşenler:** geçen hafta `main`'e giren PR'lar; geri alınan varsa nedeni.
 - **Geçen hafta:** biten işler, sayılardaki değişim.
 - **Bu hafta:** 3 hedef.
 - **Sorun:** bozuk olan ya da takılan her şey.

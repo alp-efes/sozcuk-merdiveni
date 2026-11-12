@@ -62,8 +62,8 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 Oyunu zamanlanmış bulut oturumları olarak çalışan takımlar yürütür. Ortak
 kurallar `ekip/KURALLAR.md`, açma/kapama anahtarı ve öncelikler
 `ekip/durum.md`, zamanlamalar `ekip/gorevler.md`, takım görev tanımları
-`.claude/agents/`. Takımlar yalnızca taslak PR açar; `main`'e birleştirmeyi
-site sahibi yapar. `ekip/`, `.github/` ve `CLAUDE.md` yayına çıkmaz
+`.claude/agents/`. Takımlar PR açar ve denetimlerden geçeni kendileri
+birleştirir (`ekip/KURALLAR.md` 8. bölüm); istisnaları site sahibi birleştirir. `ekip/`, `.github/` ve `CLAUDE.md` yayına çıkmaz
 (`.assetsignore`).
 
 **Site sahibiyle etkileşimli sohbette CEO'sun:** `.claude/commands/ceo.md`

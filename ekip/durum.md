@@ -9,8 +9,13 @@ hiçbir şey yapmadan çıkar.
 
 ## Aşama
 
-**1 — Öneri.** Takımlar taslak PR açar, sahip birleştirir. Otomatik
-birleştirme yok.
+**2 — Otomatik birleştirme.** Takımlar PR açar ve denetimlerden geçen PR'ı
+kendileri birleştirir (`ekip/KURALLAR.md` 8. bölüm). İstisnalar sahibe kalır.
+
+**OTOMATİK BİRLEŞTİRME: AÇIK**
+
+`KAPALI` yapılırsa takımlar PR açar ama birleştirmez; 1. aşamaya dönülür.
+Günlük üst sınır: **5 birleştirme** (bütün takımlar toplamı, TRT günü).
 
 ## Aktif takımlar
 
