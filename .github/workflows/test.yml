@@ -1,0 +1,31 @@
+# Her PR'da ve main'e her push'ta testleri çalıştırır.
+# Playwright yalnızca CI makinesine, deponun DIŞINA kurulur; site derlemesiz kalır.
+name: Testler
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Veri ve site bütünlüğü
+        run: python3 tools/test_veri.py
+
+      - name: Playwright kur (depo dışına)
+        run: |
+          mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw"
+          npm init -y > /dev/null
+          npm install playwright@1.63.0
+          npx playwright install --with-deps chromium
+
+      - name: Tarayıcı duman testi
+        run: NODE_PATH="$RUNNER_TEMP/pw/node_modules" node tools/test_tarayici.js

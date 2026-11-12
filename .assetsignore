@@ -4,6 +4,9 @@
 .gitignore
 .assetsignore
 .claude
+.github
+ekip
+CLAUDE.md
 .wrangler
 node_modules
 tools
