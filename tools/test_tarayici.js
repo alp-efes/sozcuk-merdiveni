@@ -889,6 +889,17 @@ async function main() {
       await s.click("#btnShare");
       const metin = await s.evaluate(() => window.__kopya || "");
       denetle(metin.includes(`${kotu.length} adım (en az ${en})`), `paylaşım ilk çözümü yazmalı: ${metin.split("\n")[1]}`);
+      // Metinde punycode yok (Unicode adres); makine alanlarında punycode kalır
+      denetle(metin.trimEnd().endsWith("\n" + (await s.evaluate(() => oyun.paylasimAdresi(location.href)))), `paylaşım adresi sona yazılmalı: ${metin}`);
+      const adresler = await s.evaluate(() => [
+        oyun.paylasimAdresi("https://xn--szckyolu-n4a6d.com/?a=1#b"),
+        oyun.paylasimAdresi("http://127.0.0.1:8766/"),
+        oyun.paylasimAdresi("https://sozcuk-merdiveni.alpefes.workers.dev/")]);
+      denetle(adresler[0] === "https://sözcükyolu.com/", `punycode adres Unicode olmalı: ${adresler[0]}`);
+      denetle(adresler[1] === "http://127.0.0.1:8766/" && adresler[2] === "https://sozcuk-merdiveni.alpefes.workers.dev/", "diğer adresler değişmemeli");
+      denetle(!metin.includes("xn--"), "paylaşım metninde punycode kaldı");
+      const mak = await s.evaluate(async () => (await (await fetch("index.html")).text()));
+      denetle(mak.includes('href="https://xn--szckyolu-n4a6d.com/"') && mak.includes('content="https://xn--szckyolu-n4a6d.com/"'), "makine alanları (canonical, og:url) punycode kalmalı");
       await s.reload(); await oyunHazir(s);     // yenilemede de ilk çözüm kayıttan gelir
       denetle(await s.evaluate(() => oyun.over && oyun.lastResult.steps), "yenilemeden sonra çözülmüş günlük açılmadı");
       await b.close();
