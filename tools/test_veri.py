@@ -25,6 +25,7 @@ Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
 """
 
+import hashlib
 import html
 import json
 import re
@@ -38,6 +39,8 @@ KOK = ARACLAR.parent
 
 ALFABE = set("ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")
 UZUNLUKLAR = ("3", "4", "5")
+# Bulmaca uçlarının sha256 parmak izi (origin/main ile aynı); --yeni ile bilerek değişir.
+BULMACA_IZI = "01187efc9e7f9994ebd20e60e5ac4df1699c9ae207d2972dc4ccfccedadf6920"
 ZORLUKLAR = ("kolay", "orta", "zor")
 MIN_ADIM, MAX_ADIM = 2, 6
 PUNYCODE_ALAN = "xn--szckyolu-n4a6d.com"
@@ -189,18 +192,13 @@ def veri_testleri():
     sizinti = sorted(tdk_ek & yasakli)
     denetle(not sizinti, f"tdk_ek_kelimeler.txt yasaklı kelime içeriyor: {sizinti[:5]}")
 
-    # Bulmaca listesi (uç, yön, sıra) üretici yeniden çalışınca değişmemeli:
-    # günün bulmacası sıraya bağlıdır. Dondurma yolu aynı değerleri üretmeli.
-    import importlib.util
-    belirtim = importlib.util.spec_from_file_location("bulmaca_uret", ARACLAR / "bulmaca_uret.py")
-    uretici = importlib.util.module_from_spec(belirtim)
-    belirtim.loader.exec_module(uretici)
-    for boy in UZUNLUKLAR:
-        kelimeler = db[boy]["words"]
-        bulmacalar = uretici.bulmacalari_dondur(
-            db[boy]["puzzles"], set(onayli), uretici.komsuluk_kur(kelimeler), boy)
-        denetle(bulmacalar == db[boy]["puzzles"],
-                f"{boy}: bulmaca listesi üretici yeniden çalışınca değişiyor")
+    # Bulmaca uçları (başlangıç, hedef, sıra) sabit parmak izine bağlıdır: günün
+    # bulmacası sıraya bağlıdır. Bilerek değiştirirsen (--yeni) izi güncelle.
+    iz = hashlib.sha256()
+    for boy in sorted(db):
+        iz.update(json.dumps([p[:2] for p in db[boy]["puzzles"]], ensure_ascii=False).encode())
+    denetle(iz.hexdigest() == BULMACA_IZI,
+            f"bulmaca uçları/sırası değişti (günün bulmacası kayar): {iz.hexdigest()}")
 
 
 def site_testleri():
