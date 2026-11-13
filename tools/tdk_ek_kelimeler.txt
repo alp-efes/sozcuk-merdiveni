@@ -1,0 +1,5 @@
+# TDK Güncel Türkçe Sözlük (sozluk.gov.tr) madde başı olduğu doğrulanmış kelimeler
+# (Zemberek sözlüğünde olmayanlar). Yalnızca doğrulama sözlüğüne girer;
+# bulmaca uçları buradan seçilmez. Özel ad, kısaltma, çok kelimeli, argo/kaba/hakaret
+# etiketli ve yasakli.txt kelimeleri alınmaz. Yalnızca kelime: TDK metni konmaz.
+KALAN

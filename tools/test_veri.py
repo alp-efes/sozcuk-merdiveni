@@ -180,6 +180,28 @@ def veri_testleri():
     for k in ("ETMEK", "ALMAK", "DEMEK"):
         denetle(k not in tum, f"örnek kontrol: {k} sözlükte olmamalı (mastar)")
 
+    # TDK'da madde olup Zemberek'te olmayan kelimeler (tools/tdk_ek_kelimeler.txt)
+    tdk_ek = liste_oku(ARACLAR / "tdk_ek_kelimeler.txt")
+    denetle("KALAN" in tdk_ek and "KALAN" in tum, "örnek kontrol: KALAN sözlükte olmalı")
+    denetle("GELEN" in tum, "örnek kontrol: GELEN sözlükte olmalı")
+    eksik = sorted(tdk_ek - tum)
+    denetle(not eksik, f"tdk_ek_kelimeler.txt kelimeleri words.json'da yok: {eksik[:5]}")
+    sizinti = sorted(tdk_ek & yasakli)
+    denetle(not sizinti, f"tdk_ek_kelimeler.txt yasaklı kelime içeriyor: {sizinti[:5]}")
+
+    # Bulmaca listesi (uç, yön, sıra) üretici yeniden çalışınca değişmemeli:
+    # günün bulmacası sıraya bağlıdır. Dondurma yolu aynı değerleri üretmeli.
+    import importlib.util
+    belirtim = importlib.util.spec_from_file_location("bulmaca_uret", ARACLAR / "bulmaca_uret.py")
+    uretici = importlib.util.module_from_spec(belirtim)
+    belirtim.loader.exec_module(uretici)
+    for boy in UZUNLUKLAR:
+        kelimeler = db[boy]["words"]
+        bulmacalar = uretici.bulmacalari_dondur(
+            db[boy]["puzzles"], set(onayli), uretici.komsuluk_kur(kelimeler), boy)
+        denetle(bulmacalar == db[boy]["puzzles"],
+                f"{boy}: bulmaca listesi üretici yeniden çalışınca değişiyor")
+
 
 def site_testleri():
     index = (KOK / "index.html").read_text(encoding="utf-8")

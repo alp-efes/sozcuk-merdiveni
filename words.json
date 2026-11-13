@@ -9277,6 +9277,7 @@
    "KAKUM",
    "KAKÜL",
    "KALAK",
+   "KALAN",
    "KALAS",
    "KALAY",
    "KALBİ",
@@ -12809,7 +12810,7 @@
     "KAYAK",
     "YALAN",
     3,
-    "orta"
+    "kolay"
    ],
    [
     "TERZİ",
@@ -13631,7 +13632,7 @@
     "YALAN",
     "KABAK",
     3,
-    "orta"
+    "kolay"
    ],
    [
     "KEMİK",
@@ -14243,7 +14244,7 @@
     "KAZAK",
     "YILAN",
     4,
-    "zor"
+    "orta"
    ],
    [
     "KEMAN",
