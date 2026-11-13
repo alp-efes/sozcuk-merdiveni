@@ -61,7 +61,8 @@
     <ul>
       <li><code>sm_state</code>: süren oyunun;</li>
       <li><code>sm_gunluk_*</code>: her günün bulmacasındaki çözümün ya da çözümü gösterdiğin;</li>
-      <li><code>sm_ipucu_*</code>: o gün ücretsiz ipucunu kullanıp kullanmadığın;</li>
+      <li><code>sm_haklar</code>: kalan ipucu ve geri alma hakların ve hakların en son
+      hangi gün yenilendiği (eski sürümün <code>sm_ipucu_*</code> kayıtları bir kez silinir);</li>
       <li><code>sm_uzunluk</code> ve <code>sm_zorluk</code>: serbest oyun için
       seçtiğin uzunluk ve zorluk.</li>
     </ul>
@@ -87,7 +88,7 @@
     başlatılmaz ve bu veriler gönderilmez.</p>
 
 <h3>Reklamlar (Google AdMob)</h3>
-    <p>Ücretsiz sürümde ipucu ve yeniden deneme için isteğe bağlı bir
+    <p>Ücretsiz sürümde ipucu, geri alma ve yeniden deneme için isteğe bağlı bir
     reklam izleyebilirsin; bir bulmacayı çözdükten sonra ara sıra tam ekran
     reklam gösterilir. Reklam gösterilirken Google'ın yazılımı şu bilgileri
     toplayabilir ve Google'a gönderir: IP adresin (ve ondan çıkarılan yaklaşık
@@ -162,8 +163,8 @@
     cihazında saklanır ve bize iletilmez; uygulamayı sildiğinde silinir:
     süren oyunun (sm_state), günün bulmacasındaki sonucun
     (sm_gunluk_&lt;tarih&gt;), serbest oyun için seçtiğin zorluk ve uzunluk
-    (sm_zorluk, sm_uzunluk), günlük ücretsiz ipucunu o gün kullanıp
-    kullanmadığın (sm_ipucu_&lt;tarih&gt;) ve Plus'ın açık olup olmadığı
+    (sm_zorluk, sm_uzunluk), kalan ipucu ve geri alma hakların (sm_haklar;
+    eski sürümün sm_ipucu_&lt;tarih&gt; kayıtları bir kez silinir) ve Plus'ın açık olup olmadığı
     (sm_plus; uygulama her açılışta Apple'dan yeniden doğrular). Ayrıca yalnızca
     açık oturum boyunca, reklamları sıklaştırmamak için son reklam zamanı
     (sm_gecis) ve oturumdaki çözüm sayısı (sm_cozum) tutulur. Google'ın reklam
