@@ -35,6 +35,7 @@ const { chromium } = require("playwright");
 const KOK = path.resolve(__dirname, "..");
 const WWW = path.resolve(process.env.UYGULAMA_WWW || path.join(KOK, "..", "sozcuk-merdiveni-ios", "www"));
 const CIKTI = path.join(__dirname, "uygulama", "magaza");
+const GECICI = path.join(__dirname, "uygulama", ".magaza-yeni");   // yarıda kalırsa eskiler bozulmaz
 const TARIH = process.argv[2] || "2026-11-13";
 const TUR = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css",
               ".json": "application/json", ".woff2": "font/woff2" };
@@ -60,10 +61,10 @@ const EKRANLAR = [
 /* Paketi sunan yerel sunucu; klasör dışına çıkmaz. Mağaza şablonu da buradan verilir. */
 function sunucuAc(sablonlar) {
   const sunucu = http.createServer((istek, yanit) => {
-    const ad = decodeURIComponent(new URL(istek.url, "http://x").pathname);
-    if (sablonlar.has(ad)) return yanit.writeHead(200, { "Content-Type": TUR[".html"] }).end(sablonlar.get(ad));
-    const yol = path.resolve(WWW, "." + ad.replace(/\/$/, "/index.html"));
     try {
+      const ad = decodeURIComponent(new URL(istek.url, "http://x").pathname);   // bozuk % → 404
+      if (sablonlar.has(ad)) return yanit.writeHead(200, { "Content-Type": TUR[".html"] }).end(sablonlar.get(ad));
+      const yol = path.resolve(WWW, "." + ad.replace(/\/$/, "/index.html"));
       if (!yol.startsWith(WWW + path.sep)) throw new Error("dışarı çıkma");
       yanit.writeHead(200, { "Content-Type": TUR[path.extname(yol)] || "application/octet-stream" }).end(fs.readFileSync(yol));
     } catch (_) { yanit.writeHead(404).end(); }
@@ -218,14 +219,15 @@ async function main() {
     const baglam = await tarayici.newContext({ viewport: TUVAL, deviceScaleFactor: OLCEK });
     await disAgiKapat(baglam);
     const sayfa = await baglam.newPage();
-    fs.mkdirSync(CIKTI, { recursive: true });
-    for (const eski of fs.readdirSync(CIKTI)) if (eski.endsWith(".png")) fs.unlinkSync(path.join(CIKTI, eski));
+    // Önce geçici klasöre yazılır; hepsi başarılıysa eskilerin yerine geçer
+    fs.rmSync(GECICI, { recursive: true, force: true });
+    fs.mkdirSync(GECICI, { recursive: true });
     for (const [i, [ad, baslik]] of EKRANLAR.entries()) {
       // Şablon yerel sunucudan açılır ki style.css aynı kaynaktan yüklensin
       sablonlar.set("/magaza-sablon", sablon(baslik, goruntuler[i]));
       await sayfa.goto(ADRES + "magaza-sablon", { waitUntil: "load" });
       await sayfa.evaluate(() => document.fonts.ready);
-      const dosya = path.join(CIKTI, ad + ".png");
+      const dosya = path.join(GECICI, ad + ".png");
       await sayfa.screenshot({ path: dosya });
       // Öz denetim: PNG başlığındaki ölçü mağazanın istediği ölçü mü
       const bas = fs.readFileSync(dosya).subarray(16, 24);
@@ -233,9 +235,13 @@ async function main() {
       if (en !== TUVAL.width * OLCEK || boy !== TUVAL.height * OLCEK) {
         throw new Error(`${ad}.png ${en}×${boy}; ${TUVAL.width * OLCEK}×${TUVAL.height * OLCEK} olmalı`);
       }
-      console.log(`  ${path.relative(KOK, dosya)}  ${en}×${boy}  "${baslik}"`);
+      console.log(`  ${path.relative(KOK, path.join(CIKTI, ad + ".png"))}  ${en}×${boy}  "${baslik}"`);
     }
+    fs.mkdirSync(CIKTI, { recursive: true });
+    for (const eski of fs.readdirSync(CIKTI)) if (eski.endsWith(".png")) fs.unlinkSync(path.join(CIKTI, eski));
+    for (const yeni of fs.readdirSync(GECICI)) fs.renameSync(path.join(GECICI, yeni), path.join(CIKTI, yeni));
   } finally {
+    fs.rmSync(GECICI, { recursive: true, force: true });
     if (tarayici) await tarayici.close();
     sunucu.close();
   }
