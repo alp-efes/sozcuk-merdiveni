@@ -37,6 +37,23 @@ Bu işler Fable ile yapılır; sonrası Opus/Sonnet. Biten işi CEO işaretler.
 - [x] Tasarım sistemi (renk, yazı, boşluk belirteçleri; uygulama simgesi;
       site ve uygulamada ortak görsel dil; mağaza görsellerinin şablonu)
 
+## Sahip kararları
+
+Gizlilik ve mağaza (13 Kasım 2026, issue #9):
+
+- **Analitik kalır, yalnızca izinle.** Firebase Analytics kabul edilmeden
+  yüklenmez; seçim `sm_izin` anahtarında (`evet`/`hayir`), alt bilgiden
+  geri alınabilir.
+- **Metinlerde kişisel ad yok.** Veri sorumlusu "Sözcük Yolu (sözcükyolu.com)",
+  iletişim `iletisim@`.
+- **App Store:** paket kimliği `com.sozcukyolu.app` kalır. İlk sürüm **AB
+  hariç** bütün ülkelerde yayınlanır: AB için DSA "trader" beyanı ad, adres ve
+  telefonu herkese açar; AB, sahibin sonradan açabileceği bir kapıdır.
+- **Reklam istenir:** sitede AdSense planlandığı gibi; uygulama 1.0 reklamsız,
+  AdMob sahibin AdMob hesabını açmasından sonraki bir sürümde. Reklam gelince
+  AEA için Google onaylı bir CMP gerekir; bu basit bildirimin yerini alır.
+  Reklamdan önce gizlilik sayfası ve App Store gizlilik etiketi güncellenir.
+
 ## Bütçe
 
 Harcama yetkisi: **0 TL.** Para gerektiren her şey `[sahip]` issue'su olur.

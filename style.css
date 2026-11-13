@@ -610,6 +610,38 @@ body {
   min-height: 1em;
 }
 
+/* ---------- Analitik izni bildirimi ---------- */
+/* Kabuğun akışında (tahtayı örtmez); iki düğme aynı boyda ve stilde. */
+.izin {
+  flex-shrink: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.izin[hidden] { display: none; }
+.izin-metin {
+  font-size: var(--fs-xs);
+  line-height: var(--lh-body);
+  color: var(--text);
+}
+.izin-metin a { color: var(--link); }
+.izin-dugmeler { display: flex; gap: var(--space-2); }
+.izin-btn {
+  flex: 1;
+  min-height: var(--tap-min);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+}
+.izin-btn:active { filter: brightness(1.3); }
+
 /* ---------- Site alt bilgisi (gizlilik/hakkında bağlantıları) ---------- */
 .site-footer {
   display: flex;
@@ -648,6 +680,8 @@ body.page-body {
 }
 .page h1 { font-size: var(--fs-2xl); margin-bottom: var(--space-5); }
 .page h2 { font-size: var(--fs-lg); margin: var(--space-6) 0 var(--space-2); }
+.page h3 { font-size: var(--fs-md); margin: var(--space-4) 0 var(--space-2); }
+.page code { color: var(--text); }
 .page p, .page li { color: var(--text-dim); line-height: var(--lh-loose); margin-bottom: var(--space-3); }
 .page ul, .page ol { padding-left: var(--space-6); }
 .page a { color: var(--link); }

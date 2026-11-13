@@ -206,6 +206,18 @@ def site_testleri():
     # Gizlilik sayfası oyundan erişilebilir olmalı (AdSense/KVKK şartı)
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
 
+    # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
+    giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
+    for anahtar in ("sm_state", "sm_gunluk_", "sm_uzunluk", "sm_zorluk", "sm_izin",
+                    "game_start", "game_won", "result_shared", "Firebase", "iOS Uygulaması"):
+        denetle(anahtar in giz, f"gizlilik.html: '{anahtar}' anlatılmamış")
+    denetle("kabul etmiş sayılırsınız" not in giz, "gizlilik.html: 'kullanarak kabul' ifadesi geçerli rıza değildir")
+    denetle("index.html#cerez-tercihi" in giz, "gizlilik.html: rızayı geri alma bağlantısı yok")
+    denetle('href="#cerez-tercihi"' in index, "index.html: alt bilgide Çerez Tercihleri bağlantısı yok")
+    # Analitik izinsiz yüklenmemeli: SDK yalnızca dinamik import() ile gelir
+    denetle(not re.search(r'^\s*import\s.*from\s*["\']https?:', index, re.M),
+            "index.html: Firebase statik import — izin vermeden yüklenir")
+
 
 def guvenlik_testleri():
     for ad in SITE_DOSYALARI:
