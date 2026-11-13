@@ -214,6 +214,12 @@ def site_testleri():
     denetle("App Store kurallarına tabidir" in index, "index.html: Plus kutusunda iade/cayma notu yok")
     denetle("Günde bir ipucu hakkın var" in index and "ipucu ücretsizdir" not in index, "index.html: ipucu hakkı metni yanlış")
 
+    # app-ads.txt: iOS uygulamasının AdMob yayıncı doğrulaması; tam bu tek satır ve yayında olmalı
+    app_ads = (KOK / "app-ads.txt").read_text(encoding="utf-8")
+    denetle(app_ads == "google.com, pub-4433947128004313, DIRECT, f08c47fec0942fa0\n",
+            f"app-ads.txt içeriği beklenen tek satır değil: {app_ads!r}")
+    denetle("app-ads.txt" not in yoksay, ".assetsignore: app-ads.txt dışlanmış, /app-ads.txt sunulmaz")
+
     # Gizlilik sayfası oyundan erişilebilir olmalı (AdSense/KVKK şartı)
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
 

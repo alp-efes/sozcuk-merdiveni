@@ -54,6 +54,7 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 | `tools/otomatik_kelimeler.txt` | ÜRETİLİR. Zemberek'ten ~8.3k doğrulama sözlüğü |
 | `tools/yasakli.txt` | Oyuna alınmayan kaba kelimeler |
 | `gizlilik.html` | Tek ayrı sayfa (yasal gereklilik) |
+| `app-ads.txt` | iOS uygulamasının AdMob yayıncı doğrulaması (`/app-ads.txt`); tek satır, testle sabit |
 | `wrangler.jsonc` + `.assetsignore` | Yalnızca statik site yayınlanır |
 | `tools/test*.{py,js,sh}` | Testler (yayına çıkmaz) |
 | `ekip/` + `.claude/agents/` | Otonom takımların kuralları ve görev tanımları |
