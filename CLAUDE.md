@@ -115,7 +115,9 @@ tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odull
 (sahip kararı, 13 Kasım 2026): ilk açılışta 5 + 5. Uygulamada günlük yenilenmez; bitince
 ödüllü reklam (`odulluReklam("ipucu" | "geriAl")`) +1 verir, Plus'ta sınırsız ve rozetsiz.
 Webde biten hak her TRT günü 1'e tamamlanır (birikmez). Yazılan harfi silmek hak harcamaz;
-"Sonucu göster" sayılı değildir. Yenile, ilerleme varken onay ister. Günlükte tekrar webde serbest, uygulamada
+"Sonucu göster" sayılı değildir. Yenile, ilerleme varken onay ister. Açık ipucu `sm_state.ipucu`'da
+saklanır; yenilemede ve ekran değişiminde (zincirin ucuna uyuyorsa) geri gelir, hak yeniden harcanmaz.
+Plus'ın tek vaadi `WordLadder.PLUS_VAAT` (App Store açıklaması: "Reklamları kaldırır; sınırsız ipucu, geri al ve tekrar"). Günlükte tekrar webde serbest, uygulamada
 Plus değilse ödüllü reklam ister; ilk çözüm kaydı (seri, paylaşım) değişmez.
 Kanca sözleşmesi (iOS ekibi buna göre yazar):
 

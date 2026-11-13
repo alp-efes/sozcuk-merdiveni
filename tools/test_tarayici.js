@@ -762,7 +762,9 @@ async function main() {
     {
       const { b, s } = await gelirSayfasi({ plus: false, odul: true, satin: false, geri: true });
       denetle(await gorunur(s, "#plusBox") && await gorunur(s, "#btnPlusBuy") && await gorunur(s, "#btnPlusRestore"), "kancalı: Plus satın al ve geri yükle düğmeleri görünmeli");
-      denetle(/Reklamsız \+ sınırsız ipucu/.test(await s.textContent("#plusText")), "Plus bölümünde 'Reklamsız + sınırsız ipucu' yazmalı");
+      denetle((await s.textContent("#plusText")) === "Plus: reklamsız; sınırsız ipucu, geri al ve günlük tekrar. Tek seferlik satın alma.",
+              `Plus bölümü tek vaadi yazmalı: '${await s.textContent("#plusText")}'`);
+      denetle((await s.textContent("#hakKurali")) === "Hak bitince reklam izleyerek 1 hak daha alabilirsin.", `uygulamada hak kuralı metni yanlış: '${await s.textContent("#hakKurali")}'`);
       denetle((await s.textContent("#btnPlusBuy")) === "Plus'a geç" && /m\.15\/1-ğ.*reportaproblem\.apple\.com/.test(await s.textContent("#plusNot")) && await gorunur(s, "#plusNot"),
               "fiyat yokken etiket 'Plus'a geç' kalmalı; satın alma notu görünmeli");
       await s.evaluate(() => { window.__k.geri = false; });
@@ -1250,6 +1252,52 @@ async function main() {
         denetle(await gorunur(s, "#yenile") && (await s.textContent("#yenileTitle")) === "Yeni bulmaca açılsın mı?", "serbestte ilerleme varken 'Yeni bulmaca açılsın mı?' onayı açılmalı");
         await s.click("#btnYenileEvet");
         denetle(await zincirBoyu(s) === 1 && await s.evaluate(() => oyun.mode) === "free", "serbestte onaydan sonra yeni bulmaca açılmalı");
+        await b.close();
+      }
+    }
+
+    /* 15) Açık ipucu yenilemede kaybolmaz (hakkı harcandı); ileti ve kural metinleri */
+    console.log("15. Açık ipucu korunur; hak bitince doğru ileti");
+    {
+      // 15a) Web: ipucu açıkken yenile → aynı ipucu sessizce geri gelir, hak yeniden harcanmaz
+      {
+        const { b, s } = await gelirSayfasi(null);
+        denetle((await s.textContent("#hakKurali")) === "Biten hak her gün 1'e tamamlanır.", `webde hak kuralı metni yanlış: '${await s.textContent("#hakKurali")}'`);
+        const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        await kelimeYaz(s, komsular(bas).find((k) => k !== hedef && uz(k, hedef) < Infinity));
+        await s.click("#btnHint");
+        const once = await s.evaluate(() => JSON.stringify(oyun.hint));
+        await s.reload(); await oyunHazir(s);
+        const sonra = await s.evaluate(() => ({ h: JSON.stringify(oyun.hint), cerceve: document.querySelectorAll(".tile.hint").length,
+          silik: document.querySelectorAll("#inputRow .tile.hint-letter").length, toast: document.getElementById("toast").classList.contains("show") }));
+        denetle(sonra.h === once && sonra.cerceve === 1 && sonra.silik === 1, `yenilemede açık ipucu kayboldu: ${once} → ${sonra.h}`);
+        denetle(!sonra.toast, "geri gelen ipucu bildirim göstermemeli");
+        denetle((await haklar(s)).kayit.ipucu === 4, "yenilemede ipucu hakkı yeniden harcandı ya da iade edildi");
+        await s.click("#btnHint");                // açık ipucuna bakmak hak harcamaz
+        denetle((await haklar(s)).kayit.ipucu === 4, "geri gelen ipucuna bakmak hak harcadı");
+        await b.close();
+      }
+      // 15b) Kayıttaki ipucu zincirin ucuna uymuyorsa (bozuk/eski) yok sayılır
+      {
+        const { b, s } = await gelirSayfasi(null);
+        await s.evaluate(() => { const k = JSON.parse(localStorage.getItem("sm_state")); k.ipucu = { pos: 0, letter: "<", word: "<b>", kalan: 1 }; localStorage.setItem("sm_state", JSON.stringify(k)); });
+        await s.reload(); await oyunHazir(s);
+        denetle(await s.evaluate(() => oyun.hint === null && !document.querySelector(".tile.hint")), "bozuk kayıtlı ipucu gösterildi");
+        await b.close();
+      }
+      // 15c) Kanca var ama ödüllü reklam yok: "yarın" denmez (uygulamada gün tamamlaması yok)
+      {
+        const b = await tarayici.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+        await disAgiKapat(b);
+        await b.addInitScript(hakOnYukle(0, 0));
+        await b.addInitScript(() => { window.SozcukGelir = { plusMu: () => false, plusSatinAl: () => Promise.resolve(false) }; });
+        const s = await b.newPage();
+        s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+        await s.goto(ADRES); await oyunHazir(s);
+        await s.click("#btnHint");
+        const t = await toastMetni(s);
+        denetle(t === "İpucu hakkın bitti. Plus ile sınırsız kullanabilirsin." && !(await gorunur(s, "#offer")), `ödüllü reklamsız kancada ileti yanlış: '${t}'`);
+        denetle((await s.textContent("#hakKurali")) === "", "ödüllü reklam yokken uygulamada hak kuralı boş olmalı");
         await b.close();
       }
     }
