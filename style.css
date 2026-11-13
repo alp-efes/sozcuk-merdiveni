@@ -609,6 +609,21 @@ button { font: inherit; color: inherit; }
   color: var(--accent);
 }
 
+/* ---------- İpucu cümlesi ----------
+   İpucu açıkken tahtanın altında sonraki kelimenin anlamı; boşken yer kaplamaz. */
+.hint-clue {
+  flex-shrink: 0;
+  margin: 0 var(--space-4) var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+}
+.hint-clue:empty { display: none; }
+
 /* ---------- Bildirim (toast) ---------- */
 .toast {
   position: fixed;

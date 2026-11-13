@@ -170,6 +170,7 @@ class WordLadder {
       dailySolved: document.getElementById("dailySolved"),
       btnDailyShare: document.getElementById("btnDailyShare"),
       btnHint:    document.getElementById("btnHint"),
+      hintClue:   document.getElementById("hintClue"),
       btnUndo:    document.getElementById("btnUndo"),
       btnShowResult: document.getElementById("btnShowResult"),
       pes:        document.getElementById("pes"),
@@ -208,6 +209,7 @@ class WordLadder {
     this.lastResult = null; // Son kazanılan oyunun {steps, grid} paylaşım verisi
     this.toastTimer = null;
     this.hint = null;     // Açık ipucu: { pos, letter }
+    this.ipuclari = null; // İpucu cümleleri: { KELİME: "anlamı" } (ipuclari.json)
     this.busy = false;    // Reklam/satın alma sürerken çift dokunuşu engeller
   }
 
@@ -215,6 +217,7 @@ class WordLadder {
 
   async init() {
     this.db = await this.loadWords();
+    this.loadIpuclari();    // beklenmez: gelmese de oyun ve ipucu çalışır
     this.buildKeyboard();
     this.bindEvents();
     // Yenilemede son bırakılan oyunu geri yükle; yoksa günün bulmacasını başlat
@@ -240,6 +243,22 @@ class WordLadder {
     } catch (err) {
       console.warn("words.json yüklenemedi, mock sözlük devrede:", err.message);
       return WordLadder.MOCK_DB;
+    }
+  }
+
+  // İpucu cümleleri (sonraki kelimenin anlamı). Yüklenemezse ipucu yalnızca
+  // harfi gösterir; hata oyunu etkilemez.
+  async loadIpuclari() {
+    try {
+      const res = await fetch("ipuclari.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (data && typeof data === "object") {
+        this.ipuclari = data;
+        if (this.hint) this.yazIpucuCumlesi();   // ipucu cümleler gelmeden açıldıysa şimdi yaz
+      }
+    } catch (err) {
+      console.warn("ipuclari.json yüklenemedi, ipucu yalnızca harfi gösterecek:", err.message);
     }
   }
 
@@ -321,7 +340,7 @@ class WordLadder {
 
   // Mevcut duruma göre tahtayı çizer (yeni oyun + durum geri yükleme ortak)
   render() {
-    this.hint = null;
+    this.clearHint();
     this.el.ladder.innerHTML = "";
     this.el.game.classList.toggle("bitti", this.over);
     this.el.game.dataset.boy = this.len;      // style.css blok boyunu buna göre seçer
@@ -1025,7 +1044,8 @@ class WordLadder {
   }
 
   // İpucunu gösterir: şimdiki kelimede değişecek harf çerçevelenir, giriş
-  // satırında yeni harf silik görünür, bildirim de yazıyla söyler.
+  // satırında yeni harf silik görünür, bildirim de yazıyla söyler. Sonraki
+  // kelimenin cümlesi varsa ipucu açık kaldıkça tahtanın altında durur.
   showHint(plan) {
     this.clearHint();
     this.hint = plan;
@@ -1033,10 +1053,18 @@ class WordLadder {
     satir.children[plan.pos].classList.add("hint");
     this.renderInput();
     this.showToast(this.hintMetni(plan), true);
+    this.yazIpucuCumlesi();
+  }
+
+  // Açık ipucunun gösterdiği kelimenin cümlesi (yoksa boş)
+  yazIpucuCumlesi() {
+    const cumle = this.ipuclari?.[this.hint?.word];
+    this.el.hintClue.textContent = typeof cumle === "string" ? "Sonraki kelime: " + cumle : "";
   }
 
   clearHint() {
     this.hint = null;
+    this.el.hintClue.textContent = "";
     document.querySelector(".tile.hint")?.classList.remove("hint");
   }
 
