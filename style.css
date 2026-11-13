@@ -616,41 +616,6 @@ body {
   min-height: 1em;
 }
 
-/* ---------- Analitik izni bildirimi ---------- */
-/* Kabuğun akışında (tahtayı örtmez); iki düğme aynı boyda ve stilde. Açıkken
-   reklam yer tutucuları ve "Nasıl oynanır?" ipucu gizlenir: küçük telefonda tahta ve HEDEF ilk ekranda
-   kalsın (reklam izinden sonra zaten gösterilmemeli). */
-.izin {
-  flex-shrink: 0;
-  padding: var(--space-1) var(--space-3) var(--space-2);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-.izin[hidden] { display: none; }
-.app:has(.izin:not([hidden])) :is(.ad-container, .scroll-cue) { display: none; }
-.izin-metin {
-  font-size: var(--fs-xs);
-  line-height: var(--lh-body);
-  color: var(--text);
-}
-.izin-metin a { color: var(--link); }
-.izin-dugmeler { display: flex; gap: var(--space-2); }
-.izin-btn {
-  flex: 1;
-  min-height: var(--tap-min);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  background: var(--surface-2);
-  color: var(--text);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
-  cursor: pointer;
-}
-.izin-btn:active { filter: brightness(1.3); }
-
 /* ---------- Site alt bilgisi (gizlilik/hakkında bağlantıları) ---------- */
 .site-footer {
   display: flex;

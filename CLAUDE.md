@@ -5,7 +5,7 @@ kelimesinden hedef kelimeye ulaşılır.
 
 **Saf HTML/CSS/JS. Derleme adımı yok, npm yok, framework yok.** Bu bilinçli bir
 karar: Cloudflare'da statik olarak yayınlanıyor. Kütüphane eklemeyin; gerekirse
-CDN'den ES modülü olarak alın (Firebase'de olduğu gibi).
+CDN'den ES modülü olarak alın.
 
 Kod içi yorumlar ve kullanıcıya görünen her metin **Türkçe**.
 
@@ -20,7 +20,7 @@ Kod içi yorumlar ve kullanıcıya görünen her metin **Türkçe**.
 | Cloudflare hesap | `009041ed5ca6eefdd57978e9a1f5e5fb` |
 | Zone: sözcükyolu | `538b144079a7238cbda218735c0a827d` |
 | Zone: sözcükmerdiveni | `f324d6c464b9b6b78ef6458c43ee9b3c` |
-| Firebase | proje `sozcukyolu`, ölçüm `G-T13CV0JKZQ` |
+| Firebase | proje `sozcukyolu` hâlâ var ama **kullanılmıyor**; sitede analitik yok (2026-11-13) |
 | İletişim | `iletisim@sözcükyolu.com` → Cloudflare Email Routing |
 
 ## Komutlar
@@ -45,7 +45,7 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 
 | Dosya | Görev |
 |---|---|
-| `index.html` | Tek sayfa: oyun + "Nasıl Oynanır" + SEO/AdSense/Firebase |
+| `index.html` | Tek sayfa: oyun + "Nasıl Oynanır" + SEO/AdSense (yer tutucu) |
 | `app.js` | `WordLadder` sınıfı; oyun mantığı, durum koruma, sayaç |
 | `style.css` | Koyu tema, mobil öncelikli |
 | `words.json` | **ÜRETİLİR — elle düzenlemeyin** |

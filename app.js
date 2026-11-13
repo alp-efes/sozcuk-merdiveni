@@ -252,8 +252,6 @@ class WordLadder {
     this.render();          // over=true ise "bitti" sınıfını + çözüldü göstergesini uygular
     this.saveState();       // doğru "over" ve zincirle kaydeder
 
-    // Analitik: oyun başlangıcı (window.trackEvent Firebase köprüsüdür)
-    window.trackEvent?.("game_start", { mode, length: this.len, difficulty: puzzleDiff });
     // Not: Zaten çözülmüş günlük bulmacaya dönüldüğünde modal açılmaz;
     // cevaplar tahtada görünür kalır (üstteki "çözüldü + paylaş" satırı bilgilendirir).
   }
@@ -618,15 +616,6 @@ class WordLadder {
       this.saveDailyRecord({ ...this.lastResult, chain: this.chain.slice() });
     }
 
-    // Analitik: kazanma (adım sayısı ve mükemmellik dağılımını görmek için)
-    window.trackEvent?.("game_won", {
-      mode: this.mode,
-      length: this.len,
-      steps,
-      optimal: this.optimal,
-      perfect: this.optimal ? (steps === this.optimal ? 1 : 0) : 0,
-    });
-
     // Küçük bir gecikme: son satırın yeşile dönüşü görülsün,
     // ardından geçiş reklamı ve başarı modalı
     setTimeout(() => showInterstitialAd(() => this.showModal()), 650);
@@ -660,9 +649,6 @@ class WordLadder {
   async share() {
     if (!this.lastResult) return;
     const { steps, grid } = this.lastResult;
-
-    // Analitik: paylaşım (viral büyümenin en önemli sinyali)
-    window.trackEvent?.("result_shared", { mode: this.mode, length: this.len, steps });
 
     const baslik = this.mode === "daily"
       ? `Sözcük Merdiveni #${this.dayNumber()}`

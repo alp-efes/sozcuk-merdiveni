@@ -41,14 +41,16 @@ Bu işler Fable ile yapılır; sonrası Opus/Sonnet. Biten işi CEO işaretler.
 
 Gizlilik ve mağaza (13 Kasım 2026, issue #9):
 
-- **Analitik kalır, yalnızca izinle.** Firebase Analytics kabul edilmeden
-  yüklenmez; seçim `sm_izin` anahtarında (`evet`/`hayir`), alt bilgiden
-  geri alınabilir.
+- **Analitik sitede kaldırıldı** (13 Kasım 2026, önceki "izinle kalır"
+  kararının yerine): Firebase betiği, izin bildirimi ve çerez tercihi yok;
+  site hiçbir şey toplamaz. Firebase projesi (`sozcukyolu`) duruyor, kullanılmıyor.
+  Reklam gelince gizlilik sayfası önce güncellenir.
 - **Metinlerde kişisel ad yok.** Veri sorumlusu "Sözcük Yolu (sözcükyolu.com)",
   iletişim `iletisim@`.
-- **App Store:** paket kimliği `com.sozcukyolu.wordladder` (önceki `com.sozcukyolu.app` kararından değişti; Apple Developer üyeliği başvurusu sahipte bekliyor, kimlik henüz kayıtlı değil). İlk sürüm **AB
+- **App Store:** paket kimliği `com.sozcukyolu.sozcukmerdiveni` (önceki `com.sozcukyolu.wordladder` ve `com.sozcukyolu.app` kararlarının yerine; Apple Developer üyeliği başvurusu sahipte bekliyor, kimlik henüz kayıtlı değil). İlk sürüm **AB
   hariç** bütün ülkelerde yayınlanır: AB için DSA "trader" beyanı ad, adres ve
   telefonu herkese açar; AB, sahibin sonradan açabileceği bir kapıdır.
+- **iOS deposu herkese açık** (sahip yaptı, 13 Kasım 2026).
 - **Reklam istenir:** sitede AdSense planlandığı gibi; uygulama 1.0 reklamsız,
   AdMob sahibin AdMob hesabını açmasından sonraki bir sürümde. Reklam gelince
   AEA, Birleşik Krallık ve İsviçre için Google onaylı bir CMP gerekir; bu basit bildirimin yerini alır.
