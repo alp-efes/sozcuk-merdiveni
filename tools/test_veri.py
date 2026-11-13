@@ -22,7 +22,8 @@ Denetlenenler:
      çiftleri WCAG AA; yazı tipi yerel dosyadan ve lisansı yanında
  10. İpucu cümleleri: ipuclari.json tools/ipuclari.tsv'den güncel üretilmiş;
      her kelime sözlükte, yasaklı değil; cümlede kelime ya da kökü geçmiyor;
-     en kısa yollardaki kelimelerin çoğu kapsanıyor
+     en kısa yollardaki kelimelerin çoğu kapsanıyor; TDK benzerlik denetimi
+     (ipucu_uret.py --tdk) kopyayı yakalıyor
 
 Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
@@ -207,6 +208,23 @@ def ipucu_testleri():
     for kelime, cumle in veri.items():
         sorun = ipucu_uret.cumle_hatasi(kelime, cumle)
         denetle(kelime in sozluk and not sorun, f"ipuclari.json {kelime}: {sorun or 'sözlükte yok'}")
+
+    # TDK benzerlik denetimi (ipucu_uret.py --tdk): kopya yakalanır, gönderme ve
+    # kendi cümlemiz geçer, fiil kökünde mastar maddesi de karşılaştırılır
+    import tempfile
+    with tempfile.TemporaryDirectory() as gecici:
+        madde = lambda *anlamlar: json.dumps([{"anlamlarListe": [{"anlam": a} for a in anlamlar]}])
+        (Path(gecici) / "bal.json").write_text(madde("Arıların çiçek özünden yaptığı tatlı, koyu madde", "► mutluluk"), encoding="utf-8")
+        (Path(gecici) / "gel.json").write_text('{"error":"Sonuç bulunamadı"}', encoding="utf-8")
+        (Path(gecici) / "gelmek.json").write_text(madde("Bir yere doğru yaklaşıp varmak"), encoding="utf-8")
+        oran = lambda k, c: ipucu_uret.benzerlik(k, c, gecici)[0]
+        denetle(oran("BAL", "Arıların çiçek özünden yaptığı tatlı, koyu madde.") >= ipucu_uret.ESIK_BENZERLIK,
+                "ipucu_uret.benzerlik: TDK tanımının kopyası yakalanmadı")
+        denetle(oran("BAL", "Mutluluk.") < ipucu_uret.ESIK_BENZERLIK, "ipucu_uret.benzerlik: gönderme (►) anlamı karşılaştırılmamalı")
+        denetle(oran("BAL", "Peteklerde biriken, arının ürettiği şeker.") < ipucu_uret.ESIK_BENZERLIK,
+                "ipucu_uret.benzerlik: kendi sözcüklerimizle yazılan cümle yakalandı")
+        denetle(oran("GEL", "Bir yere doğru yaklaşıp varmak.") >= ipucu_uret.ESIK_BENZERLIK,
+                "ipucu_uret.benzerlik: fiil kökünde mastar maddesi karşılaştırılmadı")
 
     # Kapsam: bulmacaların en kısa yollarındaki kelimeler (ipucunun gösterdiği kelimeler)
     yoldakiler = set()

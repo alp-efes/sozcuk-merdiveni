@@ -250,10 +250,13 @@ class WordLadder {
   // harfi gösterir; hata oyunu etkilemez.
   async loadIpuclari() {
     try {
-      const res = await fetch("ipuclari.json", { cache: "no-cache" });
+      const res = await fetch("ipuclari.json", { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
-      if (data && typeof data === "object") this.ipuclari = data;
+      if (data && typeof data === "object") {
+        this.ipuclari = data;
+        if (this.hint) this.yazIpucuCumlesi();   // ipucu cümleler gelmeden açıldıysa şimdi yaz
+      }
     } catch (err) {
       console.warn("ipuclari.json yüklenemedi, ipucu yalnızca harfi gösterecek:", err.message);
     }
@@ -1050,7 +1053,12 @@ class WordLadder {
     satir.children[plan.pos].classList.add("hint");
     this.renderInput();
     this.showToast(this.hintMetni(plan), true);
-    const cumle = this.ipuclari?.[plan.word];
+    this.yazIpucuCumlesi();
+  }
+
+  // Açık ipucunun gösterdiği kelimenin cümlesi (yoksa boş)
+  yazIpucuCumlesi() {
+    const cumle = this.ipuclari?.[this.hint?.word];
     this.el.hintClue.textContent = typeof cumle === "string" ? "Sonraki kelime: " + cumle : "";
   }
 

@@ -876,6 +876,36 @@ async function main() {
       await b.close();
     }
 
+    {
+      // ipuclari.json ipucu açıldıktan sonra gelirse cümle o an yazılır (ipucu hâlâ açıksa)
+      const b = await tarayici.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+      await disAgiKapat(b);
+      let birak;
+      const bekle = new Promise((coz) => { birak = coz; });
+      await b.route("**/ipuclari.json", async (istek) => { await bekle; await istek.continue(); });
+      const s = await b.newPage();
+      s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await s.goto(ADRES); await oyunHazir(s);
+      // Sonraki kelimesinin cümlesi olan bir bulmaca kur (dosya henüz gelmedi; seçim Node'daki kopyadan)
+      const kur = await s.evaluate(({ liste, cumleli }) => {
+        for (const [bb, hh] of liste) {
+          oyun.dailyPuzzle = () => [bb, hh, 0];
+          oyun.newGame("daily");
+          const plan = oyun.planHint();
+          if (plan && cumleli.includes(plan.word)) return plan.word;
+        }
+        return null;
+      }, { liste: tumBulmacalar, cumleli: Object.keys(ipuclari) });
+      denetle(!!kur, "12g: geç yükleme testi için cümleli bulmaca bulunamadı");
+      await s.click("#btnHint");
+      const once = await s.evaluate(() => ({ ip: oyun.ipuclari, cumle: document.getElementById("hintClue").textContent, hint: !!oyun.hint }));
+      denetle(once.ip === null && once.cumle === "" && once.hint, `geç yükleme: dosya gelmeden ipucu harfle açılmalı (${JSON.stringify(once)})`);
+      birak();
+      await s.waitForFunction(() => oyun.ipuclari, null, { timeout: 5000 });
+      denetle(await s.textContent("#hintClue") === ipucuCumlesi(kur), `geç yükleme: dosya gelince açık ipucunun cümlesi yazılmadı (${kur})`);
+      await b.close();
+    }
+
     // 12f) Gerçek TRT gece yarısı: ipucu hakkı yeni günde yenilenir (sahte saat)
     {
       const b = await tarayici.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
