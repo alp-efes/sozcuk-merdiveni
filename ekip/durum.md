@@ -46,7 +46,7 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
   geri alınabilir.
 - **Metinlerde kişisel ad yok.** Veri sorumlusu "Sözcük Yolu (sözcükyolu.com)",
   iletişim `iletisim@`.
-- **App Store:** paket kimliği `com.sozcukyolu.app` kalır. İlk sürüm **AB
+- **App Store:** paket kimliği `com.sozcukyolu.wordladder` (önceki `com.sozcukyolu.app` kararından değişti; Apple Developer üyeliği başvurusu sahipte bekliyor, kimlik henüz kayıtlı değil). İlk sürüm **AB
   hariç** bütün ülkelerde yayınlanır: AB için DSA "trader" beyanı ad, adres ve
   telefonu herkese açar; AB, sahibin sonradan açabileceği bir kapıdır.
 - **Reklam istenir:** sitede AdSense planlandığı gibi; uygulama 1.0 reklamsız,
