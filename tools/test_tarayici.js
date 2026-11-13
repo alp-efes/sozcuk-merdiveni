@@ -22,6 +22,8 @@
  *      uzun merdivende eski basamaklar kayıyor, giriş ve HEDEF görünür kalıyor
  *  11. Site Google/gstatic'e hiç istek yapmıyor; eski analitikten kalan
  *      çerez/anahtar bir kez temizleniyor
+ *  12. İpucu, günlük hak, gelir kancası; ipucu cümlesi (ipuclari.json) sonraki
+ *      kelimenin anlamını gösteriyor, dosya yüklenemezse ipucu yine çalışıyor
  *
  * Dış ağ engellenir ve kaydedilir; test internetsiz de aynı sonucu verir.
  *
@@ -51,6 +53,8 @@ function denetle(kosul, mesaj) {
 /* ---- app.js'teki günlük seçim kuralının bağımsız kopyası ---- */
 const db = JSON.parse(fs.readFileSync(path.join(KOK, "words.json"), "utf8"));
 const tumBulmacalar = Object.keys(db).sort().flatMap(boy => db[boy].puzzles);
+const ipuclari = JSON.parse(fs.readFileSync(path.join(KOK, "ipuclari.json"), "utf8"));
+const ipucuCumlesi = (k) => (ipuclari[k] ? "Sonraki kelime: " + ipuclari[k] : "");
 
 function gunNo(anMs) {
   const d = new Date(anMs + TRT_MS);
@@ -573,6 +577,7 @@ async function main() {
       const s = await b.newPage();
       s.on("pageerror", (e) => sayfaHatalari.push(e.message));
       await s.goto(ADRES); await oyunHazir(s);
+      await s.waitForFunction(() => oyun.ipuclari, null, { timeout: 5000 });   // ipucu cümleleri beklenmeden yüklenir
       return { b, s };
     };
     const cagrilar = (s) => s.evaluate(() => (window.__c || []).slice());
@@ -588,6 +593,8 @@ async function main() {
       denetle(uz(sonraki, ip.hedef) === uz(ip.cur, ip.hedef) - 1, `${ad}: ${ip.cur}→${sonraki} hedefe yaklaştırmıyor (${uz(ip.cur, ip.hedef)}→${uz(sonraki, ip.hedef)})`);
       denetle((await toastMetni(s)).endsWith(`hedefe ${uz(ip.cur, ip.hedef)} adım`), `${ad}: bildirim hedefe kalan adımı (${uz(ip.cur, ip.hedef)}) söylemeli: '${await toastMetni(s)}'`);
       denetle(ip.cerceve === 1 && ip.silik === ip.h.letter, `${ad}: ipucu ekranda gösterilmiyor (çerçeve ${ip.cerceve}, silik harf '${ip.silik}')`);
+      const cumle = await s.textContent("#hintClue");
+      denetle(cumle === ipucuCumlesi(sonraki), `${ad}: ipucu cümlesi '${cumle}', beklenen '${ipucuCumlesi(sonraki)}' (${sonraki})`);
       return sonraki;
     };
     const bugun = (s) => s.evaluate(() => "sm_ipucu_" + oyun.todayKey());
@@ -821,6 +828,51 @@ async function main() {
         await s.click("#btnHint");
         await ipucuDogru(s, `serbest ${n} harf ipucu`);
       }
+      await b.close();
+    }
+
+    // 12g) İpucu cümlesi: sonraki kelimenin anlamı görünür, sesli okunur, hamleyle kalkar
+    {
+      const { b, s } = await gelirSayfasi({ plus: true, odul: true, satin: true });
+      // Sonraki kelimesinin cümlesi olan ilk bulmaca (her çalıştırmada aynı)
+      const secim = await s.evaluate((liste) => {
+        for (const [bb, hh] of liste) {
+          oyun.dailyPuzzle = () => [bb, hh, 0];
+          oyun.newGame("daily");
+          const plan = oyun.planHint();
+          if (plan && oyun.ipuclari[plan.word]) return [bb, hh, plan.word];
+        }
+        return null;
+      }, tumBulmacalar);
+      denetle(!!secim, "12g: sonraki kelimesinin ipucu cümlesi olan bulmaca yok");
+      if (secim) {
+        const kelime = secim[2];
+        denetle(await s.evaluate(() => getComputedStyle(document.getElementById("hintClue")).display === "none"), "ipucu yokken cümle alanı görünüyor");
+        await s.click("#btnHint");
+        await ipucuDogru(s, "ipucu cümlesi");
+        const alan = await s.evaluate(() => { const e = document.getElementById("hintClue"); const r = e.getBoundingClientRect();
+          return { canli: e.getAttribute("aria-live"), boy: r.height, alt: r.bottom, metin: e.textContent }; });
+        denetle(alan.metin === "Sonraki kelime: " + ipuclari[kelime] && alan.boy > 0 && alan.alt <= 852, `ipucu cümlesi görünmüyor (${JSON.stringify(alan)})`);
+        denetle(alan.canli === "polite", "ipucu cümlesi ekran okuyucuya duyurulmuyor (aria-live)");
+        await kelimeYaz(s, kelime);
+        denetle(await s.evaluate(() => document.getElementById("hintClue").textContent === ""), "hamleden sonra ipucu cümlesi silinmedi");
+      }
+      await b.close();
+    }
+    {
+      // ipuclari.json yüklenemezse ipucu eskisi gibi yalnızca harfi gösterir; hata yok
+      const b = await tarayici.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+      await disAgiKapat(b);
+      await b.route("**/ipuclari.json", (istek) => istek.fulfill({ status: 404, body: "" }));
+      const s = await b.newPage();
+      s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await s.goto(ADRES); await oyunHazir(s);
+      await s.waitForTimeout(300);
+      await s.click("#btnHint");
+      const d = await s.evaluate(() => ({ hint: !!oyun.hint, cerceve: document.querySelectorAll(".tile.hint").length,
+        cumle: document.getElementById("hintClue").textContent, ipuclari: oyun.ipuclari }));
+      denetle(d.hint && d.cerceve === 1 && d.cumle === "" && d.ipuclari === null,
+              `ipuclari.json yokken ipucu çalışmalı, cümle boş kalmalı (${JSON.stringify(d)})`);
       await b.close();
     }
 
