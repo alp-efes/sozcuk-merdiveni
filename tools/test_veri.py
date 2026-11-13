@@ -206,6 +206,18 @@ def site_testleri():
     # Gizlilik sayfası oyundan erişilebilir olmalı (AdSense/KVKK şartı)
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
 
+    # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
+    giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
+    for anahtar in ("sm_state", "sm_gunluk_", "sm_uzunluk", "sm_zorluk", "sm_izin",
+                    "game_start", "game_won", "result_shared", "Firebase", "iOS Uygulaması"):
+        denetle(anahtar in giz, f"gizlilik.html: '{anahtar}' anlatılmamış")
+    denetle("kabul etmiş sayılırsınız" not in giz, "gizlilik.html: 'kullanarak kabul' ifadesi geçerli rıza değildir")
+    denetle("index.html#cerez-tercihi" in giz, "gizlilik.html: rızayı geri alma bağlantısı yok")
+    denetle('href="#cerez-tercihi"' in index, "index.html: alt bilgide Çerez Tercihleri bağlantısı yok")
+    # Analitik izinsiz yüklenmemeli: SDK yalnızca dinamik import() ile gelir
+    denetle(not re.search(r'^\s*import\s.*from\s*["\']https?:', index, re.M),
+            "index.html: Firebase statik import — izin vermeden yüklenir")
+
 
 def guvenlik_testleri():
     for ad in SITE_DOSYALARI:
@@ -213,6 +225,11 @@ def guvenlik_testleri():
         # Dış betik ve modül kaynakları (HTML yorumundaki şablonlar dahil)
         alanlar = re.findall(r'<script[^>]*\ssrc="https?://([^/"]+)', metin)
         alanlar += re.findall(r'(?:\bfrom\s*|\bimport\s*\(\s*)["\']https?://([^/"\']+)', metin)
+        # Yan etkili import "https://…" ve betik gövdelerindeki her https:// metni
+        # (ör. const SDK = "https://…/"); JSON-LD blokları betik değildir
+        alanlar += re.findall(r'\bimport\s*["\']https?://([^/"\']+)', metin)
+        for govde in re.findall(r'<script(?![^>]*ld\+json)[^>]*>(.*?)</script>', metin, re.S):
+            alanlar += re.findall(r'["\'`]https?://([^/"\'`\s]+)', govde)
         for alan in alanlar:
             denetle(alan in IZINLI_BETIK_ALANLARI,
                     f"{ad}: izinsiz dış betik adresi: {alan} (IZINLI_BETIK_ALANLARI)")

@@ -175,6 +175,20 @@
   <!-- Tuşlar app.js tarafından dinamik üretilir (Türkçe karakter uyumlu) -->
   <footer class="keyboard" id="keyboard"></footer>
 
+  <!-- ======================= ANALİTİK İZNİ =======================
+       Kabul edilene kadar Firebase/Google hiçbir şey yüklenmez (aşağıdaki modül).
+       Akışta yer tutar, tahtanın üstüne binmez; açıkken reklam yer tutucuları
+       gizlenir (bkz. style.css). İki düğme aynı boyda ve stilde. -->
+  <div class="izin" id="izin" role="region" aria-label="Çerez tercihi" hidden>
+    <p class="izin-metin">Ölçüm için cihazınıza Google Analytics (Firebase) çerezleri
+    yerleştirmek ve verileri ABD dâhil yurt dışındaki Google sunucularına aktarmak
+    istiyoruz. <a href="gizlilik.html">Ayrıntılar</a></p>
+    <div class="izin-dugmeler">
+      <button class="izin-btn" id="izinHayir" type="button">Reddet</button>
+      <button class="izin-btn" id="izinEvet" type="button">Kabul et</button>
+    </div>
+  </div>
+
   <!-- ======================= ALT REKLAM ALANI ======================= -->
   <div class="ad-container ad-bottom" id="adBottom" data-placeholder="REKLAM ALANI (Anchor / 320x100)"></div>
 
@@ -255,6 +269,7 @@
 
 <nav class="site-footer">
   <a href="gizlilik.html">Gizlilik Politikası</a>
+  <a href="#cerez-tercihi">Çerez Tercihleri</a>
 </nav>
 
   <!-- ======================= BAŞARI MODALI ======================= -->
@@ -269,16 +284,18 @@
     </div>
   </div>
 
-  <!-- ===================== FIREBASE ANALYTICS =====================
-       Trafik ve oyun etkileşimlerini ölçer (AdSense stratejisi için önemli).
-       NOT: Web config'i (apiKey dahil) herkese açık olacak şekilde tasarlanmıştır;
-       gizli anahtar DEĞİLDİR, güvenlik Firebase kurallarıyla sağlanır — public
-       depoda durması normaldir. Modül biçimi gstatic CDN'den yüklenir; derleme
-       adımı gerektirmez (projenin "kütüphanesiz" yapısı korunur). -->
+  <!-- ===================== FIREBASE ANALYTICS (İZİNLİ) =====================
+       Trafik ve oyun etkileşimlerini ölçer. Ziyaretçi "Kabul et" demeden
+       Firebase/Google'a hiçbir istek yapılmaz: SDK, izin varsa dinamik
+       import() ile yüklenir. Seçim localStorage'da `sm_izin` ("evet"/"hayir").
+       Alt bilgideki "Çerez Tercihleri" (#cerez-tercihi) seçimi siler ve
+       bildirimi yeniden gösterir. Web config'i (apiKey dahil) herkese açık
+       olacak şekilde tasarlanmıştır; gizli anahtar DEĞİLDİR, public depoda
+       durması normaldir. NOT: AdSense eklenince AEA, Birleşik Krallık ve
+       İsviçre için Google onaylı bir CMP gerekir; bu basit bildirim onun yerini alır. -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-    import { getAnalytics, logEvent, isSupported } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
-
+    const IZIN = "sm_izin";
+    const SDK = "https://www.gstatic.com/firebasejs/12.8.0/";
     const firebaseConfig = {
       apiKey: "AIzaSyCEC3qWvbF1sdiw164wyiNVMl7mYbo0-yI",
       authDomain: "sozcukyolu.firebaseapp.com",
@@ -289,18 +306,88 @@
       measurementId: "G-T13CV0JKZQ"
     };
 
-    const app = initializeApp(firebaseConfig);
-    let analytics = null;
-    // isSupported(): çerez/IndexedDB bulunmayan ortamlarda (gizli sekme, bazı
-    // gömülü tarayıcılar) getAnalytics hata vermesin diye önce destek sorulur
-    isSupported().then((ok) => { if (ok) analytics = getAnalytics(app); }).catch(() => {});
+    // localStorage gizli sekmede hata verebilir; bildirim her açılışta çıkar, oyun çalışır
+    const oku = () => { try { return localStorage.getItem(IZIN); } catch (_) { return null; } };
+    const yaz = (d) => { try { localStorage.setItem(IZIN, d); } catch (_) { /* önemli değil */ } };
+    const sil = () => { try { localStorage.removeItem(IZIN); } catch (_) { /* önemli değil */ } };
 
-    // app.js klasik script olduğu için bu modül kapsamına erişemez.
-    // Köprü: olayları global bir fonksiyon üzerinden gönderiyoruz. Analytics
-    // yüklenmese/engellense (reklam engelleyici) bile oyun sorunsuz çalışır.
+    const kutu = document.getElementById("izin");
+    let izinli = false;      // bu sayfa yüklemesinde analitik açık mı
+    let logla = null;        // SDK hazır olunca logEvent bağlanır
+    const kuyruk = [];       // SDK gelmeden önceki olaylar (ör. game_start)
+
+    // Firebase'in bıraktığı _ga* çerezlerini siler (alan adı varyantlarıyla)
+    function cerezleriSil() {
+      for (const parca of document.cookie.split(";")) {
+        const ad = parca.split("=")[0].trim();
+        if (!ad.startsWith("_ga")) continue;
+        for (const alan of ["", "; domain=" + location.hostname, "; domain=." + location.hostname]) {
+          document.cookie = ad + "=; Max-Age=0; path=/" + alan;
+        }
+      }
+    }
+
+    // Firebase'in tarayıcı deposundaki kimlik veritabanları (bağlantı kuruluysa silme
+    // sayfa yenilenince tamamlanır)
+    function izleriSil() {
+      cerezleriSil();
+      for (const ad of ["firebase-installations-database", "firebase-heartbeat-database"]) {
+        try { indexedDB.deleteDatabase(ad); } catch (_) { /* önemli değil */ }
+      }
+    }
+
+    async function analitikBaslat() {
+      izinli = true;
+      try {
+        const [{ initializeApp }, { getAnalytics, logEvent, isSupported }] = await Promise.all([
+          import(SDK + "firebase-app.js"), import(SDK + "firebase-analytics.js")]);
+        // isSupported(): çerez/IndexedDB bulunmayan ortamlarda getAnalytics hata vermesin
+        if (!(await isSupported())) return;
+        const analytics = getAnalytics(initializeApp(firebaseConfig));
+        logla = (ad, veri) => logEvent(analytics, ad, veri);
+        for (const [ad, veri] of kuyruk.splice(0)) logla(ad, veri);
+      } catch (_) { /* engellendi (reklam engelleyici); oyun etkilenmez */ }
+    }
+
+    // app.js klasik script olduğu için bu modül kapsamına erişemez; köprü global.
+    // İzin yoksa olay atılmaz, kuyruğa da girmez.
     window.trackEvent = (ad, veri) => {
-      try { if (analytics) logEvent(analytics, ad, veri); } catch (_) { /* yok say */ }
+      if (!izinli) return;
+      try { if (logla) logla(ad, veri); else kuyruk.push([ad, veri]); } catch (_) { /* yok say */ }
     };
+
+    function karar(deger) {
+      yaz(deger);
+      kutu.hidden = true;
+      if (deger === "evet") analitikBaslat(); else izleriSil();
+    }
+    document.getElementById("izinEvet").addEventListener("click", () => karar("evet"));
+    document.getElementById("izinHayir").addEventListener("click", () => karar("hayir"));
+
+    // Seçimi geri alma: SDK bu sayfada yüklendiyse kaldırmanın yolu sayfayı yenilemek.
+    // Yenilemede kaydırma geri yüklenmez; bildirim ilk ekranda kalır.
+    function tercihiAc() {
+      history.replaceState(null, "", location.pathname + location.search);
+      const yuklendi = izinli;
+      sil();
+      izinli = false;
+      izleriSil();
+      if (yuklendi) { history.scrollRestoration = "manual"; location.reload(); return; }
+      kutu.hidden = false;
+      document.getElementById("izinHayir").focus();
+    }
+    const hashBak = () => { if (location.hash === "#cerez-tercihi") tercihiAc(); };
+    window.addEventListener("hashchange", hashBak);
+
+    const kayitli = oku();
+    // #cerez-tercihi ile gelen (ör. gizlilik sayfasından) rızayı geri alıyor:
+    // SDK'yı başlatma, yalnızca geri alma akışı çalışsın
+    const geriAliyor = location.hash === "#cerez-tercihi";
+    // Rıza yoksa önceki ziyaretlerden kalan _ga* çerezleri de silinir
+    if (kayitli !== "evet" || geriAliyor) cerezleriSil();
+    if (kayitli === "evet" && !geriAliyor) analitikBaslat();
+    else if (kayitli !== "hayir") kutu.hidden = false;
+    hashBak();
   </script>
 
   <!-- Oyun mantığı: body sonunda, DOM hazır olduktan sonra çalışır -->
