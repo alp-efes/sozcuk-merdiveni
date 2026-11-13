@@ -215,8 +215,11 @@ def site_testleri():
 
     # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
     giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
-    for anahtar in ("sm_state", "sm_gunluk_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
+    for anahtar in ("sm_state", "sm_gunluk_", "sm_ipucu_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
         denetle(anahtar in giz, f"gizlilik.html: '{anahtar}' anlatılmamış")
+    # app.js'in yazdığı her yerel depolama anahtarı gizlilik metninde de olmalı
+    for anahtar in set(re.findall(r'"(sm_[a-z_]+)', (KOK / "app.js").read_text(encoding="utf-8"))):
+        denetle(anahtar in giz, f"gizlilik.html: app.js'teki '{anahtar}' anahtarı anlatılmamış")
     denetle("kabul etmiş sayılırsınız" not in giz, "gizlilik.html: 'kullanarak kabul' ifadesi geçerli rıza değildir")
     # Analitik tamamen kaldırıldı (2026-11-13 sahip kararı): geri gelmemeli.
     # Tek istisna: eski izleri silen temizlik kodu (index.html) ve bunu anlatan metin.

@@ -97,7 +97,14 @@ ve eleniyordu; artık KASE oynanabilir.
 aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 
 **localStorage anahtarları:** `sm_state` (canlı oyun), `sm_gunluk_<YYYY-AA-GG>`
-(günün çözümü + zincir), `sm_uzunluk`, `sm_zorluk`.
+(günün çözümü + zincir; daha iyi bir tekrar varsa `enIyi`), `sm_ipucu_<YYYY-AA-GG>`
+(o günün ücretsiz ipucu kullanıldı), `sm_uzunluk`, `sm_zorluk`.
+
+**Gelir kancası:** `window.SozcukGelir` yalnızca iOS uygulamasının `yerel.js`'inde
+tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odulluReklam`,
+`gecisReklami`, `plusSatinAl`, `plusGeriYukle`). İpucu günde 1 ücretsizdir; bitince
+uygulamada reklam/Plus, webde "yarın". Günlükte tekrar webde serbest, uygulamada
+Plus değilse ödüllü reklam ister; ilk çözüm kaydı (seri, paylaşım) değişmez.
 
 ## Tuzaklar
 

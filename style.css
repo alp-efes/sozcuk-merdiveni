@@ -373,6 +373,17 @@ button { font: inherit; color: inherit; }
   bottom: calc(100% - var(--tap-min));
 }
 .mini-btn:active { background: var(--surface-2); }
+.mini-btn.hidden { display: none; }
+
+/* Çözülmüş günlükte Paylaş + Tekrar dene yan yana */
+.daily-solved { display: inline-flex; gap: var(--space-2); }
+
+/* İpucu: ampul ikonlu düğme, durum satırının sağ ucunda (görünür 28 px, alan 44 px) */
+.hint-btn { display: grid; place-items: center; margin-left: auto; padding: 0; }
+.hint-btn .icon { width: 20px; height: 20px; }
+
+/* 420 px altında geri sayım kısalır ("03:12:00"): ipucu düğmesi aynı satıra sığsın */
+@media (max-width: 419.98px) { .dar-gizle { display: none; } }
 
 /* ---------- Oyun alanı: merdiven ----------
    Yukarıdan aşağı okunur: BAŞLANGIÇ en üstte, her adım bir alt basamağa,
@@ -554,6 +565,11 @@ button { font: inherit; color: inherit; }
   background: var(--accent);
 }
 .tile.green.changed::after { background: var(--on-accent); }
+
+/* İpucu: değişecek harf (şimdiki kelimede çerçeve, giriş satırında silik harf) */
+.tile.hint { outline: 3px solid var(--accent); outline-offset: 2px; }
+.input-row .tile.hint-letter { color: var(--text-dim); outline: 2px dashed var(--accent); outline-offset: -2px; }
+.tile.hint-letter.cursor::after { display: none; }
 
 /* Hedefe ulaşınca giriş satırı ve boş basamaklar kalkar; merdiven üstte toplanır */
 .game.bitti .input-rung,
@@ -782,6 +798,8 @@ button { font: inherit; color: inherit; }
   color: var(--text);
 }
 .btn-secondary:active { background: var(--surface-2); }
+.btn-secondary.hidden, .btn-primary.hidden, .plus.hidden { display: none; }
+.offer-text { margin-bottom: var(--space-4); }
 
 /* ---------- Site alt bilgisi (gizlilik bağlantısı) ---------- */
 .site-footer {
