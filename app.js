@@ -866,6 +866,12 @@ class WordLadder {
 
   /* ---------- Sonuç paylaşımı ---------- */
 
+  // Paylaşım metni kullanıcıya görünür: asıl alan adı Unicode yazılır (punycode
+  // çirkin görünür). Makine alanları (canonical, sitemap, mailto) punycode kalır.
+  paylasimAdresi(href) {
+    return href.split(/[?#]/)[0].replace("//xn--szckyolu-n4a6d.com/", "//sözcükyolu.com/");
+  }
+
   async share() {
     if (!this.lastResult) return;
     // Günlükte paylaşılan hep ilk çözümdür (tekrar sonucu seriyi ve paylaşımı bozmaz)
@@ -874,7 +880,7 @@ class WordLadder {
     const baslik = this.mode === "daily"
       ? `Sözcük Merdiveni #${this.dayNumber()}`
       : "Sözcük Merdiveni";
-    const adres = location.href.split(/[?#]/)[0]; // Yayında alan adınız görünür
+    const adres = this.paylasimAdresi(location.href);
 
     const metin = [
       baslik,
