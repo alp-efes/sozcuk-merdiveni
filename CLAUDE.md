@@ -28,7 +28,8 @@ Kod içi yorumlar ve kullanıcıya görünen her metin **Türkçe**.
 
 ```bash
 python3 tools/sozluk_indir.py     # Zemberek'ten sözlüğü indir + süz
-python3 tools/bulmaca_uret.py     # words.json üret (sözlük + bulmacalar)
+python3 tools/bulmaca_uret.py     # words.json üret; bulmaca listesi SABİT kalır, sözlük ve adım/zorluk yenilenir
+python3 tools/bulmaca_uret.py --yeni  # bulmacaları da yeniden çek (günün bulmacası değişir)
 python3 tools/ikon_uret.py        # favicon + sosyal kart PNG'leri (Pillow)
 bash tools/test.sh                # tüm testler — PR açmadan önce geçmeli
 ```
@@ -52,6 +53,7 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 | `words.json` | **ÜRETİLİR — elle düzenlemeyin** |
 | `tools/kelimeler.txt` | Elle onaylı ~750 kelime; **bulmaca uçları buradan** |
 | `tools/otomatik_kelimeler.txt` | ÜRETİLİR. Zemberek'ten ~8.3k doğrulama sözlüğü |
+| `tools/tdk_ek_kelimeler.txt` | Elle: TDK'da madde başı olup Zemberek'te olmayanlar (KALAN…); yalnızca doğrulama sözlüğüne girer, uç olmaz |
 | `tools/yasakli.txt` | Oyuna alınmayan kaba kelimeler |
 | `gizlilik.html` | Tek ayrı sayfa (yasal gereklilik) |
 | `app-ads.txt` | iOS uygulamasının AdMob yayıncı doğrulaması (`/app-ads.txt`); tek satır, testle sabit |
@@ -77,7 +79,7 @@ değildir.
 
 ## Mimari kararlar
 
-**Sözlük iki katmanlı.** Doğrulama sözlüğü geniş (~8.3k) — oyuncu bu kelimelerin
+**Sözlük iki katmanlı.** Doğrulama sözlüğü geniş (~8.3k Zemberek + `tdk_ek_kelimeler.txt`) — oyuncu bu kelimelerin
 hepsini basamak olarak kullanabilir. Bulmaca uçları ise yalnızca elle onaylı
 yaygın kelimelerden (~750) seçilir; kimseden bilmediği bir kelimeye ulaşması
 istenmez. Wordle'ın "cevap listesi ⊂ tahmin listesi" tasarımı.
