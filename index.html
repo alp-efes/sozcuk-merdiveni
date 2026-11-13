@@ -89,17 +89,23 @@
     </div>
     <div class="header-actions">
       <!-- Ses aç/kapat: app.js -> muteGame() fonksiyonuna bağlı -->
-      <button class="icon-btn" id="btnMute" type="button" aria-label="Sesi aç/kapat">🔊</button>
+      <button class="icon-btn" id="btnMute" type="button" aria-label="Sessiz" aria-pressed="false">
+        <!-- İkisi de sayfada; app.js düğmeye .muted ekleyip çıkarır -->
+        <svg class="icon icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="icon icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+      </button>
       <!-- Yeni oyun: app.js -> showInterstitialAd() tetikler, sonra oyunu sıfırlar -->
-      <button class="icon-btn" id="btnRestart" type="button" aria-label="Yeni oyun">↻</button>
+      <button class="icon-btn" id="btnRestart" type="button" aria-label="Yeni oyun">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19.4 15a8 8 0 1 1-1.7-8.6L20 9"/><path d="M20 4v5h-5"/></svg>
+      </button>
     </div>
   </header>
 
   <!-- ======================= MOD SEKMELERİ ======================= -->
   <!-- Günlük: herkese aynı, güne göre belirlenen bulmaca. Serbest: rastgele. -->
   <nav class="mode-tabs" aria-label="Oyun modu">
-    <button class="mode-tab active" id="tabDaily" type="button">📅 Günün Bulmacası</button>
-    <button class="mode-tab" id="tabFree" type="button">🎲 Serbest Oyun</button>
+    <button class="mode-tab active" id="tabDaily" type="button">Günün Bulmacası</button>
+    <button class="mode-tab" id="tabFree" type="button">Serbest Oyun</button>
   </nav>
 
   <!-- Serbest oyun ayarları: zorluk + kelime uzunluğu. Yalnızca Serbest
@@ -130,8 +136,8 @@
     <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, modal örtmez.
          Paylaşım burada erişilebilir olsun diye küçük buton eklendi. -->
     <div class="daily-solved hidden" id="dailySolved">
-      Bugünkü bulmaca çözüldü ✅
-      <button class="mini-btn" id="btnDailyShare" type="button">Sonucu paylaş 📋</button>
+      Bugünkü bulmaca çözüldü
+      <button class="mini-btn" id="btnDailyShare" type="button">Sonucu paylaş</button>
     </div>
     Yeni bulmaca <strong id="dailyCountdown">--:--:--</strong> sonra
     <span class="tz-note">(TSİ 00:00)</span>
@@ -240,9 +246,9 @@
 
   <h3>Oyun Modları</h3>
   <ul>
-    <li><strong>📅 Günün Bulmacası:</strong> Herkese aynı bulmaca gelir, her
+    <li><strong>Günün Bulmacası:</strong> Herkese aynı bulmaca gelir, her
     gün yenilenir. Çözünce sonucunu emoji tablosuyla paylaşabilirsiniz.</li>
-    <li><strong>🎲 Serbest Oyun:</strong> İstediğiniz kadar bulmaca çözersiniz.
+    <li><strong>Serbest Oyun:</strong> İstediğiniz kadar bulmaca çözersiniz.
     <strong>Zorluk</strong> (Kolay / Orta / Zor) ve <strong>uzunluk</strong>
     (3 / 4 / 5 harf) düğmeleriyle bulmacaları kendinize göre ayarlarsınız;
     seçimleriniz hatırlanır, istediğiniz an değiştirebilirsiniz.</li>
@@ -272,14 +278,19 @@
   <a href="#cerez-tercihi">Çerez Tercihleri</a>
 </nav>
 
+  <!-- Ekran klavyesindeki "Sil" tuşunun ikonu; app.js buildKeyboard() kopyalar -->
+  <template id="iconBackspace"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 5H9l-6 7 6 7h12z"/><path d="m17 9.5-5 5m0-5 5 5"/></svg></template>
+
   <!-- ======================= BAŞARI MODALI ======================= -->
   <div class="modal-overlay hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal">
-      <button class="modal-close" id="btnCloseModal" type="button" aria-label="Kapat">✕</button>
-      <h2 id="modalTitle">Tebrikler! 🎉</h2>
+      <button class="modal-close" id="btnCloseModal" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <h2 id="modalTitle">Tebrikler!</h2>
       <p id="modalText"></p>
-      <!-- Wordle tarzı emoji ızgarasını panoya kopyalar / paylaşım menüsü açar -->
-      <button class="btn-secondary" id="btnShare" type="button">Sonucu Paylaş 📋</button>
+      <!-- Wordle tarzı sonuç ızgarasını panoya kopyalar / paylaşım menüsü açar -->
+      <button class="btn-secondary" id="btnShare" type="button">Sonucu Paylaş</button>
       <button class="btn-primary" id="btnNewGame" type="button">Yeni Oyun</button>
     </div>
   </div>

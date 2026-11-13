@@ -14,7 +14,7 @@
  *
  * Kullanım:  node tools/magaza_gorsel.js [YYYY-AA-GG]
  *
- * Mağazaya gidecek son görselleri macOS'ta üretin: yazı tipi ve emojiler
+ * Mağazaya gidecek son görselleri macOS'ta üretin: yazı tipi
  * iPhone'dakiyle aynı çıkar. Linux çıktısı yerleşim denetimi içindir.
  * ========================================================= */
 "use strict";
@@ -63,6 +63,8 @@ async function oyunEkranlari(tarayici) {
   await disAgiKapat(baglam);
   // Serbest oyunun rastgele bulmacası her çalıştırmada aynı çıksın
   await baglam.addInitScript(() => {
+    // Uygulamada analitik ve izin bildirimi yok; mağaza görselinde de görünmesin
+    localStorage.setItem("sm_izin", "hayir");
     let tohum = 20261112;
     Math.random = () => (tohum = (tohum * 1664525 + 1013904223) % 4294967296) / 4294967296;
   });

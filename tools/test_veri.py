@@ -24,9 +24,11 @@ Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
 """
 
+import html
 import json
 import re
 import sys
+import unicodedata
 from collections import defaultdict, deque
 from pathlib import Path
 
@@ -42,6 +44,10 @@ PUNYCODE_ALAN = "xn--szckyolu-n4a6d.com"
 # Betik/modül yüklenebilecek dış adresler. Genişletmek güvenlik incelemesi ister.
 IZINLI_BETIK_ALANLARI = {"www.gstatic.com", "pagead2.googlesyndication.com"}
 SITE_DOSYALARI = ("index.html", "gizlilik.html", "app.js")
+# Emoji yasağının istisnaları: düzyazıdaki oklar ve paylaşılan sonuç ızgarası
+EMOJI_DOSYALARI = SITE_DOSYALARI + ("style.css", "tools/magaza_gorsel.js")
+IZINLI_SIMGELER = set("→←↓")
+PAYLASIM_IZGARASI = set("🟩⬜")
 # Gerçek gizli bilgi biçimleri. Firebase web apiKey (AIza…) herkese açık
 # olacak şekilde tasarlandığı için listede yok.
 GIZLI_KALIPLAR = {
@@ -397,8 +403,41 @@ def tasarim_testleri():
         denetle(bool(bilgi) and bilgi[:2] == (1320, 2868), f"tools/uygulama/magaza/{yol.name}: 1320×2868 olmalı")
 
 
+def kacislari_coz(satir, css=False):
+    """Kaçışla yazılmış karakterleri açar: HTML varlıkları (&#x1F389; &#127881;
+    &check;), JS \\u{1F389} ve \\uD83C\\uDF89, CSS'te \\1F389."""
+    def kod(m):
+        n = int(m.group(1), 16)
+        return chr(n) if n <= 0x10FFFF else m.group(0)
+    satir = html.unescape(satir)
+    satir = re.sub(r"\\u\{([0-9a-fA-F]+)\}", kod, satir)
+    satir = re.sub(r"\\u([0-9a-fA-F]{4})", kod, satir)
+    if css:
+        satir = re.sub(r"\\([0-9a-fA-F]{1,6})", kod, satir)
+    # \uD83C\uDF89 gibi vekil çiftlerini birleştir; eşsiz vekil U+FFFD (So) olur, o da yakalanır
+    return satir.encode("utf-16", "surrogatepass").decode("utf-16", "replace")
+
+
+def emoji_testleri():
+    """Arayüzde emoji ve simge karakteri yok; ikonlar satır içi SVG'dir
+    (ekip/tasarim-sistemi.md → İkonlar). İstisna: paylaşım ızgarası."""
+    for ad in EMOJI_DOSYALARI:
+        izinli = IZINLI_SIMGELER | (PAYLASIM_IZGARASI if ad == "app.js" else set())
+        metin = (KOK / ad).read_text(encoding="utf-8")
+        for satir_no, satir in enumerate(metin.splitlines(), 1):
+            satir = kacislari_coz(satir, css=ad.endswith(".css"))
+            # So: emoji ve piktogramlar; Sm ≥ U+2190: oklar; FE0F/200D: emoji birleştiricileri
+            yasak = sorted({h for h in satir if h not in izinli and (
+                unicodedata.category(h) == "So"
+                or (unicodedata.category(h) == "Sm" and h >= "\u2190")
+                or h in "\ufe0f\u200d")})
+            denetle(not yasak, f"{ad}:{satir_no}: emoji/simge karakteri: "
+                    + " ".join(f"{h} (U+{ord(h):04X})" for h in yasak) + " — satır içi SVG kullanın")
+
+
 def main():
     veri_testleri()
+    emoji_testleri()
     site_testleri()
     guvenlik_testleri()
     tasarim_testleri()
