@@ -61,9 +61,10 @@ function gunNo(anMs) {
   const gun = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
   return Math.round((gun - GUN_BASLANGIC_UTC) / 86400000) + 1;
 }
+const gunlukHavuz = db["4"].puzzles;     // günün bulmacası hep 4 harfli
 function beklenenBulmaca(anMs) {
-  const n = tumBulmacalar.length;
-  return tumBulmacalar[((gunNo(anMs) % n) + n) % n];
+  const n = gunlukHavuz.length;
+  return gunlukHavuz[((gunNo(anMs) % n) + n) % n];
 }
 
 /* ---- En kısa çözüm yolu (BFS) ---- */
@@ -282,6 +283,79 @@ async function main() {
     }));
     denetle(serbest.mod === "free" && !serbest.bitti, "serbest oyun başlamadı");
     denetle(serbest.boy === serbest.tercih, `serbest oyun ${serbest.boy} harfli, seçili uzunluk ${serbest.tercih}`);
+
+    // Günlük bulmaca: bütün uzunluklarda ve çok sayıda günde 4 harfli, deterministik
+    {
+      let kotu = 0;
+      for (let g = 0; g < 400; g++) {
+        const an = Date.now() + g * 86400000;
+        const b = beklenenBulmaca(an);
+        if (b[0].length !== 4 || b[1].length !== 4) kotu++;
+      }
+      denetle(kotu === 0, "günlük bulmaca 4 harfli olmalı (beklenen kural)");
+      const gec = await sayfa.evaluate(() => {
+        const o = oyun, kayit = o.dayNumber;
+        const sonuc = [];
+        for (let g = -3; g < 400; g += 7) {
+          o.dayNumber = () => kayit.call(o) + g;
+          const a = o.dailyPuzzle(), b = o.dailyPuzzle();
+          sonuc.push(a === b && a[0].length === 4 && a[1].length === 4);
+        }
+        o.dayNumber = kayit;
+        return sonuc.every(Boolean);
+      });
+      denetle(gec, "dailyPuzzle() her günde 4 harfli ve kararlı olmalı");
+      denetle(await sayfa.evaluate(() => { const p = oyun.dailyPuzzle(); return p[0].length === 4; }), "bugünün günlük bulmacası 4 harfli değil");
+    }
+
+    // Serbest oyun günün bulmacasını (ters yönü dahil) hiç vermez
+    {
+      const sonuc = await sayfa.evaluate(() => {
+        const o = oyun, eskiUz = o.lenPref, eskiZor = o.diffPref, eskiMod = o.mode;
+        const ihlal = [];
+        const gunluk = o.dailyPuzzle();
+        // Gerçek günün bulmacası ve her zorluk
+        o.lenPref = 4;
+        for (const z of ["kolay", "orta", "zor"]) {
+          o.diffPref = z;
+          for (let i = 0; i < 70; i++) {
+            o.newGame("free");
+            const k = o.startWord + "→" + o.targetWord;
+            if (k === gunluk[0] + "→" + gunluk[1] || k === gunluk[1] + "→" + gunluk[0]) ihlal.push("gerçek:" + k);
+          }
+        }
+        // Günün bulmacasını havuzdan sahte seç (her zorluk, normal ve ters)
+        const orijinal = o.dailyPuzzle;
+        const havuz = o.db["4"].puzzles;
+        for (const z of ["kolay", "orta", "zor"]) {
+          const p = havuz.find(x => x[3] === z);
+          for (const yon of [0, 1]) {
+            o.dailyPuzzle = () => yon ? [p[1], p[0], p[2], p[3]] : p;
+            o.diffPref = z;
+            for (let i = 0; i < 100; i++) {
+              o.newGame("free");
+              const k = o.startWord + "→" + o.targetWord;
+              if (k === p[0] + "→" + p[1] || k === p[1] + "→" + p[0]) ihlal.push(z + ":" + k);
+            }
+          }
+        }
+        // Havuz yalnızca günün bulmacasından oluşuyorsa oyun yine açılır
+        const saklaP = o.db["4"].puzzles;
+        o.db["4"].puzzles = [saklaP[0]];
+        o.dailyPuzzle = () => saklaP[0];
+        o.diffPref = saklaP[0][3];
+        let acildi = true;
+        try { o.newGame("free"); acildi = o.startWord === saklaP[0][0]; } catch (_) { acildi = false; }
+        o.db["4"].puzzles = saklaP;
+        delete o.dailyPuzzle;
+        o.lenPref = eskiUz; o.diffPref = eskiZor;
+        o.newGame(eskiMod);
+        return { ihlal: ihlal.slice(0, 5), n: ihlal.length, acildi, geri: o.dailyPuzzle === WordLadder.prototype.dailyPuzzle };
+      });
+      denetle(sonuc.n === 0, `serbest oyun günün bulmacasını verdi: ${sonuc.ihlal.join(", ")}`);
+      denetle(sonuc.acildi, "havuz yalnızca günün bulmacasından oluşunca serbest oyun açılmadı");
+      denetle(sonuc.geri, "test dailyPuzzle'ı geri koyamadı");
+    }
 
     // Fiziksel klavye (masaüstü ve iPad'in tek yazma yolu): küçük harf Türkçe
     // kurala göre büyür (i → İ, ı → I), Backspace siler, Enter kelimeyi gönderir.

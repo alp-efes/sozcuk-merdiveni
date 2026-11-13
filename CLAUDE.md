@@ -94,6 +94,8 @@ ve eleniyordu; artık KASE oynanabilir.
 (esneklik). Az adım → kolay, çok adım/tek yol → zor. Puzzle biçimi:
 `[başlangıç, hedef, adım, zorluk]`.
 
+**Günlük bulmaca hep 4 harfli; serbest oyun günün bulmacasını (ters yönü dahil) vermez.**
+
 **Günlük bulmaca TRT'ye (UTC+3) sabit.** Cihaz saat diliminden bağımsız; herkes
 aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 
