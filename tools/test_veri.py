@@ -42,7 +42,7 @@ MIN_ADIM, MAX_ADIM = 2, 6
 PUNYCODE_ALAN = "xn--szckyolu-n4a6d.com"
 
 # Betik/modül yüklenebilecek dış adresler. Genişletmek güvenlik incelemesi ister.
-IZINLI_BETIK_ALANLARI = {"www.gstatic.com", "pagead2.googlesyndication.com"}
+IZINLI_BETIK_ALANLARI = {"pagead2.googlesyndication.com"}
 SITE_DOSYALARI = ("index.html", "gizlilik.html", "app.js")
 # Emoji yasağının istisnaları: düzyazıdaki oklar ve paylaşılan sonuç ızgarası
 EMOJI_DOSYALARI = SITE_DOSYALARI + ("style.css", "tools/magaza_gorsel.js")
@@ -214,15 +214,28 @@ def site_testleri():
 
     # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
     giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
-    for anahtar in ("sm_state", "sm_gunluk_", "sm_uzunluk", "sm_zorluk", "sm_izin",
-                    "game_start", "game_won", "result_shared", "Firebase", "iOS Uygulaması"):
+    for anahtar in ("sm_state", "sm_gunluk_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
         denetle(anahtar in giz, f"gizlilik.html: '{anahtar}' anlatılmamış")
     denetle("kabul etmiş sayılırsınız" not in giz, "gizlilik.html: 'kullanarak kabul' ifadesi geçerli rıza değildir")
-    denetle("index.html#cerez-tercihi" in giz, "gizlilik.html: rızayı geri alma bağlantısı yok")
-    denetle('href="#cerez-tercihi"' in index, "index.html: alt bilgide Çerez Tercihleri bağlantısı yok")
-    # Analitik izinsiz yüklenmemeli: SDK yalnızca dinamik import() ile gelir
-    denetle(not re.search(r'^\s*import\s.*from\s*["\']https?:', index, re.M),
-            "index.html: Firebase statik import — izin vermeden yüklenir")
+    # Analitik tamamen kaldırıldı (2026-11-13 sahip kararı): geri gelmemeli.
+    # Tek istisna: eski izleri silen temizlik kodu (index.html) ve bunu anlatan metin.
+    kalip = re.compile(r"firebase|gstatic|googletagmanager|google-analytics|trackEvent|gtag\(", re.I)
+    for ad in ("index.html", "app.js", "style.css"):
+        metin = (KOK / ad).read_text(encoding="utf-8")
+        if ad == "index.html":   # yorumlar ve eski IndexedDB adları (temizlik kodu) sayılmaz
+            metin = re.sub(r"<!--.*?-->", "", metin, flags=re.S)
+            metin = re.sub(r'"firebase-(?:installations|heartbeat)-database"', "", metin)
+        bulunan = sorted(set(m.lower() for m in kalip.findall(metin)))
+        denetle(not bulunan, f"{ad}: analitik kalıntısı: {bulunan}")
+    for ad in ("index.html", "style.css"):
+        metin = (KOK / ad).read_text(encoding="utf-8")
+        denetle("cerez-tercihi" not in metin and 'id="izin"' not in metin and ".izin" not in metin,
+                f"{ad}: izin bildirimi/Çerez Tercihleri kalıntısı")
+    # Tek istisna: geçmiş veriyi anlatan, id="gecmis-analitik" işaretli paragraf
+    giz_gecmissiz = re.sub(r'<p id="gecmis-analitik">.*?</p>', "", giz, flags=re.S)
+    denetle('<p id="gecmis-analitik">' in giz, "gizlilik.html: geçmiş analitik paragrafı (gecmis-analitik) yok")
+    denetle(not re.search(r"firebase|google llc|google analytics|sm_izin", giz_gecmissiz, re.I),
+            "gizlilik.html: geçmiş analitik paragrafı dışında kaldırılan analitikten söz ediyor")
 
 
 def guvenlik_testleri():

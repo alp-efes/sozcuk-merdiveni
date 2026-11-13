@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sözcük Merdiveni gizlilik politikası — analitik, çerezler, yerel depolama, iOS uygulaması ve kişisel verilerin korunması hakkında bilgilendirme.">
+  <meta name="description" content="Sözcük Merdiveni gizlilik politikası — yerel depolama, iOS uygulaması ve kişisel verilerin korunması hakkında bilgilendirme.">
   <meta name="theme-color" content="#121213">
   <title>Gizlilik Politikası — Sözcük Merdiveni</title>
   <link rel="canonical" href="https://xn--szckyolu-n4a6d.com/gizlilik.html">
@@ -36,46 +36,23 @@
     bilgilerinizi <strong>istemez ve saklamaz</strong>. Oyun tarayıcınızda
     çalışır; yazdığınız kelimeler hiçbir sunucuya gönderilmez.</p>
 
-    <h3>Analitik (Google Analytics / Firebase)</h3>
-    <p>Siteyi nasıl kullandığınızı ölçmek için Google LLC'nin Firebase
-    Analytics hizmetini <strong>yalnızca sizin izninizle</strong> kullanırız.
-    Sayfaya ilk geldiğinizde bir bildirim çıkar; <strong>Kabul et</strong>
-    demeden Firebase ve Google sunucularına hiçbir istek yapılmaz, hiçbir
-    çerez ya da tanımlayıcı oluşturulmaz. <strong>Reddet</strong> ya da bildirimi
-    yok sayarsanız analitik hiç çalışmaz; oyun aynen çalışır.</p>
-    <p>İzin verirseniz şunlar işlenir:</p>
-    <ul>
-      <li><strong>Oyun olayları:</strong> <code>game_start</code> (oyun başladı; mod,
-      kelime uzunluğu, zorluk), <code>game_won</code> (oyun çözüldü; mod, uzunluk,
-      adım sayısı, en az adım, mükemmel olup olmadığı) ve
-      <code>result_shared</code> (sonuç paylaşıldı; mod, uzunluk, adım sayısı).
-      Kelimeleriniz gönderilmez.</li>
-      <li><strong>Otomatik olaylar:</strong> sayfa görüntüleme (adres, önceki
-      sayfa, sayfa başlığı), ilk ziyaret, oturum başlangıcı, etkileşim süresi;
-      ölçüm ayarına bağlı olarak kaydırma ve dış bağlantı tıklamaları.</li>
-      <li><strong>Çerezler ve tanımlayıcılar:</strong> tarayıcınızda
-      <code>_ga</code> ve <code>_ga_T13CV0JKZQ</code> çerezleri ile Firebase'in
-      tarayıcı deposunda tuttuğu bir kurulum kimliği. Bunlar sizi rastgele bir
-      kimlikle tanır; ad ya da e-postanızla ilişkilendirilmez.</li>
-      <li><strong>Teknik veriler:</strong> Google, bağlantı sırasında IP adresinizden
-      yaklaşık konumunuzu (ülke/şehir), tarayıcı, işletim sistemi ve ekran
-      bilgilerinizi işleyebilir.</li>
-    </ul>
-    <p><strong>Saklama süresi:</strong> <code>_ga</code> çerezleri en çok 2 yıl;
-    Google Analytics'teki olay verileri en çok 14 ay saklanır.</p>
-    <p><strong>Amaç ve hukuki sebep:</strong> oyunun kullanımını anlamak ve
-    geliştirmek; hukuki sebep açık rızanızdır (KVKK m.5/1, GDPR m.6/1-a).</p>
-    <p><strong>Yurt dışına aktarım:</strong> veriler Google LLC'ye gider ve ABD
-    dâhil Türkiye dışındaki Google sunucularında işlenir. Avrupa Ekonomik Alanı'ndan
-    bağlanan ziyaretçiler için Google LLC, AB–ABD Veri Gizliliği Çerçevesi'ne
-    (Data Privacy Framework) sertifikalıdır; Avrupa Komisyonu'nun yeterlilik
-    kararı bu aktarımı kapsar. Google'ın verileri nasıl kullandığı için:
-    <a href="https://policies.google.com/technologies/partner-sites?hl=tr" rel="noopener" target="_blank">Google Gizlilik ve Şartlar</a>.</p>
-    <p><strong>Rızanızı geri alma:</strong> istediğiniz zaman geri alabilirsiniz;
-    geri almak vermek kadar kolaydır. Alt bilgideki <em>Çerez Tercihleri</em>
-    bağlantısına ya da aşağıdaki bağlantıya dokunun; seçiminiz silinir, analitik
-    çerezleri temizlenir ve bildirim yeniden çıkar.</p>
-    <p><a href="index.html#cerez-tercihi">Çerez tercihimi değiştir</a></p>
+    <h3>Analitik ve çerezler</h3>
+    <p>Sitede <strong>analitik, ölçüm, reklam ya da izleme çerezi yoktur</strong>.
+    Oyun Google ya da başka bir üçüncü tarafın sunucusuna istek yapmaz. Tek istisna
+    Cloudflare'in yerleştirdiği, kesinlikle gerekli bir güvenlik çerezidir:
+    <code>cf_clearance</code> (bot koruması; yaklaşık 1 yıl). Bu çerez izin
+    gerektirmez, sizi izlemek için kullanılmaz.</p>
+    <p id="gecmis-analitik">Geçmiş veri: Temmuz 2026'dan 13 Kasım 2026'ya kadar
+    sitede Google Analytics (Firebase, Google LLC, ABD) kullanıldı. Bu veriler
+    Google Analytics'te en çok 14 ay saklanır, sonra silinir; yeni veri
+    toplanmıyor. Tarayıcınızda kalmış eski izler (<code>_ga</code> çerezleri, eski
+    tercih anahtarı) siteye girdiğinizde silinir.</p>
+    <p><strong>Barındırma (Cloudflare):</strong> site Cloudflare, Inc. (ABD)
+    üzerinden sunulur ve korunur. Cloudflare, siteyi size ulaştırırken IP
+    adresinizi ve teknik istek bilgilerini işler; bu nedenle veriler yurt dışına
+    (ABD) gider. Amaç: sitenin sunulması ve korunması; hukuki sebep: meşru menfaat
+    (KVKK m.5/2-f, GDPR m.6/1-f). Saklama: kısa süreli teknik kayıtlar. Biz bu
+    kayıtlardan sizi tanımaya çalışmayız.</p>
 
     <h3>Cihazınızda saklananlar (yerel depolama)</h3>
     <p>Oyunun çalışması için tarayıcınızın yerel deposunda şunlar tutulur; bunlar
@@ -84,9 +61,7 @@
       <li><code>sm_state</code>: süren oyununuz;</li>
       <li><code>sm_gunluk_*</code>: her günün bulmacasındaki çözümünüz;</li>
       <li><code>sm_uzunluk</code> ve <code>sm_zorluk</code>: serbest oyun için
-      seçtiğiniz uzunluk ve zorluk;</li>
-      <li><code>sm_izin</code>: yukarıdaki analitik tercihiniz (<code>evet</code>
-      ya da <code>hayir</code>).</li>
+      seçtiğiniz uzunluk ve zorluk.</li>
     </ul>
 
     <h3>Reklamlar</h3>
@@ -106,9 +81,10 @@
     <h2>Bize Yazarsanız</h2>
     <p>İletişim adresine yazarsanız e-posta adresiniz, adınız ve mesajınız
     yalnızca size yanıt vermek için kullanılır (hukuki sebep: meşru menfaat,
-    KVKK m.5/2-f, GDPR m.6/1-f). E-postalar Cloudflare'in e-posta yönlendirme
-    hizmetiyle e-posta hizmet sağlayıcımıza iletilir; bu hizmet sağlayıcılar
-    yurt dışında olabilir. Yazışma bittikten sonra en geç 1 yıl içinde silinir.</p>
+    KVKK m.5/2-f, GDPR m.6/1-f). E-postalar Cloudflare Email Routing
+    hizmetiyle (Cloudflare, Inc., ABD) e-postanın iletildiği posta hizmeti
+    sağlayıcısına iletilir; bu iki alıcı e-postanızı alır ve posta hizmeti
+    sağlayıcısı yurt dışında olabilir. Yazışma bittikten sonra en geç 1 yıl içinde silinir.</p>
 
     <h2>Haklarınız (KVKK ve GDPR)</h2>
     <p>6698 sayılı KVKK'nın 11. maddesi uyarınca verilerinizin işlenip
@@ -118,9 +94,7 @@
     bildirilmesini isteme, otomatik analiz sonucu aleyhinize çıkan sonuca itiraz
     etme ve zararın giderilmesini talep etme haklarına sahipsiniz. Avrupa
     Ekonomik Alanı'ndaysanız GDPR kapsamında ayrıca erişim, düzeltme, silme,
-    işlemeyi kısıtlama, itiraz, veri taşınabilirliği ve verdiğiniz rızayı
-    istediğiniz zaman geri çekme (geri çekmeden önceki işlemeyi etkilemez) haklarınız
-    vardır. Başvurularınızı
+    işlemeyi kısıtlama, itiraz, veri taşınabilirliği haklarınız vardır. Başvurularınızı
     <a href="mailto:iletisim@xn--szckyolu-n4a6d.com">iletisim@sözcükyolu.com</a>
     adresine iletebilirsiniz; en geç 30 gün içinde yanıtlanır. Türkiye'de Kişisel
     Verileri Koruma Kurulu'na, AEA'da yerleşik olduğunuz ülkenin veri koruma

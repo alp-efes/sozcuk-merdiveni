@@ -96,26 +96,15 @@ python3 tools/bulmaca_uret.py    # words.json'ı yeniden üret
 
    > IDN notu: Cloudflare/Netlify gibi barındırıcılara custom domain eklerken
    > Unicode form (`sözcükyolu.com`) veya punycode form kabul edilir; ikisi de
-   > çalışır. Firebase `authDomain`'i (`sozcukyolu.firebaseapp.com`) ayrı bir
-   > ASCII adrestir, site domaininden bağımsızdır.
+   > çalışır.
 5. **Google Search Console**'a siteyi ekleyin, `sitemap.xml`'i gönderin.
 
-## Analitik (Firebase / Google Analytics 4)
+## Analitik
 
-`index.html`'in sonundaki modül script'i Firebase Analytics'i başlatır ve
-`sozcukyolu` projesine (ölçüm kimliği `G-T13CV0JKZQ`) veri gönderir. Ölçülen
-özel olaylar: `game_start`, `game_won` (mod, adım, mükemmellik) ve
-`result_shared`. Bu veriler trafiği ve etkileşimi gösterir — AdSense başvuru
-zamanlaması ve büyüme kararları için önemlidir.
-
-- Firebase web config'i (apiKey dahil) **herkese açık olacak şekilde
-  tasarlanmıştır**; gizli anahtar değildir, public depoda durması normaldir.
-- Analitik köprüsü `window.trackEvent(ad, veri)` üzerinden çalışır; reklam
-  engelleyici Firebase'i bloklasa bile oyun sorunsuz çalışır (olaylar sessizce
-  atlanır).
-- Config'in tam ES-modül (`import ... from "firebase/app"`) biçimi yalnızca
-  derleyiciyle çalışır; bu proje derlemesiz olduğu için gstatic CDN modül
-  biçimi kullanıldı.
+Sitede analitik yok (sahip kararı, 2026-11-13): Firebase Analytics, izin
+bildirimi ve çerez kaldırıldı. Eski ziyaretçilerin cihazında kalan izler
+`index.html` sonundaki küçük betikle silinir; geri dönenler temizlenince
+betik kaldırılabilir.
 
 ## AdSense ile Gelir Elde Etme
 
