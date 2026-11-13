@@ -211,7 +211,14 @@ def site_testleri():
         denetle(girdi in yoksay, f".assetsignore: '{girdi}' eksik — dosyalar herkese açılır")
 
     # Web'de ipucu "ücretsiz" diye anılmaz (ücretli ipucu izlenimi vermesin)
+    denetle("App Store kurallarına tabidir" in index, "index.html: Plus kutusunda iade/cayma notu yok")
     denetle("Günde bir ipucu hakkın var" in index and "ipucu ücretsizdir" not in index, "index.html: ipucu hakkı metni yanlış")
+
+    # app-ads.txt: iOS uygulamasının AdMob yayıncı doğrulaması; tam bu tek satır ve yayında olmalı
+    app_ads = (KOK / "app-ads.txt").read_text(encoding="utf-8")
+    denetle(app_ads == "google.com, pub-4433947128004313, DIRECT, f08c47fec0942fa0\n",
+            f"app-ads.txt içeriği beklenen tek satır değil: {app_ads!r}")
+    denetle("app-ads.txt" not in yoksay, ".assetsignore: app-ads.txt dışlanmış, /app-ads.txt sunulmaz")
 
     # Gizlilik sayfası oyundan erişilebilir olmalı (AdSense/KVKK şartı)
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
@@ -239,7 +246,12 @@ def site_testleri():
         denetle("cerez-tercihi" not in metin and 'id="izin"' not in metin and ".izin" not in metin,
                 f"{ad}: izin bildirimi/Çerez Tercihleri kalıntısı")
     # Tek istisna: geçmiş veriyi anlatan, id="gecmis-analitik" işaretli paragraf
-    giz_gecmissiz = re.sub(r'<p id="gecmis-analitik">.*?</p>', "", giz, flags=re.S)
+    # iOS bölümü (iOS-BASLA…iOS-BITIS) AdMob'u ve Google LLC'yi anlatır; kalan (web) metin denetlenir.
+    ios_blok = re.search(r"<!-- iOS-BASLA.*?<!-- iOS-BITIS -->", giz, re.S)
+    denetle(bool(ios_blok), "gizlilik.html: iOS-BASLA/iOS-BITIS işaretli iOS bölümü yok")
+    for anahtar in ("sm_plus", "sm_gecis", "sm_cozum", "AdMob", "Uygulama İçi Satın Alma (Plus)"):   # yalnızca iOS'ta (app.js'te yok)
+        denetle(bool(ios_blok) and anahtar in ios_blok.group(0), f"gizlilik.html: iOS bölümünde '{anahtar}' yok")
+    giz_gecmissiz = re.sub(r'<p id="gecmis-analitik">.*?</p>', "", re.sub(r"<!-- iOS-BASLA.*?<!-- iOS-BITIS -->", "", giz, flags=re.S), flags=re.S)
     denetle('<p id="gecmis-analitik">' in giz, "gizlilik.html: geçmiş analitik paragrafı (gecmis-analitik) yok")
     denetle(not re.search(r"firebase|google llc|google analytics|sm_izin", giz_gecmissiz, re.I),
             "gizlilik.html: geçmiş analitik paragrafı dışında kaldırılan analitikten söz ediyor")
