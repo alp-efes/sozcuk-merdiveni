@@ -5,11 +5,11 @@ ABA	Dövülmüş yünden yapılan kalın, kaba kumaş.	6173
 ABAN	Eğilip bir şeyin üstüne kapanmak.	6199
 ABAT	Neşeli ve huzurlu olan.	6219
 ABE	Rumeli'de birine seslenip dikkat çekmek için söylenen söz.	71390
-ACAR	Güçlü, becerikli ve çevik olan.	6313
+ACAR	Becerikli, enerjik ve atik.	6313
 ACI	Tatlının karşıtı olan, dilde yakıcı bir duyu bırakan tat.	6369
 ADA	Dört yanı deniz ya da göl suyuyla çevrili kara parçası.	6746
 ADAK	Bir dilek gerçekleşince verilmek üzere söz verilen şey.	6751
-ADAM	Erkek kişi.	6775
+ADAM	Erkek, er kişi.	6775
 ADAP	Töre, yol yordam.	6827
 ADAY	Bir görev ya da iş için öne sürülen kişi.	6843
 ADAŞ	Adı birbirininkiyle aynı olan kişilerden her biri.	6836
@@ -17,7 +17,7 @@ ADEM	Eski dilde yokluk.	6863
 ADET	Sayı, tane.	6884
 ADIM	Yürürken atılan her bir ayak hareketi.	6891
 AFAK	Eski dilde ufuklar.	6969
-AFAL	Şaşkın, ne yapacağını bilmeyen.	74590
+AFAL	Şaşkına dönmüş, ne edeceğini bilemeyen.	74590
 AFAT	Eski dilde afetler.	6980
 AFET	Doğa olaylarının yol açtığı büyük yıkım.	6985
 AHA	Bazı yörelerde işte.	1011
@@ -27,7 +27,7 @@ AHU	Ceylan.	1129
 AKA	Bazı yörelerde ağabey.	1182
 AKAK	Eğimi fazla olan, dik inişli yer.	1199
 AKAR	Kiraya verilip gelir getiren ev, dükkân ya da tarla.	1205
-AKAÇ	Yer altındaki su oluğu.	1185
+AKAÇ	Toprak altına döşenen su kanalı.	1185
 AKI	Fizikte bir kuvvet alanının belirli bir yüzeyden geçen miktarı.	1269
 AKIL	İnsanın düşünüp anlamasını, kavramasını sağlayan güç; us.	1276
 AKIM	Hava, su ya da elektrik yüklerinin belli bir yöndeki hareketi.	1425
@@ -58,7 +58,7 @@ ALTIK	Mantıkta konusu ve yüklemi aynı olan önerme türü.	8962
 ALTIN	Değerli, sarı renkli, kolay işlenen bir metal.	8966
 ALİM	Bilgisi çok olan kişi.	8675
 AMA	Karşıt iki cümleyi birbirine bağlayan söz.	9052
-AMAL	Eski dilde işler, işlemler.	9069
+AMAL	Eski dilde yapılan işler.	9069
 AMAN	Yardım istendiğini anlatan ünlem.	9072
 AMAÇ	Varılmak istenen sonuç; gaye, erek.	9056
 AMEL	Yapılan iş, edim.	9123
@@ -77,7 +77,7 @@ ANUT	Eski dilde inatçı.	9716
 ANİ	Ansızın ortaya çıkan.	9486
 APAZ	Bazı yörelerde avuç.	9743
 APAŞ	Külhanbeyi.	9738
-ARA	İki nesneyi birbirinden ayıran mesafe.	7373
+ARA	İki nesneyi ayıran açıklık, mesafe.	7373
 ARAK	Eski dilde ter.	7463
 ARAN	Bulunmak üzere peşine düşülmek.	7506
 ARAZ	Bir hastalığın kendini gösteren işaretleri.	7559
@@ -96,23 +96,23 @@ ASIM	Bir şeyi bir yere takıp sarkıtma işi.	8065
 ASIR	Yüzyıl.	8069
 AST	Başkasının emri altında çalışan görevli.	8203
 ASİ	Başkaldıran.	8072
-ATA	Büyükbabadan başlayarak geriye doğru büyüklerden her biri.	8459
+ATA	Bir kişinin büyükbabası ve ondan önceki büyükleri.	8459
 ATAK	Hareketli ve çevik.	8470
-ATAŞ	Kâğıtları birbirine tutturan telden araç.	8486
+ATAŞ	Kâğıtları bir arada tutan, bükülmüş tel.	8486
 ATEŞ	Yanan şeylerden çıkan ısı ve ışık.	8505
 ATIK	Kullanılmış, artık işe yaramayan madde.	10990
 ATIL	Kımıldamayan, yerinden kalkmayan, tembel.	10992
 ATIM	Fırlatılan bir şeyin ulaşabildiği uzaklık.	11001
 ATIŞ	Kalbin ya da nabzın her bir vuruşu.	11005
 ATİ	Eski dilde gelecek.	11013
-ATİK	Çabuk davranan.	11014
+ATİK	Hızlı davranan, tez canlı.	11014
 AUT	Top oyunlarında topun saha çizgisinin dışına çıkması.	11098
 AVLAK	Hayvan yakalamaya elverişli yer.	11165
 AVLAN	Hayvan yakalamak için kır ve ormanda dolaşmak.	11169
 AYA	Avuç içi.	11237
 AYAK	Bacağın bilekten aşağıda kalan, yere basan bölümü.	11238
 AYAL	Eski dilde hanım, eş.	11377
-AYAN	Gözle görülür biçimde açık ve belli olan.	11379
+AYAN	Açıkça görülen, apaçık.	11379
 AYAR	Altın ve gümüş gibi madenlerin saflık derecesi.	11383
 AYAZ	Açık ve durgun havada hissedilen sert, kuru soğuk.	11404
 AYET	Kur'an'daki surelerin her bir bölümü.	11445
@@ -121,36 +121,36 @@ AYIK	Sarhoşluğu ya da baygınlığı geçmiş olan.	11469
 AYIL	Sarhoşluk ya da baygınlıktan kurtulup kendine gelmek.	11483
 AYIN	Arap alfabesindeki on sekizinci harfin adı.	11488
 AYIP	Ahlaka aykırı, insanı utandıran durum.	11495
-AYIR	Bir bütünü parçalara bölmek.	11512
+AYIR	Bir bütünü bölüp parçalara ayrıştırmak.	11512
 AYIT	Akdeniz çevresinde yetişen, mine çiçeğigillerden bir bitki.	11520
-AYLAK	Yapacak işi olmayan, boş gezen kimse.	11537
+AYLAK	İşsiz güçsüz, boş gezen kimse.	11537
 AYLAN	Bazı yörelerde bir yerin etrafında dolaşıp durmak.	11548
 AYRAN	Yoğurdun suyla çırpılmasıyla hazırlanan içecek.	11603
 AZA	Üye.	11731
 AZAL	Miktarı gittikçe düşmek, eksilmek.	11735
 AZAP	Pişmanlık, korku ya da çaresizliğin verdiği derin sıkıntı.	11742
 AZAR	Bir kusur yüzünden birine söylenen kırıcı söz.	11747
-AZAT	Serbest bırakma.	11756
+AZAT	Özgürlüğüne kavuşturma.	11756
 AZEL	Az sayıda satıcının pazarı elinde tuttuğu piyasa durumu.	85182
 AZI	Köpek dişlerinin gerisinde kalan, yiyecekleri öğüten diş.	11777
 AZIT	Kudurmuş, coşkun duruma getirmek.	11795
-AZMAN	Aşırı gelişmiş.	11818
+AZMAN	Olağandan çok büyümüş.	11818
 AZİT	Üç azot atomunu grup hâlinde içeren organik türev.	74247
-AÇI	Aynı noktadan çıkan iki doğrunun oluşturduğu şekil.	6512
-AÇIK	Kapalı olmayan; kapalının karşıtı.	6513
-AÇIN	Uyurken üzerindeki yorganı atmak.	6658
+AÇI	İki doğrunun kesiştiği noktada aralarında oluşan, derece ile ölçülen şekil.	6512
+AÇIK	Kapanmamış; kapalının karşıtı.	6513
+AÇIN	Uykuda yorganını üstünden atmak.	6658
 AÇIT	Duvarda kapı ya da pencere için bırakılan boşluk.	6675
 AĞA	Köyde geniş toprak sahibi, sözü geçen kişi.	7083
 AĞAR	Beyazlaşmak.	7144
-AĞAÇ	Gövdesi odun ve kereste olmaya elverişli, uzun ömürlü bitki.	7095
+AĞAÇ	Odunlaşmış gövdesi olan, uzun yıllar yaşayan bitki.	7095
 AĞI	Zehir.	7168
-AĞIL	Küçükbaş hayvanların barındığı, çitle çevrili yer.	7172
+AĞIL	Koyun ve keçilerin gece kaldığı çevrili yer.	7172
 AĞIM	Ayak sırtındaki kabarık bölge.	7185
 AĞIR	Tartıya konduğunda çok gelen; hafifin karşıtı.	7190
 AĞIT	Ölen birinin ardından yakılan, acıyı anlatan ezgi ya da söz.	7259
 AĞIZ	Yüzde iki çene arasında bulunan, yemeye ve konuşmaya yarayan boşluk.	7264
-AİT	İlgilendiren, ilişkin.	1159
-AŞI	Bağışıklık kazandırmak için vücuda verilen eriyik.	8307
+AİT	Bir şeyle ilgili, ona dair.	1159
+AŞI	Hastalığa karşı korunmak için vücuda uygulanan eriyik.	8307
 AŞIM	Bir sınırı ya da engeli geçme işi.	8343
 AŞIR	Yüksek ya da geçilmesi zor bir yerin öbür yanına geçirmek.	8368
 AŞK	Birine ya da bir şeye duyulan çok güçlü sevgi ve bağlılık.	8387
@@ -167,22 +167,22 @@ BAHİR	Eski dilde deniz.	5332
 BAK	Gözlerini bir şeye çevirmek.	5467
 BAKAM	Odunundan kırmızı boya elde edilen bir ağaç.	5380
 BAKI	Bir dağ yamacının güneşe göre konumu.	5388
-BAKIM	Bir şeyin iyi durumda kalması için gösterilen özen.	5393
+BAKIM	Bir şeyi iyi tutmak için gösterilen özen ve emek.	5393
 BAKIN	Etrafa göz atıp aramak.	5407
 BAKIR	Kızılımsı renkli, elektriği iyi ileten bir metal.	5408
 BAKIŞ	Gözle görme, göz atma işi.	5423
-BAKİ	Kalıcı olan.	5432
+BAKİ	Kalıcı, sürekli.	5432
 BAKİR	Hiç el sürülmemiş, kullanılmamış.	5434
 BAL	Arıların çiçek özünden yapıp peteğe doldurduğu tatlı madde.	5495
 BALA	Bazı yörelerde yavru.	5508
 BALAR	Eski dilde pedavra, ince tahta.	5519
-BALAT	Batı müziğinde bazı danslara eşlik eden şarkı türü.	5524
+BALAT	Batı müziğinde dansla birlikte söylenen şarkı türü.	5524
 BALE	Müzik eşliğinde, sahnede figürlerle yapılan dans sanatı.	5553
 BALET	Sahnede dans eden erkek sanatçı.	5556
 BALIK	Suda yaşayan, solungaçla soluyan omurgalı hayvan.	5562
 BALO	Özel giysilerle gidilen, danslı gece eğlencesi.	5644
 BAN	Osmanlı döneminde Macaristan ve Hırvatistan'daki sancak beylerine verilen ad.	5708
-BANAK	Bazı yörelerde ekmek parçası.	5715
+BANAK	Bazı yörelerde ekmek lokması.	5715
 BANAL	Sıradan.	5716
 BANİ	Kurucu.	5738
 BAP	Kitapta bölüm ya da başlık.	5789
@@ -209,20 +209,20 @@ BATAK	Üstüne basınca çöken çamurlu toprak.	10184
 BATAR	Bazı yörelerde zatürre.	10198
 BATI	Akşamları güneşin kaybolduğu yön; doğunun karşıtı.	4473
 BATIK	Su altında kalmış gemi ya da yerleşim yeri.	4477
-BATIR	Ucu sivri bir şeyi yumuşak bir yüzeye saplamak.	4494
+BATIR	Ucu sivri bir nesneyi yumuşak bir yüzeye sokmak.	4494
 BATİ	Eski dilde yavaş hareket eden.	4497
 BATİK	Kumaş ve deri süslemede kullanılan bir boyama yöntemi.	4498
 BAV	Eski dilde şahin ve köpeği avcılığa alıştırma işi.	4517
 BAY	Erkek adlarının önünde kullanılan nezaket sözü.	4527
 BAYAN	Kadın adlarının önünde kullanılan nezaket sözü.	4536
-BAYAT	Taze olmayan.	4537
-BAYIR	Küçük yokuş.	4571
+BAYAT	Tazeliğini yitirmiş.	4537
+BAYIR	Küçük, hafif eğimli yokuş.	4571
 BAYİ	Bir firmanın ürününü onun adına satmaya yetkili kimse.	4578
 BAZ	Temel.	4647
 BAZA	Yatağı yerden yükselten, içi sandık olarak da kullanılan bölüm.	4649
 BAZEN	Ara sıra.	4652
 BAZI	Sayısı belli olmayan, birtakım.	4653
-BAÇ	Osmanlı Devleti'nde alınan gümrük vergisi.	11927
+BAÇ	Osmanlı döneminde gümrükte alınan vergi.	11927
 BAĞ	İki şeyi birbirine tutturan ip, şerit ya da kayış.	11985
 BAĞA	Deniz kaplumbağasının sırtındaki sert kabuk.	11993
 BAĞI	Gözü aldatarak bir şeyi olduğundan farklı gösterme.	12031
@@ -233,11 +233,11 @@ BAŞAK	Buğday ve arpa gibi ekinlerin tanelerini taşıyan kılçıklı kısım.
 BAŞAR	Bir işi istenen biçimde sonuçlandırmak.	9936
 BAŞAT	Baskın.	9944
 BEBEK	Meme emen ya da kucakta taşınan yaştaki çocuk.	4674
-BEDEN	Giysilerde ölçü.	4731
+BEDEN	Giysi ölçüsü.	4731
 BEK	Futbolda savunma oyuncusu.	4789
 BEL	İnsan bedeninde göğüsle kalça arasındaki daralan bölüm.	4847
 BELA	Kurtulması zor, başa dert açan durum.	4865
-BELE	Çocuğu kundaklamak.	4905
+BELE	Bebeği kundağa sarmak.	4905
 BELEK	Kundak.	4903
 BELEN	Dağın üstündeki yüksek geçit, sarp yol.	4907
 BELER	Gözler akları görünecek biçimde iyice açılmak.	4911
@@ -246,7 +246,7 @@ BELİ	Eski dilde evet.	4951
 BELİK	Saç örgüsünün omuzlardan aşağı sarkan kısmı.	4954
 BELİR	Gizli olan bir şey görünür hâle gelmek.	4982
 BELİT	Kanıt gerektirmeyecek kadar apaçık olan temel önerme.	5005
-BEN	Tende bulunan küçük, koyu renkli leke.	5049
+BEN	Tende doğuştan bulunan koyu renkli küçük leke.	5049
 BERE	Siperi olmayan, yuvarlak ve yassı başlık.	5206
 BERK	Sert, sağlam.	5241
 BERT	Bazı yörelerde çarpma ya da burkulmayla vücudun bir yeri ağrımak.	5268
@@ -254,25 +254,25 @@ BERİ	Konuşana daha yakın olan yer; öte karşıtı.	5234
 BESİ	Bir hayvanı semirtmek için bolca yedirip içirme.	5275
 BET	Yüz, çehre.	93314
 BETİ	Resim ve heykelde varlıklara verilen biçim.	10280
-BEY	Erkek adlarından sonra söylenen saygı sözü.	10307
+BEY	Erkek adından sonra eklenen saygı sözü.	10307
 BEYAN	Bildirme, açıklama.	10314
 BEYAZ	Kar ve süt renginde olan; siyahın karşıtı.	10320
-BEYİN	Kafatasının içinde bulunan, iki yarım küreden oluşan organ.	10364
+BEYİN	Kafatası içinde, iki yarım küreden oluşan sinir organı.	10364
 BEZ	Pamuk ya da keten ipliğinden dokunan kumaş.	10416
 BEZEN	Süs.	10445
 BEŞ	Dördü izleyen sayı.	10209
 BIRAK	Elde tutulan şeyi tutmaktan vazgeçmek.	10557
 BIÇAK	Saplı, çelik ağızlı kesme aracı.	10483
 BOCA	Gemide rüzgârın vurmadığı taraf.	14329
-BOL	Girecek şeyden daha geniş olan; dar karşıtı.	14484
+BOL	Geniş, dar olmayan.	14484
 BOM	Belli sayıların katlarında sayıyı söylemeden geçilen bir sayma oyunu.	14513
-BOP	Pokerde oyuna girmek için ortaya konan en az miktar.	14568
+BOP	Pokerde ele girebilmek için masaya konan en düşük miktar.	14568
 BOR	Atom numarası 5 olan, yarı metal bir element.	14572
 BORA	Ardından çoğu kez yağmur gelen şiddetli rüzgâr.	14573
 BORU	Sıvı ya da gaz taşımaya yarayan içi boş uzun silindir.	12214
 BORUK	Dağlarda yetişen, süpürge ve yakacak yapılan kokulu bir bitki.	12227
-BORÇ	Geri ödenmek üzere alınan para.	14586
-BOT	Konçu uzun, kapalı ayakkabı.	12326
+BORÇ	Geri verilmek üzere alınan para ya da mal.	14586
+BOT	Konçlu, bileği örten kapalı ayakkabı.	12326
 BOY	İnsanın tabanından başının tepesine kadar olan uzunluk.	12331
 BOYA	Eşyaya renk vermek ve onu korumak için sürülen madde.	12347
 BOZ	Toprağı andıran açık renk.	12478
@@ -280,7 +280,7 @@ BOĞA	Damızlık için beslenen erkek sığır.	14352
 BOŞ	İçinde hiçbir şey ya da kimse bulunmayan.	12246
 BUDAK	Tahtada görülen, dalın gövdeden çıktığı yerin izi.	12741
 BUL	Yalnızca iki geniş yüzü testereyle düzeltilmiş tahta.	12856
-BULUN	Bir yerde var olmak.	12946
+BULUN	Bir yerde var olmak, orada durmak.	12946
 BULUT	Gökyüzünde görünen su damlacığı ve buz taneciği kümesi.	12957
 BUN	Sıkıntı.	12974
 BUNAK	Yaşlılıktan aklı zayıflamış kimse.	12975
@@ -293,10 +293,10 @@ BURÇ	Kale duvarlarından daha yüksekte yapılmış kule.	13015
 BUT	Bacağın kalçadan dize kadar olan kısmı.	13128
 BUY	Soğukta donup ölmek.	13139
 BUZ	Donup katılaşmış su.	13156
-BÖL	Bir bütünü iki ya da daha çok parçaya ayırmak.	12603
+BÖL	Bütünü kısımlara ayırmak.	12603
 BÖLE	Bazı yörelerde amca, dayı ya da hala çocuğu.	77212
 BÖRK	Postlu hayvan derisinden yapılan eski başlık.	12651
-BÖRT	Bazı yörelerde hafifçe kavrulmak.	12654
+BÖRT	Bazı yörelerde hafifçe pişip kızarmak.	12654
 BÜZ	Künk, toprak boru.	13403
 BİBER	Dolmalık, sivri ya da çarliston gibi türleri olan sebze.	13450
 BİDE	Tuvalette, oturarak yıkanmaya yarayan alçak lavabo.	13520
@@ -311,10 +311,10 @@ BİN	Dokuz yüz doksan dokuzu izleyen sayı.	13749
 BİNA	Yapı.	13766
 BİNEK	Üstünde yolculuk edilen at ya da otomobil.	13785
 BİNİ	Kapı kanatları kapanınca aralarında kalan aralık.	13790
-BİR	Sayıların ilki.	13817
+BİR	İlk sayı.	13817
 BİRA	Arpa ve şerbetçi otunun mayalanmasıyla yapılan içki.	13962
 BİRİ	Kim olduğu bilinmeyen kişi.	14057
-BİS	İkinci kez.	90308
+BİS	Yeniden, ikinci kez.	90308
 BİT	İnsan ve hayvanların kanını emerek yaşayan küçük böcek.	14172
 BİTEK	Verimli.	14179
 BİTİK	Yorgunluktan ya da hastalıktan gücü kalmamış.	14185
@@ -323,8 +323,8 @@ BİZ	Konuşan kişiyle birlikte ötekileri gösteren çoğul zamir.	14279
 CAM	Kumun eritilmesiyle elde edilen saydam, kırılgan madde.	3707
 CAMİ	Müslümanların namaz kılmak için toplandığı yapı.	3732
 CAN	İnsanı ve hayvanı diri tutan güç.	3760
-CANİ	Cinayet işlemiş kimse.	3901
-CAR	Tehlike durumu.	3956
+CANİ	Cinayet işleyen kişi.	3901
+CAR	Tehlike bildiren durum.	3956
 CARİ	Geçerli, yürürlükte olan.	3963
 CAY	Verdiği sözden ya da kararından geri dönmek.	4011
 CEFA	Birine çektirilen aşırı eziyet.	4072
@@ -344,37 +344,37 @@ DAH	Binek hayvanını yürütmek için söylenen söz.	16011
 DAHA	Henüz.	16013
 DAL	Ağaç gövdesinden çıkan kollardan biri.	16072
 DALA	Isırgan otu ya da böcek dokunarak teni acıtmak.	16089
-DALAK	Midenin arkasında, sol böbreğin üstünde bulunan organ.	16083
+DALAK	Karın boşluğunun solunda, midenin gerisindeki yassı organ.	16083
 DALAN	Lobi.	16090
 DAM	Yapının üstünü örten çatı.	16215
 DAMA	Karelere ayrılmış tahtada on altışar taşla iki kişinin oynadığı oyun.	16224
 DAMAK	Ağzın iç tavanı.	16228
 DAMAR	Vücutta kanın dolaştığı ince boru.	16244
-DAMAT	Bir kızın ailesine göre kızın kocası; güvey.	16268
+DAMAT	Kızın ailesine göre kızın eşi; güvey.	16268
 DAMIT	Bir sıvıyı buharlaştırıp yeniden soğutarak arıtmak.	16298
 DAMLA	Yuvarlak biçimli, çok küçük miktardaki sıvı.	16302
 DANA	Sığırın, sütten ayrılmış ve henüz bir yaşını doldurmamış yavrusu.	16324
 DANE	Kuş yemi.	16341
 DANK	Birden ayılıp doğruyu anlamayı anlatan söz.	70086
 DAR	Ölçüleri yetersiz, sıkı olan; genişin karşıtı.	16383
-DARA	Tartılan şeyin kabının ağırlığı.	16393
+DARA	Tartıda kabın ağırlığı.	16393
 DARI	Kuraklığa dayanıklı, tohumu besin olarak kullanılan bir tahıl.	16440
 DARP	Vurma.	16466
-DART	Dairesel nişan tahtasına küçük oklar atılarak oynanan oyun.	71488
+DART	Dairesel tahtaya küçük oklar fırlatılarak oynanan oyun.	71488
 DARU	Eski dilde ilaç.	74893
 DATA	Veri.	76954
 DAV	Kaplanınkine benzer çizgili postu olan bir Afrika zebrası.	16479
 DAVA	Hakkını korumak için mahkemeye yapılan başvuru.	16480
 DAVAR	Koyun ve keçinin ortak adı.	16496
-DAVUL	Kasnağın iki yanına deri gerilerek yapılan, tokmakla çalınan çalgı.	16520
+DAVUL	İki yüzüne deri gerilmiş, tokmakla vurulan büyük çalgı.	16520
 DAYA	Yaslamak.	16549
 DAYAK	Destek.	71293
 DAYAN	Bir yere yaslanıp destek almak.	16578
-DAYAT	Kendi isteğini yaptırmakta direnmek.	16586
+DAYAT	İsteğini zorla kabul ettirmeye çalışmak.	16586
 DAYE	Eski dilde dadı.	16590
 DAYI	Bir kişinin annesinin erkek kardeşi.	16591
 DAZ	Çıplak, bitki bitmeyen toprak.	16597
-DAZLA	Güç beğenmek.	16603
+DAZLA	Kolay beğenmemek.	16603
 DAĞ	Yer kabuğunun çevresine göre çok yüksek, eğimli çıkıntısı.	15904
 DAĞIT	Bir şeyi birçok kişiye ayrı ayrı vermek.	15976
 DAĞLA	Kızgın demirle hayvanın derisine işaret basmak.	15988
@@ -388,14 +388,14 @@ DELK	Eski dilde sürtünme.	16951
 DELİ	Coşkun, azgın olan.	16872
 DEM	Hazırlanan çayın istenen renk ve kokuya ulaşması.	16956
 DEME	Anlam.	16967
-DEMİN	Biraz önce.	17002
+DEMİN	Az önce.	17002
 DEMİR	Atom numarası 26 olan, en çok kullanılan sert metal.	17006
 DENE	Bir şeyin işe yarayıp yaramadığını anlamak için sınamak.	17081
 DENK	Yatak ya da kumaş gibi eşyanın sarılıp bağlanmış hâli.	76428
-DENİ	Eski dilde alçak, kişiliksiz kimse.	14702
+DENİ	Eski dilde alçak, aşağılık kişi.	14702
 DER	Bazı yörelerde toplamak.	14980
 DERBİ	Aynı şehirden iki takım arasında oynanan maç.	74721
-DERE	Çaydan küçük, yazın suyu azalan akarsu.	14883
+DERE	Yaz aylarında neredeyse kuruyan dar akarsu.	14883
 DERGİ	Belli aralıklarla çıkan, çeşitli konularda yazılar içeren yayın.	14909
 DERK	Eski dilde anlama.	14953
 DERS	Öğretmenin öğrenciye belli bir sürede aktardığı bilgi.	14993
@@ -405,13 +405,13 @@ DEV	Masallarda geçen, çok iri ve güçlü yaratık.	15161
 DEVA	Çare.	15164
 DEVE	Sırtında bir ya da iki hörgücü olan, boynu uzun memeli.	15179
 DEĞ	Aralık kalmayacak kadar yaklaşıp dokunmak.	16791
-DEŞ	Bir yeri kazıp oymak.	15145
+DEŞ	Bir yeri kazıp açmak.	15145
 DIŞ	Bir alanın sınırlarının ötesinde kalan yer; içerinin karşıtı.	15351
 DOK	Gemilerin onarıldığı ya da yük boşalttığı üstü örtülü yer.	2989
 DOKU	Bir organın yapısını oluşturan hücre topluluğu.	3004
 DOL	İçi boş kalmayacak duruma gelmek.	3145
 DOLA	İpi ya da teli bir şeyin çevresine döndürerek sarmak.	3068
-DOLAK	Bazı yörelerde boyun atkısı.	3064
+DOLAK	Bazı yörelerde atkı.	3064
 DOLAN	Bir şeyin etrafında dönüp gezinmek.	3087
 DOLAP	Raflarına ya da çekmecelerine eşya konan mobilya.	3091
 DOLU	Havadaki su buharının donmasıyla düşen buz taneleri.	3160
@@ -420,52 +420,52 @@ DONA	Süslemek.	3225
 DONE	Veri.	3248
 DORE	Altın sarısı.	87443
 DORU	Kızıla çalan kahverengi at rengi.	3277
-DOST	Sevilen, güvenilen kimse; düşmanın karşıtı.	3285
+DOST	Güvenilen, sevilen kimse; düşmanın karşıtı.	3285
 DOY	Açlık kalmayacak kadar yemek.	83143
 DOZ	Bir ilacın bir kerede ya da bir günde alınacak miktarı.	3357
 DOĞA	Canlı ve cansız varlıkların tümüyle oluşturduğu dünya; tabiat.	2857
 DOĞAN	Kartalgillerden, avcılıkta kullanılan küçük yırtıcı kuş.	2883
 DOĞU	Güneşin yükseldiği yön; batının karşıtı.	2949
-DUBAR	Eti lezzetli, kefalgillerden bir balık.	3621
+DUBAR	Kefale benzeyen, eti lezzetli bir balık.	3621
 DUDAK	Dişleri örten, ağzın alt ve üst kenarı.	3635
 DUL	Eşi ölmüş ya da eşinden boşanmış kimse.	3662
-DUN	Alçak olan.	36
+DUN	Alçak, aşağı.	36
 DUR	Hareketsiz kalmak.	83
 DURAK	Otobüs ve tramvay gibi genel taşıtların yolcu almak için beklediği yer.	45
-DURAL	Hep aynı kalan, değişmeyen.	60
+DURAL	Hiç değişmeyen, sabit.	60
 DURU	Bulanık olmayan; berrak.	89
 DUT	Beyaz, kara ya da pembe renkli, sulu ağaç meyvesi.	125
-DUVAK	Gelinin başını örten tül örtü.	134
+DUVAK	Gelinin başına örtülen tül.	134
 DUVAR	Yapının yanlarını çevreleyen, odaları birbirinden ayıran bölme.	145
 DUYU	Görme, işitme, koklama, tatma ve dokunma yetilerinin her biri.	207
 DUŞ	Suyun yukarıdan püskürtülmesiyle yapılan yıkanma.	119
 DÖL	Canlıların üremesiyle ortaya çıkan yeni nesil.	3395
-DÖN	Kendi ekseni çevresinde hareket etmek.	3456
+DÖN	Kendi çevresinde ya da bir şeyin çevresinde hareket etmek.	3456
 DÖRT	Üçü izleyen sayı.	3496
 DÖŞ	Bazı yörelerde göğüs.	3531
 DÖŞE	Bir tabanı tahta, karo ya da mermerle kaplamak.	3543
 DÜK	Avrupa'da prensin hemen altındaki en yüksek soyluluk unvanı.	303
-DÜN	Bugünden önceki gün.	338
+DÜN	Bir önceki gün; bugünden evvelki gün.	338
 DÜR	Bir şeyi kendi üzerine sararak silindir biçimine getirmek.	419
 DÜRT	Elle ya da sivri bir şeyle hafifçe itmek.	421
 DÜRÜ	Çeyiz.	434
 DÜZ	Eğik ya da dik olmayan, yatay.	564
 DÜĞ	Bazı yörelerde ipe bağ atmak.	261
 DİDE	Eski dilde göz.	15448
-DİDİN	Güçlük çekerek durmadan çalışmak.	15461
+DİDİN	Zorlanarak durmadan uğraşmak.	15461
 DİDİŞ	Birbirini sözle ya da elle hırpalamak.	15466
 DİK	Yatay düzleme göre çekül doğrultusunda olan; eğiğin karşıtı.	15488
 DİKEN	Bazı bitkilerin dal ve gövdesindeki sivri, sert çıkıntı.	15501
-DİKİL	Ayakta durmak.	15532
+DİKİL	Ayakta durup beklemek.	15532
 DİKİM	Fidanları toprağa yerleştirme işi.	15536
-DİKİŞ	Giysinin üzerinde görülen iplik yolu.	15542
+DİKİŞ	Kumaşı birleştiren, gözle görülen iplik izi.	15542
 DİL	Ağızda tat almaya ve konuşmaya yarayan organ.	15616
 DİLE	Bir şeyin olmasını arzulamak, temenni etmek.	15713
 DİLEK	Olması istenen şey; temenni.	15709
-DİLEN	Sadaka istemek.	15729
-DİLİM	Bir bütünden kesilmiş ince, yassı parça.	15732
+DİLEN	Başkalarından sadaka istemek.	15729
+DİLİM	Bıçakla ayrılan yassı, ince kesit.	15732
 DİLİN	Kesilerek ince parçalara ayrılmak.	15743
-DİNE	Bazı yörelerde konaklama yeri.	15833
+DİNE	Bazı yörelerde yolcuların konakladığı yer.	15833
 DİNEK	Bazı yörelerde yolda soluklanılan durak.	15834
 DİNK	Şayak ve aba gibi kumaşları dövmeye yarayan araç.	15858
 DİNÇ	Gücü ve sağlığı yerinde olan.	15820
@@ -483,18 +483,18 @@ DİYE	Adında, adlı.	80830
 DİZ	Bacakta uyluk ile baldırın birleştiği yer.	2767
 DİŞ	Çenede dizili, ısırmaya ve çiğnemeye yarayan sert organ.	2619
 EBAT	Boyut.	662
-EBE	Doğum yaptıran kadın.	665
-EDA	Tavır, davranış biçimi.	732
+EBE	Doğumda yardım eden kadın.	665
+EDA	Tavır, davranış tarzı.	732
 EDAT	Sözcükler arasında ilgi kuran, tek başına anlamı olmayan kelime türü.	736
 EDE	Bazı yörelerde ağabey.	740
-EDİ	Bazı yörelerde yapılan iş.	773
-EDİK	Bazı yörelerde kısa çizme.	775
-EDİP	Edebî eserler veren yazar.	800
+EDİ	Bazı yörelerde iş, yapılan şey.	773
+EDİK	Bazı yörelerde kısa konçlu çizme.	775
+EDİP	Edebî eserler veren kişi.	800
 EGE	Veli.	2086
 EGO	Ben, benlik.	2090
 EKİM	Eylülden sonra gelen ay.	2288
 EKİN	Tarlaya atılmasından harmana dek tahıl.	2289
-EKİP	Görev bakımından birbirini tamamlayan kişiler topluluğu; takım.	2299
+EKİP	Birlikte iş gören kişiler topluluğu; takım.	2299
 EKİT	Vücutta bir görevi üstlenmesi için yerleştirilen yapay parça.	87125
 ELA	Kestaneye çalan açık renk.	24608
 ELAN	Eski dilde hâlâ, şimdi bile.	24616
@@ -509,7 +509,7 @@ ELİM	Acıklı.	24814
 EMEK	Bir iş uğruna harcanan bedensel ve zihinsel güç; alın teri.	24937
 EMEL	Zamanla gerçekleşmesi beklenen istek.	24963
 EMEN	Bazı yörelerde fidan dikimi için kazılan çukur.	24966
-EMİN	Şüphesi olmayan.	24972
+EMİN	Kuşkusu olmayan.	24972
 EMİR	Bir şeyi yapmaya zorlayan söz; buyruk.	24974
 ERAT	Erler.	25292
 ERK	İktidar.	25409
@@ -524,9 +524,9 @@ ESİM	Bazı yörelerde rüzgârın hafifçe hareket etmesi.	25565
 ESİR	Tutsak.	25576
 ETEK	Kadınların belden aşağı giydiği giysi.	19893
 ETİK	Ahlak bilimi.	19941
-EZAN	Namaz vaktini bildirmek için yüksek sesle okunan çağrı.	20268
+EZAN	Namaz vakitlerinde müezzinin okuduğu çağrı.	20268
 EŞEK	Uzun kulaklı, yük taşıyan binek hayvanı; merkep.	19712
-EŞİK	Kapı boşluğunun altındaki alçak basamak.	19778
+EŞİK	Kapının altındaki alçak basamak.	19778
 EŞİN	Hayvan ayağıyla toprağı eşelemek.	19785
 EŞİT	Değer ve nicelik bakımından birbirinden farkı olmayan.	19786
 FAK	Eski dilde tuzak.	20399
@@ -547,7 +547,7 @@ FOL	Tavuğun aynı yere yumurtlaması için oraya konan yumurta.	19082
 FON	Belli bir iş için ayrılıp kullanılan para.	19093
 FUL	Bakla türünden, ufak taneli bir baklagil.	19314
 FUT	Ayak adı verilen uzunluk ölçüsü.	19334
-FİDAN	Yeni yetişen genç ağaç.	18714
+FİDAN	Genç, körpe ağaç.	18714
 FİDE	Tohumdan yetiştirilip başka yere dikilmek üzere hazırlanan bitki.	18720
 FİKİR	Düşünce.	18756
 FİL	Hortumlu, iri gövdeli, sıcak ülkelerde yaşayan memeli.	18779
@@ -567,12 +567,12 @@ GAM	Kaygı, tasa.	19499
 GAMA	Yunan alfabesinde betadan sonra gelen harf.	19504
 GAR	Çok sayıda yolcuya hizmet veren büyük istasyon.	19539
 GAZ	Bulunduğu kabı dolduran, akışkan ve hacmi belirsiz madde hâli.	29080
-GAZİ	Savaştan sağ dönen kimse.	29116
-GEBE	Karnında yavru taşıyan; hamile.	29158
+GAZİ	Savaşa katılıp sağ olarak geri gelen kişi.	29116
+GEBE	Hamile.	29158
 GECE	Akşamdan gün ağarana dek geçen karanlık zaman.	29181
 GEL	Bir yere ulaşmak, varmak.	29457
 GELE	Tavlada kırık taşı olan oyuncunun taşı giremeyen zarı.	29368
-GELİN	Evlenmek için süslenmiş ya da yeni evlenmiş kadın.	29405
+GELİN	Yeni evlenmiş ya da evlenmek üzere olan kadın.	29405
 GEM	Atı yönetmek için ağzına geçirilen demir parça.	29471
 GEMİ	Denizde insan ve yük taşıyan büyük taşıt.	29478
 GEN	Kalıtsal özellikleri taşıyıp kuşaktan kuşağa aktaran birim.	96433
@@ -584,52 +584,52 @@ GERİN	Kollarını açıp gövdesini uzatarak esnemek.	29756
 GERİZ	Lağım.	29763
 GEZ	Ateşli silahlarda nişan almaya yarayan çentik.	29842
 GEZİ	Şehirler ya da ülkeler arasında yapılan yolculuk; seyahat.	29861
-GEÇ	Beklenen zamandan sonra; erkenin karşıtı.	29227
+GEÇ	Beklenen zamanı aşmış; erkenin karşıtı.	29227
 GEÇE	Saat başını aşarak.	29231
 GIK	Ses çıkarmayı anlatan, deyimlerde geçen yansıma söz.	29926
-GIR	Yalan, uydurma.	29937
-GOL	Topun kaleye girmesiyle kazanılan sayı.	25644
+GIR	Uydurma, yalan.	29937
+GOL	Top kaleye girince kazanılan sayı.	25644
 GRİ	Kül rengi.	26667
 GUT	Damla hastalığı.	26745
-GÖCE	Bazı yörelerde kabuğu soyulmuş, kırılmış buğday.	25695
+GÖCE	Bazı yörelerde dövülüp kabuğu ayrılmış buğday.	25695
 GÖK	Yeryüzünün üstüne kubbe gibi kapanan mavi boşluk.	25768
 GÖL	Kara içinde, denizle bağlantısı olmayan durgun su.	25821
-GÖN	İşlenmiş deri.	25896
+GÖN	Tabaklanmış deri.	25896
 GÖRE	Bir şeye uyarak, ona bakarak.	26037
 GÖY	Bazı yörelerde ateşe verip yakmak.	26255
-GÖZ	Görme organı.	26260
+GÖZ	Görmeye yarayan organ.	26260
 GÜL	Çoğunlukla kokulu, katmerli bir süs çiçeği.	20796
 GÜM	Derinden gelen, yankılı patlama sesi.	20877
 GÜN	Dünyanın kendi çevresinde bir kez dönmesiyle geçen yirmi dört saat.	20936
-GÜR	Bol ve kuvvetle fışkıran.	21133
+GÜR	Bol ve kuvvetle fışkıran, yoğun.	21133
 GÜT	Hayvanları önüne katarak otlatmak.	21188
 GÜZ	Sonbahar.	21252
 GİDİŞ	Yürüyüş ya da hareket etme biçimi.	30009
-GİR	İçeriye geçmek.	30075
+GİR	İçeriye adım atmak.	30075
 GİRİŞ	Bir binada içeriye geçilen bölüm; antre.	30049
-GİT	Bir yerden ayrılmak.	30086
+GİT	Bir yerden ayrılıp uzaklaşmak.	30086
 GİY	Bir elbiseyi üstüne geçirmek.	30118
 GİZ	Sır.	30122
 HAC	Müslümanların Mekke'yi belirli günlerde ziyaret etmesi.	21353
 HAF	Futbolda hücum ile savunma arasında oynayan oyuncu.	21447
-HAH	Beklenen bir şey olunca duyulan sevinci anlatan söz.	21511
-HAK	Adaletin ve hukukun birine ayırdığı şey.	21531
+HAH	Beklenen şey olunca sevinçle söylenen söz.	21511
+HAK	Adalet gereği birine düşen pay.	21531
 HAL	Çözüm.	21625
 HALA	Bir kişinin babasının kız kardeşi; bibi.	21643
 HALAT	Lif ya da tellerin bükülmesiyle yapılmış kalın ip.	21651
 HALE	Ayın çevresinde beliren aydınlık halka.	21666
 HALI	Yere serilen, ilmeklerle dokunmuş kalın yaygı.	21688
-HALK	Aynı ülkede yaşayan, aynı kültürü paylaşan insan topluluğu.	21707
+HALK	Aynı ülkede ve aynı kültür içinde yaşayan insanlar.	21707
 HALT	Uygunsuz söz ya da iş.	21774
-HAM	Yenecek kadar olgunlaşmamış meyve.	21788
+HAM	Olmamış, yenecek kıvama gelmemiş meyve.	21788
 HAMAL	Yük taşıyarak geçimini sağlayan kişi.	21792
 HAMLA	Kürekleri bir kez suya daldırıp çekme.	21852
-HAMUR	Unun suyla yoğrulmuş durumu.	21875
+HAMUR	Su katılarak yoğrulmuş un.	21875
 HAMUT	Koşumda atların boynuna geçirilen kalın halka.	21897
 HAMİ	Koruyucu.	21836
 HAN	Yol üstünde yolcuların konakladığı yapı.	21899
 HANE	Ev.	21918
-HANİ	Nerede, ne oldu anlamında kullanılan söz.	21951
+HANİ	Nerede kaldı diye sormaya yarayan söz.	21951
 HAP	Kolay yutulsun diye toparlak hâle getirilmiş ilaç.	21965
 HAR	Bir şeyi düşünmeden saçıp savurmayı anlatan söz.	21996
 HARA	Atların yetiştirildiği çiftlik.	22000
@@ -643,21 +643,21 @@ HASAR	Bir olay sonucunda oluşan kırılma, yıkılma, zarar.	22206
 HASAT	Ekin biçme, ürün kaldırma işi.	22209
 HASIM	Oyunda ya da davada karşı taraf.	22242
 HASIR	Sazdan ya da yapraktan örülmüş yaygı.	22245
-HASTA	Sağlığı bozulmuş kimse.	22285
+HASTA	Sağlığı yerinde olmayan, tedaviye ihtiyaç duyan kişi.	22285
 HASUT	Eski dilde kıskanç.	22313
 HAT	Çizgi.	22365
 HATA	Bilmeden ve istemeden yapılan yanlış.	22367
-HATIR	Birine duyulan saygı ve sevgi.	22377
+HATIR	Birine beslenen saygı ve sevgi.	22377
 HAV	Kadife ve yün gibi kumaşların yüzeyindeki ince tüy.	22434
 HAVA	Canlıların soluduğu, dünyayı saran gaz karışımı.	22435
-HAVUT	Eski dilde deve semeri.	22583
+HAVUT	Eski dilde devenin semeri.	22583
 HAVUZ	Su biriktirmek ya da yüzmek için yapılan, içi suyla dolu yapı.	22584
 HAVUÇ	Turuncu renkli, koni biçimli kökü yenen sebze.	22581
 HAVİ	Eski dilde kapsayan, içeren.	22560
 HAY	Ey, seslenme sözü.	22598
 HAYA	Utanma.	22603
 HAYAL	Zihinde kurulan, gerçek olması özlenen şey.	22604
-HAYAT	Canlı olma durumu; yaşam.	22634
+HAYAT	Yaşam, canlılık.	22634
 HAYIF	Yapılamamış bir iş için duyulan pişmanlık ve üzüntü.	22694
 HAYIR	Yok, öyle değil anlamında olumsuzluk sözü.	22712
 HAYIT	Ayıt bitkisi.	22731
@@ -676,19 +676,19 @@ HELE	Özellikle.	22946
 HEM	İki cümleyi açıklayıcı biçimde birbirine bağlayan söz.	22992
 HEP	Daima, her zaman.	23031
 HER	Teker teker hepsi anlamını veren söz.	23041
-HEY	Seslenmek ya da dikkat çekmek için söylenen söz.	33917
+HEY	Birine seslenirken söylenen söz.	33917
 HIK	Hıçkırık sırasında gırtlaktan gelen ses.	33985
-HIR	Kavga, dalaş.	34012
+HIR	Kavga, çekişme.	34012
 HIZ	Bir hareketin çabukluğu; sürat.	34140
 HOL	Sofa.	34484
 HOP	Uyarmak için söylenen söz.	34513
 HOR	Değersiz, aşağı görülen.	34538
 HORA	El ele tutuşularak müzik eşliğinde oynanan halk dansı.	34545
-HOŞ	Beğenilen, insana zevk veren.	34610
+HOŞ	Beğenilen, insanı memnun eden.	34610
 HUN	Eski dilde kan.	34739
 HUŞ	Kuzey ülkelerinde yetişen, beyaz kabuklu bir ağaç.	34780
 HÜR	Özgür.	34892
-HİLE	Birini aldatmak için kurulan düzen.	34284
+HİLE	Aldatma amacıyla yapılan düzen, dolap.	34284
 HİN	Kurnaz.	34313
 HİS	Duygu.	34386
 HİT	Liste başı.	34421
@@ -709,14 +709,14 @@ KADIN	Yetişkin dişi insan.	40771
 KAFA	Baş.	37210
 KAFE	İçecek ve hafif yiyecek satılan küçük işletme.	37318
 KAH	Ara sıra.	37379
-KAHIR	Derin üzüntü ve acı.	37381
+KAHIR	Derin keder, acı.	37381
 KAHİL	Eski dilde erişkin.	37388
-KAHİR	Baskın gelen, ezici.	37392
+KAHİR	Ezen, baskın çıkan.	37392
 KAK	Bazı yörelerde kurutulmuş elma ya da armut.	37461
-KAKI	Bazı yörelerde öfkelenmek, kızmak.	37481
+KAKI	Bazı yörelerde kızmak, sinirlenmek.	37481
 KAKIM	Kışın beyaz kürklü olan, sansargillerden küçük hayvan.	79204
 KAL	Eski dilde söz.	37511
-KALAK	Bazı yörelerde gelinin başına takılan taç.	37531
+KALAK	Bazı yörelerde gelin tacı.	37531
 KALE	Askerî önemi olan yerlerde yapılmış, surlarla çevrili yapı.	37617
 KALEM	Yazı yazmaya ya da çizmeye yarayan araç.	37625
 KALIN	Eni ya da çapı fazla olan; incenin karşıtı.	37682
@@ -724,14 +724,14 @@ KALIT	Miras.	37736
 KALK	Uyanıp yataktan çıkmak.	37787
 KALP	Göğüste, kanı vücuda pompalayan organ.	37818
 KAM	Şaman.	37889
-KAMA	Ucu sivri, iki yanı da keskin, uzun bir bıçak.	37892
+KAMA	İki yüzü keskin, sivri uçlu uzun bıçak.	37892
 KAN	Damarlarda dolaşıp vücudu besleyen kırmızı sıvı.	38024
 KANA	Geminin suya ne kadar gömüldüğünü gösteren işaretler.	38079
 KANAL	Sulama ya da gemi geçişi için kazılmış su yolu.	38090
 KANAT	Kuşların ve böceklerin uçmasını sağlayan organ.	38106
 KANI	Kesin delili olmayan yargı, düşünce.	38202
 KANIK	Bazı yörelerde gözü tok, azla yetinen.	38207
-KANIR	Bir şeyi eğip zorla yerinden çıkarmak.	38217
+KANIR	Bir şeyi bükerek zorla sökmek.	38217
 KANIT	Bir şeyin doğruluğunu gösteren belge; delil.	38223
 KANO	Kürekle ilerletilen ince, uzun, hafif tekne.	38260
 KANT	Limon ve şekerle içilen sıcak su.	38278
@@ -749,12 +749,12 @@ KARAR	Bir konu hakkında düşünüp verilen kesin hüküm.	36331
 KARE	Dört kenarı ve dört açısı birbirine eşit dörtgen.	36478
 KARIK	Bembeyaz bir alana bakınca gözlerde oluşan kamaşma.	36537
 KARIN	Gövdenin kaburgalarla kasıklar arasındaki bölümü.	36555
-KARO	Dört köşe, betondan döşeme taşı.	36705
+KARO	Betondan dört köşe yer döşemesi.	36705
 KART	Tazeliğini yitirmiş; körpenin karşıtı.	36779
 KARİ	Eski dilde okuyucu.	36621
 KAS	Kısalıp uzayarak vücudun hareketini sağlayan organ.	36821
 KASA	Para ya da değerli eşya saklanan çelik dolap.	36822
-KASE	Derince çanak.	36854
+KASE	Derin, yuvarlak çanak.	36854
 KASIM	Ekimden sonra gelen ay.	36874
 KASIN	Kibirlenmek, büyüklenmek.	36880
 KASIT	Amaç.	36886
@@ -767,14 +767,14 @@ KATIL	Bir topluluğun içine girmek.	37075
 KATIR	Kısrak ile erkek eşekten doğan, yük taşıyan hayvan.	37083
 KATİL	Bir insanı öldüren kişi.	37112
 KAV	Ağaçta yetişen mantardan yapılan, kolay tutuşan madde.	42807
-KAVAK	Sulak yerlerde yetişen, uzun boylu bir ağaç.	42814
+KAVAK	Sulak yerlerde yetişen, boyu çok uzayan ağaç.	42814
 KAVAL	Çobanların çaldığı, kamıştan yapılan üflemeli çalgı.	42819
-KAVUK	Üzerine sarık sarılan eski erkek başlığı.	42921
+KAVUK	Üstüne sarık sarılan eski bir erkek başlığı.	42921
 KAVUN	Güzel kokulu, sulu, iri yaz meyvesi.	42926
 KAVUR	Bir şeyi tencerede kendi yağıyla ya da yağda pişirmek.	42936
 KAVUT	Kızartılmış tahıl unuyla pekmezden yapılan bir yiyecek.	42952
 KAVUZ	Başaktaki taneyi saran kabuk.	42953
-KAVİ	Dayanıklı, güçlü.	42856
+KAVİ	Sağlam, güçlü.	42856
 KAVİL	Eski dilde söz.	42857
 KAY	Yağmur.	42957
 KAYA	Yerden yükselen iri, sert taş kitlesi.	42959
@@ -784,8 +784,8 @@ KAYAR	Bazı yörelerde hayvanların eskiyen nallarını yenileme işi.	42981
 KAYIK	Kürek ya da yelkenle yürütülen küçük tekne.	43036
 KAYIN	Uzun boylu, sert odunlu bir orman ağacı.	43044
 KAYIP	Yitme, yok olma durumu.	43055
-KAYIR	Bazı yörelerde ince kum.	43058
-KAYIT	Bir şeyi deftere geçirme.	43078
+KAYIR	Bazı yörelerde incecik kum.	43058
+KAYIT	Bir bilgiyi deftere işleme.	43078
 KAYIŞ	Bağlamaya ya da sıkmaya yarayan dar, uzun deri şerit.	43070
 KAZ	Uzun boyunlu, perde ayaklı kümes hayvanı.	43198
 KAZA	Dikkatsizlik ya da tedbirsizlik yüzünden olan kötü olay.	43202
@@ -798,14 +798,14 @@ KAÇ	Bir şeyin sayısını sormaya yarayan soru sözü.	40670
 KAÇAK	Borudan ya da kaptan sızan gaz veya sıvı.	40676
 KAÇIK	İlmeği sökülmüş çorap.	40689
 KAÇIN	Bir işten uzak durmak.	40703
-KAĞIT	Bitkisel maddelerden yapılan, üzerine yazı yazılan ince yaprak.	37348
-KAŞ	Gözlerin üstünde kemerli çizgi oluşturan kısa kıllar.	36935
-KAŞAR	Koyun sütünden yapılan, tekerlek biçimli sarımtırak peynir.	36961
-KAŞE	Damga, mühür.	84121
+KAĞIT	Yazı yazılan ve basılan ince yaprak.	37348
+KAŞ	Göz üstündeki kavisli kıl dizisi.	36935
+KAŞAR	Koyun sütünden yapılan tekerlek biçimli sarı peynir.	36961
+KAŞE	Mühür, damga.	84121
 KAŞI	Tırnaklarla deriyi hafifçe tırmalamak.	36995
 KAŞIN	Derisinde tırmalama isteği duymak.	37000
-KEBE	Kısa kepenek.	43323
-KEBİR	Eski dilde büyük, ulu.	43325
+KEBE	Kısa bir kepenek türü.	43323
+KEBİR	Eski dilde büyük.	43325
 KEDER	Derin üzüntü; elem.	43371
 KEDİ	Evlerde beslenen, çevik, miyavlayan memeli hayvan.	43380
 KEF	Kaynayan pekmezin ya da pişen etin üstünde biriken köpük.	82713
@@ -814,78 +814,78 @@ KEFE	Terazinin iki gözünden biri.	43417
 KEFİL	Borcunu ödemeyenin yükümlülüğünü üstlenen kimse.	43436
 KEFİR	Sütün özel bir mayayla mayalanmasından yapılan içecek.	43440
 KEK	Yumurta, un ve şekerle yapılan, fırında pişen hamur tatlısı.	43451
-KEKA	Ne güzel, ne iyi anlamında söylenen söz.	43452
+KEKA	Bir şeyin güzelliğini anlatan keyif sözü.	43452
 KEKİK	Kokulu yaprakları baharat olarak kullanılan bir bitki.	43463
 KEL	Saçları dökülmüş kimse.	43472
 KELE	Bazı yörelerde boğa.	43486
 KELEK	Henüz olmamış, ham kavun.	43495
 KELEM	Bazı yörelerde lahana.	43500
 KELER	Kertenkele gibi yerde sürünen, dört ayaklı hayvan.	43520
-KELİK	Bazı yörelerde eski ayakkabı.	43527
+KELİK	Bazı yörelerde eskimiş ayakkabı.	43527
 KEM	Kötü, uğursuz olan.	43563
 KEMAL	Olgunluk.	43565
 KEMAN	Çenenin altına dayanarak yayla çalınan dört telli saz.	43571
-KEME	Bazı yörelerde büyük sıçan.	43580
+KEME	Bazı yörelerde iri sıçan.	43580
 KEMER	Bele dolanıp tokayla tutturulan kuşak.	43586
 KEMİK	Omurgalıların iskeletini oluşturan sert organlardan her biri.	43601
 KEMİR	Sert bir şeyi dişleriyle parça parça koparmak.	43631
 KENE	Hayvanların ve insanların derisine yapışıp kan emen asalak.	43759
 KENT	Şehir.	43781
-KEP	Sipersiz şapka.	43798
+KEP	Siperi olmayan şapka.	43798
 KEPEK	Un elenince elekte kalan kabuk kırıntıları.	43813
-KEPEZ	Bazı yörelerde yüksek tepe.	43824
-KER	Eski dilde kuvvet, kudret.	77560
-KERDE	Bazı yörelerde sebze fideliği.	43840
+KEPEZ	Bazı yörelerde yüce tepe.	43824
+KER	Eski dilde güç.	77560
+KERDE	Bazı yörelerde fidelik.	43840
 KERE	Kez, defa.	43841
 KERKİ	Bazı yörelerde keser.	43866
 KERT	Çentmek.	43897
-KERTE	Bir şeyin vardığı son nokta; radde.	93952
+KERTE	Bir şeyin eriştiği en son nokta; radde.	93952
 KERTİ	Bazı yörelerde bayat ekmek ya da et.	43889
 KERİM	Cömert, eli açık.	43861
 KES	Bileği de içine alan kapalı spor ayakkabısı.	43907
-KESE	İçine para konan küçük torba.	43911
+KESE	Para taşınan küçük kumaş torba.	43911
 KESEK	Sabanın ya da çapanın kaldırdığı iri toprak parçası.	43926
 KESİK	Kısa.	43953
 KESİM	Toplumda belli özellikleri paylaşan katman.	43967
 KESİR	Bir bütünün eşit parçalarından birini ya da birkaçını gösteren sayı.	31843
 KET	Engel.	31934
-KETAL	Çirişli, parlak bir tür bez.	31936
+KETAL	Çirişle sertleştirilmiş parlak bez.	31936
 KEZ	Bir olayın kaç sefer olduğunu gösteren söz; defa.	31994
-KEZA	Aynı biçimde.	31995
+KEZA	Aynı şekilde.	31995
 KEÇE	Yünün ya da kılın dövülüp sıkıştırılmasıyla yapılan kalın kumaş.	43328
 KEÇİ	Sütü, eti ve kılı için beslenen, boynuzlu geviş getiren hayvan.	43344
-KEŞ	Yağı alınmış yoğurttan yapılan kuru peynir.	31905
+KEŞ	Yağsız yoğurttan yapılan kuru peynir.	31905
 KIL	Hayvan derisinde ve insan vücudunda biten ince tel.	32038
 KIN	Bıçak ya da kılıcın konduğu kap.	32163
-KIP	Göz kapaklarını hızla açıp kapamak.	32222
+KIP	Gözlerini hızlıca kapayıp açmak.	32222
 KIR	Şehrin dışındaki geniş, açık alan.	32232
 KIRIK	Parçalara ayrılmış olan.	38393
-KIRIN	Yürürken salınmak.	38418
+KIRIN	Salınarak yürümek.	38418
 KISIK	Boğuk ve alçak ses.	38596
 KISIR	Döl veremeyen, üreyemeyen.	38610
 KIT	İhtiyacı karşılamayacak kadar az; bolun karşıtı.	38724
 KITIK	Minder ve yastık doldurmaya yarayan keten ya da kenevir artığı.	38730
-KIY	Çok küçük parçalara doğramak.	38891
+KIY	Bıçakla ufak ufak doğramak.	38891
 KIYIN	Bazı yörelerde zulüm.	38882
-KIZ	Dişi çocuk.	38915
+KIZ	Kadın cinsinden çocuk.	38915
 KIŞ	Sonbahardan sonra gelen, yılın en soğuk mevsimi.	38689
-KOCA	Büyük, geniş.	27992
+KOCA	Çok büyük, iri.	27992
 KOD	Bir bilgiyi göstermek ya da ona ulaşmak için kullanılan simge dizisi.	75060
 KOFA	Hasır otu.	28054
-KOK	Maden kömüründen elde edilen, az dumanlı katı yakıt.	28065
+KOK	Taş kömüründen elde edilen dumansız yakıt.	28065
 KOKA	Yapraklarından uyuşturucu madde çıkarılan bir çalı.	28066
 KOKU	Burunla alınan duyum.	28107
 KOL	Omuzdan parmak uçlarına kadar uzanan vücut bölümü.	28132
 KOLA	Gömlek ve örtüleri sertleştirmek için kullanılan nişasta.	28149
 KOLİK	Bağırsak ya da böbrekte aralıklarla duyulan şiddetli ağrı.	28232
 KOLİT	Kalın bağırsak iltihabı.	28233
-KOM	Bazı yörelerde yayla evi.	28297
+KOM	Bazı yörelerde yaylada kalınan ev.	28297
 KOMA	Ağır hastalık ya da yaralanmada görülen derin bilinç kaybı.	28298
 KON	Kuş ya da kelebek uçarken bir yere inmek.	28452
 KONAK	Gösterişli, büyük ev.	28392
 KONT	Batı'da erkeklere verilen bir soyluluk unvanı.	28492
 KONU	Bir yazıda ya da söyleşide ele alınan düşünce.	28539
-KONUK	Bir eve kısa süre kalmak için gelen kişi; misafir.	28540
+KONUK	Bir eve kısa süreliğine gelen kişi; misafir.	28540
 KONİ	Tabanı daire, tepesi sivri olan cisim biçimi.	28441
 KOP	İkiye ayrılıp kesilmek.	28647
 KOPUK	İkiye ayrılmış, bağı kalmamış.	28652
@@ -894,7 +894,7 @@ KOR	İyice yanıp ateş hâline gelmiş kömür ya da odun parçası.	28670
 KORK	Bir tehlike karşısında ürkmek.	28701
 KORO	Bir müzik eserini birlikte seslendiren şarkıcılar topluluğu.	28749
 KORT	Tenis oynanan saha.	28760
-KORU	Bakımlı ve küçük orman.	28768
+KORU	Bakımlı, küçük ağaçlık.	28768
 KORUK	Ekşi, henüz olmamış üzüm.	28773
 KOSA	Uzun saplı bir tür orak.	28802
 KOT	Pantolon yapımında kullanılan kalın pamuklu kumaş.	28869
@@ -906,13 +906,13 @@ KOZ	Ceviz.	26936
 KOÇ	Damızlık için beslenen erkek koyun.	28022
 KOÇAK	Yürekli.	28024
 KOŞ	Adımlarını sıklaştırarak hızla ilerlemek.	28825
-KOŞA	Bazı yörelerde çift, eş.	28815
+KOŞA	Bazı yörelerde çift.	28815
 KOŞU	Hızla ilerlenerek yapılan yarış.	28832
 KUBAR	Bazı yörelerde hindinin ya da güvercinin tüyleri kabarmak.	27527
 KUKA	Dantel ya da nakış ipliği yumağı.	27590
 KUL	Köle.	27607
 KULA	Sarımtırak renkli, yelesi ve kuyruğu siyah at.	27615
-KULAK	Başın iki yanındaki işitme organı.	96899
+KULAK	Duymamızı sağlayan organ.	96899
 KULE	Kare ya da silindir biçimli yüksek yapı.	30147
 KUM	Kayaların ufalanmasıyla oluşan ince taneler.	30198
 KUPA	Yarışmalarda ödül olarak verilen, metalden ya da kristalden kap.	30295
@@ -927,7 +927,7 @@ KUT	Mutluluk.	48288
 KUTU	Tahta, karton ya da tenekeden yapılmış, kapaklı kap.	48318
 KUYU	Su bulmak için toprağa derinlemesine kazılan çukur.	48400
 KUZ	Güneş görmeyen, gölgedeki yan.	48416
-KUZU	Koyun yavrusu.	48433
+KUZU	Koyunun yavrusu.	48433
 KUŞ	Vücudu tüylerle örtülü, kanatlı, yumurtlayan hayvan.	48196
 KÖK	Bitkiyi toprağa bağlayan ve besin emen bölüm.	26982
 KÖLE	Özgürlüğünden yoksun bırakılıp alınıp satılan kimse.	27046
@@ -956,38 +956,38 @@ KİM	Hangi kişi diye soran söz.	39126
 KİN	Birinden öç almayı isteyen, içte saklanan düşmanlık.	27697
 KİNİK	Sinik.	27712
 KİP	Fiilin dilek ya da haber bildirme biçimi.	27723
-KİR	Bir şeyin üstünde biriken pislik.	27728
+KİR	Yüzeyde ya da vücutta toplanan pislik.	27728
 KİRA	Bir evi ya da eşyayı kullanmak karşılığında ödenen para.	27733
 KİT	Bir hastalığı tanımaya yarayan test malzemesi takımı.	27870
 LAF	Söz.	48868
-LAK	Uzak Doğu'da yetişen bir ağaçtan çıkan zamk.	48994
-LAKA	Yol üstünde oluşan çukur.	77732
+LAK	Uzak Doğu'daki bir ağacın zamkı.	48994
+LAKA	Yoldaki çukur.	77732
 LAKE	Cilalanmış, parlak yüzeyli.	49003
-LAL	Parlak kırmızı renkli, saydam bir değerli taş.	49036
+LAL	Parlak kırmızı renkli bir mücevher taşı.	49036
 LALA	Eskiden çocuğun bakımı ve eğitimiyle görevli kimse.	49037
 LALE	Kadeh biçimli çiçekleri olan, soğanlı bir süs bitkisi.	49041
 LAM	Mikroskopta incelenecek maddenin konduğu ince cam.	49051
 LAV	Yanardağdan püsküren erimiş kaya.	49169
 LAVA	Filikanın kürek çekilmeden kendi hızıyla ilerlemesi.	49170
 LAZA	Bazı yörelerde içine bal konan ufak tekne.	49203
-LEF	Eski dilde içine sokma.	49227
-LEH	Bir şeyden yana olma; aleyhin karşıtı.	49239
+LEF	Eski dilde içine koyma.	49227
+LEH	Bir şeyi destekleme, ondan yana olma.	49239
 LEKE	Bir yüzeydeki kir izi.	49263
 LEP	Dudak.	75110
 LEY	Romanya ve Moldova'nın para birimi.	44446
 LEŞ	Kokmuş hayvan cesedi.	49301
 LOCA	Tiyatroda ayrı oturma yeri olan bölme.	44634
-LODA	Bazı yörelerde saman yığını.	44636
+LODA	Bazı yörelerde saman öbeği.	44636
 LOK	Gemileri iki farklı su düzeyi arasında geçiren havuz.	44663
 LOR	Tuzsuz, yumuşak, taze beyaz peynir.	44715
 LOT	Tutam.	83757
-LOŞ	Yarı karanlık, ışığı az.	44727
+LOŞ	Az ışıklı, yarı karanlık.	44727
 LİF	Bitki, hayvan ya da mineralden elde edilen ince, uzun iplik.	44504
 LİG	Takımların iç ve dış sahada karşılaştığı yarışma düzeni.	44514
 LİR	Mitolojik çağlara uzanan, kirişli eski bir çalgı.	44582
 LİSE	Ortaokuldan sonraki öğrenimin yapıldığı okul.	44598
 MAAŞ	Aylık.	44822
-MADEM	Değil mi ki, -diğine göre anlamında sebep bildiren söz.	44898
+MADEM	Sebep bildiren bağlama sözü; -diğine göre.	44898
 MADEN	Yer kabuğunda bulunan, işletilen değerli mineral.	44900
 MAH	Ay.	66130
 MAHUR	Klasik Türk müziğindeki makamlardan biri.	45116
@@ -997,11 +997,11 @@ MAKAM	Devlette yüksek ve önemli görev yeri.	45160
 MAKAS	Çapraz bağlı iki keskin ağızla kesmeye yarayan araç.	45179
 MAKAT	Alçak, minderli sedir.	45195
 MAKUL	Akla uygun, akıllıca.	45252
-MAKUS	Ters çevrilmiş.	45255
+MAKUS	Tersine dönmüş.	45255
 MAKİ	Akdeniz çevresindeki bodur ağaç ve çalılıklar.	45209
 MAL	Birinin sahip olduğu taşınır ya da taşınmaz şey.	45266
-MALA	Harç sürmeye yarayan yassı araç.	45284
-MALAK	Bazı yörelerde manda yavrusu.	45287
+MALA	Harcı alıp duvara sürmeye yarayan araç.	45284
+MALAK	Bazı yörelerde mandanın yavrusu.	45287
 MALT	Bira yapımı için çimlendirilip kurutulmuş arpa.	45331
 MALİ	Parayla ilgili; finansal.	45305
 MALİK	Sahip.	45309
@@ -1012,7 +1012,7 @@ MANAS	Kurtçuğu bitki köklerini yiyen bir böcek.	45385
 MANAT	Azerbaycan ile Türkmenistan'da kullanılan para birimi.	45389
 MANİ	Halk edebiyatında dört dizeli, uyaklı kısa şiir.	45453
 MAPA	Halka uçlu cıvata.	45570
-MARAL	Dişi geyik.	45577
+MARAL	Geyiğin dişisi.	45577
 MARK	Almanya'nın eski para birimi.	45617
 MART	Şubattan sonra gelen ay.	40813
 MARŞ	Yürüyüş adımlarına uyan ritimli müzik parçası.	40810
@@ -1029,7 +1029,7 @@ MAYİ	Sıvı.	41089
 MAZAK	Kırlangıç balığıgillerden bir deniz balığı.	41115
 MAÇ	Karşılaşma.	44863
 MAŞ	Asya'da yetişen, tohumu yenen bir baklagil.	40945
-MEKAN	Bulunulan yer.	41296
+MEKAN	Yer, bulunulan yer.	41296
 MEKİK	Dokuma tezgâhında atkı ipliğini taşıyan araç.	41309
 MELE	Koyun ya da keçi bağırmak.	41354
 MELEK	İyi huylu, masum ve terbiyeli kişi.	41348
@@ -1044,7 +1044,7 @@ METAL	Isıyı ve elektriği iyi ileten parlak madde.	41827
 METAN	Çürüyen bitkilerden çıkan, yanıcı bir gaz.	41839
 METİL	Hidrokarbon serisinin ilk basamağını oluşturan grup.	41873
 METİN	Basılı ya da el yazması yazı parçası.	41876
-MEZE	İçki içilirken yenen yiyecek.	31087
+MEZE	İçki sofrasında yenen yiyecek.	31087
 MISIR	Koçan üstünde dizili sarı taneleri olan tahıl.	31160
 MODA	Belli bir süre geçerli olan toplumsal beğeni.	31588
 MOKA	Güçlü kokulu bir kahve türü.	31625
@@ -1055,7 +1055,7 @@ MUZ	Kalın kabuklu, tatlı ve hoş kokulu sıcak ülke meyvesi.	52254
 MÜZE	Sanat ve bilim eserlerinin halka gösterildiği yapı.	52950
 MİDE	Yemek borusu ile on iki parmak bağırsağı arasındaki sindirim organı.	31219
 MİL	Uzun ve ince metal çubuk.	31300
-MİNE	Dişin taç kısmını kaplayan beyaz, sert doku.	31415
+MİNE	Dişin üstünü kaplayan sert, beyaz katman.	31415
 MİNK	Vizon.	31440
 MİNİ	Çok küçük ya da kısa.	31430
 MİR	Bey, emir.	31461
@@ -1065,18 +1065,18 @@ MİSK	Bir tür erkek ceylandan elde edilen güzel kokulu madde.	31509
 MİT	Toplumun hayal gücüyle oluşmuş, kuşaktan kuşağa aktarılan anlatı; efsane.	31533
 NAH	İşte.	81921
 NAKİL	Bir şeyi bir yerden öbür yere götürme.	53087
-NAL	Yük hayvanlarının tırnağına çakılan demir.	53124
+NAL	At ve eşek gibi hayvanların tırnağına çakılan demir.	53124
 NALE	Eski dilde inilti.	53139
 NAM	Ün.	53151
 NAN	Eski dilde ekmek.	53211
 NANE	Yaprakları ferahlatıcı kokulu, baharat olarak kullanılan bitki.	53213
 NAR	Kırmızı sert kabuğunun içi sulu tanelerle dolu meyve.	53235
-NAZ	Kendini beğendirmek için yapılan davranış.	53327
+NAZ	Kendini beğendirmek için yapılan davranış, cilve.	53327
 NAZAL	Genizsil.	75398
-NAZAR	Eski dilde bakış, göz atma.	53332
+NAZAR	Eski dilde bakış.	53332
 NAZIM	Şiir.	53350
 NAZIR	Bir yöne bakan ev ya da oda.	53353
-NAZİL	Eski dilde inen, inmiş.	53361
+NAZİL	Eski dilde inmiş.	53361
 NAZİR	Eski dilde benzer.	53363
 NEFER	Eski dilde er, asker.	49439
 NEFES	Soluk.	49440
@@ -1086,12 +1086,12 @@ NEHİR	Irmak.	49497
 NELER	Birçok türlü şey.	49383
 NEM	Rutubet, hafif ıslaklık.	49509
 NENE	Nine.	49540
-NERE	Hangi yer.	49554
+NERE	Hangi yer diye soran söz.	49554
 NESİR	Düzyazı.	49585
 NET	Ayrıntıları açıkça seçilen, belirgin.	49624
 NEY	Kamıştan yapılan, üflenerek çalınan bir çalgı.	49667
 NOM	Eski Mısır'daki şehir devletlerinden her biri.	49933
-NOT	Bir şeyi unutmamak için yazılan kısa yazı.	49955
+NOT	Unutulmasın diye kâğıda geçirilen kısa bilgi.	49955
 NUR	Işık.	50013
 NİM	Eski dilde yarı.	49770
 NİNE	Büyükanne.	49777
@@ -1100,10 +1100,10 @@ OKAR	Telli balıkçıl.	50238
 OKUL	Eğitim ve öğretimin topluca verildiği yer; mektep.	50293
 ORAK	Ekin biçmeye yarayan, yarım ay biçimli keskin araç.	47005
 ORAN	İki nicelik arasındaki büyüklük ilişkisi.	47017
-ORUN	Makam, mevki.	47276
+ORUN	Mevki, makam.	47276
 OYUN	Kuralları olan, eğlenceli vakit geçirmeye yarayan etkinlik.	47538
 OZAN	Şair.	47580
-PAH	Eğik kesilmiş kenar.	51025
+PAH	Kenarın eğik kesilmiş yüzü.	51025
 PAK	Temiz.	51047
 PAL	Bir güvercin türü.	51068
 PALA	Kısa, eğri, ucu geniş bir kılıç.	51069
@@ -1112,18 +1112,18 @@ PARA	Devletçe basılan, değeri üstünde yazılı kâğıt ya da metal.	51270
 PARE	Tane.	51422
 PARK	Şehirde halkın gezip dinlenmesi için düzenlenmiş yeşil alan.	51435
 PAS	Nemli havada demirin yüzeyinde oluşan kırmızımsı katman.	51531
-PAT	Yassı bir şeyle vurulunca çıkan ses.	51631
+PAT	Yassı bir şey vurunca çıkan ses.	51631
 PAY	Bölüşülen bir bütünden her birine düşen kısım.	51731
 PAZAR	Satıcıların belirli günlerde mal sattığı açık yer.	57452
 PEK	Sert.	57530
 PENA	Mızrap.	57608
 PENİ	Sterlinin yüzde birine denk para.	57643
-PER	Bazı iskambil oyunlarında iki benzer kartın oluşturduğu çift.	92298
+PER	İskambilde iki benzer kartın oluşturduğu çift.	92298
 PERDE	Işığı ya da görüşü engellemek için pencereye asılan kumaş.	57689
 PERT	Değer yitirme, zarar.	74809
 PERİ	Masallarda geçen, doğaüstü güçleri olan hayal ürünü varlık.	57734
 PES	Alçak, yavaş sesle söylenen; tizin karşıtı.	57796
-PESEK	Diş kiri.	57797
+PESEK	Dişte biriken kir.	57797
 PEST	Alçak, kalın ses.	57806
 PETEK	Arıların bal depoladığı altıgen gözlerden oluşan yapı.	57858
 PEÇ	Rus evlerinde odaları ısıtan fırın biçimli ocak.	57489
@@ -1137,27 +1137,27 @@ POSA	Suyu çıkarılmış yiyeceğin artığı.	58437
 POST	Tüyleriyle birlikte yüzülmüş hayvan derisi.	58445
 POT	Gaf.	58485
 POY	Boy otu.	58511
-POZ	Fotoğrafta duruş.	58516
+POZ	Resimde ya da fotoğrafta duruş.	58516
 PUAN	Yarışmalarda başarıyı ölçmek için verilen sayı.	54675
 PUF	Alçak, arkalıksız, yumuşak oturma yeri.	54697
 PUL	Mektup zarfına yapıştırılan posta ücreti etiketi.	54705
 PUS	Görüşü pek azaltmayan hafif sis.	54738
 PUT	Üç dört ipek telinin bükülmesiyle yapılan iplik.	54775
-PÖF	İğrenme anlatan söz.	58535
+PÖF	Tiksinme bildiren söz.	58535
 PÖÇ	Bazı yörelerde kuyruk sokumu.	58533
 PÜRE	Sebzenin ezilmesiyle yapılan yemek.	54802
 PİDE	Hamurdan yapılan ince, yayvan, fırında pişen yiyecek.	57985
-PİL	Kimyasal enerjiyi elektriğe çeviren araç; batarya.	58013
-PİR	Yaşlı, ihtiyar kimse.	58049
+PİL	Kimyasal enerjiden elektrik üreten araç; batarya.	58013
+PİR	İhtiyar, yaşlı.	58049
 PİRE	Kan emerek yaşayan, sıçrayan küçük böcek.	58054
 PİS	Kirli.	58086
 PİŞ	Yiyecek ısıyla yenecek duruma gelmek.	58152
 RACA	Hindistan'da prens unvanı.	54857
-RACİ	İlgilendiren, dayanan.	54858
+RACİ	İlgili, dayanan.	54858
 RAF	Duvara ya da dolaba yerleştirilen, eşya konan tahta.	54908
 RAM	Boyun eğen, buyruğa uyan.	55000
 RAMİ	Dokumacılıkta kullanılan bir bitki lifi.	55011
-RAP	Yürürken ayakların çıkardığı ses.	55039
+RAP	Yürüyen ayakların sesi.	55039
 RAY	Tren ve tramvay tekerleklerinin üzerinde gittiği çelik yol.	55107
 RAŞE	Eski dilde titreme, ürperme.	55098
 RAŞİ	Rüşveti veren kişi.	55099
@@ -1168,7 +1168,7 @@ REY	Oy.	55409
 ROBA	Giysinin göğüs ile omuz arasına eklenen parça.	55501
 ROKA	Yaprakları salata olarak yenen, acımsı bir bitki.	55515
 ROL	Oyuncunun canlandırdığı kişilik.	55521
-ROM	Şeker kamışından elde edilen bir içki.	55531
+ROM	Şeker kamışı özünden yapılan sert içki.	55531
 RUF	Binanın en üst katındaki eğlence yeri.	55605
 RUJ	Dudakları boyamaya yarayan renkli madde.	55658
 RUN	Eski İskandinav yazıtlarında kullanılan harflerden her biri.	78954
@@ -1191,35 +1191,35 @@ SADA	Seda, ses.	53510
 SADAK	Okluk.	53511
 SADE	Süssüz.	53523
 SADIK	Bağlılığından şaşmayan, vefalı.	53536
-SADIR	Göğüs, sine.	53539
-SAF	İçine başka şey karışmamış; katışıksız.	53557
+SADIR	Göğüs, bağır.	53539
+SAF	Katışıksız, karışık olmayan.	53557
 SAFA	Sefa, gönül rahatlığı.	53558
-SAFİR	Mavi renkli değerli taş; gök yakut.	53572
+SAFİR	Gök yakut denen mavi değerli taş.	53572
 SAH	Eski dilde bir şeyin doğruluğunu belirten işaret.	53723
 SAHA	Takım oyunlarının oynandığı alan.	53725
 SAHİL	Kara ile denizin birleştiği kıyı.	53744
 SAK	Uykusu hafif olan.	53790
-SAKA	Evlere su taşıyan kimse; sucu.	53794
-SAKAK	Çene altı.	53800
-SAKAL	Erkeklerde yanak ve çenede çıkan kıllar.	53802
-SAKAR	Atların alnındaki beyaz leke.	53823
+SAKA	Su taşıyıp satan kimse; sucu.	53794
+SAKAK	Çenenin alt kısmı.	53800
+SAKAL	Erkeklerin çenesinde ve yanaklarında biten kıllar.	53802
+SAKAR	Atın alnındaki beyaz leke.	53823
 SAKAT	Bozuk ya da eksik; çürük.	53833
 SAKIN	Asla.	53846
 SAKİ	İçkili meclislerde kadehleri dolduran kimse.	53883
-SAKİL	Çirkin, uyumsuz.	53884
+SAKİL	Çirkin, kaba görünüşlü.	53884
 SAL	Kalın direklerin yan yana bağlanmasıyla yapılan düz tekne.	53923
 SALAH	Eski dilde iyilik.	53928
 SALI	Pazartesiden sonra, çarşambadan önce gelen gün.	53996
 SALIK	Tavsiye.	53997
 SALIN	Yürürken hafifçe sağa sola eğilmek.	54006
 SALON	Evde konukların ağırlandığı en geniş oda.	54060
-SALT	Yabancı öge içermeyen; mutlak.	54070
+SALT	Mutlak, katışıksız.	54070
 SAM	Çölden esen boğucu, sıcak rüzgâr.	54091
 SAMAN	Harmanda taneleri ayrılmış ekinin kalan sapları.	54092
 SAMUR	Kürkü çok değerli, sansargillerden bir hayvan.	54122
 SAN	Ün.	54126
 SANAL	Gerçekte bulunmayıp yalnızca zihinde kurulan.	54131
-SANAT	Bir işte gösterilen ustalık.	54133
+SANAT	Bir işteki ustalık.	54133
 SAP	Bir aracın tutulan bölümü.	54278
 SAPAK	Ana yoldan bir yolun ayrıldığı nokta.	54287
 SAPAN	Çocukların taş fırlatmak için kullandığı lastikli çatal.	54289
@@ -1229,14 +1229,14 @@ SARAK	Yapı yüzeylerinde yatay, az çıkıntılı süs şeridi.	54355
 SARAR	Rengi solup limon rengine dönmek.	54363
 SARAT	Bazı yörelerde iri delikli elek.	54368
 SARAY	Hükümdarın yaşadığı büyük yapı.	54369
-SARF	Harcama, tüketme.	54382
+SARF	Harcama.	54382
 SARI	Limon kabuğunun rengi.	54401
 SARIK	Başa dolanarak oluşturulan başlık.	54425
 SARIN	Kendi üstüne dolamak.	54460
-SARK	Aşağıya doğru uzanmak.	54495
+SARK	Aşağıya doğru uzayıp asılı durmak.	54495
 SARP	Dik, çıkılması ve geçilmesi güç olan yer.	54518
 SARİ	Hint kadınlarının bedene dolayarak giydiği giysi.	54475
-SAT	Bir malı bedel karşılığında başkasına vermek.	55822
+SAT	Bir malı para karşılığında başkasına vermek.	55822
 SATIR	Sayfada yan yana dizilen kelimelerden oluşan yazı sırası.	54579
 SATİR	Yergi.	55818
 SAV	İddia.	55839
@@ -1244,28 +1244,28 @@ SAVA	Bazı yörelerde müjde.	55840
 SAVAK	Barajdaki fazla suyu akıtmaya yarayan düzen.	55842
 SAVAN	Bazı yörelerde kalın pamuk kilim.	55845
 SAVAT	Gümüş üstündeki oyuklara siyah bir alaşım doldurularak yapılan süsleme.	55858
-SAVUL	Bir şeyden çekinip bulunduğu yerden uzaklaşmak.	55893
-SAVUN	Saldırıya karşı direnmek, korumak.	55898
+SAVUL	Çekinip oradan uzaklaşmak, yol vermek.	55893
+SAVUN	Saldırıya karşı direnmek.	55898
 SAVUR	Havaya atarak dağıtmak.	55911
 SAY	Bazı yörelerde yassı, ince taş.	74761
-SAYA	Ayakkabının yumuşak üst bölümü.	55921
+SAYA	Ayakkabının üst yüzü.	55921
 SAYE	Eski dilde gölge.	55938
-SAYFA	Bir kâğıt yaprağının iki yüzünden her biri.	55940
+SAYFA	Kâğıt yaprağının bir yüzü.	55940
 SAYI	Ölçme ya da hesap sonucunda bulunan miktar.	55959
 SAYIN	Kişi adlarından önce kullanılan nezaket sözü.	55986
 SAYLA	Bazı yörelerde seçmek.	55999
-SAZ	Su kıyılarında yetişen ince kamış.	56019
+SAZ	Su kenarında biten ince, sarımsı kamış.	56019
 SAZAK	Şiddetli rüzgâr.	56021
 SAZAN	Tatlı sularda yaşayan, iri pullu bir balık.	56022
 SAÇ	Başta biten kıllar.	53453
 SAÇAK	Havlu ya da halının kenarından sarkan püskül.	53473
 SAĞ	Vücutta kalbin bulunduğu tarafın karşısı; solun karşıtı.	53597
-SAĞI	Kuş gübresi.	53639
-SAĞIR	Ses geçirmeyen.	53648
+SAĞI	Kuşların gübresi.	53639
+SAĞIR	Sesi geçirmeyen.	53648
 SAİK	Sebep.	53785
-SAİR	Başka, öteki.	53788
+SAİR	Diğer, öteki.	53788
 SEDA	Ses.	56128
-SEFA	Rahat, kaygısız olma.	56150
+SEFA	Kaygısız, rahat bir hâl.	56150
 SEFİR	Eski dilde elçi.	56181
 SEK	İçine su ya da başka sıvı katılmamış içki.	56203
 SEKİ	Bazı yörelerde ev önüne oturmak için yapılan taş set.	56210
@@ -1278,13 +1278,13 @@ SEMA	Gök.	56330
 SEMAN	Diş köklerinin üzerini örten sert doku.	56338
 SEMEN	Satış sözleşmesinde alıcının ödemesi gereken bedel.	74768
 SEMER	Yük taşımak için eşeğin ya da atın sırtına konan eyer.	56358
-SEMT	Şehirde bir yerleşim bölgesi.	56401
+SEMT	Şehrin bir bölgesi.	56401
 SEMİH	Eski dilde cömert.	56374
-SEMİR	Besili, yağlı duruma gelmek.	56378
+SEMİR	Besili hâle gelmek.	56378
 SEN	Konuşulan tek kişiyi gösteren zamir.	56404
 SENA	Eski dilde övme.	56414
 SENE	Yıl.	56440
-SENEK	Bazı yörelerde çam ağacından oyulmuş su testisi.	56443
+SENEK	Bazı yörelerde ağaçtan su testisi.	56443
 SENET	Bir borcu ya da yükümlülüğü gösteren yazılı belge.	56445
 SENT	Doların yüzde birine denk para.	74394
 SEPEK	Bazı yörelerde değirmen taşının mili.	56476
@@ -1303,18 +1303,18 @@ SERİM	Anlatılarda kişilerin ve yerin tanıtıldığı ilk bölüm.	56595
 SERİN	Ilık ile soğuk arasında, hafif soğuk.	56596
 SES	Kulağın algıladığı titreşim.	56727
 SET	Toprak kaymasını ya da suyu önlemek için yapılan engel.	56801
-SETİR	Eski dilde örtme, gizleme.	56805
+SETİR	Eski dilde gizleme.	56805
 SEV	Birine ya da bir şeye gönül vermek.	56873
 SEZ	Kanıt görmeden anlamak, fark etmek.	56951
-SEZA	Eski dilde uygun, yaraşır.	56931
+SEZA	Eski dilde layık.	56931
 SEÇ	Benzerleri arasından hoşa gideni ayırıp almak.	56118
-SEÇİ	Fark, ayrıntı.	56088
+SEÇİ	Ayrım, fark.	56088
 SIK	Aralarında çok az boşluk olan; seyreğin karşıtı.	62363
-SILA	Gurbetteki kişinin doğup büyüdüğü, özlediği yer.	62436
-SIN	Bazı yörelerde kırılmak, parçalanmak.	62516
+SILA	Gurbetteki kişinin hasretini çektiği memleket.	62436
+SIN	Bazı yörelerde kırılıp bozulmak.	62516
 SINIF	Öğrencilerin öğrenim yılına göre ayrıldıkları bölümlerin her biri.	62468
-SINIK	Bazı yörelerde kırık, çıkık.	62484
-SINIR	Komşu ülkelerin topraklarını ayıran çizgi; hudut.	62487
+SINIK	Bazı yörelerde kırılmış, çıkmış.	62484
+SINIR	İki ülkenin topraklarını ayıran hat; hudut.	62487
 SIR	Gizli tutulan, açığa vurulmak istenmeyen şey.	62519
 SIRA	Yan yana ya da art arda dizilmiş şeylerin tümü; dizi.	62525
 SIRI	Bazı yörelerde yorganı iri iri dikmek.	62590
@@ -1333,16 +1333,16 @@ SOLAK	İşlerini çoğunlukla sağ eli yerine öbür eliyle yapan kimse.	63496
 SOMA	Üreme hücreleri dışında kalan vücut hücrelerinin tümü.	59906
 SON	Ötesi ya da başkası olmayan.	59934
 SONE	İki dörtlük ve iki üçlükten oluşan, on dört dizelik Batı şiiri.	59962
-SOR	Birine yönelip bilgi istemek.	60051
+SOR	Birinden bilgi istemek.	60051
 SOS	Yiyeceklere kıvam ve lezzet vermek için eklenen koyu sıvı.	60103
 SOY	Aynı atadan gelen kişilerin topluluğu.	60149
 SOYA	Proteince zengin, Doğu Asya kökenli bir baklagil.	60152
-SOĞAN	Yumrusu ve yeşil yaprakları yemeklerde kullanılan keskin kokulu sebze.	63389
+SOĞAN	Yumrusu keskin kokulu, yemeklere katılan sebze.	63389
 SUDAK	Tatlı sularda yaşayan, beyaz etli bir levrek türü balık.	60750
 SUN	Bir büyüğe ya da nezaketle birine bir şey vermek.	60867
-SUNA	Erkek ördek.	60854
+SUNA	Ördeğin erkeği.	60854
 SUNAK	Tapınaklarda üzerinde kurban kesilen ya da adak yakılan taş.	60857
-SUR	Kale duvarı.	60894
+SUR	Kaleyi çevreleyen duvar.	60894
 SURA	İnce, yumuşak bir ipekli kumaş türü.	60896
 SUS	Konuşmayı kesmek.	60954
 SUT	Eskiden bazı bitkilerden elde edilen bir kimyasal madde.	60976
@@ -1353,7 +1353,7 @@ SÜN	Kopmadan esneyip uzamak.	58693
 SÜNE	Ekinlere zarar veren, yarım kanatlı bir böcek.	58666
 SÜR	Bir taşıtı yönetip yürütmek.	58805
 SÜRE	Bir olay başlayıp bitene dek geçen zaman.	58751
-SÜRT	Bir şeyi bastırarak başka bir şeyin üzerinden geçirmek.	58832
+SÜRT	Bir şeyi bastırarak başka bir yüzeyde gezdirmek.	58832
 SÜRÜ	Bir arada yaşayan hayvanlar topluluğu.	58850
 SÜS	Bir şeyi güzelleştirmeye yarayan nesne; bezek.	58901
 SÜT	Memelilerin yavrularını beslediği beyaz besin sıvısı.	58928
@@ -1379,7 +1379,7 @@ TABLO	Tuval ya da kâğıt üzerine yapılmış boyalı resim.	61510
 TAK	Tahtaya vurunca çıkan tok ses.	61720
 TAKA	Karadeniz'e özgü küçük yelkenli kıyı teknesi.	61723
 TAKAS	Değiş tokuş.	61735
-TAKAT	Vücudun iş yapabilme gücü; derman.	61738
+TAKAT	Güç, derman.	61738
 TAKI	Kadınların süs eşyası, ziynet.	61769
 TAKIM	Birlikte iş gören ya da yarışan kişiler topluluğu.	61778
 TAKIN	Kendi üzerine geçirmek, iliştirmek.	61790
@@ -1391,48 +1391,48 @@ TALK	Toz hâlinde yağlı görünen, yumuşak bir mineral.	61962
 TALİ	İkincil.	61934
 TALİH	Baht.	61935
 TALİK	Arap alfabesinde yatık yazılan bir yazı türü.	61943
-TALİL	Eski dilde sebep gösterme.	61946
+TALİL	Eski dilde gerekçe gösterme.	61946
 TALİM	Alıştırma.	61947
 TAM	Eksiksiz.	61973
-TAN	Güneş doğmadan ortalığın ağarmaya başladığı vakit; şafak.	62053
+TAN	Sabah güneş çıkmadan gökyüzünün ağarması.	62053
 TANE	Adet.	62065
 TANI	Hastalığı belirleme; teşhis.	62086
 TANIM	Bir kavramı nitelikleriyle açıklama.	62100
 TANIT	Bir savın doğruluğunu göstermek için izlenen düşünce yolu.	62125
-TANK	Paletli, zırhlı ve silahlı savaş taşıtı.	62151
+TANK	Zırhlı, paletli, silahlı askerî araç.	62151
 TAP	Tutkuyla sevmek, bağlanmak.	62247
 TAPA	Şişe ağzı gibi dar delikleri tıkayan mantar ya da tıpa.	62214
-TAPAN	Tohumu toprakla örtmek için tarlada gezdirilen geniş araç.	62220
+TAPAN	Tarlada tohumu örtmek için çekilen düz araç.	62220
 TAR	Azerbaycan ve Doğu Anadolu'da çalınan telli bir çalgı.	62262
-TARA	Bir şeyin tellerini ayırıp karışıklığını gidermek.	62300
-TARAK	Saçın karışıklığını gidermeye yarayan dişli araç.	62283
+TARA	Tellerini ayırarak karışıklığını açmak.	62300
+TARAK	Saçı açıp düzeltmeye yarayan dişli araç.	62283
 TARAN	Bir şeyi dikkatle aramak.	67656
-TART	Kalıpta pişen meyveli bir pasta.	67743
+TART	Meyveli, kalıpta pişirilen bir pasta türü.	67743
 TARİH	Bir olayın gününü, ayını, yılını gösteren ifade.	67699
 TARİK	Eski dilde yol.	67722
 TARİZ	Eski dilde taşlama, iğneli söz.	67726
-TAS	İçine sulu şeyler konan metal kap.	67785
+TAS	Sulu yiyecekler için metal çanak.	67785
 TASA	Kaygı.	67787
-TASIM	Doğru kabul edilen iki yargıdan üçüncüsünü çıkarma.	67839
+TASIM	İki öncülden bir sonuç çıkaran akıl yürütme.	67839
 TAT	Yiyeceklerin dilde ve damakta bıraktığı duyum.	67986
 TATAR	Eskiden haber ve mektup götüren atlı postacı.	68008
 TATİL	Eğlenmek ve dinlenmek için çalışmadan geçirilen süre.	68024
 TAV	İşlenecek nesnenin ısı ve nem bakımından en uygun durumu.	68087
 TAVA	Kızartma için kullanılan, uzun saplı, yayvan pişirme kabı.	68095
 TAVAN	Bir odanın üst yüzünü oluşturan düz bölüm.	68101
-TAVUK	Eti ve yumurtası için beslenen kümes hayvanı.	68176
+TAVUK	Yumurtası ve eti için beslenen kümes kuşu.	68176
 TAY	At yavrusu; üç yaşını doldurmamış at.	68206
 TAYA	Eski dilde dadı.	68209
 TAYFA	Gemide çeşitli işlerde çalışan gemici.	68213
-TAYLA	Kısrak doğurmak.	68228
+TAYLA	Kısrağın doğurması.	68228
 TAZE	Bayatlamamış, bozulmamış.	68246
 TAZI	Tavşan avlamada kullanılan, uzun bacaklı, ince yapılı köpek.	68258
-TAÇ	Hükümdarlık simgesi olarak başa giyilen süslü başlık.	61535
+TAÇ	Hükümdarların başlarına taktığı süslü başlık.	61535
 TAŞ	Yer kabuğunu oluşturan sert, katı madde.	67867
 TEF	Zilli bir kasnağa deri gerilerek yapılan çalgı.	68459
 TEHİR	Erteleme.	68530
 TEK	Benzeri bulunmayan.	68547
-TEKE	Erkek keçi.	68595
+TEKE	Keçinin erkeği.	68595
 TEL	Metalden çekilmiş ince, uzun iplik.	68756
 TELEK	Kuşların kanat ve kuyruğundaki iri tüyler.	68821
 TELES	Yıpranıp lifleri ortaya çıkmış kumaş.	68840
@@ -1443,21 +1443,21 @@ TEN	Vücudun dış yüzeyi; cilt.	64968
 TENİS	Ağla ikiye bölünmüş sahada raketle oynanan top oyunu.	65014
 TEP	Hayvan ayağıyla çifte atmak.	65150
 TEPE	Bir nesnenin en yukarıdaki kısmı.	65066
-TEPKİ	Bir etkiye karşılık olarak doğan davranış.	65133
+TEPKİ	Bir etkiye karşı gösterilen davranış.	65133
 TER	Sıcakta ya da yorulunca deriden sızan tuzlu su.	65156
 TERBİ	Eski dilde dördün.	65185
-TERE	Yaprakları salata olarak yenen acımsı bir bitki.	65217
+TERE	Salatada yenen acımsı yapraklı bitki.	65217
 TEREK	Eski dilde duvarın yüksekçe yerindeki raf.	65227
 TERKİ	Eyerin arkası.	65260
 TERZİ	Elbise biçen ve diken kişi.	65370
 TETİR	Bazı yörelerde yeşil ceviz kabuğu.	65568
 TEZ	Çabuk.	65662
-TIK	İnce bir nesneyle sert bir yere vurulunca çıkan ses.	65734
+TIK	Sert bir yüzeye hafifçe vurulunca çıkan ses.	65734
 TIN	Madenî bir şeyden yankılanarak çıkan ses.	65811
 TIP	Hastalıkları önleme ve iyileştirme bilimi.	65831
-TIR	Uluslararası kara taşımacılığında kullanılan büyük kamyon.	65856
+TIR	Uzun yollarda yük taşıyan büyük kamyon.	65856
 TIRAK	Kuru bir şey kırılınca çıkan ses.	65859
-TIRIK	Bir nesne art arda iki yere çarpınca çıkan kuru ses.	65880
+TIRIK	Bir nesne iki kez çarpınca çıkan kuru ses.	65880
 TOK	Karnı doymuş; açın karşıtı.	63706
 TOKA	Saçları bir arada tutmaya yarayan süs eşyası.	63710
 TOKAT	Açık elle vuruş.	63721
@@ -1478,9 +1478,9 @@ TOS	Alın ya da boynuzla vuruş.	64064
 TOY	Acemi.	64086
 TOZ	Havada uçuşan ince toprak parçacıkları.	64101
 TREN	Raylı yolda yolcu ve yük taşıyan vagon dizisi.	64251
-TUH	Yazıklar olsun anlamında söylenen söz.	64334
+TUH	Ayıplama ya da yazıklanma bildiren söz.	64334
 TUL	Eski dilde boylam.	64347
-TUN	Bazı yörelerde gizli köşe.	64381
+TUN	Bazı yörelerde gizli köşe, kuytu.	64381
 TUR	Dolaşma, gezinti.	64399
 TURA	Madenî paranın üstünde resim olan yüzü.	64405
 TUT	Elde bulundurmak, elinde taşımak.	64522
@@ -1490,26 +1490,26 @@ TUZ	Yemeklere tat veren, suda eriyen beyaz madde.	64590
 TUZAK	Hayvan yakalamak için kurulan düzenek.	64595
 TUŞ	Piyano ya da klavyede basılarak kullanılan parça.	64480
 TÖR	Eski dilde başköşe.	64146
-TÖZ	Varlıklarda değişmeden kalan öz.	64184
-TÜL	İnce gözenekli, şeffaf dokuma.	64658
+TÖZ	Varlıkta değişmeyen öz.	64184
+TÜL	İnce gözenekli şeffaf kumaş.	64658
 TÜM	Bütün.	64662
 TÜN	Eski dilde gece.	64701
-TÜNE	Kuşlar uyumak için dala konmak.	64710
-TÜP	Laboratuvarlarda kullanılan, tek ucu kapalı cam boru.	64712
+TÜNE	Kuşlar uyumak için bir dala çıkıp yerleşmek.	64710
+TÜP	Laboratuvarda kullanılan ince cam boru.	64712
 TÜR	Ortak özellikleri olan varlıkların oluşturduğu grup; çeşit.	64722
 TÜT	Duman ya da buhar çıkarmak.	71981
 TÜZE	Hukuk.	72033
 TİM	Güvenlik güçlerinde belli bir görevi üstlenen küçük ekip.	63583
-TİP	Tür, çeşit.	63595
+TİP	Çeşit.	63595
 TİRE	Kısa çizgi.	63612
 TİZ	İnce ve keskin ses; pesin karşıtı.	63684
 UFAK	Boyutları olağandan küçük.	72138
-UFAL	Daha küçük duruma gelmek.	72151
+UFAL	Küçülmek.	72151
 UFUK	Uzakta göğün yere değiyormuş gibi göründüğü çizgi.	72160
 ULAK	Haberci.	72235
 ULAM	Kategori.	72237
 ULAÇ	Zarf-fiil.	72232
-ULAŞ	Bir yere erişmek.	72248
+ULAŞ	Gideceği yere varmak.	72248
 ULUM	Eski dilde bilimler.	72263
 ULUS	Millet.	72267
 UMUT	Bir şeyin gerçekleşeceğini bekleme duygusu; ümit.	72323
@@ -1517,16 +1517,16 @@ UNUT	Aklında tutamamak, hatırlamamak.	72368
 URAN	Sanayi.	72381
 UYAK	Kafiye.	72512
 UYAN	Uykudan çıkmak.	72522
-UZAK	Gidilmesi çok süren, ötelerde bulunan; yakının karşıtı.	72704
-UZAM	Bir nesnenin boşlukta kapladığı yer.	72734
-UZAN	Boylu boyunca yere yatmak.	72743
+UZAK	Arası çok açık olan; yakının karşıtı.	72704
+UZAM	Bir nesnenin boşlukta tuttuğu yer.	72734
+UZAN	Sırtüstü ya da yan yatıp boyunu yere sermek.	72743
 UZAT	Kolunu ya da bacağını bir yöne doğru yöneltmek.	72751
 UZAY	Gök cisimlerini de içine alan sonsuz boşluk.	72757
 UZMAN	Bir alanda bilgisi ve becerisi çok ileri olan kişi.	72791
 UZUN	İki ucu birbirinden çok uzakta olan; kısanın karşıtı.	72799
 UÇAK	Kanatlarıyla havada yol alan taşıt.	72075
 VADE	Bir borç için tanınan ödeme süresi.	66667
-VADİ	İki dağ arasındaki çukur arazi; koyak.	66679
+VADİ	Dağların arasındaki çukur arazi; koyak.	66679
 VAH	Yazık diyerek üzüntü bildiren söz.	66687
 VAHA	Çölde yer altı suyunun yeşerttiği verimli yer.	66688
 VAKAR	Ağırbaşlılık.	66716
@@ -1540,17 +1540,17 @@ VARAK	Madenlerin dövülmesiyle elde edilen ince parlak yaprak.	66809
 VARAN	Arkası gelecek olayları sayarken kullanılan söz.	66817
 VAT	Elektrik gücü birimi.	66921
 VATAN	Yurt.	66922
-VAY	Şaşma anlatan söz.	66947
+VAY	Şaşkınlık bildiren söz.	66947
 VAZ	Eski dilde konma.	76011
 VAZO	Çiçek koymaya yarayan süs kabı.	66987
-VEDA	Ayrılırken birbirine esenlik dileme.	67008
+VEDA	Ayrılık anında esenlik dileyerek ayrılma.	67008
 VELİ	Bir çocuğun bakımından ve işlerinden sorumlu kimse.	67056
 VENA	Toplardamar.	67068
 VER	Elindeki bir şeyi başkasına uzatmak.	67145
 VERE	Vire.	67079
 VERİ	Bir araştırmaya ya da sonuca temel olan bilgi.	67117
 VUR	Eliyle ya da elindekiyle bir yere sertçe dokunmak.	67437
-VİDA	Döndürülerek sokulan, yivli çivi.	67256
+VİDA	Döndürülerek takılan yivli çivi.	67256
 VİNÇ	Ağır yükleri kaldırıp taşıyan makine.	67287
 VİRA	Aralıksız.	67290
 VİRAJ	Dönemeç.	67292
@@ -1560,23 +1560,23 @@ VİYA	Gemiyi dümeni ortada tutarak bulunduğu doğrultuda yürütme.	67349
 YABA	Harman savurmaya yarayan çatal biçimli tarım aracı.	67493
 YABAN	İnsanın yaşamadığı ıssız yer.	67496
 YAK	Tibet'te yaşayan, uzun tüylü bir sığır.	45717
-YAKA	Giysinin boyna gelen bölümü.	45718
+YAKA	Giysinin boynu saran kısmı.	45718
 YAKAR	Israrla istemek, yalvarmak.	45752
 YAKI	Tedavi için bez üzerine yayılıp vücuda yapıştırılan ilaç.	45755
 YAKIM	Bazı yörelerde önemli bir olay üzerine çıkarılmış ağıt türü.	45763
 YAKIN	Az bir uzaklıkla ayrılmış olan; uzağın karşıtı.	45765
 YAKIT	Isı ya da enerji elde etmek için tutuşturulan madde.	45813
-YAKİN	Eski dilde kesin bilgi.	45818
+YAKİN	Eski dilde kesinlik.	45818
 YAL	Bazı yörelerde köpek için unla kepekten hazırlanan yiyecek.	45845
 YALA	Bir şeyin üstünde dilini gezdirmek.	45854
-YALAK	Hayvanların su içtiği oyma kap.	45849
+YALAK	Hayvanların su içtiği oyma tekne.	45849
 YALAN	Gerçeğe uymayan, doğru olmayan söz.	45860
 YALI	Su kıyısındaki büyük, gösterişli ev.	45930
 YALIN	Süssüz.	45939
 YALIT	Elektrik ve ısının geçişini engellemek.	45969
 YAMA	Delik ya da yırtığı kapatmak için dikilen parça.	46018
 YAMAK	Bir işte yardımcılık eden kişi.	46025
-YAMAL	Biçimini doğaya uydurarak gizlenmek.	46036
+YAMAL	Rengini çevreye uydurarak gizlenmek.	46036
 YAMAN	Güç ya da beceri bakımından olağanüstü olan.	46039
 YAMUK	Yalnızca iki kenarı birbirine paralel dörtgen.	46052
 YAN	Bir şeyin önü, arkası, altı ve üstü dışında kalan bölümü.	46061
@@ -1585,7 +1585,7 @@ YANAL	Bir şeyin kenarında, sağında ya da solunda bulunan.	46088
 YANIK	Ateşte kavrulmuş olan.	46152
 YANIL	Aldanıp hatalı bir sonuca varmak.	46164
 YANIT	Cevap.	46176
-YAP	Gerçekleştirmek, meydana getirmek.	46339
+YAP	Meydana getirmek, gerçekleştirmek.	46339
 YAPI	Barınmak ya da çalışmak için inşa edilmiş bina.	46276
 YAR	Uçurum.	46385
 YARA	Kesici bir şeyin ya da darbenin vücutta açtığı derin kesik.	46391
@@ -1604,9 +1604,9 @@ YATAK	Üzerinde uyunan, yumuşak döşek.	46809
 YATI	Bir yerde gecelemek.	46840
 YATIK	Eğik, dik durmayan.	46842
 YAVAN	Yağı az olan.	30561
-YAY	Ok atmaya yarayan, iki ucuna kiriş gerilmiş eğri araç.	30614
-YAYAN	Yürüyerek giden.	30625
-YAYIK	Tereyağı çıkarmak için sütün ya da yoğurdun çalkalandığı kap.	30648
+YAY	Ok fırlatan, uçları kirişle bağlı eğri silah.	30614
+YAYAN	Yürüyerek.	30625
+YAYIK	İçinde süt ya da yoğurt çalkalanarak tereyağı çıkarılan kap.	30648
 YAYIN	Basılıp satışa sunulan kitap, gazete ve dergiler.	30671
 YAYLA	Hayvan otlatmak ya da dinlenmek için çıkılan yüksek yer.	30686
 YAZ	İlkbahardan sonra gelen, yılın en sıcak mevsimi.	30716
@@ -1615,23 +1615,23 @@ YAZLA	Sıcak mevsimi bir yerde geçirmek, orada kalmak.	30809
 YAĞ	Bitki ve hayvanlardan elde edilen, suda erimeyen kaygan madde.	67608
 YAĞI	Eski dilde düşman.	67631
 YAŞ	Doğumdan beri geçen ve yılla ölçülen zaman.	46727
-YAŞAR	Islanmak, nemlenmek.	46767
+YAŞAR	Nemlenip ıslanmak.	46767
 YEDİ	Altıyı izleyen sayı.	30849
-YEDİR	Ağzına yiyecek verip karnını doyurmak.	30873
+YEDİR	Birini besleyip doyurmak.	30873
 YEK	Bir.	30908
-YEKİN	Bazı yörelerde ayağa kalkmak için davranmak.	30913
+YEKİN	Bazı yörelerde kalkmaya davranmak.	30913
 YEL	Rüzgâr.	30924
 YELEK	Önü düğmeli, kolsuz giysi.	30937
 YEM	Hayvanlara verilen yiyecek.	30998
 YEMEK	Ocakta pişirilip sofraya konan yiyecek; aş.	41998
 YEMİN	Ant.	42030
-YEN	Giysi kolu.	42060
+YEN	Giysinin kolu.	42060
 YENİ	Kullanılmamış ya da az kullanılmış; eskinin karşıtı.	42071
 YER	Ayakla basılan zemin.	42138
-YET	Gereksinimi karşılayacak miktarda olmak.	42436
-YETİM	Babası ölmüş çocuk.	42387
+YET	Gereksinimi karşılamak.	42436
+YETİM	Babasını kaybetmiş çocuk.	42387
 YETİN	Elindekiyle kanaat edip fazlasını istememek.	42394
-YETİR	Bazı yörelerde bitirmek, tamamlamak.	42396
+YETİR	Bazı yörelerde tamamlamak.	42396
 YEŞİL	Sarı ile mavinin karışımından oluşan, yaprak rengi.	42346
 YEŞİM	Açık renkli, kolay işlenen, süs eşyası yapımında kullanılan değerli taş.	42363
 YIK	Kurulu bir şeyi parçalayıp yerle bir etmek.	42505
@@ -1644,7 +1644,7 @@ YOL	İnsanların ve araçların geçmesi için açılmış yer.	44046
 YOLAK	Bazı yörelerde patika.	44111
 YOM	Bazı yörelerde iyi haber, uğur.	44156
 YOR	Bitkin, takatsiz duruma getirmek.	44212
-YUF	Kınama ve nefret bildiren söz.	44314
+YUF	Ayıplama, kınama sözü.	44314
 YUM	Gözünü ya da avucunu sıkıca kapamak.	44361
 YUMA	Yıkama.	44351
 YUN	Bazı yörelerde yıkanmak.	51776
@@ -1655,11 +1655,11 @@ YUTAK	Ağız ve burun boşluğu ile gırtlak arasındaki bölüm.	51803
 YUVA	Kuşların barındığı ve yumurtladığı yer.	51817
 YUVAK	Bazı yörelerde loğ taşı.	51826
 YÜK	Bir taşıtın ya da hayvanın taşıdığı şeylerin tümü.	51873
-YÜN	Koyun tüyü.	51969
+YÜN	Koyundan kırkılan tüy.	51969
 YÜREK	Kalp.	51982
 YÜZ	Doksan dokuzu izleyen sayı.	52112
-YÜZÜK	Parmağa takılan metal halka.	57158
-YİT	Yok olmak, kaybolmak.	42714
+YÜZÜK	Parmağa takılan halka.	57158
+YİT	Kaybolmak, ortadan kalkmak.	42714
 YİV	Bir yüzeydeki sarmal çizgi biçimli girinti.	42716
 ZADE	Eski dilde oğul.	57199
 ZAHİR	Belli, açık.	57218
@@ -1678,13 +1678,13 @@ ZEHİR	Vücuda girince hastalığa ya da ölüme yol açan madde.	78051
 ZEM	Eski dilde yerme.	78086
 ZEN	Kadın.	78112
 ZIT	Karşıt.	78337
-ZOM	Çok sarhoş.	78513
-ZOR	Güçlükle yapılan; kolayın karşıtı.	78525
+ZOM	Körkütük sarhoş.	78513
+ZOR	Güç, kolay olmayan.	78525
 ZİL	Uyarmak ya da çağırmak için çalınan ses aygıtı.	78418
 ZİR	Eski dilde alt.	86554
 ZİYA	Eski dilde ışık.	78485
 ÇABA	Bir işi yapmak için harcanan sürekli güç.	23147
-ÇABUK	Hızlı olan; yavaşın karşıtı.	23158
+ÇABUK	Hızlı; yavaşın karşıtı.	23158
 ÇADIR	Kumaştan ya da kıldan yapılan, açılıp kurulan taşınabilir barınak.	23175
 ÇAK	Onaylamayı göstermek için birbirine vurulan avuç hareketi.	94120
 ÇAKAL	Kurttan küçük, sürüyle yaşayan yaban hayvanı.	23262
@@ -1693,22 +1693,22 @@ ZİYA	Eski dilde ışık.	78485
 ÇAKIM	Şimşek.	23292
 ÇAKIN	Kıvılcım.	23293
 ÇAKIR	Açık mavi ya da hareli ela göz.	23297
-ÇAL	Bazı yörelerde taşlık, çıplak tepe.	23346
+ÇAL	Bazı yörelerde çıplak, taşlık tepe.	23346
 ÇALAK	Çevik, atik.	23348
 ÇALAR	Ayırtı.	23356
 ÇALI	Dalları dipten çatallanan, kısa boylu odunsu bitki.	23382
 ÇAM	Dört mevsim yeşil kalan, iğne yapraklı ağaç.	23480
 ÇAMUR	Suyla karışıp yapışkan hâle gelmiş toprak.	23511
 ÇAN	Sarkan tokmağın vurmasıyla ses çıkaran metal araç.	23540
-ÇAP	Cisimlerin genişliği.	23579
+ÇAP	Bir cismin genişliği.	23579
 ÇAPAK	Göz kenarında biriken kurumuş akıntı.	23591
 ÇAPAR	Eski dilde postacı.	23608
-ÇAR	Rus imparatorlarına verilen unvan.	23658
+ÇAR	Rus imparatorlarının unvanı.	23658
 ÇARE	Bir engeli aşmak için tutulacak yol.	23665
 ÇAT	Sert bir şey kırılırken çıkan ses.	23777
 ÇATAK	İki dağ yamacının birleşmesiyle oluşan dere yatağı.	23781
 ÇATAL	Yemek yerken kullanılan dişli sofra aracı.	23785
-ÇATI	Bir yapının damını oluşturan parçaların bütünü.	23812
+ÇATI	Bir binanın damı ve onu taşıyan iskelet.	23812
 ÇAY	Kurutulmuş yaprakların demlenmesiyle yapılan sıcak içecek.	23909
 ÇAYAN	Bazı yörelerde akrep ya da yılan gibi zehirli hayvan.	23916
 ÇAYIR	Gür otlarla kaplı, düz ve nemli alan.	23929
@@ -1716,16 +1716,16 @@ ZİYA	Eski dilde ışık.	78485
 ÇAĞIR	Birinin gelmesi için yüksek sesle seslenmek.	23221
 ÇEK	Bankaya ödeme talimatı veren kıymetli belge.	23980
 ÇEKEK	Bazı yörelerde teknelerin karaya alındığı yer.	23986
-ÇEKEL	Bazı yörelerde küçük çapa.	23987
+ÇEKEL	Bazı yörelerde ufak çapa.	23987
 ÇEKEM	Bazı yörelerde ateşte çıtırdayarak yanan dikenli bir bitki.	23991
 ÇEKER	Bir tartı aletinin kaldırabildiği en çok ağırlık.	23997
-ÇEKİK	Yanlara doğru gerilmiş gibi duran.	24013
+ÇEKİK	Yanlara doğru uzanmış görünen.	24013
 ÇEKİL	Bir görevi kendi isteğiyle bırakmak; istifa etmek.	24017
 ÇEKİM	Kütlelerin birbirini kendine doğru yaklaştırma gücü.	24018
 ÇEKİÇ	Çivi çakmaya yarayan saplı araç.	24004
-ÇEL	Ayak uzatarak birini düşürmek.	24151
-ÇELEK	Bazı yörelerde boynuzu kırık hayvan.	24102
-ÇELEN	Bazı yörelerde ev saçağı.	24103
+ÇEL	Ayak takarak birini düşürmek.	24151
+ÇELEK	Bazı yörelerde boynuzu kırılmış hayvan.	24102
+ÇELEN	Bazı yörelerde saçak.	24103
 ÇELİK	Demirle karbonun sert ve esnek alaşımı.	24107
 ÇENE	Ağzın alt ve üst kısmını oluşturan, dişlerin dizildiği kemik.	24197
 ÇENEK	Kuş gagasının alt ve üst bölümlerinden her biri.	24222
@@ -1733,9 +1733,9 @@ ZİYA	Eski dilde ışık.	78485
 ÇEPER	Bazı yörelerde çit.	24277
 ÇEPEZ	Bazı yörelerde bozulmuş ipek kozası.	24280
 ÇIBAN	Deride oluşan, irinli şişkinlik.	17176
-ÇIK	İçeriden dışarıya gitmek.	17280
-ÇIT	Hafif ve kısa ses.	17432
-ÇIYAN	Çok ayaklı, sarımtırak, zehirli bir böcek.	17470
+ÇIK	İçeriden dışarıya geçmek.	17280
+ÇIT	Kısa, hafif ses.	17432
+ÇIYAN	Zehirli, çok ayaklı, sarımsı bir böcek.	17470
 ÇIĞ	Dağdan kopup yuvarlandıkça büyüyen kar kütlesi.	17187
 ÇOBAN	Koyun ve keçi sürüsünü otlatan kişi.	17888
 ÇOK	Sayıca ya da nicelikçe fazla olan.	17989
@@ -1753,30 +1753,30 @@ ZİYA	Eski dilde ışık.	78485
 ÇİS	Bazı bitkilerden sızıp katılaşan sarımtırak madde.	17769
 ÇİT	Bahçe çevresine çalı ya da kamıştan yapılan engel.	17781
 ÇİY	Gece serinliğiyle yerde ve bitkilerde biriken su damlacıkları.	17836
-ÇİÇEK	Bitkinin üreme organlarını taşıyan, renkli ve kokulu bölümü.	17476
+ÇİÇEK	Bitkinin renkli, çoğu kokulu üreme bölümü.	17476
 ÇİĞ	Pişmemiş ya da az pişmiş.	17593
 ÖDEM	Dokularda ve hücreler arasında sıvı birikmesi.	47610
 ÖNEL	Mehil, süre.	48023
-ÖNEM	Bir şeyin değeri.	48024
+ÖNEM	Değer, ehemmiyet.	48024
 ÖRF	Gelenek.	50563
 ÖRK	Bazı yörelerde hayvanı otlakta bağlamak için kullanılan kalın ip.	50593
 ÖRS	Üzerinde metal dövülen ağır demir.	50618
 ÖRT	Korumak ya da gizlemek için bir şeyin üstüne bir şey koymak.	50631
 ÖTE	Daha uzakta olan yer; berinin karşıtı.	50677
 ÖZEL	Yalnızca bir kişiye ya da şeye ait olan.	50801
-ÜLKE	Bir devletin egemenliği altındaki toprakların tümü.	72927
-ÜRE	Vücutta azotlu besinlerin yanmasıyla oluşup idrarla atılan madde.	73022
+ÜLKE	Bir devletin egemen olduğu toprakların bütünü.	72927
+ÜRE	Vücuttan idrarla çıkan azotlu bileşik.	73022
 ÜRK	Korkup birden sıçramak.	73058
 ÜRÜ	Havlamak.	73081
 ÜTÜ	Giysilerin kırışıklığını gidermeye yarayan ısıtılmış araç.	66535
-ÜYE	Bir topluluğu oluşturan kişilerden her biri; aza.	66568
+ÜYE	Bir topluluğa katılan kişilerden her biri; aza.	66568
 İANE	Eski dilde yardım.	32425
-İARE	Ödünç verme.	32426
+İARE	Ödünç vermek.	32426
 İCAR	Eski dilde kira.	32489
 İCAT	Buluş.	32491
-İDAM	Kanunun verdiği kararla öldürme.	32796
+İDAM	Mahkeme kararıyla canına kıyma.	32796
 İDE	Düşünce.	70249
-İLA	Belirtilen sayıların da dâhil olduğu aralığı anlatan söz.	33359
+İLA	İki sayı arasındaki aralığı, uçlarıyla birlikte anlatan söz.	33359
 İLAN	Duyuru.	33389
 İLAÇ	Hastalığı iyileştirmek ya da önlemek için kullanılan madde.	33360
 İLK	En önce gelen; birinci.	33564
@@ -1786,33 +1786,33 @@ ZİYA	Eski dilde ışık.	78485
 İNAK	Dogma.	33831
 İNAM	Eski dilde emanet.	33836
 İNAN	Bir şeyin doğruluğuna sarsılmaz biçimde bağlanma.	33837
-İNAT	Bir konuda direnip ayak direme.	33865
-İNEK	Dişi sığır.	35209
+İNAT	Direnme, sözünden dönmeme.	33865
+İNEK	Sığırın dişisi.	35209
 İPEK	Bir böceğin kozasından çekilen parlak, ince iplik.	35494
-İRK	Bazı yörelerde birikmek, toplanmak.	35606
+İRK	Bazı yörelerde birikmek.	35606
 İRİ	Olağandan büyük.	35582
 İYE	Sahip.	40206
 İZAM	Eski dilde abartma.	40320
 İZAN	Eski dilde anlayış.	40293
-İZAÇ	Eski dilde bunaltma, can sıkma.	40291
+İZAÇ	Eski dilde can sıkma, tedirgin etme.	40291
 ŞABAN	Ay takviminde sekizinci ay.	59024
 ŞAH	Satrançta korunması gereken, her yöne bir kare oynayan taş.	59045
-ŞAK	Geniş bir şeyle vurulunca çıkan ses.	59108
+ŞAK	Geniş bir şey vurunca çıkan ses.	59108
 ŞAKA	Güldürmek için kimseyi kırmadan yapılan eğlenceli söz ya da davranış.	59110
 ŞAKI	Ötücü kuşlar şarkı söyler gibi ses çıkarmak.	59142
-ŞAL	Kadınların omuzlarını örttükleri geniş atkı.	59178
+ŞAL	Omuzlara atılan geniş atkı.	59178
 ŞALE	Geniş saçaklı çatısıyla bilinen alçak dağ evi.	59181
-ŞALİ	Eski dilde tiftikten yapılan ince kumaş.	59183
+ŞALİ	Eski dilde tiftik kumaş.	59183
 ŞAMAN	Ruhlarla ilişki kurduğuna inanılan geleneksel din adamı.	59198
 ŞAMAR	Avuç içiyle yüze inen tokat.	59206
 ŞAN	Ün.	59234
 ŞAP	Boyacılıkta ve tıpta kullanılan, alüminyumlu bir tuz.	59277
 ŞART	Bir şeyin gerçekleşmesi için gereken durum; koşul.	59362
-ŞAT	Sığ sularda yük taşıyan, altı düz bir tekne.	59422
+ŞAT	Sığ sularda yük taşıyan düz tabanlı tekne.	59422
 ŞAYAN	Eski dilde layık, değer.	59440
 ŞAZ	Eski dilde kural dışı.	59446
-ŞAİR	Şiir yazan kişi; ozan.	59103
-ŞAŞ	Yolundan sapmak.	59420
+ŞAİR	Dizeler kaleme alan sanatçı; ozan.	59103
+ŞAŞ	Yolunu kaybedip başka yöne gitmek.	59420
 ŞEF	Yöneten, yetkili kimse.	59472
 ŞEHİR	Nüfusu kalabalık, ticaret ve sanayi merkezi olan yerleşim yeri.	59494
 ŞEK	Eski dilde kuşku.	59529
@@ -1822,18 +1822,18 @@ ZİYA	Eski dilde ışık.	78485
 ŞEM	Eski dilde mum.	59590
 ŞEN	Neşeli, sevinçli.	59604
 ŞER	Kötülük.	59628
-ŞET	Eski dilde sıkarak bağlama.	59711
+ŞET	Eski dilde sıkıca bağlama.	59711
 ŞEV	Bayır.	59716
 ŞEY	Adı söylenmeyen nesne, iş ya da durum yerine kullanılan söz.	59730
 ŞEŞ	Eski dilde altı.	59703
-ŞIK	Zarif ve modaya uygun.	59780
+ŞIK	Giyimi zarif ve moda.	59780
 ŞIP	Su damlası düşerken çıkan ses.	74149
 ŞOK	Ani bir değişikliğin yol açtığı şaşkınlık.	61267
 ŞOM	Eski dilde uğursuz.	61271
 ŞORT	Paçaları dizin üstünde kalan kısa pantolon.	61280
 ŞUH	Canlı, neşeli ve kıvrak.	61326
 ŞUT	Futbolda topu kaleye göndermek için yapılan ayak vuruşu.	61342
-ŞİF	Bazı yörelerde pamuk kozası.	59857
+ŞİF	Bazı yörelerde pamuk kozası kabuğu.	59857
 ŞİLE	Mercanköşk.	61135
 ŞİLT	Üzerine bir kurumun adı ya da işareti kazınmış levha.	61141
 ŞİŞ	Bir ucu sivri demir ya da ağaç çubuk.	61206
