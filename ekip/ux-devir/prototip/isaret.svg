@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="96 96 320 320" role="img" aria-label="Sözcük Merdiveni">
+  <g transform="translate(96,96)">
+    <g fill="#d9b07a">
+      <rect x="52" y="51"  width="216" height="18" rx="5"/>
+      <rect x="52" y="151" width="216" height="18" rx="5"/>
+      <rect x="52" y="251" width="216" height="18" rx="5"/>
+    </g>
+    <rect x="40"  y="0" width="22" height="320" rx="9" fill="#b98a52"/>
+    <rect x="46"  y="4" width="8"  height="312" rx="4" fill="#d9b07a"/>
+    <rect x="258" y="0" width="22" height="320" rx="9" fill="#b98a52"/>
+    <rect x="264" y="4" width="8"  height="312" rx="4" fill="#d9b07a"/>
+    <rect x="72"  y="26"  width="84" height="84" rx="16" fill="#b98f56"/>
+    <rect x="72"  y="18"  width="84" height="84" rx="16" fill="#ebd3a6"/>
+    <rect x="118" y="126" width="84" height="84" rx="16" fill="#1e4a2a"/>
+    <rect x="118" y="118" width="84" height="84" rx="16" fill="#2f6b3f"/>
+    <rect x="164" y="226" width="84" height="84" rx="16" fill="#74291a"/>
+    <rect x="164" y="218" width="84" height="84" rx="16" fill="#a8432b"/>
+  </g>
+</svg>

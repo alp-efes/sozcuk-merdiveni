@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' capacitor://localhost; style-src 'self' capacitor://localhost; img-src 'self' capacitor://localhost; font-src 'self' capacitor://localhost; connect-src 'self' capacitor://localhost; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Her gün yeni bir Türkçe kelime bulmacası! Tek harf değiştirerek kelimeden kelimeye tırman, hedefe ulaş. Ücretsiz, üyeliksiz, mobil uyumlu — hemen oyna.">
+  <meta name="theme-color" content="#f3eada">
+  <title>Sözcük Merdiveni — Türkçe Kelime Oyunu</title>
+
+
+
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="uygulama.css">
+
+</head>
+<body>
+
+<section class="ana" id="ana" aria-label="Ana ekran">
+  <div class="ana-ust" id="anaUst"></div>
+  <div class="ana-marka">
+    <img class="isaret" src="isaret.svg" alt="" width="96" height="96">
+    <p class="ana-ad">Sözcük Merdiveni</p>
+    <p>Her basamakta tek harf değiştir, hedef kelimeye in.</p>
+  </div>
+  <div class="kart" role="group" aria-labelledby="kartGunlukBaslik">
+    <p class="kart-ust"><span id="gunlukTarih"></span><span class="seri" id="seri" hidden></span></p>
+    <h2 id="kartGunlukBaslik">Günün Bulmacası</h2>
+    <p class="kart-bulmaca" id="gunlukBulmaca"></p>
+    <p class="kart-durum" id="gunlukDurum"></p>
+    <button class="btn-primary" id="btnGunluk" type="button">Oyna</button>
+    <p class="kart-alt" id="gunlukSonraki" hidden>Yeni bulmaca <strong id="anaGeriSayim">--:--:--</strong> sonra</p>
+  </div>
+  <div class="kart" role="group" aria-labelledby="kartSerbestBaslik">
+    <h2 id="kartSerbestBaslik">Serbest Oyun</h2>
+    <p class="kart-durum" id="serbestDurum"></p>
+    <div class="ana-ayar" id="anaAyar">
+      <div class="btn-group" role="group" aria-label="Zorluk">
+        <button class="pick-btn" type="button" data-diff="kolay">Kolay</button>
+        <button class="pick-btn" type="button" data-diff="orta">Orta</button>
+        <button class="pick-btn" type="button" data-diff="zor">Zor</button>
+      </div>
+      <div class="btn-group" role="group" aria-label="Kelime uzunluğu">
+        <button class="pick-btn" type="button" data-len="3">3 harf</button>
+        <button class="pick-btn" type="button" data-len="4">4 harf</button>
+        <button class="pick-btn" type="button" data-len="5">5 harf</button>
+      </div>
+    </div>
+    <button class="btn-secondary" id="btnSerbest" type="button">Oyna</button>
+  </div>
+  <button class="ana-nasil" id="btnAnaYardim" type="button">Nasıl oynanır?</button>
+</section>
+
+<div class="app" id="oyun">
+
+
+  <header class="header">
+    <button class="icon-btn" id="btnAna" type="button" aria-label="Ana ekran"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 5-7 7 7 7"/></svg></button>
+    <p class="mod-adi" id="modAdi"></p>
+    <h1 class="brand-game">Sözcük Merdiveni</h1>
+    <div class="header-actions">
+      <a class="icon-btn" id="btnHelp" href="#nasil-oynanir" aria-label="Nasıl oynanır">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8"/><path d="M12 17h.01"/></svg>
+      </a>
+      <button class="icon-btn" id="btnMute" type="button" aria-label="Sessiz" aria-pressed="false">
+        <svg class="icon icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="icon icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+      </button>
+      <button class="icon-btn" id="btnRestart" type="button" aria-label="Yeni oyun">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19.4 15a8 8 0 1 1-1.7-8.6L20 9"/><path d="M20 4v5h-5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mode-tabs" aria-label="Oyun modu">
+    <button class="mode-tab active" id="tabDaily" type="button">Günün Bulmacası</button>
+    <button class="mode-tab" id="tabFree" type="button">Serbest Oyun</button>
+  </nav>
+
+  <div class="free-settings hidden" id="freeSettings">
+    <div class="btn-group" role="group" aria-label="Zorluk">
+      <button class="pick-btn" type="button" data-diff="kolay">Kolay</button>
+      <button class="pick-btn" type="button" data-diff="orta">Orta</button>
+      <button class="pick-btn" type="button" data-diff="zor">Zor</button>
+    </div>
+    <div class="btn-group" role="group" aria-label="Kelime uzunluğu">
+      <button class="pick-btn" type="button" data-len="3">3 harf</button>
+      <button class="pick-btn" type="button" data-len="4">4 harf</button>
+      <button class="pick-btn" type="button" data-len="5">5 harf</button>
+    </div>
+  </div>
+
+  <div class="status">
+    <span><strong id="stepInfo"></strong><span id="parInfo"></span></span>
+    <span class="daily-solved hidden" id="dailySolved">
+      <button class="mini-btn" id="btnDailyShare" type="button">Paylaş</button>
+      <button class="mini-btn hidden" id="btnDailyRetry" type="button">Tekrar dene</button>
+    </span>
+    <span class="daily-timer hidden" id="dailyTimer"><span class="dar-gizle">Yeni bulmaca </span><strong id="dailyCountdown">--:--:--</strong><span class="dar-gizle"> sonra</span></span>
+    <button class="mini-btn hint-btn" id="btnHint" type="button" aria-label="İpucu">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+    </button>
+  </div>
+
+  <main class="game" id="game">
+    <div class="frame">
+      <div class="steps" id="steps">
+        <section class="rung">
+          <span class="rung-label">BAŞLANGIÇ</span>
+          <div class="word-row" id="startWord" aria-label="Başlangıç kelimesi"></div>
+        </section>
+        <section class="ladder" id="ladder" aria-live="polite" aria-label="Girilen kelimeler"></section>
+        <section class="rung input-rung">
+          <div class="word-row input-row" id="inputRow" aria-label="Kelime girişi" aria-live="polite"></div>
+          <span class="step-label" id="inputLabel"></span>
+          <input class="giris" id="giris" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Kelime girişi">
+        </section>
+        <div class="ghost" aria-hidden="true"></div>
+      </div>
+
+      <section class="rung target-rung">
+        <span class="rung-label">HEDEF</span>
+        <div class="word-row" id="targetWord" aria-label="Hedef kelime"></div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="alert"></div>
+
+  <footer class="keyboard" id="keyboard" aria-label="Klavye"></footer>
+  <div class="harfler" id="harfler" role="group" aria-label="Türkçe harfler">
+    <button class="harf" type="button" data-key="Ç"><span class="cap">Ç</span></button>
+    <button class="harf" type="button" data-key="Ğ"><span class="cap">Ğ</span></button>
+    <button class="harf" type="button" data-key="I" aria-label="Noktasız I"><span class="cap">I</span></button>
+    <button class="harf" type="button" data-key="İ" aria-label="Noktalı İ"><span class="cap">İ</span></button>
+    <button class="harf" type="button" data-key="Ö"><span class="cap">Ö</span></button>
+    <button class="harf" type="button" data-key="Ş"><span class="cap">Ş</span></button>
+    <button class="harf" type="button" data-key="Ü"><span class="cap">Ü</span></button>
+  </div>
+
+</div>
+<section class="info page" id="nasil-oynanir">
+  <button class="modal-close" id="btnYardimKapat" type="button" aria-label="Kapat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg></button>
+  <h2>Nasıl oynanır?</h2>
+  <p class="lead">Merdiveni yukarıdan aşağı in: her basamakta tek harf değiştir,
+  hedef kelimeye ulaş.</p>
+
+  <div class="example" role="img" aria-label="Örnek: KÖY, KOY, KOL, KEL. Her basamakta bir harf değişir.">
+    <div class="frame">
+      <div class="rung"><span class="rung-label">BAŞLANGIÇ</span><div class="word-row"><div class="tile filled green">K</div><div class="tile filled">Ö</div><div class="tile filled">Y</div></div></div>
+      <div class="rung"><div class="word-row"><div class="tile filled green">K</div><div class="tile filled changed">O</div><div class="tile filled">Y</div></div><span class="step-label">Ö → O</span></div>
+      <div class="rung"><div class="word-row"><div class="tile filled green">K</div><div class="tile filled">O</div><div class="tile filled green changed">L</div></div><span class="step-label">Y → L</span></div>
+      <div class="rung target-rung"><span class="rung-label">HEDEF</span><div class="word-row"><div class="tile target">K</div><div class="tile target">E</div><div class="tile target">L</div></div><span class="step-label">O → E</span></div>
+    </div>
+  </div>
+  <p class="legend"><i></i>Yeşil harf, hedefteki yerine oturmuş demektir.</p>
+
+  <h3>Kurallar</h3>
+  <ol class="rules">
+    <li>Her adımda yalnızca bir harf değişir. Harf eklenmez, çıkarılmaz.</li>
+    <li>Her basamak sözlükte olan bir Türkçe kelime olmalı.</li>
+    <li>Takılırsan önceki bir kelimeye geri dönebilirsin.</li>
+  </ol>
+  <p>Kelimeyi telefonunun klavyesiyle yaz, klavyedeki gönder tuşuyla onayla.
+  Klavyende Türkçe harf yoksa merdivenin altındaki <strong>Ç Ğ I İ Ö Ş Ü</strong> şeridini kullan.</p>
+
+  <div class="modes">
+    <p><strong>Günün Bulmacası</strong>Herkese aynı bulmaca. Her gün Türkiye
+    saatiyle 00:00'da yenilenir. Çözünce sonucunu paylaşabilirsin.</p>
+    <p><strong>Serbest Oyun</strong>İstediğin kadar oyna. Zorluğu (kolay, orta,
+    zor) ve kelime uzunluğunu (3, 4, 5 harf) sen seç; seçimin hatırlanır.</p>
+  </div>
+
+  <h3>İpuçları</h3>
+  <ul>
+    <li>Önce hedef kelimeyle <strong>ortak harflere</strong> bak; yeşil
+    bloklar yerine oturmuş harfleri gösterir.</li>
+    <li>Sesli harfi değiştirmek (A → E, O → U gibi) çoğu zaman yeni bir
+    kelimeye götürür.</li>
+    <li>Takılınca tersinden düşün: hedef kelimeden başlangıca doğru bir
+    merdiven kurmayı dene.</li>
+    <li>Takılınca ampul düğmesine dokun: hangi harfi değiştireceğini
+    gösterir. Günde bir ipucu hakkın var.</li>
+    <li>Durum satırındaki "en az" sayısı en kısa çözümdür; onu yakalarsan
+    çözümün mükemmel.</li>
+  </ul>
+
+  <h3>Zorluk nasıl belirlenir?</h3>
+  <p>İki şeye bakılır: hedefe ulaşmak için gereken <strong>en az adım
+  sayısı</strong> ve <strong>farklı çözüm yollarının sayısı</strong>. Az adımlı
+  ve çok yollu bulmacalar <em>kolay</em>; uzun ve tek çözümlü olanlar
+  <em>zor</em> sayılır.</p>
+
+  <h3>Kelimeler nereden geliyor?</h3>
+  <p>Sözlük, Türk Dil Kurumu yazımına uygun 3, 4 ve 5 harfli kelimelerden
+  oluşur. Bulmacalar önceden bilgisayarla çözülür; yayımlanan her bulmacanın
+  <strong>bir çözümü vardır</strong>.</p>
+
+  <h3>İletişim</h3>
+  <p>Görüşünü, önerini ya da eksik bulduğun kelimeyi yaz:
+  <a href="mailto:iletisim@xn--szckyolu-n4a6d.com">iletisim@sözcükyolu.com</a></p>
+
+  <div class="plus hidden" id="plusBox">
+    <h3>Plus</h3>
+    <p id="plusText"></p>
+    <p class="plus-not" id="plusNot">Plus, satın alındığı anda etkinleşen dijital içeriktir; Türkiye'de Mesafeli Sözleşmeler Yönetmeliği m.15/1-ğ uyarınca cayma hakkı yoktur. Ödemeyi Apple alır; iade için reportaproblem.apple.com. Diğer ülkelerdeki yerel tüketici haklarının saklıdır.</p>
+    <button class="btn-primary" id="btnPlusBuy" type="button">Plus'a geç</button>
+    <button class="btn-secondary" id="btnPlusRestore" type="button">Satın alımı geri yükle</button>
+  </div>
+
+  <a class="btn-primary" href="#oyun">Anladım</a>
+</section>
+
+<nav class="site-footer">
+  <a href="gizlilik.html">Gizlilik Politikası</a>
+  <a href="lisanslar.html">Lisanslar</a>
+</nav>
+
+  <template id="iconBackspace"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 5H9l-6 7 6 7h12z"/><path d="m17 9.5-5 5m0-5 5 5"/></svg></template>
+
+  <div class="modal-overlay hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseModal" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <p class="modal-kicker" id="modalKicker"></p>
+      <h2 id="modalTitle">Tebrikler!</h2>
+      <p id="modalText"></p>
+      <div class="stats">
+        <div><b id="modalSteps"></b>adım</div>
+        <div id="modalOptimalBox"><b id="modalOptimal"></b>en az adım</div>
+      </div>
+      <div class="result-grid" id="modalGrid" role="img" aria-label="Adım adım hedefle eşleşen harfler"></div>
+      <button class="btn-primary" id="btnShare" type="button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M6 11H5v9h14v-9h-1"/></svg>Sonucu Paylaş
+      </button>
+      <button class="btn-secondary hidden" id="btnRetry" type="button">Tekrar dene</button>
+      <button class="btn-secondary" id="btnNewGame" type="button">Yeni Oyun</button>
+      <p class="modal-next" id="modalNext">Yeni bulmaca <strong id="modalCountdown">--:--:--</strong> sonra</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseOffer" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <h2 id="offerTitle">İpucun bitti</h2>
+      <p class="offer-text">Bugünkü ücretsiz ipucunu kullandın. Kısa bir reklam izleyip yeni bir ipucu alabilir ya da Plus ile reklamsız ve sınırsız ipucu kullanabilirsin.</p>
+      <button class="btn-primary" id="btnOfferAd" type="button">Reklam izle, ipucu al</button>
+      <button class="btn-secondary" id="btnOfferPlus" type="button">Plus'a geç</button>
+    </div>
+  </div>
+
+
+  <script src="app.js"></script>
+  <script src="uygulama.js"></script>
+  <script src="yerel.js"></script>
+</body>
+</html>

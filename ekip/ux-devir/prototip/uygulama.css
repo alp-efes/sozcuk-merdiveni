@@ -1,0 +1,228 @@
+/* =========================================================
+   SÖZCÜK MERDİVENİ (iOS) — uygulama.css
+   Yalnızca uygulama paketinde yüklenir (araclar/web-esitle.mjs ekler); site
+   bunu görmez ve bugünkü gibi kalır. style.css'ten SONRA gelir.
+   Renk, yazı, boşluk: yalnızca style.css :root belirteçleri (sabit renk yok;
+   testler/paket.test.mjs denetler). Davranış: uygulama.js.
+   ========================================================= */
+
+/* ---------- Belge kaymaz ----------
+   Kayan yerler: ana ekran (.ana), yardım (.info) ve merdivenin kendi içi.
+   Oyun ekranı görünen alana sabittir; sayfa kaydırması ve lastik efekti yok. */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* ---------- Açılış ekranı ----------
+   Yerel açılış görseliyle aynı zemin, aynı işaret, aynı boy: 2732 px'lik
+   görselde 640 px işaret = ekranın uzun kenarının %23,43'ü. Betik beklemeden
+   görünür; sözlük yüklenince (body[data-ekran]) solar. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--bg) url("isaret.svg") center / 23.43vmax no-repeat;
+  z-index: calc(var(--z-modal) + 2);
+  transition: opacity var(--dur-base) var(--ease), visibility var(--dur-base);
+}
+body[data-ekran]::before { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* ---------- Ana ekran ---------- */
+.ana {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-2) max(var(--space-4), calc(50% - 240px)) var(--space-2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(120% 80% at 50% 0%, var(--bg-glow) 0%, transparent 60%),
+    repeating-linear-gradient(92deg, var(--grain) 0 1px, transparent 1px 7px);
+  z-index: var(--z-rail);
+}
+body:not([data-ekran="ana"]) .ana { display: none; }
+/* Ana ekran açıkken alttaki oyun ne görünür ne de ekran okuyucuya okunur */
+[data-ekran="ana"] .app { visibility: hidden; }
+
+.ana-ust { display: flex; justify-content: flex-end; flex-shrink: 0; }
+.ana-marka { text-align: center; color: var(--text-dim); flex-shrink: 0; }
+.ana-marka .isaret { display: block; width: 88px; height: 88px; margin: 0 auto var(--space-2); }
+.ana-ad {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text);
+}
+.ana-marka p + p { margin-top: var(--space-1); }
+
+.kart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.kart h2 { font-family: var(--font-display); font-size: var(--fs-xl); line-height: var(--lh-tight); }
+.kart-ust {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--track-sm);
+  color: var(--text-dim);
+}
+.seri { color: var(--accent); }
+.kart-bulmaca {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-lg);
+}
+.kart-durum, .kart-alt { font-size: var(--fs-sm); color: var(--text-dim); }
+.kart-alt { text-align: center; }
+.kart-alt strong { color: var(--text); font-variant-numeric: tabular-nums; }
+.kart .btn-primary, .kart .btn-secondary { margin-top: var(--space-2); flex-shrink: 0; }
+.ana-ayar { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); }
+.ana-ayar .btn-group { flex: 1 1 140px; max-width: none; }
+.ana-ayar .pick-btn { background-color: var(--bg); }
+.ana-ayar .pick-btn.active { background-color: var(--block); }
+.ana-nasil {
+  align-self: center;
+  flex-shrink: 0;
+  min-height: var(--tap-min);
+  padding: 0 var(--space-3);
+  background: none;
+  border: 0;
+  color: var(--accent);
+  font-weight: var(--fw-bold);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ana .site-footer { margin-top: auto; }
+
+/* ---------- Oyun ekranı ----------
+   Görünen alanı tam kaplar. Telefonun klavyesi açılınca uygulama.js --vvh ve
+   --vv-top'u görünen alana (visualViewport) eşitler: giriş satırı, son kelime
+   ve harf şeridi klavyenin üstünde kalır. */
+.app {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--vv-top, 0px);
+  height: var(--vvh, 100dvh);
+}
+/* Ana ekran varken sekmeler ve oyun içi ayar satırı gereksiz: yer merdivene kalır */
+.mode-tabs, .app .free-settings { display: none; }
+/* Sitenin ekran klavyesi: uygulamada telefonun klavyesi kullanılır */
+.keyboard { display: none; }
+
+/* Başlık: geri + mod adı + yardım + yeni oyun (ses düğmesi ana ekranda) */
+.header .brand-game { display: none; }
+.mod-adi {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+@media (max-width: 359.98px) { .mod-adi { font-size: var(--fs-lg); } }
+
+/* Görünmez metin alanı: giriş satırını örter. Dokununca telefonun klavyesi
+   açılır; harfler kutularda görünür. 16 px'ten küçük yazı iOS'ta yakınlaştırır. */
+.giris {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: var(--fs-md);
+  opacity: 0;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.giris:disabled { display: none; }
+
+/* Türkçe harf şeridi: klavyenin hemen üstünde. Düğmenin kendisi dokunma
+   alanıdır (aralıksız, 44 px); görünen kapak sitenin tuş kapağıdır (.cap). */
+.harfler {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-1) var(--space-1h);
+  background: var(--surface-2);
+  border-top: 1.5px solid var(--border);
+  flex-shrink: 0;
+}
+.game.bitti ~ .harfler { display: none; }   /* Çözülen bulmacada yazılacak bir şey yok */
+.harf {
+  flex: 1;
+  min-width: var(--tap-min);
+  max-width: 56px;
+  height: var(--tap-min);
+  padding: 3px 2.5px;
+  display: flex;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.harf:active .cap { transform: translateY(2px); box-shadow: inset 0 0 0 1px var(--border); }
+
+/* Bildirim: durum satırını örtmez, merdivenin üst ucunda durur; uzun ileti
+   satır atlar. Ana ekrandayken de (oyun gizliyken) görünür. */
+.toast {
+  top: calc(var(--vv-top, 0px) + 88px);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--space-4));
+  white-space: normal;
+  text-align: center;
+  visibility: visible;
+  z-index: calc(var(--z-modal) + 1);
+}
+
+/* Pencereler de görünen alana sığar (klavye açıkken altı kesilmesin) */
+.modal-overlay {
+  inset: auto 0;
+  top: var(--vv-top, 0px);
+  height: var(--vvh, 100%);
+}
+
+/* ---------- Yardım: "Nasıl oynanır?" oyunun ya da ana ekranın üstünde ---------- */
+.info {
+  position: fixed;
+  inset: 0;
+  max-width: none;
+  padding-left: max(var(--space-5), calc(50% - 340px));
+  padding-right: max(var(--space-5), calc(50% - 340px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: 0;
+  background: var(--bg);
+  z-index: var(--z-modal);
+}
+body:not(.yardim) .info { display: none; }
+.info .modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) 0 0;
+  background: var(--bg);
+}
