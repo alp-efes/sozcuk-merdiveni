@@ -413,7 +413,9 @@ async function main() {
       }
       if (en === 360) {
         const secici = cozulmus ? ".mini-btn:not(.hidden)"
-          : ".icon-btn, .mode-tab, .pick-btn, .site-footer a, .hint-btn";   // alt bilgi: Gizlilik; ampul: İpucu
+          : ".icon-btn, .mode-tab, .pick-btn, .site-footer a, .hint-btn:not(.hidden)";
+        // alt bilgi: Gizlilik; ampul: İpucu. Gizli düğme dokunulamaz: Sonucu göster
+        // görününce 13. adımda ölçülür
         for (const a of await dokunmaAlani(s, secici)) {
           denetle(a.en >= 44 && a.boy >= 44, `${ad}: '${a.ad}' dokunma alanı ${a.en}×${a.boy}, en az 44×44 olmalı`);
         }
@@ -915,6 +917,188 @@ async function main() {
       const kayit = await s.evaluate(() => JSON.parse(localStorage.getItem("sm_gunluk_" + oyun.todayKey())));
       denetle(kayit.steps === kotu.length && kayit.deneme === undefined && kayit.enIyi >= 1, `tekrar bitince kayıt yanlış: ${JSON.stringify(kayit)}`);
       await b.close();
+    }
+
+    /* 13) Geri al ve Sonucu göster */
+    console.log("13. Geri al ve sonucu göster");
+    {
+      const durumOku = (s) => s.evaluate(() => {
+        const g = (id) => document.getElementById(id);
+        const kay = (a) => { try { return localStorage.getItem(a); } catch (_) { return null; } };
+        return {
+          zincir: oyun.chain.slice(), bitti: oyun.over, gosterildi: oyun.shown,
+          basamak: document.querySelectorAll("#ladder .rung").length,
+          geriKapali: g("btnUndo").disabled, sonucGorunur: !g("btnShowResult").classList.contains("hidden"),
+          durum: g("stepInfo").textContent,
+          kayitliZincir: JSON.parse(kay("sm_state") || "{}").chain,
+          gunluk: (() => { const r = JSON.parse(kay("sm_gunluk_" + oyun.todayKey()) || "null"); return r && r.steps >= 1 ? JSON.stringify(r) : null; })(), pes: (JSON.parse(kay("sm_gunluk_" + oyun.todayKey()) || "{}").gosterildi) ? "1" : null,
+          paylasGorunur: !g("dailySolved").classList.contains("hidden"),
+          ipucuGorunur: !g("btnHint").classList.contains("hidden"),
+        };
+      });
+      const onayAcik = (s) => s.evaluate(() => !document.getElementById("pes").classList.contains("hidden"));
+      // Başlangıç ile bir komşusu arasında gidip gelerek (geçerli hamleler) adım sayısını istenene çıkarır
+      const gezin = async (s, bas, hedef, adimSayisi) => {
+        const v = komsular(bas).find((k) => k !== hedef);
+        while ((await s.evaluate(() => oyun.chain.length - 1)) < adimSayisi) {
+          await kelimeYaz(s, (await s.evaluate(() => oyun.currentWord)) === bas ? v : bas);
+        }
+      };
+      const gecerliYol = (yol, bas, hedef, sozluk) =>
+        yol[0] === bas && yol[yol.length - 1] === hedef &&
+        yol.every((w, i) => sozluk.includes(w) && (i === 0 || [...w].filter((c, j) => c !== yol[i - 1][j]).length === 1));
+
+      // 13a) Geri al: zincir, durum, yenileme, bitince devre dışı
+      {
+        const { b, s } = await gelirSayfasi(null);
+        const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        const y = enKisaYol(bas, hedef);
+        let d = await durumOku(s);
+        denetle(d.geriKapali, "geri al: başlangıçta devre dışı olmalı");
+        denetle(!d.sonucGorunur, "sonucu göster: başlangıçta görünmemeli");
+        if (y.length > 1) {
+          await kelimeYaz(s, y[0]); await kelimeYaz(s, y[1]);
+          d = await durumOku(s);
+          denetle(!d.geriKapali && d.zincir.length === 3, "geri al: iki adımdan sonra etkin olmalı");
+          await s.click("#keyboard .key[data-key=\"A\"]");                 // yazılmakta olan harf
+          await s.click("#btnUndo");
+          d = await durumOku(s);
+          denetle(d.zincir.length === 2 && d.zincir[1] === y[0] && d.basamak === 1 && d.durum === "1 adım",
+                  `geri al: son basamak çıkmadı (${d.zincir}, basamak ${d.basamak}, '${d.durum}')`);
+          denetle(d.kayitliZincir && d.kayitliZincir.length === 2, "geri al: sm_state zinciri güncellenmedi");
+          denetle(await s.evaluate(() => oyun.buffer === "" && document.querySelectorAll("#inputRow .tile.filled").length === 0), "geri al: yazılmakta olan harfler silinmedi");
+          await s.reload(); await oyunHazir(s);
+          d = await durumOku(s);
+          denetle(d.zincir.length === 2 && d.basamak === 1, "geri al: yenilemede zincir korunmadı");
+          await s.click("#btnUndo");                                        // başlangıca kadar
+          d = await durumOku(s);
+          denetle(d.zincir.length === 1 && d.zincir[0] === bas && d.geriKapali && d.basamak === 0, "geri al: başlangıç kelimesi kalmalı, düğme devre dışı olmalı");
+          denetle(await s.evaluate(() => (oyun.undo(), oyun.chain.length === 1)), "geri al: başlangıç kelimesi geri alınabildi");
+        }
+        for (const k of y) await kelimeYaz(s, k);                            // geri aldıktan sonra yine çözülür
+        await s.waitForFunction(() => oyun.over, null, { timeout: 5000 });
+        d = await durumOku(s);
+        denetle(d.geriKapali, "geri al: oyun bitince devre dışı olmalı");
+        denetle(JSON.parse(d.gunluk).steps === y.length, "geri al: sonra çözüm kaydı yanlış");
+        await b.close();
+      }
+
+      // 13b) Geri al: sürmekte olan günlük tekrarda kayıt (deneme) güncellenir
+      {
+        const { b, s } = await gelirSayfasi(null);
+        const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        const kotu = kotuYol(bas, hedef);
+        for (const k of kotu) await kelimeYaz(s, k);
+        await s.waitForFunction(() => !document.getElementById("modal").classList.contains("hidden"), null, { timeout: 5000 });
+        await s.click("#btnRetry");
+        await kelimeYaz(s, kotu[0]);
+        if (kotu.length > 2) await kelimeYaz(s, kotu[1]);
+        await s.click("#btnUndo");
+        const ilk = await s.evaluate(() => ({ z: oyun.chain.slice(), d: JSON.parse(localStorage.getItem("sm_gunluk_" + oyun.todayKey())).deneme }));
+        denetle(JSON.stringify(ilk.z) === JSON.stringify(ilk.d), `geri al: tekrarın kaydı zincirle aynı olmalı (${ilk.z} / ${ilk.d})`);
+        await s.click("#tabFree"); await s.click("#tabDaily");
+        denetle(await s.evaluate((z) => !oyun.over && JSON.stringify(oyun.chain) === JSON.stringify(z), ilk.z), "geri al: sekme değişiminde tekrar zinciri korunmadı");
+        await b.close();
+      }
+
+      // 13c) Sonucu göster: eşik, onay, geçerli en kısa yol, kayıt yok, yenilemede korunur
+      {
+        const { b, s } = await gelirSayfasi(null);
+        const [bas, hedef, en] = await s.evaluate(() => [oyun.startWord, oyun.targetWord, oyun.optimal]);
+        await gezin(s, bas, hedef, en);
+        let d = await durumOku(s);
+        denetle(d.zincir.length - 1 === en && !d.sonucGorunur, `sonucu göster: adım sayısı en az adıma eşitken görünmemeli (${d.zincir.length - 1}/${en})`);
+        await gezin(s, bas, hedef, en + 1);
+        d = await durumOku(s);
+        denetle(d.zincir.length - 1 === en + 1 && d.sonucGorunur, "sonucu göster: en az adım aşılınca görünmeli");
+        const kutu = await s.evaluate(() => { const r = document.getElementById("btnShowResult").getBoundingClientRect(); return [r.width, r.height]; });
+        denetle(kutu[0] >= 44 && kutu[1] >= 28, `sonucu göster: düğme ${kutu} px, en az 44 x 28 (alan ::before ile 44'e tamamlanır)`);
+        // Geri alınca eşiğin altına inerse yeniden gizlenir
+        await s.click("#btnUndo");
+        denetle(!(await durumOku(s)).sonucGorunur, "sonucu göster: geri alınıp eşiğe inince gizlenmeli");
+        await kelimeYaz(s, (await s.evaluate(() => oyun.currentWord)) === bas ? komsular(bas).find((k) => k !== hedef) : bas);
+        // Vazgeç: hiçbir şey değişmez
+        const once = (await durumOku(s)).zincir;
+        await s.click("#btnShowResult");
+        denetle(await onayAcik(s), "sonucu göster: onay penceresi açılmadı");
+        denetle((await durumOku(s)).bitti === false, "sonucu göster: onaydan önce oyun bitmemeli");
+        await s.click("#btnPesVazgec");
+        d = await durumOku(s);
+        denetle(!(await onayAcik(s)) && !d.bitti && JSON.stringify(d.zincir) === JSON.stringify(once), "sonucu göster: vazgeçince durum değişti");
+        // Evet
+        await s.click("#btnShowResult"); await s.click("#btnPesEvet");
+        d = await durumOku(s);
+        const sozluk = db[String(bas.length)].words;
+        denetle(d.bitti && d.gosterildi, "sonucu göster: oyun 'çözüm gösterildi' olarak bitmedi");
+        denetle(d.zincir.length - 1 === en && gecerliYol(d.zincir, bas, hedef, sozluk), `sonucu göster: gösterilen yol geçerli ve ${en} adımlık en kısa yol değil (${d.zincir})`);
+        denetle(d.basamak === en && d.durum === "Çözüm gösterildi", `sonucu göster: ekran yanlış (basamak ${d.basamak}, '${d.durum}')`);
+        denetle(d.gunluk === null && d.pes !== null, "sonucu göster: günlükte çözüm kaydı (steps >= 1) oluşmamalı; yalnızca gosterildi işareti");
+        denetle(!d.paylasGorunur && !d.ipucuGorunur && d.geriKapali && !d.sonucGorunur, "sonucu göster: bitişte Paylaş/İpucu/Geri al/Sonucu göster kapalı olmalı");
+        denetle(await s.evaluate(() => document.getElementById("modal").classList.contains("hidden")), "sonucu göster: kazanma penceresi açılmamalı");
+        const yolu = d.zincir;
+        await s.reload(); await oyunHazir(s);
+        d = await durumOku(s);
+        denetle(d.bitti && d.gosterildi && JSON.stringify(d.zincir) === JSON.stringify(yolu) && d.gunluk === null, "sonucu göster: yenilemede korunmadı");
+        // Serbest oyuna geçip dönünce de bulmaca öyle biter, yeniden çözülemez
+        await s.click("#tabFree"); await s.click("#tabDaily");
+        d = await durumOku(s);
+        denetle(d.bitti && d.gosterildi && JSON.stringify(d.zincir) === JSON.stringify(yolu) && d.gunluk === null, "sonucu göster: sekme değişiminde günlük bulmaca yeniden açıldı");
+        await b.close();
+      }
+
+      // 13d) Sonucu göster: serbest oyun ve sonra Yeni Oyun
+      {
+        const { b, s } = await gelirSayfasi(null);
+        await s.click("#tabFree");
+        const [bas, hedef, en] = await s.evaluate(() => [oyun.startWord, oyun.targetWord, oyun.optimal]);
+        await gezin(s, bas, hedef, en + 1);
+        await s.click("#btnShowResult"); await s.click("#btnPesEvet");
+        const d = await durumOku(s);
+        denetle(d.bitti && d.gosterildi && gecerliYol(d.zincir, bas, hedef, db[String(bas.length)].words) && d.zincir.length - 1 === en, "sonucu göster: serbest oyunda geçerli en kısa yol gösterilmedi");
+        denetle(d.pes === null, "sonucu göster: serbest oyun günlüğe kayıt yazmamalı");
+        await s.click("#btnRestart");
+        denetle(await s.evaluate(() => !oyun.over && !oyun.shown && oyun.chain.length === 1), "sonucu göster: sonra yeni oyun açılmadı");
+        await b.close();
+      }
+
+      // 13e) Sonucu göster: çözülmüş günlükte sürmekte olan tekrar — ilk çözüm kaydı değişmez
+      {
+        const { b, s } = await gelirSayfasi(null);
+        const [bas, hedef, en] = await s.evaluate(() => [oyun.startWord, oyun.targetWord, oyun.optimal]);
+        const kotu = kotuYol(bas, hedef);
+        for (const k of kotu) await kelimeYaz(s, k);
+        await s.waitForFunction(() => !document.getElementById("modal").classList.contains("hidden"), null, { timeout: 5000 });
+        const kayit = () => s.evaluate(() => localStorage.getItem("sm_gunluk_" + oyun.todayKey()));
+        const ilkKayit = JSON.parse(await kayit());
+        await s.click("#btnRetry");
+        await gezin(s, bas, hedef, en + 1);
+        await s.click("#btnShowResult"); await s.click("#btnPesEvet");
+        const son = JSON.parse(await kayit());
+        denetle(son.steps === ilkKayit.steps && JSON.stringify(son.chain) === JSON.stringify(ilkKayit.chain) && son.deneme === undefined && son.enIyi === undefined,
+                `sonucu göster: tekrarda ilk çözüm kaydı değişti ya da deneme kaldı (${JSON.stringify(son)})`);
+        denetle(await s.evaluate(() => oyun.over && oyun.shown), "sonucu göster: tekrar 'çözüm gösterildi' olarak bitmedi");
+        // İlk çözüm kaydı varken Paylaş / Tekrar dene hemen görünür (sekme değişimi beklenmez)
+        denetle(await gorunur(s, "#dailySolved") && await gorunur(s, "#btnDailyShare"), "sonucu göster: ilk çözüm kaydı varken Paylaş hemen görünmeli");
+        denetle(await s.evaluate((n) => oyun.lastResult && oyun.lastResult.steps === n, ilkKayit.steps), "sonucu göster: tekrarda lastResult ilk çözüm olmalı");
+        await s.reload(); await oyunHazir(s);
+        denetle(await gorunur(s, "#dailySolved") && await s.evaluate(() => oyun.shown), "sonucu göster: yenilemeden sonra Paylaş görünmeli, durum korunmalı");
+        await s.click("#tabFree"); await s.click("#tabDaily");
+        denetle(await s.evaluate((n) => oyun.over && !oyun.shown && oyun.lastResult.steps === n, ilkKayit.steps), "sonucu göster: günlüğe dönünce ilk çözüm geri gelmedi");
+        await b.close();
+      }
+
+      // 13f) Sonucu göster hiçbir gelir kancasını çağırmaz (kancalı sayfa, Plus değil)
+      {
+        const { b, s } = await gelirSayfasi({ plus: false, odul: true, satin: false, geri: false });
+        const [bas, hedef, en] = await s.evaluate(() => [oyun.startWord, oyun.targetWord, oyun.optimal]);
+        await gezin(s, bas, hedef, en + 1);
+        await s.click("#btnShowResult");
+        denetle(await onayAcik(s), "kancalı sayfa: onay penceresi açılmadı");
+        await s.click("#btnPesEvet");
+        denetle(await s.evaluate(() => oyun.over && oyun.shown), "kancalı sayfa: sonuç gösterilmedi");
+        denetle((await cagrilar(s)).length === 0, `sonucu göster gelir kancası çağırdı: ${await cagrilar(s)}`);
+        await b.close();
+      }
     }
 
     denetle(sayfaHatalari.length === 0, "sayfada yakalanmamış hata: " + sayfaHatalari.join(" | "));

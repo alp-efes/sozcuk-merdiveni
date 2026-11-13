@@ -378,9 +378,13 @@ button { font: inherit; color: inherit; }
 /* Çözülmüş günlükte Paylaş + Tekrar dene yan yana */
 .daily-solved { display: inline-flex; gap: var(--space-2); }
 
-/* İpucu: ampul ikonlu düğme, durum satırının sağ ucunda (görünür 28 px, alan 44 px) */
-.hint-btn { display: grid; place-items: center; margin-left: auto; padding: 0; }
+/* Durum satırının sağ ucundaki ikon düğmeleri: Geri al, Sonucu göster, İpucu
+   (görünür 28 px, alan 44 px) */
+.status-actions { display: inline-flex; gap: var(--space-2); margin-left: auto; }
+.hint-btn { display: grid; place-items: center; padding: 0; }
 .hint-btn .icon { width: 20px; height: 20px; }
+.mini-btn:disabled { opacity: 0.4; cursor: default; }
+.mini-btn:disabled:active { background: var(--surface); }
 
 /* 420 px altında geri sayım kısalır ("03:12:00"): ipucu düğmesi aynı satıra sığsın */
 @media (max-width: 419.98px) { .dar-gizle { display: none; } }

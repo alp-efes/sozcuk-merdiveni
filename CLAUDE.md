@@ -101,6 +101,13 @@ aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 (günün çözümü + zincir; daha iyi bir tekrar varsa `enIyi`, süren tekrar varsa `deneme` zinciri), `sm_ipucu_<YYYY-AA-GG>`
 (o günün ücretsiz ipucu kullanıldı), `sm_uzunluk`, `sm_zorluk`.
 
+**Geri al / Sonucu göster:** Geri al son kabul edilen kelimeyi zincirden çıkarır
+(başlangıç kalır, bitince devre dışı). Sonucu göster adım sayısı `adım`ı geçince
+görünür, onay ister, bir en kısa yolu (tarayıcıda BFS) merdivene basar ve bulmacayı
+"çözüm gösterildi" (`sm_state.shown`) olarak bitirir. Günlükte çözüm kaydı oluşmaz:
+`sm_gunluk_<gün>` yalnızca `{steps: 0, gosterildi: true}` olur (`dailyRecord()` bunu
+çözüm saymaz); ilk çözüm kaydı varsa değişmez, sürmekte olan tekrar (`deneme`) bırakılır.
+
 **Gelir kancası:** `window.SozcukGelir` yalnızca iOS uygulamasının `yerel.js`'inde
 tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odulluReklam`,
 `gecisReklami`, `plusSatinAl`, `plusGeriYukle`). İpucu günde 1 ücretsizdir; bitince
