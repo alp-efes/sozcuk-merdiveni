@@ -376,8 +376,9 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Oyun alanı: merdiven ----------
    Yukarıdan aşağı okunur: BAŞLANGIÇ en üstte, her adım bir alt basamağa,
-   HEDEF en altta (klavyenin hemen üstünde), giriş satırı HEDEF'in üstünde.
-   Uzun merdivende yalnızca üst bölüm (.steps) kayar; giriş ve HEDEF sabittir. */
+   giriş satırı son kelimenin hemen altında, sonra boş basamaklar, HEDEF en
+   altta (klavyenin hemen üstünde). Uzun merdivende yalnızca üst bölüm
+   (.steps) kayar: eski basamaklar yukarı çıkar, HEDEF sabittir. */
 .game {
   flex: 1;
   min-height: 0;                   /* Flex çocuğun taşmadan küçülebilmesi için */
@@ -419,10 +420,10 @@ button { font: inherit; color: inherit; }
 .frame::before { left: calc(50% - var(--ladder-w) / 2); }
 .frame::after  { right: calc(50% - var(--ladder-w) / 2); }
 
-/* Kayan bölüm: BAŞLANGIÇ + girilen kelimeler + boş basamaklar */
+/* Kayan bölüm: BAŞLANGIÇ + girilen kelimeler + giriş satırı + boş basamaklar */
 .steps {
   flex: 1 1 0;
-  min-height: var(--pitch);          /* Son kelime her zaman görünür: en az bir basamak */
+  min-height: calc(2 * var(--pitch));   /* Son kelime ve giriş satırı her zaman görünür */
   display: flex;
   flex-direction: column;
   gap: var(--rung-gap);
@@ -458,7 +459,7 @@ button { font: inherit; color: inherit; }
   background: linear-gradient(var(--wood-light), var(--wood-dark));
   box-shadow: 0 2px 0 var(--rung-shadow);
 }
-/* Henüz basılmamış basamaklar: giriş satırına kadar kalan boşluk */
+/* Henüz basılmamış basamaklar: giriş satırından HEDEF'e kalan boşluk */
 .ghost {
   flex: 1;
   width: calc(var(--ladder-w) - 2 * var(--space-2));
@@ -557,7 +558,7 @@ button { font: inherit; color: inherit; }
 /* Hedefe ulaşınca giriş satırı ve boş basamaklar kalkar; merdiven üstte toplanır */
 .game.bitti .input-rung,
 .game.bitti .ghost { display: none; }
-.game.bitti .steps { flex: 0 1 auto; padding-bottom: var(--rung-gap); }   /* Son bloğun gölgesi kırpılmasın */
+.game.bitti .steps { flex: 0 1 auto; min-height: var(--pitch); padding-bottom: var(--rung-gap); }   /* Son bloğun gölgesi kırpılmasın */
 /* Örnek merdiven kaymaz; kenarlığın yerine iç boşluk */
 .example .frame { padding-top: var(--space-3); }
 

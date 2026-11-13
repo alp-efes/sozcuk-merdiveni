@@ -137,7 +137,7 @@
 
   <!-- ======================= OYUN ALANI ======================= -->
   <!-- Merdiven yukarıdan aşağı okunur. Üst bölüm (.steps) uzun merdivende
-       kayar; giriş satırı ve HEDEF her zaman görünür kalır. -->
+       kayar: son kelime ve altındaki giriş satırı görünür kalır; HEDEF sabittir. -->
   <main class="game" id="game">
     <div class="frame">
       <div class="steps" id="steps">
@@ -148,15 +148,14 @@
         </section>
         <!-- Girilen kelimeler: her adım bir alt basamağa eklenir -->
         <section class="ladder" id="ladder" aria-live="polite" aria-label="Girilen kelimeler"></section>
-        <!-- Henüz basılmamış basamaklar (süs) -->
+        <!-- Giriş satırı: o an yazılan kelime; son girilen kelimenin hemen altında -->
+        <section class="rung input-rung">
+          <div class="word-row input-row" id="inputRow" aria-label="Kelime girişi" aria-live="polite"></div>
+          <span class="step-label" id="inputLabel"></span>
+        </section>
+        <!-- Henüz basılmamış basamaklar: HEDEF'e kalan yol (süs) -->
         <div class="ghost" aria-hidden="true"></div>
       </div>
-
-      <!-- Giriş satırı: o an yazılan kelime -->
-      <section class="rung input-rung">
-        <div class="word-row input-row" id="inputRow" aria-label="Kelime girişi" aria-live="polite"></div>
-        <span class="step-label" id="inputLabel"></span>
-      </section>
 
       <!-- En altta: hedef kelime (sabit) -->
       <section class="rung target-rung">

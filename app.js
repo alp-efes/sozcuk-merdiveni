@@ -287,8 +287,8 @@ class WordLadder {
     this.hideModal();
   }
 
-  // Zincirin n. kelimesini merdivenin en altına basamak olarak ekler ve
-  // merdiveni sona kaydırır (uzun merdivende eski basamaklar yukarı çıkar)
+  // Zincirin n. kelimesini son basamak olarak ekler (giriş satırı onun hemen
+  // altındadır) ve merdiveni sona kaydırır: eski basamaklar yukarı çıkar
   addRung(n) {
     const rung = document.createElement("div");
     rung.className = "rung";

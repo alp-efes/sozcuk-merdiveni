@@ -202,13 +202,17 @@ async function main() {
     const yol = enKisaYol(bas, hedef);
     denetle(!!yol, `${bas}→${hedef} çözülemiyor`);
     denetle(yol && yol.length === adim, `en kısa yol ${yol && yol.length} adım, words.json ${adim} diyor`);
-    // İlk adım: merdiven yukarıdan aşağı okunur — BAŞLANGIÇ, adım, giriş, HEDEF
+    // İlk adım: merdiven yukarıdan aşağı okunur — BAŞLANGIÇ, adım, giriş, boş basamaklar, HEDEF
     if (yol) await kelimeYaz(sayfa, yol[0]);
+    await sayfa.waitForTimeout(400);         // basamağın iniş animasyonu bitsin
     const duzen = await sayfa.evaluate(() => {
       const ust = (sec) => document.querySelector(sec).getBoundingClientRect().top;
       const basamak = document.querySelector("#ladder .rung");
       return {
         sira: [ust("#startWord"), ust("#ladder .rung"), ust("#inputRow"), ust("#targetWord")],
+        // Giriş satırı son yazılan kelimenin hemen altındaki basamakta
+        aralik: ust("#inputRow") - basamak.querySelector(".word-row").getBoundingClientRect().bottom,
+        hedefeUzaklik: ust("#targetWord") - document.getElementById("inputRow").getBoundingClientRect().bottom,
         etiket: basamak.querySelector(".step-label").textContent,
         degisen: basamak.querySelectorAll(".tile.changed").length,
         imlec: document.querySelectorAll("#inputRow .tile.cursor").length,
@@ -218,6 +222,8 @@ async function main() {
     });
     denetle(duzen.sira.every((y, i) => i === 0 || y > duzen.sira[i - 1]),
             `merdiven sırası BAŞLANGIÇ → adım → giriş → HEDEF değil (${duzen.sira.map(Math.round)})`);
+    denetle(duzen.aralik >= 0 && duzen.aralik <= 16, `giriş satırı son kelimenin hemen altında değil (aralık ${Math.round(duzen.aralik)} px)`);
+    denetle(duzen.hedefeUzaklik > 40, `390×844'te giriş satırı ile HEDEF arasında boş basamak kalmalı (${Math.round(duzen.hedefeUzaklik)} px)`);
     denetle(duzen.etiket === "1. adım" && duzen.durum === "1 adım", `adım etiketi '${duzen.etiket}', durum satırı '${duzen.durum}'`);
     denetle(duzen.degisen === 1, `ilk adımda ${duzen.degisen} harf "değişen" işaretli, 1 olmalı`);
     denetle(duzen.imlec === 1, "giriş satırında sıradaki harfin yeri (imleç) tek kutu olmalı");

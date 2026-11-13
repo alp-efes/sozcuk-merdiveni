@@ -124,13 +124,15 @@ Kalınlık `--fw-medium` (500), `--fw-semi` (600), `--fw-bold` (700),
 ## Bileşenler
 
 **Merdiven** (`.game` → `.frame`). Yukarıdan aşağı okunur: BAŞLANGIÇ en üstte,
-her adım bir alt basamağa eklenir, HEDEF en altta (klavyenin hemen üstünde),
-giriş satırı HEDEF'in hemen üstündedir. Yalnızca üst bölüm (`.steps`:
-BAŞLANGIÇ + girilen kelimeler + boş basamaklar) kayar; giriş satırı ve HEDEF
-sabittir. Her yeni adımda `.steps` sona kaydırılır: eski basamaklar yukarı
-çıkar. Bulmaca çözülünce giriş satırı ve boş basamaklar kalkar.
-Çok kısa ekranda (320×460, yatay telefon) `.steps` en az bir basamak boyunda
-kalır (son kelime hep görünür) ve sığmayan merdiven `.game` içinde kayar:
+her adım bir alt basamağa eklenir, giriş satırı son kelimenin hemen altındaki
+basamaktadır, altında HEDEF'e kalan boş basamaklar durur, HEDEF en alttadır
+(klavyenin hemen üstünde). Her adımda giriş satırı bir basamak iner. Üst bölüm
+(`.steps`: BAŞLANGIÇ + girilen kelimeler + giriş satırı + boş basamaklar)
+kayar, HEDEF sabittir. Merdiven ekrandan uzunsa `.steps` sona kaydırılır: eski
+basamaklar yukarı çıkar; son kelime, giriş satırı ve HEDEF görünür kalır.
+Bulmaca çözülünce giriş satırı ve boş basamaklar kalkar.
+Çok kısa ekranda (320×460, yatay telefon) `.steps` en az iki basamak boyunda
+kalır (son kelime ve giriş satırı hep görünür) ve sığmayan merdiven `.game` içinde kayar:
 önce son kelime ve giriş satırı görünür, HEDEF kaydırınca gelir. Merdiven
 klavyenin üstüne taşmaz.
 
@@ -189,7 +191,7 @@ başlangıç, hedef.
 - Kısa ekranda (boy ≤ 740 px) boş reklam yer tutucuları yer kaplamaz; gerçek
   reklam geldiğinde küçük telefondaki yerleşim yeniden ölçülmelidir.
 - `tools/test_tarayici.js` şunları ölçer: merdiven sırası (BAŞLANGIÇ → adım →
-  giriş → HEDEF); 360×560 ve 375×548 serbest oyunda HEDEF ve giriş satırı,
+  giriş → HEDEF) ve giriş satırının son kelimenin hemen altında olması; 360×560 ve 375×548 serbest oyunda HEDEF ve giriş satırı,
   320×460'ta giriş satırı, çözülmüş günlükte HEDEF ilk ekranda; denetimlerin
   gerçek dokunma alanı 44×44, tuş boyu 44; 320×460'ta son kelime ve giriş
   görünür, 667×375 yatayda hiçbir tuşun üstü örtülmez; fiziksel klavye
