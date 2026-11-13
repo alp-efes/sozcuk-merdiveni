@@ -177,11 +177,12 @@
 
   <!-- ======================= ANALİTİK İZNİ =======================
        Kabul edilene kadar Firebase/Google hiçbir şey yüklenmez (aşağıdaki modül).
-       Akışta yer tutar, tahtanın üstüne binmez. İki düğme aynı boyda ve stilde. -->
+       Akışta yer tutar, tahtanın üstüne binmez; açıkken reklam yer tutucuları
+       gizlenir (bkz. style.css). İki düğme aynı boyda ve stilde. -->
   <div class="izin" id="izin" role="region" aria-label="Çerez tercihi" hidden>
-    <p class="izin-metin">Ziyaretleri ve oyun istatistiklerini ölçmek için Google Analytics
-    (Firebase) kullanmak istiyoruz. Kabul etmezseniz hiçbir şey yüklenmez.
-    <a href="gizlilik.html">Ayrıntılar</a></p>
+    <p class="izin-metin">Ölçüm için cihazınıza Google Analytics (Firebase) çerezleri
+    yerleştirmek ve verileri ABD dâhil yurt dışındaki Google sunucularına aktarmak
+    istiyoruz. <a href="gizlilik.html">Ayrıntılar</a></p>
     <div class="izin-dugmeler">
       <button class="izin-btn" id="izinHayir" type="button">Reddet</button>
       <button class="izin-btn" id="izinEvet" type="button">Kabul et</button>
@@ -290,8 +291,8 @@
        Alt bilgideki "Çerez Tercihleri" (#cerez-tercihi) seçimi siler ve
        bildirimi yeniden gösterir. Web config'i (apiKey dahil) herkese açık
        olacak şekilde tasarlanmıştır; gizli anahtar DEĞİLDİR, public depoda
-       durması normaldir. NOT: AdSense eklenince AEA için Google onaylı bir
-       CMP gerekir; bu basit bildirim onun yerini alır. -->
+       durması normaldir. NOT: AdSense eklenince AEA, Birleşik Krallık ve
+       İsviçre için Google onaylı bir CMP gerekir; bu basit bildirim onun yerini alır. -->
   <script type="module">
     const IZIN = "sm_izin";
     const SDK = "https://www.gstatic.com/firebasejs/12.8.0/";
@@ -326,6 +327,15 @@
       }
     }
 
+    // Firebase'in tarayıcı deposundaki kimlik veritabanları (bağlantı kuruluysa silme
+    // sayfa yenilenince tamamlanır)
+    function izleriSil() {
+      cerezleriSil();
+      for (const ad of ["firebase-installations-database", "firebase-heartbeat-database"]) {
+        try { indexedDB.deleteDatabase(ad); } catch (_) { /* önemli değil */ }
+      }
+    }
+
     async function analitikBaslat() {
       izinli = true;
       try {
@@ -349,27 +359,33 @@
     function karar(deger) {
       yaz(deger);
       kutu.hidden = true;
-      if (deger === "evet") analitikBaslat(); else cerezleriSil();
+      if (deger === "evet") analitikBaslat(); else izleriSil();
     }
     document.getElementById("izinEvet").addEventListener("click", () => karar("evet"));
     document.getElementById("izinHayir").addEventListener("click", () => karar("hayir"));
 
-    // Seçimi geri alma: SDK bu sayfada yüklendiyse kaldırmanın yolu sayfayı yenilemek
+    // Seçimi geri alma: SDK bu sayfada yüklendiyse kaldırmanın yolu sayfayı yenilemek.
+    // Yenilemede kaydırma geri yüklenmez; bildirim ilk ekranda kalır.
     function tercihiAc() {
       history.replaceState(null, "", location.pathname + location.search);
       const yuklendi = izinli;
       sil();
       izinli = false;
-      cerezleriSil();
-      if (yuklendi) { location.reload(); return; }
+      izleriSil();
+      if (yuklendi) { history.scrollRestoration = "manual"; location.reload(); return; }
       kutu.hidden = false;
-      document.getElementById("izinEvet").focus();
+      document.getElementById("izinHayir").focus();
     }
     const hashBak = () => { if (location.hash === "#cerez-tercihi") tercihiAc(); };
     window.addEventListener("hashchange", hashBak);
 
     const kayitli = oku();
-    if (kayitli === "evet") analitikBaslat();
+    // #cerez-tercihi ile gelen (ör. gizlilik sayfasından) rızayı geri alıyor:
+    // SDK'yı başlatma, yalnızca geri alma akışı çalışsın
+    const geriAliyor = location.hash === "#cerez-tercihi";
+    // Rıza yoksa önceki ziyaretlerden kalan _ga* çerezleri de silinir
+    if (kayitli !== "evet" || geriAliyor) cerezleriSil();
+    if (kayitli === "evet" && !geriAliyor) analitikBaslat();
     else if (kayitli !== "hayir") kutu.hidden = false;
     hashBak();
   </script>

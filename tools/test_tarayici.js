@@ -118,10 +118,21 @@ async function main() {
     tarayici = await chromium.launch();
     // Dış ağı kapat: reklam/analitik betikleri testin sonucunu etkilemesin
     const disIstekler = [];
+    // Firebase SDK'sı gerçekten indirilmez: istek kaydedilir, yerine sahte modül
+    // verilir (logEvent çağrıları window.__olaylar'a yazılır). Diğer dış istekler düşer.
+    const SAHTE_SDK = {
+      "firebase-app.js": "export const initializeApp = () => ({});",
+      "firebase-analytics.js": "export const getAnalytics = () => ({}); export const isSupported = async () => true;" +
+        " export const logEvent = (a, ad) => { (window.__olaylar = window.__olaylar || []).push(ad); };",
+    };
     const disAgiKapat = (b) => b.route("**/*", (istek) => {
-      if (istek.request().url().startsWith(ADRES)) return istek.continue();
-      disIstekler.push(istek.request().url());
-      return istek.abort();
+      const url = istek.request().url();
+      if (url.startsWith(ADRES)) return istek.continue();
+      disIstekler.push(url);
+      const sahte = SAHTE_SDK[url.split("/").pop()];
+      return sahte && /gstatic\.com\/firebasejs\//.test(url)
+        ? istek.fulfill({ contentType: "text/javascript", headers: { "access-control-allow-origin": "*" }, body: sahte })
+        : istek.abort();
     });
     // Oyun testlerinde izin kararı verilmiş sayılır (bildirim yer kaplamasın);
     // bildirimin kendisi 11. adımda ayrıca denenir.
@@ -353,15 +364,41 @@ async function main() {
       await b.close();
     }
 
-    /* 11) Analitik izni: kabulden önce Firebase/Google'a istek yok, sonra var */
+    /* 11) Analitik izni: kabulden önce Firebase/Google'a istek ve olay yok, sonra var */
     console.log("11. Analitik izni");
     const firebaseMi = (u) => /gstatic\.com|googletagmanager|google-analytics|firebase/i.test(u);
+    const olaylar = (s) => s.evaluate(() => window.__olaylar || []);
     async function izinBaglami(en, boy) {
       const b = await tarayici.newContext({ viewport: { width: en, height: boy }, hasTouch: true, isMobile: true });
-      await disAgiKapat(b);                 // dış istekler kaydedilir ve düşürülür
+      await disAgiKapat(b);                 // dış istekler kaydedilir; SDK yerine sahte modül gelir
       return b;
     }
-    // a) İlk ziyaret 375×667: bildirim görünür, tahta ve HEDEF örtülmez, istek yok
+    // a) Bildirim varken küçük telefonlarda başlangıç, HEDEF (ve serbest oyunda giriş) ilk ekranda
+    for (const [en, boy, serbest] of [[375, 667, false], [375, 548, false], [375, 548, true],
+                                       [360, 560, false], [360, 560, true]]) {
+      const ad = `izin bildirimi açık, ${en}×${boy} ${serbest ? "serbest oyun" : "günlük"}`;
+      const kb = await izinBaglami(en, boy);
+      const ks = await kb.newPage();
+      ks.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await ks.goto(ADRES); await oyunHazir(ks);
+      if (serbest) await ks.tap("#tabFree");
+      const g = await ks.evaluate(() => {
+        const oyunKutu = document.getElementById("game").getBoundingClientRect();
+        const k = document.getElementById("izin").getBoundingClientRect();
+        const icinde = (id) => { const r = document.getElementById(id).getBoundingClientRect();
+          return r.height > 0 && r.top >= Math.max(0, oyunKutu.top) - 0.5 && r.bottom <= Math.min(innerHeight, oyunKutu.bottom) + 0.5; };
+        return { yuk: Math.round(k.height), oyunYuk: Math.round(oyunKutu.height), banner: !document.getElementById("izin").hidden && k.height > 0, sigiyor: k.bottom <= innerHeight + 0.5,
+                 ortusme: k.top < oyunKutu.bottom - 0.5 && k.bottom > oyunKutu.top + 0.5,
+                 basla: icinde("startWord"), hedef: icinde("targetWord"), giris: icinde("inputRow") };
+      });
+      denetle(g.banner && g.sigiyor, `${ad}: bildirim görünmüyor ya da ekrana sığmıyor`);
+      denetle(!g.ortusme, `${ad}: bildirim tahtayı örtüyor`);
+      denetle(g.basla, `${ad}: BAŞLANGIÇ satırı ilk ekranda değil`);
+      denetle(g.hedef, `${ad}: HEDEF satırı ilk ekranda değil`);
+      if (serbest) denetle(g.giris, `${ad}: giriş satırı ilk ekranda değil`);
+      await kb.close();
+    }
+    // b) İlk ziyaret 375×667: eşit düğmeler; oyun başlangıcı kabulden önce olay göndermez
     disIstekler.length = 0;
     const ib = await izinBaglami(375, 667);
     const is = await ib.newPage();
@@ -370,50 +407,80 @@ async function main() {
     await oyunHazir(is);
     await is.waitForTimeout(500);
     const bildirim = await is.evaluate(() => {
-      const k = document.getElementById("izin"), kr = k.getBoundingClientRect(), g = document.getElementById("game").getBoundingClientRect();
-      const hedef = document.getElementById("targetWord").getBoundingClientRect();
       const boyut = (id) => { const r = document.getElementById(id).getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; };
-      return { gorunur: !k.hidden && kr.height > 0, ortusme: kr.top < g.bottom - 0.5 && kr.bottom > g.top + 0.5,
-               hedefGorunur: hedef.height > 0 && hedef.bottom <= g.bottom + 0.5 && hedef.bottom <= innerHeight,
-               bildirimSigiyor: kr.bottom <= innerHeight + 0.5, evet: boyut("izinEvet"), hayir: boyut("izinHayir"),
-               stilAyni: getComputedStyle(document.getElementById("izinEvet")).backgroundColor === getComputedStyle(document.getElementById("izinHayir")).backgroundColor,
+      const stil = (id) => getComputedStyle(document.getElementById(id));
+      return { evet: boyut("izinEvet"), hayir: boyut("izinHayir"),
+               stilAyni: stil("izinEvet").backgroundColor === stil("izinHayir").backgroundColor
+                 && stil("izinEvet").color === stil("izinHayir").color,
                secim: localStorage.getItem("sm_izin") };
     });
-    denetle(bildirim.gorunur, "ilk ziyarette izin bildirimi görünmüyor");
-    denetle(!bildirim.ortusme, "izin bildirimi oyun tahtasını örtüyor (375×667)");
-    denetle(bildirim.hedefGorunur, "izin bildirimi varken HEDEF satırı ilk ekranda değil (375×667)");
-    denetle(bildirim.bildirimSigiyor, "izin bildirimi ilk ekrana sığmıyor (375×667)");
     denetle(bildirim.evet[0] === bildirim.hayir[0] && bildirim.evet[1] === bildirim.hayir[1] && bildirim.stilAyni,
             `Kabul/Reddet düğmeleri aynı boy ve stilde değil: ${bildirim.evet} / ${bildirim.hayir}`);
     denetle(bildirim.evet[1] >= 44, `düğme yüksekliği ${bildirim.evet[1]}, en az 44 olmalı`);
     denetle(bildirim.secim === null, "kullanıcı seçmeden sm_izin yazıldı");
     denetle(!disIstekler.some(firebaseMi), "kabulden ÖNCE Firebase/Google isteği yapıldı: " + disIstekler.filter(firebaseMi).join(", "));
-    // b) Kabul: bildirim kapanır, sm_izin=evet, Firebase SDK istenir
+    // c) Kabul: sm_izin=evet, SDK istenir; kabulden önceki game_start sonradan gönderilmez
     await is.tap("#izinEvet");
     await is.waitForFunction(() => document.getElementById("izin").hidden);
     await is.waitForTimeout(500);
     denetle(await is.evaluate(() => localStorage.getItem("sm_izin")) === "evet", "kabulden sonra sm_izin 'evet' değil");
     denetle(disIstekler.some(firebaseMi), "kabulden sonra Firebase SDK istenmedi");
-    // c) Yenileyince bildirim çıkmaz, seçim hatırlanır
+    denetle(!(await olaylar(is)).includes("game_start"), "kabulden ÖNCEKİ game_start kabulden sonra gönderildi");
+    await is.tap("#btnRestart");           // yeni oyun: game_start artık gönderilmeli
+    await is.waitForFunction(() => (window.__olaylar || []).includes("game_start"), null, { timeout: 5000 })
+      .then(() => { gecen++; }, () => denetle(false, "kabulden sonra game_start olayı gönderilmedi"));
+    // d) Yenileyince bildirim çıkmaz, seçim hatırlanır, olaylar gönderilir
+    await is.evaluate(() => localStorage.removeItem("sm_state"));   // devam eden oyun game_start göndermez
     await is.reload(); await oyunHazir(is);
     denetle(await is.evaluate(() => document.getElementById("izin").hidden), "kabul edilmiş seçim sonrası bildirim yine çıktı");
-    // d) Tercihi değiştir: seçim silinir, sayfa yenilenir, bildirim yeniden çıkar; Firebase yüklenmez
+    await is.waitForFunction(() => (window.__olaylar || []).includes("game_start"), null, { timeout: 5000 })
+      .then(() => { gecen++; }, () => denetle(false, "izinli ziyaretçide yükleme sırasındaki game_start kuyruktan gönderilmedi"));
+    // e) Tercihi değiştir (sayfa aşağıda kaydırılmışken): yenilenir, bildirim ilk ekranda, Google isteği yok
+    await is.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    disIstekler.length = 0;
     await is.tap('.site-footer a[href="#cerez-tercihi"]');
-    await is.waitForFunction(() => !document.getElementById("izin").hidden, null, { timeout: 5000 })
-      .then(() => { gecen++; }, () => denetle(false, "Çerez Tercihleri bağlantısı bildirimi geri getirmedi"));
-    denetle(await is.evaluate(() => localStorage.getItem("sm_izin")) === null, "Çerez Tercihleri sm_izin'i silmedi");
+    await is.waitForFunction(() => !document.getElementById("izin").hidden && (window.scrollY || 0) < 5, null, { timeout: 5000 })
+      .then(() => { gecen++; }, () => denetle(false, "Çerez Tercihleri sonrası bildirim ilk ekranda görünmüyor"));
+    await is.waitForTimeout(400);
+    const geriAlinmis = await is.evaluate(() => {
+      const r = document.getElementById("izin").getBoundingClientRect();
+      return { secim: localStorage.getItem("sm_izin"), ekranda: r.top >= 0 && r.bottom <= innerHeight + 0.5 && r.height > 0,
+               olay: (window.__olaylar || []).length };
+    });
+    denetle(geriAlinmis.secim === null, "Çerez Tercihleri sm_izin'i silmedi");
+    denetle(geriAlinmis.ekranda, "Çerez Tercihleri sonrası bildirim ekranın dışında");
+    denetle(geriAlinmis.olay === 0, "geri alınan rıza sonrası yeni sayfada olay gönderildi");
+    denetle(!disIstekler.some(firebaseMi), "rıza geri alındıktan sonra Firebase/Google isteği yapıldı: " + disIstekler.filter(firebaseMi).join(", "));
     await ib.close();
-    // e) Reddet: seçim saklanır, Firebase hiç istenmez
+    // f) Gizlilik sayfasından geri alma: izinli ziyaretçi, SDK başlatılmadan bildirim gelir
+    disIstekler.length = 0;
+    const gb = await izinBaglami(375, 667);
+    await gb.addInitScript(() => { try { if (!localStorage.getItem("sm_izin")) localStorage.setItem("sm_izin", "evet"); } catch (_) {} });
+    const gs = await gb.newPage();
+    gs.on("pageerror", (e) => sayfaHatalari.push(e.message));
+    await gs.goto(ADRES + "gizlilik.html");
+    await gs.tap('a[href="index.html#cerez-tercihi"]');
+    await gs.waitForURL(ADRES + "index.html");
+    await gs.waitForFunction(() => document.getElementById("izin") && !document.getElementById("izin").hidden, null, { timeout: 5000 })
+      .then(() => { gecen++; }, () => denetle(false, "gizlilik sayfasından geri alınca bildirim görünmedi"));
+    await gs.waitForTimeout(500);
+    denetle(await gs.evaluate(() => localStorage.getItem("sm_izin")) === null, "gizlilik sayfasından geri alma sm_izin'i silmedi");
+    denetle(!disIstekler.some(firebaseMi), "gizlilik sayfasından geri alırken Firebase/Google isteği yapıldı: " + disIstekler.filter(firebaseMi).join(", "));
+    await gb.close();
+    // g) Reddet: seçim saklanır, Firebase hiç istenmez, olay yok
     disIstekler.length = 0;
     const rb = await izinBaglami(375, 667);
     const rs = await rb.newPage();
+    rs.on("pageerror", (e) => sayfaHatalari.push(e.message));
     await rs.goto(ADRES); await oyunHazir(rs);
     await rs.tap("#izinHayir");
     await rs.reload(); await oyunHazir(rs);
+    await rs.tap("#btnRestart");
     await rs.waitForTimeout(500);
     denetle(await rs.evaluate(() => localStorage.getItem("sm_izin")) === "hayir", "reddetme sm_izin='hayir' yazmadı");
     denetle(await rs.evaluate(() => document.getElementById("izin").hidden), "reddedilmiş seçim sonrası bildirim yine çıktı");
     denetle(!disIstekler.some(firebaseMi), "reddedildi ama Firebase/Google isteği yapıldı");
+    denetle((await olaylar(rs)).length === 0, "reddedildi ama analitik olayı gönderildi");
     await rb.close();
 
     denetle(sayfaHatalari.length === 0, "sayfada yakalanmamış hata: " + sayfaHatalari.join(" | "));

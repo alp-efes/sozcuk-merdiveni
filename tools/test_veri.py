@@ -225,6 +225,11 @@ def guvenlik_testleri():
         # Dış betik ve modül kaynakları (HTML yorumundaki şablonlar dahil)
         alanlar = re.findall(r'<script[^>]*\ssrc="https?://([^/"]+)', metin)
         alanlar += re.findall(r'(?:\bfrom\s*|\bimport\s*\(\s*)["\']https?://([^/"\']+)', metin)
+        # Yan etkili import "https://…" ve betik gövdelerindeki her https:// metni
+        # (ör. const SDK = "https://…/"); JSON-LD blokları betik değildir
+        alanlar += re.findall(r'\bimport\s*["\']https?://([^/"\']+)', metin)
+        for govde in re.findall(r'<script(?![^>]*ld\+json)[^>]*>(.*?)</script>', metin, re.S):
+            alanlar += re.findall(r'["\'`]https?://([^/"\'`\s]+)', govde)
         for alan in alanlar:
             denetle(alan in IZINLI_BETIK_ALANLARI,
                     f"{ad}: izinsiz dış betik adresi: {alan} (IZINLI_BETIK_ALANLARI)")

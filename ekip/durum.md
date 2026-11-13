@@ -51,7 +51,7 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
   telefonu herkese açar; AB, sahibin sonradan açabileceği bir kapıdır.
 - **Reklam istenir:** sitede AdSense planlandığı gibi; uygulama 1.0 reklamsız,
   AdMob sahibin AdMob hesabını açmasından sonraki bir sürümde. Reklam gelince
-  AEA için Google onaylı bir CMP gerekir; bu basit bildirimin yerini alır.
+  AEA, Birleşik Krallık ve İsviçre için Google onaylı bir CMP gerekir; bu basit bildirimin yerini alır.
   Reklamdan önce gizlilik sayfası ve App Store gizlilik etiketi güncellenir.
 
 ## Bütçe
