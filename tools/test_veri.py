@@ -211,7 +211,7 @@ def site_testleri():
         denetle(girdi in yoksay, f".assetsignore: '{girdi}' eksik — dosyalar herkese açılır")
 
     # Web'de ipucu "ücretsiz" diye anılmaz (ücretli ipucu izlenimi vermesin)
-    denetle("App Store kurallarına tabidir" in index, "index.html: Plus kutusunda iade/cayma notu yok")
+    denetle("m.15/1-ğ" in index and "reportaproblem.apple.com" in index, "index.html: Plus kutusunda cayma/iade notu yok")
     denetle("Günde bir ipucu hakkın var" in index and "ipucu ücretsizdir" not in index, "index.html: ipucu hakkı metni yanlış")
 
     # app-ads.txt: iOS uygulamasının AdMob yayıncı doğrulaması; tam bu tek satır ve yayında olmalı

@@ -728,7 +728,7 @@ async function main() {
       const { b, s } = await gelirSayfasi({ plus: false, odul: true, satin: false, geri: true });
       denetle(await gorunur(s, "#plusBox") && await gorunur(s, "#btnPlusBuy") && await gorunur(s, "#btnPlusRestore"), "kancalı: Plus satın al ve geri yükle düğmeleri görünmeli");
       denetle(/Reklamsız \+ sınırsız ipucu/.test(await s.textContent("#plusText")), "Plus bölümünde 'Reklamsız + sınırsız ipucu' yazmalı");
-      denetle((await s.textContent("#btnPlusBuy")) === "Plus'a geç" && /App Store kurallarına tabidir/.test(await s.textContent("#plusNot")) && await gorunur(s, "#plusNot"),
+      denetle((await s.textContent("#btnPlusBuy")) === "Plus'a geç" && /m\.15\/1-ğ.*reportaproblem\.apple\.com/.test(await s.textContent("#plusNot")) && await gorunur(s, "#plusNot"),
               "fiyat yokken etiket 'Plus'a geç' kalmalı; satın alma notu görünmeli");
       await s.evaluate(() => { window.__k.geri = false; });
       await s.click("#btnPlusRestore");

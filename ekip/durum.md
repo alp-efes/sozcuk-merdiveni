@@ -56,6 +56,11 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
   AdMob sahibin AdMob hesabını açmasından sonraki bir sürümde. Reklam gelince
   AEA, Birleşik Krallık ve İsviçre için Google onaylı bir CMP gerekir.
   Reklamdan önce gizlilik sayfası ve App Store gizlilik etiketi güncellenir.
+- **Türkiye'de ayrı reklam rıza ekranı yok** (13 Kasım 2026, sahip kararı, kabul edilmiş risk):
+  kişiselleştirilmemiş reklam meşru menfaate (KVKK m.5/2-f) dayanır, kişiselleştirme
+  iOS ATT'ye. Hukuk taslağı bunun KVKK Çerez Rehberi'yle çeliştiğini söyledi; sahip riski
+  bilerek kabul etti. `hukuk-uyum` bunu bulgu olarak yazabilir ama "sahip kararı, kabul
+  edilmiş risk" diye; yeni issue/engel olarak açılmaz.
 - **Cloudflare Web Analytics (RUM) 13 Kasım 2026'da kapatıldı ve kapalı kalmalı.**
   Bölge düzeyindeki her enjeksiyon (RUM, Zaraz vb.) `hukuk-uyum` incelemesi ister;
   depo testleri bunları görmez.
