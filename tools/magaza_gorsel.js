@@ -2,7 +2,7 @@
 /* =========================================================
  * Sözcük Merdiveni — App Store ekran görüntüsü üretici
  * ---------------------------------------------------------
- * Gerçek oyunu telefon boyutunda (dokunmatik düzen) açar, oynar ve her
+ * Gerçek oyunu telefon boyutunda açar, ekran klavyesine dokunarak oynar ve her
  * ekranın üstüne kısa bir başlık bandı koyar. Sahte ekran çizilmez: görünen
  * her şey sitenin kendi index.html / app.js / style.css dosyalarıdır.
  * Bant da renk ve yazıyı style.css belirteçlerinden alır.
@@ -29,7 +29,7 @@ const KOK = path.resolve(__dirname, "..");
 const CIKTI = path.join(__dirname, "uygulama", "magaza");
 const PORT = 8767;                       // 8765 önizleme, 8766 duman testi
 const ADRES = `http://127.0.0.1:${PORT}/`;
-const TARIH = process.argv[2] || "2026-11-12";
+const TARIH = process.argv[2] || "2026-11-13";
 
 // 440×956 CSS px × 3 = 1320×2868
 const OLCEK = 3;
@@ -76,7 +76,8 @@ async function oyunEkranlari(tarayici) {
 
   // Geçiş animasyonları gerçek saatle, oyunun zamanlayıcıları sahte saatle ilerler
   const cek = async () => { await sayfa.clock.runFor(1000); await sayfa.waitForTimeout(500); return sayfa.screenshot(); };
-  const yaz = (metin) => sayfa.keyboard.type(metin.toLocaleLowerCase("tr"));
+  const tus = (ad) => sayfa.tap(`#keyboard .key[data-key="${ad}"]`);
+  const yaz = async (metin) => { for (const harf of metin) await tus(harf); };
 
   // En kısa çözüm — oyunun kendi sözlüğüyle (genişlik öncelikli arama)
   const yol = await sayfa.evaluate(() => {
@@ -101,13 +102,12 @@ async function oyunEkranlari(tarayici) {
   const goruntuler = [];
   goruntuler.push(await cek());                          // 1: günün bulmacası
 
-  await sayfa.tap("#game");                              // 2: ilk hamle + yarım kelime
-  await yaz(yol[0]); await sayfa.keyboard.press("Enter");
+  await yaz(yol[0]); await tus("ENTER");                 // 2: ilk hamle + yarım kelime
   await yaz(yol[1].slice(0, -1));
   goruntuler.push(await cek());
 
-  await yaz(yol[1].slice(-1)); await sayfa.keyboard.press("Enter");   // 3: çözüm
-  for (const kelime of yol.slice(2)) { await yaz(kelime); await sayfa.keyboard.press("Enter"); }
+  await yaz(yol[1].slice(-1)); await tus("ENTER");       // 3: çözüm
+  for (const kelime of yol.slice(2)) { await yaz(kelime); await tus("ENTER"); }
   await sayfa.clock.runFor(1000);
   await sayfa.waitForFunction(() => !document.getElementById("modal").classList.contains("hidden"), null, { timeout: 5000 });
   goruntuler.push(await cek());
@@ -127,15 +127,15 @@ function sablon(baslik, png) {
 <link rel="stylesheet" href="${ADRES}style.css">
 <style>
   body { width: ${TUVAL.width}px; height: ${TUVAL.height}px; overflow: hidden;
-         background: linear-gradient(var(--surface), var(--bg)); }
+         background: var(--surface-2); }
   .bant { height: ${TUVAL.height - OYUN.height - 26}px; padding: 0 var(--space-6);
           display: flex; flex-direction: column; align-items: center; justify-content: center;
           gap: var(--space-3); text-align: center; }
-  .marka { color: var(--amber); font-size: var(--fs-sm); font-weight: var(--fw-bold);
+  .marka { color: var(--accent); font-size: var(--fs-sm); font-weight: var(--fw-bold);
            letter-spacing: var(--track-lg); }
-  h1 { font-size: 2.125rem; font-weight: var(--fw-heavy); line-height: var(--lh-tight); }
+  h1 { font-family: var(--font-display); font-size: var(--fs-3xl); font-weight: var(--fw-heavy); line-height: var(--lh-tight); }
   img { display: block; width: ${OYUN.width}px; height: ${OYUN.height}px; margin: 0 auto;
-        border: 1px solid var(--border); border-radius: var(--space-6); box-shadow: var(--shadow-md); }
+        border: 1.5px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 </style></head><body>
 <div class="bant"><span class="marka">SÖZCÜK MERDİVENİ</span><h1></h1></div>
 <img alt="" src="data:image/png;base64,${png.toString("base64")}">
@@ -161,6 +161,7 @@ async function main() {
       await sayfa.route(ADRES + "magaza-sablon", (istek) =>
         istek.fulfill({ contentType: "text/html; charset=utf-8", body: sablon(baslik, goruntuler[i]) }));
       await sayfa.goto(ADRES + "magaza-sablon", { waitUntil: "load" });
+      await sayfa.evaluate(() => document.fonts.ready);
       await sayfa.unroute(ADRES + "magaza-sablon");
       const dosya = path.join(CIKTI, ad + ".png");
       await sayfa.screenshot({ path: dosya });

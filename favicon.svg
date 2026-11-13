@@ -1,21 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sözcük Merdiveni">
-  <!-- Marka ikonu: yükselen 3 harf kutusu — hem kelime oyunu hem "merdiven"
-       (ladder) çağrışımı. Koyu zeminde yeşil → krem → amber köşegen.
-       Renkler style.css :root belirteçlerinin kopyasıdır (--surface, --bg,
-       --amber, --cream, --green); oradaki değer değişirse burası da değişir.
-       tools/test_veri.py eşleşmeyi denetler. -->
+  <!-- Marka ikonu: kâğıt zeminde tahta merdiven ve basamaklarından inen üç
+       harf bloğu (blok → yeşil → kiremit).
+       Renkler style.css :root belirteçlerinin kopyasıdır (--bg-glow, --bg,
+       --wood-light, --wood-dark, --block, --green, --accent ve gölgeleri);
+       oradaki değer değişirse burası da değişir. tools/test_veri.py
+       eşleşmeyi denetler. Oranlar tools/ikon_uret.py ile aynıdır. -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1e1e20"/>
-      <stop offset="1" stop-color="#121213"/>
+      <stop offset="0" stop-color="#fbf4e6"/>
+      <stop offset="1" stop-color="#f3eada"/>
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-
-  <!-- En üst (amber) -->
-  <rect x="286" y="96"  width="130" height="130" rx="26" fill="#c9a94a"/>
-  <!-- Orta (krem) -->
-  <rect x="191" y="191" width="130" height="130" rx="26" fill="#e9e7e0"/>
-  <!-- En alt (yeşil) -->
-  <rect x="96"  y="286" width="130" height="130" rx="26" fill="#3f8245"/>
+  <g transform="translate(96,96)">
+    <!-- Çıtalar -->
+    <g fill="#d9b07a">
+      <rect x="52" y="51"  width="216" height="18" rx="5"/>
+      <rect x="52" y="151" width="216" height="18" rx="5"/>
+      <rect x="52" y="251" width="216" height="18" rx="5"/>
+    </g>
+    <!-- Korkuluklar -->
+    <rect x="40"  y="0" width="22" height="320" rx="9" fill="#b98a52"/>
+    <rect x="46"  y="4" width="8"  height="312" rx="4" fill="#d9b07a"/>
+    <rect x="258" y="0" width="22" height="320" rx="9" fill="#b98a52"/>
+    <rect x="264" y="4" width="8"  height="312" rx="4" fill="#d9b07a"/>
+    <!-- Bloklar: alt yüz, sonra üst yüz -->
+    <rect x="72"  y="26"  width="84" height="84" rx="16" fill="#b98f56"/>
+    <rect x="72"  y="18"  width="84" height="84" rx="16" fill="#ebd3a6"/>
+    <rect x="118" y="126" width="84" height="84" rx="16" fill="#1e4a2a"/>
+    <rect x="118" y="118" width="84" height="84" rx="16" fill="#2f6b3f"/>
+    <rect x="164" y="226" width="84" height="84" rx="16" fill="#74291a"/>
+    <rect x="164" y="218" width="84" height="84" rx="16" fill="#a8432b"/>
+  </g>
 </svg>

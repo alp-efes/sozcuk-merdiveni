@@ -15,9 +15,11 @@
  *   5. Çözüm kaydediliyor ve sayfa yenilenince geri geliyor
  *   6. Telefon genişliğinde yatay taşma yok
  *   7. Serbest oyun seçilen uzunlukta bulmaca veriyor
- *   8. Dokunmatikte ekran klavyesi gizli, cihaz klavyesi çalışıyor
+ *   8. Dokunmatikte de ekran klavyesi kullanılıyor (cihaz klavyesi açılmaz);
+ *      fiziksel klavye çalışıyor
  *   9. TRT gece yarısında bulmaca kendiliğinden değişiyor
- *  10. Küçük telefonda HEDEF/giriş satırı ilk ekranda; dokunma alanları ≥ 44 px
+ *  10. Küçük telefonda HEDEF/giriş satırı ilk ekranda; dokunma alanları ≥ 44 px;
+ *      uzun merdivende eski basamaklar kayıyor, giriş ve HEDEF görünür kalıyor
  *  11. Site Google/gstatic'e hiç istek yapmıyor; eski analitikten kalan
  *      çerez/anahtar bir kez temizleniyor
  *
@@ -105,6 +107,12 @@ async function kelimeYaz(sayfa, kelime) {
   await sayfa.click('#keyboard .key[data-key="ENTER"]');
 }
 
+// Telefonda oyuncunun yaptığı gibi: ekran klavyesine dokunarak
+async function kelimeDokun(sayfa, kelime) {
+  for (const harf of kelime) await sayfa.tap(`#keyboard .key[data-key="${harf}"]`);
+  await sayfa.tap('#keyboard .key[data-key="ENTER"]');
+}
+
 async function oyunHazir(sayfa) {
   await sayfa.waitForFunction(() => window.oyun && window.oyun.db && window.oyun.startWord, null, { timeout: 10000 });
 }
@@ -143,7 +151,7 @@ async function main() {
     denetle(tusSayisi === 31, `ekran klavyesinde ${tusSayisi} tuş var, 31 olmalı (29 harf + GİR + sil)`);
     // İkonlar satır içi SVG: her ikon düğmesinde tam bir görünür ikon ve erişilebilir ad
     const gorunurIkon = () => sayfa.evaluate(() =>
-      ["#btnMute", "#btnRestart", "#keyboard .key[data-key=BACK]", "#btnCloseModal"].map((sec) => {
+      ["#btnMute", "#btnRestart", "#keyboard .key[data-key=BACK]", "#btnCloseModal", "#btnHelp"].map((sec) => {
         const d = document.querySelector(sec);
         // Kapalı pencerenin düğmesi ölçülemez: görünürlük ikonun kendi display değerinden okunur
         const g = [...d.querySelectorAll("svg")].filter((s) => getComputedStyle(s).display !== "none");
@@ -159,6 +167,10 @@ async function main() {
     await sayfa.click("#btnMute");
     const sesli = (await gorunurIkon())[0];
     denetle(sesli.sinif === ikonlar[0].sinif && sesli.basili === "false", "ses açılınca ikon ya da aria-pressed geri dönmedi");
+
+    // Başlık ve harfler depodaki yazı tipiyle çiziliyor (dış sunucu yok)
+    denetle(await sayfa.evaluate(() => document.fonts.load('700 20px "Fraunces"', "ĞŞİ").then((f) => f.length > 0, () => false)),
+            "Fraunces yazı tipi yerel dosyadan yüklenmedi");
 
     /* 2) Günün bulmacası */
     console.log("2. Günün bulmacası");
@@ -190,7 +202,27 @@ async function main() {
     const yol = enKisaYol(bas, hedef);
     denetle(!!yol, `${bas}→${hedef} çözülemiyor`);
     denetle(yol && yol.length === adim, `en kısa yol ${yol && yol.length} adım, words.json ${adim} diyor`);
-    for (const kelime of yol || []) await kelimeYaz(sayfa, kelime);
+    // İlk adım: merdiven yukarıdan aşağı okunur — BAŞLANGIÇ, adım, giriş, HEDEF
+    if (yol) await kelimeYaz(sayfa, yol[0]);
+    const duzen = await sayfa.evaluate(() => {
+      const ust = (sec) => document.querySelector(sec).getBoundingClientRect().top;
+      const basamak = document.querySelector("#ladder .rung");
+      return {
+        sira: [ust("#startWord"), ust("#ladder .rung"), ust("#inputRow"), ust("#targetWord")],
+        etiket: basamak.querySelector(".step-label").textContent,
+        degisen: basamak.querySelectorAll(".tile.changed").length,
+        imlec: document.querySelectorAll("#inputRow .tile.cursor").length,
+        durum: document.getElementById("stepInfo").textContent,
+        boy: document.getElementById("game").dataset.boy,
+      };
+    });
+    denetle(duzen.sira.every((y, i) => i === 0 || y > duzen.sira[i - 1]),
+            `merdiven sırası BAŞLANGIÇ → adım → giriş → HEDEF değil (${duzen.sira.map(Math.round)})`);
+    denetle(duzen.etiket === "1. adım" && duzen.durum === "1 adım", `adım etiketi '${duzen.etiket}', durum satırı '${duzen.durum}'`);
+    denetle(duzen.degisen === 1, `ilk adımda ${duzen.degisen} harf "değişen" işaretli, 1 olmalı`);
+    denetle(duzen.imlec === 1, "giriş satırında sıradaki harfin yeri (imleç) tek kutu olmalı");
+    denetle(duzen.boy === String(bas.length), `#game data-boy=${duzen.boy}, kelime ${bas.length} harfli`);
+    for (const kelime of (yol || []).slice(1)) await kelimeYaz(sayfa, kelime);
     const son = await sayfa.evaluate(() => ({
       bitti: oyun.over, zincir: oyun.chain.slice(),
       sinif: document.getElementById("game").classList.contains("bitti"),
@@ -200,6 +232,18 @@ async function main() {
     await sayfa.waitForFunction(() => !document.getElementById("modal").classList.contains("hidden"),
                                 null, { timeout: 5000 })
       .then(() => { gecen++; }, () => denetle(false, "kazanınca tebrik penceresi açılmadı"));
+    const pencere = await sayfa.evaluate(() => ({
+      adim: document.getElementById("modalSteps").textContent,
+      enAz: document.getElementById("modalOptimal").textContent,
+      satir: document.querySelectorAll("#modalGrid > div").length,
+      sonYesil: document.querySelectorAll("#modalGrid > div:last-child .green").length,
+      paylasIkon: document.querySelectorAll("#btnShare svg.icon").length,
+      cozuldu: document.getElementById("stepInfo").textContent,
+    }));
+    denetle(pencere.adim === String(adim) && pencere.enAz === String(adim), `pencerede adım ${pencere.adim}, en az ${pencere.enAz}; ${adim} olmalı`);
+    denetle(pencere.satir === adim && pencere.sonYesil === bas.length, "pencere sonuç ızgarası adımlarla uyuşmuyor");
+    denetle(pencere.paylasIkon === 1, "Sonucu Paylaş düğmesinde tek SVG ikon olmalı");
+    denetle(pencere.cozuldu === "Çözüldü", `durum satırı çözülünce '${pencere.cozuldu}'`);
 
     /* 5) Kayıt ve yenileme */
     console.log("5. Kayıt ve yenileme");
@@ -229,7 +273,8 @@ async function main() {
     denetle(serbest.mod === "free" && !serbest.bitti, "serbest oyun başlamadı");
     denetle(serbest.boy === serbest.tercih, `serbest oyun ${serbest.boy} harfli, seçili uzunluk ${serbest.tercih}`);
 
-    /* Dokunmatik: ekran klavyesi gizlenir, cihaz klavyesiyle yazılır */
+    /* Dokunmatik: telefonda da ekran klavyesi kullanılır; cihaz klavyesini
+       açacak bir giriş alanı yoktur. Fiziksel klavye (ör. iPad) yine çalışır. */
     console.log("8. Dokunmatik giriş");
     const dokunmatik = await tarayici.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
     await disAgiKapat(dokunmatik);
@@ -240,12 +285,17 @@ async function main() {
     await sayfa2.clock.install({ time: new Date(yarinGeceYarisi - 5000) });   // gece yarısına 5 sn
     await sayfa2.goto(ADRES);
     await oyunHazir(sayfa2);
-    const klavyeGizli = await sayfa2.locator("#keyboard").isHidden();
-    denetle(klavyeGizli, "dokunmatik ekranda ekran klavyesi gizlenmedi");
+    denetle(await sayfa2.locator("#keyboard").isVisible(), "dokunmatik ekranda ekran klavyesi görünmüyor");
     await sayfa2.tap("#game");
-    await sayfa2.keyboard.type("ka");
+    denetle(await sayfa2.evaluate(() => !document.querySelector("input, textarea") && document.activeElement === document.body),
+            "tahtaya dokununca cihaz klavyesini açacak bir giriş alanı odaklandı");
+    await sayfa2.tap('#keyboard .key[data-key="K"]');
+    await sayfa2.tap('#keyboard .key[data-key="A"]');
+    await sayfa2.tap('#keyboard .key[data-key="BACK"]');
+    // Türkçe fiziksel klavyedeki "ı" tuşu (Playwright'ın tuş listesinde yok)
+    await sayfa2.evaluate(() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "ı", bubbles: true })));
     const tampon = await sayfa2.evaluate(() => oyun.buffer);
-    denetle(tampon === "KA", `cihaz klavyesiyle 'ka' yazıldı, tampon '${tampon}'`);
+    denetle(tampon === "KI", `ekran klavyesiyle K, A, Sil; fiziksel klavyeyle 'ı' yazıldı, tampon '${tampon}'`);
     const tasma2 = await sayfa2.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     denetle(tasma2 <= 0, `dokunmatik düzende sayfa yatayda ${tasma2}px taşıyor`);
 
@@ -280,11 +330,7 @@ async function main() {
       await oyunHazir(s);
       if (cozulmus) {
         const [kb, kh] = beklenenBulmaca(kisaGun);
-        await s.tap("#game");
-        for (const k of enKisaYol(kb, kh) || []) {
-          await s.keyboard.type(k.toLocaleLowerCase("tr"));
-          await s.keyboard.press("Enter");
-        }
+        for (const k of enKisaYol(kb, kh) || []) await kelimeDokun(s, k);
         await s.reload();                    // çözülmüş bulmacaya geri dönen oyuncunun ilk ekranı
         await oyunHazir(s);
       } else {
@@ -332,34 +378,48 @@ async function main() {
       }
       if (en === 360) {
         const secici = cozulmus ? ".mini-btn"
-          : ".icon-btn, .mode-tab, .pick-btn, .scroll-cue, .site-footer a";   // alt bilgi: Gizlilik
+          : ".icon-btn, .mode-tab, .pick-btn, .site-footer a";   // alt bilgi: Gizlilik
         for (const a of await dokunmaAlani(s, secici)) {
           denetle(a.en >= 44 && a.boy >= 44, `${ad}: '${a.ad}' dokunma alanı ${a.en}×${a.boy}, en az 44×44 olmalı`);
         }
       }
-      if (en === 360 && !cozulmus) {
-        // Görünmez dokunma alanı kaydırılan tahtaya taşmamalı: tahta kayınca
-        // harf kutuları oraya gelir ve dokunuş ayar düğmesine gidip oyunu sıfırlar.
-        await s.tap('[data-diff="zor"]');                // uzun yol: tahta kaysın
-        const [zb, zh] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
-        await s.tap("#game");
-        for (const k of (enKisaYol(zb, zh) || []).slice(0, -1)) {
-          await s.keyboard.type(k.toLocaleLowerCase("tr"));
-          await s.keyboard.press("Enter");
+      if (!cozulmus) {
+        // Klavye tuşu: boy en az 44. En, sıradaki 11 tuşla sınırlıdır (bilinen
+        // istisna, ekip/tasarim-sistemi.md); tuşlar aralıksız olduğundan alan
+        // tuşun tamamıdır. Alt sınır 320 px ekrandaki harf tuşu genişliğidir.
+        const tuslar = await dokunmaAlani(s, "#keyboard .key");
+        denetle(tuslar.length === 31, `${ad}: ${tuslar.length} tuş ölçüldü, 31 olmalı`);
+        for (const a of tuslar) {
+          denetle(a.boy >= 44 && a.en >= 28, `${ad}: '${a.ad}' tuşu ${a.en}×${a.boy}; boy en az 44, en en az 28 olmalı`);
         }
+      }
+      if (en === 360 && !cozulmus) {
+        // Uzun merdiven: eski basamaklar yukarı kayar, giriş satırı ve HEDEF
+        // yerinde kalır. Görünmez dokunma alanı kayan bölüme taşmamalı: harf
+        // blokları oraya gelir ve dokunuş ayar düğmesine gidip oyunu sıfırlar.
+        await s.tap('[data-diff="zor"]');                // uzun yol: merdiven kaysın
+        const [zb, zh] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        for (const k of (enKisaYol(zb, zh) || []).slice(0, -1)) await kelimeDokun(s, k);
         const tahta = await s.evaluate(() => {
-          const g = document.getElementById("game");
-          g.scrollTop = g.scrollHeight;
-          const r = g.getBoundingClientRect(), ust = r.top + g.clientTop;   // kutuların çizilebildiği ilk satır
+          const g = document.getElementById("game").getBoundingClientRect();
+          const b = document.getElementById("steps");
+          const r = b.getBoundingClientRect();
+          const icinde = (el) => { const k = el.getBoundingClientRect(); return k.top >= g.top - 0.5 && k.bottom <= Math.min(innerHeight, g.bottom) + 0.5; };
           const ayar = [];
-          for (let y = ust; y < ust + 10; y++) for (let x = r.left + 2; x < r.right - 2; x += 4) {
+          for (let y = r.top; y < r.top + 10; y++) for (let x = r.left + 2; x < r.right - 2; x += 4) {
             const e = document.elementFromPoint(x, y);
-            if (e && e.closest(".free-settings, .mode-tabs, .header")) ayar.push(e.textContent.trim());
+            if (e && e.closest(".free-settings, .mode-tabs, .header, .status")) ayar.push(e.textContent.trim());
           }
-          return { kaydi: g.scrollTop > 0, ayar: [...new Set(ayar)] };
+          const sonBasamak = document.querySelector("#ladder .rung:last-child").getBoundingClientRect();
+          return { kaydi: b.scrollTop > 0, sonda: b.scrollTop + b.clientHeight >= b.scrollHeight - 1,
+                   sonGorunur: sonBasamak.bottom <= r.bottom + 0.5 && sonBasamak.top >= r.top - 0.5,
+                   giris: icinde(document.getElementById("inputRow")), hedef: icinde(document.getElementById("targetWord")),
+                   ayar: [...new Set(ayar)] };
         });
-        denetle(tahta.kaydi, `${ad}: tahta kaydırılamadı, örtüşme denetimi yapılamadı`);
-        denetle(!tahta.ayar.length, `${ad}: kayan tahtanın üst kenarına dokunuş ayar düğmesine gidiyor: ${tahta.ayar.join(", ")}`);
+        denetle(tahta.kaydi && tahta.sonda, `${ad}: uzun merdiven sona kaymadı (eski basamaklar yukarı çıkmalı)`);
+        denetle(tahta.sonGorunur, `${ad}: uzun merdivende son girilen kelime görünmüyor`);
+        denetle(tahta.giris && tahta.hedef, `${ad}: uzun merdivende giriş satırı ya da HEDEF ekrandan çıktı`);
+        denetle(!tahta.ayar.length, `${ad}: kayan bölümün üst kenarına dokunuş ayar düğmesine gidiyor: ${tahta.ayar.join(", ")}`);
       }
       await b.close();
     }

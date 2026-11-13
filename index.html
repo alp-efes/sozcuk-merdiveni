@@ -5,7 +5,7 @@
   <!-- Mobil öncelikli görünüm: kullanıcı ölçekleyemez, oyun tahtası sabit kalır -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Her gün yeni bir Türkçe kelime bulmacası! Tek harf değiştirerek kelimeden kelimeye tırman, hedefe ulaş. Ücretsiz, üyeliksiz, mobil uyumlu — hemen oyna.">
-  <meta name="theme-color" content="#121213">
+  <meta name="theme-color" content="#f3eada">
   <title>Sözcük Merdiveni — Türkçe Kelime Oyunu</title>
 
   <!-- SEO: alan adı sözcükyolu.com (IDN). Makine tarafından okunan URL alanlarında
@@ -66,7 +66,7 @@
 
 <!-- Oyun kabuğu: tam ekran yüksekliğinde. Altındaki bilgi bölümü için
      sayfa aşağı kaydırılabilir. -->
-<div class="app">
+<div class="app" id="oyun">
 
   <!-- ======================= ÜST REKLAM ALANI ======================= -->
   <!-- AdSense onayı sonrası: data-placeholder özniteliğini silin ve aşağıdaki
@@ -81,13 +81,13 @@
   <div class="ad-container ad-top" id="adTop" data-placeholder="REKLAM ALANI (320x50)"></div>
 
   <!-- ======================= BAŞLIK ======================= -->
-  <!-- Site markası (Sözcük Yolu) + oyun adı (Sözcük Merdiveni) birlikte. -->
   <header class="header">
-    <div class="brand">
-      <span class="brand-site">SÖZCÜK YOLU</span>
-      <h1 class="brand-game">Sözcük Merdiveni</h1>
-    </div>
+    <h1 class="brand-game">Sözcük Merdiveni</h1>
     <div class="header-actions">
+      <!-- Sayfanın altındaki "Nasıl oynanır?" bölümüne iner -->
+      <a class="icon-btn" id="btnHelp" href="#nasil-oynanir" aria-label="Nasıl oynanır">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8"/><path d="M12 17h.01"/></svg>
+      </a>
       <!-- Ses aç/kapat: app.js -> muteGame() fonksiyonuna bağlı -->
       <button class="icon-btn" id="btnMute" type="button" aria-label="Sessiz" aria-pressed="false">
         <!-- İkisi de sayfada; app.js düğmeye .muted ekleyip çıkarır -->
@@ -112,151 +112,136 @@
        Oyun'da görünür (Günün Bulmacası'nda ikisi de sabittir). Seçimler
        localStorage'da saklanır; tıklayınca hemen o ayarda yeni bulmaca gelir. -->
   <div class="free-settings hidden" id="freeSettings">
-    <div class="setting-row">
-      <span class="setting-label">Zorluk</span>
-      <div class="btn-group" role="group" aria-label="Zorluk seçimi">
-        <button class="pick-btn" type="button" data-diff="kolay">Kolay</button>
-        <button class="pick-btn" type="button" data-diff="orta">Orta</button>
-        <button class="pick-btn" type="button" data-diff="zor">Zor</button>
-      </div>
+    <div class="btn-group" role="group" aria-label="Zorluk">
+      <button class="pick-btn" type="button" data-diff="kolay">Kolay</button>
+      <button class="pick-btn" type="button" data-diff="orta">Orta</button>
+      <button class="pick-btn" type="button" data-diff="zor">Zor</button>
     </div>
-    <div class="setting-row">
-      <span class="setting-label">Uzunluk</span>
-      <div class="btn-group" role="group" aria-label="Kelime uzunluğu seçimi">
-        <button class="pick-btn" type="button" data-len="3">3 harf</button>
-        <button class="pick-btn" type="button" data-len="4">4 harf</button>
-        <button class="pick-btn" type="button" data-len="5">5 harf</button>
-      </div>
+    <div class="btn-group" role="group" aria-label="Kelime uzunluğu">
+      <button class="pick-btn" type="button" data-len="3">3 harf</button>
+      <button class="pick-btn" type="button" data-len="4">4 harf</button>
+      <button class="pick-btn" type="button" data-len="5">5 harf</button>
     </div>
   </div>
 
-  <!-- Günün Bulmacası'nda aynı satırda geri sayım görünür (uzunluk seçici gizlenir).
-       Süre Türkiye saatiyle gece yarısına kadardır; app.js her saniye günceller. -->
-  <div class="daily-timer hidden" id="dailyTimer">
-    <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, modal örtmez.
-         Paylaşım burada erişilebilir olsun diye küçük buton eklendi. -->
-    <div class="daily-solved hidden" id="dailySolved">
-      Bugünkü bulmaca çözüldü
-      <button class="mini-btn" id="btnDailyShare" type="button">Sonucu paylaş</button>
-    </div>
-    Yeni bulmaca <strong id="dailyCountdown">--:--:--</strong> sonra
-    <span class="tz-note">(TSİ 00:00)</span>
+  <!-- Durum satırı. Solda adım sayısı ve en az adım (app.js yazar); sağda,
+       yalnızca Günün Bulmacası'nda, Türkiye saatiyle gece yarısına geri sayım. -->
+  <div class="status">
+    <span><strong id="stepInfo"></strong><span id="parInfo"></span></span>
+    <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, pencere örtmez. -->
+    <span class="daily-solved hidden" id="dailySolved">
+      <button class="mini-btn" id="btnDailyShare" type="button">Paylaş</button>
+    </span>
+    <span class="daily-timer hidden" id="dailyTimer">Yeni bulmaca <strong id="dailyCountdown">--:--:--</strong> sonra</span>
   </div>
 
   <!-- ======================= OYUN ALANI ======================= -->
+  <!-- Merdiven yukarıdan aşağı okunur. Üst bölüm (.steps) uzun merdivende
+       kayar; giriş satırı ve HEDEF her zaman görünür kalır. -->
   <main class="game" id="game">
+    <div class="frame">
+      <div class="steps" id="steps">
+        <!-- En üstte: başlangıç kelimesi (sabit) -->
+        <section class="rung">
+          <span class="rung-label">BAŞLANGIÇ</span>
+          <div class="word-row" id="startWord" aria-label="Başlangıç kelimesi"></div>
+        </section>
+        <!-- Girilen kelimeler: her adım bir alt basamağa eklenir -->
+        <section class="ladder" id="ladder" aria-live="polite" aria-label="Girilen kelimeler"></section>
+        <!-- Henüz basılmamış basamaklar (süs) -->
+        <div class="ghost" aria-hidden="true"></div>
+      </div>
 
-    <!-- Üstte: Başlangıç kelimesi (sabit) -->
-    <section class="row-group">
-      <span class="row-label">BAŞLANGIÇ</span>
-      <div class="word-row" id="startWord" aria-label="Başlangıç kelimesi"></div>
-    </section>
+      <!-- Giriş satırı: o an yazılan kelime -->
+      <section class="rung input-rung">
+        <div class="word-row input-row" id="inputRow" aria-label="Kelime girişi"></div>
+        <span class="step-label" id="inputLabel"></span>
+      </section>
 
-    <!-- Ortada: Kullanıcının girdiği ara kelimelerin dinamik listesi -->
-    <section class="ladder" id="ladder" aria-live="polite" aria-label="Girilen kelimeler"></section>
-
-    <!-- Aktif giriş satırı: kullanıcının o an yazdığı kelime -->
-    <section class="word-row input-row" id="inputRow" aria-label="Kelime girişi"></section>
-
-    <!-- Mobilde cihazın KENDİ klavyesini açmak için kullanılan giriş alanı.
-         Görünmez ama odaklanabilir olmalı: display:none/visibility:hidden olan
-         eleman klavyeyi açmaz. Masaüstünde tamamen kapalıdır (bkz. style.css). -->
-    <input id="nativeInput" class="native-input" type="text" inputmode="text"
-           autocomplete="off" autocorrect="off" autocapitalize="characters"
-           spellcheck="false" enterkeyhint="go" aria-label="Kelimeyi yazın">
-    <p class="tap-hint" id="tapHint">Yazmak için tahtaya dokun</p>
-
-    <!-- Altta: Hedef kelime (sabit) + en kısa çözüm bilgisi -->
-    <section class="row-group">
-      <span class="row-label">HEDEF</span>
-      <div class="word-row" id="targetWord" aria-label="Hedef kelime"></div>
-      <span class="par-info" id="parInfo"></span>
-    </section>
+      <!-- En altta: hedef kelime (sabit) -->
+      <section class="rung target-rung">
+        <span class="rung-label">HEDEF</span>
+        <div class="word-row" id="targetWord" aria-label="Hedef kelime"></div>
+      </section>
+    </div>
   </main>
 
-  <!-- Hata mesajı (toast) -->
+  <!-- Bildirim (toast) -->
   <div class="toast" id="toast" role="alert"></div>
 
-  <!-- ======================= SANAL KLAVYE ======================= -->
-  <!-- Tuşlar app.js tarafından dinamik üretilir (Türkçe karakter uyumlu) -->
-  <footer class="keyboard" id="keyboard"></footer>
+  <!-- ======================= KLAVYE ======================= -->
+  <!-- Tuşlar app.js tarafından üretilir (Türkçe Q). Telefonda da bu klavye
+       kullanılır; cihazın klavyesi açılmaz. -->
+  <footer class="keyboard" id="keyboard" aria-label="Klavye"></footer>
 
   <!-- ======================= ALT REKLAM ALANI ======================= -->
   <div class="ad-container ad-bottom" id="adBottom" data-placeholder="REKLAM ALANI (Anchor / 320x100)"></div>
-
-  <!-- Aşağıdaki bilgi bölümüne kaydırma ipucu -->
-  <a class="scroll-cue" href="#nasil-oynanir">Nasıl oynanır? ↓</a>
 </div><!-- /.app -->
 
-<!-- ======================= HAKKINDA & NASIL OYNANIR =======================
-     Eskiden ayrı hakkinda.html sayfasındaydı; tek sayfada toplandı.
-     (Gizlilik politikası yasal gereklilik olduğu için ayrı sayfada kalır.) -->
+<!-- ======================= NASIL OYNANIR =======================
+     Tek sayfada: oyunun altında. (Gizlilik politikası yasal gereklilik
+     olduğu için ayrı sayfada kalır.) -->
 <section class="info page" id="nasil-oynanir">
-  <h2>Sözcük Merdiveni Nedir?</h2>
+  <h2>Nasıl oynanır?</h2>
+  <p class="lead">Merdiveni yukarıdan aşağı in: her basamakta tek harf değiştir,
+  hedef kelimeye ulaş.</p>
 
-  <p>Sözcük Merdiveni, Türkçe bir kelime bulmacasıdır. Amaç,
-  <strong>başlangıç kelimesinden hedef kelimeye</strong>, her adımda yalnızca
-  <strong>tek bir harf değiştirerek</strong> ulaşmaktır. Aradaki her basamak,
-  Türkçede gerçekten var olan bir kelime olmalıdır.</p>
+  <!-- Örnek çözüm; oyundaki merdivenle aynı sınıfları kullanır -->
+  <div class="example" role="img" aria-label="Örnek: KÖY, KOY, KOL, KEL. Her basamakta bir harf değişir.">
+    <div class="frame">
+      <div class="rung"><span class="rung-label">BAŞLANGIÇ</span><div class="word-row"><div class="tile filled green">K</div><div class="tile filled">Ö</div><div class="tile filled">Y</div></div></div>
+      <div class="rung"><div class="word-row"><div class="tile filled green">K</div><div class="tile filled changed">O</div><div class="tile filled">Y</div></div><span class="step-label">Ö → O</span></div>
+      <div class="rung"><div class="word-row"><div class="tile filled green">K</div><div class="tile filled">O</div><div class="tile filled green changed">L</div></div><span class="step-label">Y → L</span></div>
+      <div class="rung target-rung"><span class="rung-label">HEDEF</span><div class="word-row"><div class="tile target">K</div><div class="tile target">E</div><div class="tile target">L</div></div><span class="step-label">O → E</span></div>
+    </div>
+  </div>
+  <p class="legend"><i></i>Yeşil harf, hedefteki yerine oturmuş demektir.</p>
 
   <h3>Kurallar</h3>
-  <ol>
-    <li>Her hamlede bir önceki kelimenin <strong>sadece 1 harfini</strong>
-    değiştirebilirsiniz; harf ekleyemez veya çıkaramazsınız.</li>
-    <li>Yazdığınız her ara kelime <strong>sözlükte bulunan geçerli bir
-    Türkçe kelime</strong> olmalıdır.</li>
-    <li>Aynı kelimeyi merdivende iki kez kullanamazsınız.</li>
-    <li>Hedef kelimeye ulaştığınızda bulmaca tamamlanır. Hedefin altında
-    yazan "en az adım" sayısını yakalarsanız mükemmel çözüm yapmış
-    olursunuz!</li>
+  <ol class="rules">
+    <li>Her adımda yalnızca bir harf değişir. Harf eklenmez, çıkarılmaz.</li>
+    <li>Her basamak sözlükte olan bir Türkçe kelime olmalı.</li>
+    <li>Takılırsan önceki bir kelimeye geri dönebilirsin.</li>
   </ol>
 
-  <h3>Örnek Çözüm</h3>
-  <p>KÖY kelimesinden KEL kelimesine 3 adımda ulaşan bir merdiven:</p>
-  <p class="ornek">
-    KÖY<br>
-    KOY &nbsp;(Ö → O)<br>
-    KOL &nbsp;(Y → L)<br>
-    KEL &nbsp;(O → E)
-  </p>
+  <div class="modes">
+    <p><strong>Günün Bulmacası</strong>Herkese aynı bulmaca. Her gün Türkiye
+    saatiyle 00:00'da yenilenir. Çözünce sonucunu paylaşabilirsin.</p>
+    <p><strong>Serbest Oyun</strong>İstediğin kadar oyna. Zorluğu (kolay, orta,
+    zor) ve kelime uzunluğunu (3, 4, 5 harf) sen seç; seçimin hatırlanır.</p>
+  </div>
 
   <h3>İpuçları</h3>
   <ul>
-    <li>Önce hedef kelimeyle <strong>ortak harflere</strong> bakın; yeşil
-    kutular doğru konumdaki harfleri gösterir.</li>
-    <li>Sesli harfleri değiştirmek (A→E, O→U gibi) çoğu zaman yeni geçerli
-    kelimeler türetmenin en kolay yoludur.</li>
-    <li>Takıldığınızda geriye doğru düşünün: hedef kelimeden başlangıca
-    doğru bir merdiven kurmayı deneyin.</li>
+    <li>Önce hedef kelimeyle <strong>ortak harflere</strong> bak; yeşil
+    bloklar yerine oturmuş harfleri gösterir.</li>
+    <li>Sesli harfi değiştirmek (A → E, O → U gibi) çoğu zaman yeni bir
+    kelimeye götürür.</li>
+    <li>Takılınca tersinden düşün: hedef kelimeden başlangıca doğru bir
+    merdiven kurmayı dene.</li>
+    <li>Durum satırındaki "en az" sayısı en kısa çözümdür; onu yakalarsan
+    çözümün mükemmel.</li>
   </ul>
 
-  <h3>Oyun Modları</h3>
-  <ul>
-    <li><strong>Günün Bulmacası:</strong> Herkese aynı bulmaca gelir, her
-    gün yenilenir. Çözünce sonucunu emoji tablosuyla paylaşabilirsiniz.</li>
-    <li><strong>Serbest Oyun:</strong> İstediğiniz kadar bulmaca çözersiniz.
-    <strong>Zorluk</strong> (Kolay / Orta / Zor) ve <strong>uzunluk</strong>
-    (3 / 4 / 5 harf) düğmeleriyle bulmacaları kendinize göre ayarlarsınız;
-    seçimleriniz hatırlanır, istediğiniz an değiştirebilirsiniz.</li>
-  </ul>
+  <h3>Zorluk nasıl belirlenir?</h3>
+  <p>İki şeye bakılır: hedefe ulaşmak için gereken <strong>en az adım
+  sayısı</strong> ve <strong>farklı çözüm yollarının sayısı</strong>. Az adımlı
+  ve çok yollu bulmacalar <em>kolay</em>; uzun ve tek çözümlü olanlar
+  <em>zor</em> sayılır.</p>
 
-  <h3>Zorluk Nasıl Belirlenir?</h3>
-  <p>Bir bulmacanın zorluğu iki şeye bağlıdır: hedefe ulaşmak için gereken
-  <strong>en az adım sayısı</strong> ve <strong>farklı çözüm yollarının
-  sayısı</strong>. Az adımlı ve çok yollu bulmacalar <em>kolay</em>; uzun ve
-  tek çözümlü olanlar <em>zor</em> sayılır.</p>
-
-  <h3>Kelimeler Nereden Geliyor?</h3>
-  <p>Oyunda kullanılan sözlük, Türk Dil Kurumu yazımına uygun 3, 4 ve 5 harfli
-  kelimelerden oluşur. Bulmacalar bilgisayar tarafından önceden analiz edilir;
-  yayımlanan her bulmacanın <strong>çözülebilir olduğu garantidir</strong>.</p>
+  <h3>Kelimeler nereden geliyor?</h3>
+  <p>Sözlük, Türk Dil Kurumu yazımına uygun 3, 4 ve 5 harfli kelimelerden
+  oluşur. Bulmacalar önceden bilgisayarla çözülür; yayımlanan her bulmacanın
+  <strong>bir çözümü vardır</strong>.</p>
 
   <h3>İletişim</h3>
   <!-- mailto'da punycode kullanılıyor: bazı istemciler (ör. iPhone Mail)
        Türkçe karakterli alan adını punycode'a çeviremeyip "iletilemedi"
        hatası veriyor. Görünen metin okunaklı hali kalsın diye ayrıldı. -->
-  <p>Görüş, öneri ve eksik kelime bildirimleri için:
+  <p>Görüşünü, önerini ya da eksik bulduğun kelimeyi yaz:
   <a href="mailto:iletisim@xn--szckyolu-n4a6d.com">iletisim@sözcükyolu.com</a></p>
+
+  <a class="btn-primary" href="#oyun">Anladım</a>
 </section>
 
 <nav class="site-footer">
@@ -266,17 +251,27 @@
   <!-- Ekran klavyesindeki "Sil" tuşunun ikonu; app.js buildKeyboard() kopyalar -->
   <template id="iconBackspace"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 5H9l-6 7 6 7h12z"/><path d="m17 9.5-5 5m0-5 5 5"/></svg></template>
 
-  <!-- ======================= BAŞARI MODALI ======================= -->
+  <!-- ======================= KAZANMA PENCERESİ ======================= -->
   <div class="modal-overlay hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal">
       <button class="modal-close" id="btnCloseModal" type="button" aria-label="Kapat">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
       </button>
+      <p class="modal-kicker" id="modalKicker"></p>
       <h2 id="modalTitle">Tebrikler!</h2>
       <p id="modalText"></p>
-      <!-- Wordle tarzı sonuç ızgarasını panoya kopyalar / paylaşım menüsü açar -->
-      <button class="btn-secondary" id="btnShare" type="button">Sonucu Paylaş</button>
-      <button class="btn-primary" id="btnNewGame" type="button">Yeni Oyun</button>
+      <div class="stats">
+        <div><b id="modalSteps"></b>adım</div>
+        <div id="modalOptimalBox"><b id="modalOptimal"></b>en az adım</div>
+      </div>
+      <!-- Her satır bir adım; app.js doldurur -->
+      <div class="result-grid" id="modalGrid" role="img" aria-label="Adım adım hedefle eşleşen harfler"></div>
+      <!-- Sonucu panoya kopyalar / paylaşım menüsünü açar -->
+      <button class="btn-primary" id="btnShare" type="button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M6 11H5v9h14v-9h-1"/></svg>Sonucu Paylaş
+      </button>
+      <button class="btn-secondary" id="btnNewGame" type="button">Yeni Oyun</button>
+      <p class="modal-next" id="modalNext">Yeni bulmaca <strong id="modalCountdown">--:--:--</strong> sonra</p>
     </div>
   </div>
 
