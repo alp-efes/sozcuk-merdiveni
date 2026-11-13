@@ -97,7 +97,26 @@ ve eleniyordu; artık KASE oynanabilir.
 aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 
 **localStorage anahtarları:** `sm_state` (canlı oyun), `sm_gunluk_<YYYY-AA-GG>`
-(günün çözümü + zincir), `sm_uzunluk`, `sm_zorluk`.
+(günün çözümü + zincir; daha iyi bir tekrar varsa `enIyi`, süren tekrar varsa `deneme` zinciri), `sm_ipucu_<YYYY-AA-GG>`
+(o günün ücretsiz ipucu kullanıldı), `sm_uzunluk`, `sm_zorluk`.
+
+**Gelir kancası:** `window.SozcukGelir` yalnızca iOS uygulamasının `yerel.js`'inde
+tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odulluReklam`,
+`gecisReklami`, `plusSatinAl`, `plusGeriYukle`). İpucu günde 1 ücretsizdir; bitince
+uygulamada reklam/Plus, webde "yarın". Günlükte tekrar webde serbest, uygulamada
+Plus değilse ödüllü reklam ister; ilk çözüm kaydı (seri, paylaşım) değişmez.
+Kanca sözleşmesi (iOS ekibi buna göre yazar):
+
+- Kanca app.js'ten sonra yüklenir; her çağrıda `window.SozcukGelir`'den aranır.
+- `plusMu()` **eşzamanlı ve boolean**'dır; fırlatırsa `false` sayılır.
+- `odulluReklam`, `gecisReklami`, `plusSatinAl`, `plusGeriYukle` sözleri **mutlaka
+  sonuçlanmalıdır**. Hata, ret ve 200 sn zaman aşımı "olumsuz" sayılır (oyun kilitlenmez);
+  kanca kendi sınırını (iOS: 3 dk) bundan kısa tutmalıdır.
+- `plusFiyat(): string | null` isteğe bağlı, eşzamanlıdır; döndürürse düğmeler
+  "Plus'a geç (₺…)" yazar.
+- Plus sonradan verilir ya da geri alınırsa kanca `window`'a `"sozcukgelir"` olayı gönderir;
+  Plus kutusu, teklif ve tekrar etiketleri bu olayla tazelenir.
+- Plus'ta `gecisReklami` çağrılmaz. Plus kutusu yalnızca kanca varsa görünür.
 
 ## Tuzaklar
 

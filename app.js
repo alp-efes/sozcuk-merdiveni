@@ -51,7 +51,8 @@ function muteGame(mute) {
   btn.setAttribute("aria-pressed", String(mute));
 }
 
-// Oyun kazanıldığında ve "Yeni Oyun"da tetiklenir.
+// "Yeni Oyun"da tetiklenir. Çözüm sonrası geçiş reklamı yerel kancadan gelir:
+// WordLadder.win() -> SozcukGelir.gecisReklami("cozum").
 // onAdDone: reklam kapandıktan sonra çalışacak devam fonksiyonu.
 function showInterstitialAd(onAdDone) {
   const wasMuted = AudioFX.isMuted();
@@ -111,6 +112,13 @@ class WordLadder {
   // Takvimin 1. günü: 15 Temmuz 2026 (TRT). Ay 0 tabanlıdır.
   static GUN_BASLANGIC_UTC = Date.UTC(2026, 6, 15);
 
+  // Kanca sözü bu sürede çözülmezse "olumsuz" sayılır (iOS kancasının kendi
+  // sınırı 3 dakika; bu ondan biraz uzun). Test kısaltabilir.
+  static KANCA_ZAMAN_ASIMI_MS = 200000;
+
+  // Reklam gösterilemedi ya da yarıda kaldı: oyuncuyu suçlamayan ortak ileti
+  static REKLAM_YOK = "Reklam gösterilemedi ya da yarıda kaldı. Biraz sonra yeniden dene.";
+
   // Desteklenen kelime boyları (words.json ile aynı olmalı)
   static UZUNLUKLAR = [3, 4, 5];
 
@@ -161,6 +169,18 @@ class WordLadder {
       countdown:  document.getElementById("dailyCountdown"),
       dailySolved: document.getElementById("dailySolved"),
       btnDailyShare: document.getElementById("btnDailyShare"),
+      btnHint:    document.getElementById("btnHint"),
+      btnDailyRetry: document.getElementById("btnDailyRetry"),
+      btnRetry:   document.getElementById("btnRetry"),
+      offer:      document.getElementById("offer"),
+      btnOfferAd: document.getElementById("btnOfferAd"),
+      btnOfferPlus: document.getElementById("btnOfferPlus"),
+      btnCloseOffer: document.getElementById("btnCloseOffer"),
+      plusBox:    document.getElementById("plusBox"),
+      plusText:   document.getElementById("plusText"),
+      plusNot:    document.getElementById("plusNot"),
+      btnPlusBuy: document.getElementById("btnPlusBuy"),
+      btnPlusRestore: document.getElementById("btnPlusRestore"),
     };
 
     // Serbest oyun tercihleri (kalıcı): kelime uzunluğu ve zorluk
@@ -179,6 +199,8 @@ class WordLadder {
     this.mode = "daily";  // "daily" (günün bulmacası) | "free" (serbest)
     this.lastResult = null; // Son kazanılan oyunun {steps, grid} paylaşım verisi
     this.toastTimer = null;
+    this.hint = null;     // Açık ipucu: { pos, letter }
+    this.busy = false;    // Reklam/satın alma sürerken çift dokunuşu engeller
   }
 
   /* ---------- Kurulum ---------- */
@@ -191,6 +213,7 @@ class WordLadder {
     if (!this.restoreState()) this.newGame("daily");
 
     // Geri sayım: hemen bir kez yaz, sonra saniyede bir güncelle
+    this.renderPlus();
     this.tickCountdown();
     setInterval(() => this.tickCountdown(), 1000);
 
@@ -252,6 +275,14 @@ class WordLadder {
             cozuldu.chain[cozuldu.chain.length - 1] === target) {
           this.chain = cozuldu.chain.slice();
         }
+        // Sürmekte olan (ödemesi yapılmış) tekrar: restart ya da sekme değişimi
+        // kaybettirmez, kaldığı yerden devam eder
+        const d = cozuldu.deneme;
+        if (Array.isArray(d) && d[0] === start && d.every(w => typeof w === "string" && w.length === start.length) &&
+            d[d.length - 1] !== target) {
+          this.over = false;
+          this.chain = d.slice();
+        }
       }
     }
 
@@ -275,6 +306,7 @@ class WordLadder {
 
   // Mevcut duruma göre tahtayı çizer (yeni oyun + durum geri yükleme ortak)
   render() {
+    this.hint = null;
     this.el.ladder.innerHTML = "";
     this.el.game.classList.toggle("bitti", this.over);
     this.el.game.dataset.boy = this.len;      // style.css blok boyunu buna göre seçer
@@ -308,10 +340,15 @@ class WordLadder {
     // Çözülmüş günlüğün zinciri kayıtta yoksa adım sayısı kayıttan okunur
     const adim = `${this.over && this.lastResult ? this.lastResult.steps : this.chain.length - 1} adım`;
     this.el.stepInfo.textContent = this.over ? "Çözüldü" : adim;
-    this.el.parInfo.textContent = this.over ? ` · ${adim}`
+    const enIyi = this.dailyBest();
+    const gosterilen = this.over && this.lastResult ? this.lastResult.steps : this.chain.length - 1;
+    this.el.parInfo.textContent = this.over
+      ? ` · ${adim}` + (this.mode === "daily" && enIyi && enIyi < gosterilen ? ` · en iyi ${enIyi}` : "")
       : this.optimal ? ` · en az ${this.optimal}` : "";
     // Günlük çözüldüyse "paylaş" düğmesi burada durur (pencere kapansa da erişilir)
     this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over));
+    this.el.btnDailyRetry.classList.toggle("hidden", !this.canRetry());
+    this.el.btnHint.classList.toggle("hidden", this.over);
   }
 
   pick(arr) {
@@ -365,6 +402,19 @@ class WordLadder {
   saveDailyRecord(sonuc) {
     try { localStorage.setItem("sm_gunluk_" + this.todayKey(), JSON.stringify(sonuc)); }
     catch (_) { /* kayıt tutulamadı — önemli değil */ }
+  }
+
+  // Günün en iyi sonucu: ilk çözüm ya da daha iyi bir tekrar (yoksa 0).
+  // İlk çözüm sm_gunluk_*.steps'te kalır (seri ve paylaşım onunla); tekrar
+  // yalnızca daha iyiyse aynı kayda enIyi olarak yazılır.
+  dailyBest() {
+    const r = this.dailyRecord();
+    return r ? (r.enIyi || r.steps) : 0;
+  }
+
+  // Tekrar: yalnızca çözülmüş günlükte ve en azın üstünde kalındıysa
+  canRetry() {
+    return this.mode === "daily" && this.over && this.optimal > 0 && this.dailyBest() > this.optimal;
   }
 
   updateTabs() {
@@ -461,6 +511,11 @@ class WordLadder {
       } else if (i === this.buffer.length) {
         tile.classList.add("cursor");          // sıradaki harfin yeri
       }
+      // İpucu: değişecek konumda önerilen harf silik görünür (yazılınca üstüne biner)
+      if (this.hint && i === this.hint.pos && i >= this.buffer.length) {
+        tile.classList.add("hint-letter");
+        tile.textContent = this.hint.letter;
+      }
       this.el.input.appendChild(tile);
     }
   }
@@ -521,6 +576,7 @@ class WordLadder {
   }
 
   accept(word) {
+    this.clearHint();
     this.chain.push(word);
 
     // Kabul edilen kelimeyi merdivene ekle (hedefle eşleşen harfler yeşil)
@@ -570,6 +626,12 @@ class WordLadder {
 
   // Canlı oyunu localStorage'a yazar. Her hamlede ve yeni oyunda çağrılır.
   saveState() {
+    // Günlük tekrar sürerken zinciri günün kaydında da tut (sm_state serbest
+    // oyunla ezilse bile tekrar kaybolmaz)
+    if (this.mode === "daily" && !this.over) {
+      const k = this.dailyRecord();
+      if (k && k.deneme && this.chain.length !== k.deneme.length) this.saveDailyRecord({ ...k, deneme: this.chain.slice() });
+    }
     try {
       localStorage.setItem("sm_state", JSON.stringify({
         v: 1,
@@ -639,13 +701,26 @@ class WordLadder {
     // Günün bulmacasında ilk çözüm kaydedilir (tekrar oynayış üzerine yazmaz).
     // Zinciri de saklıyoruz ki modda tekrar açıldığında gerçek merdiven ve
     // adım sayısı yeniden kurulabilsin (boş zincirden "0 adım" çıkmasın).
-    if (this.mode === "daily" && !this.dailyRecord()) {
-      this.saveDailyRecord({ ...this.lastResult, chain: this.chain.slice() });
+    // Kayıt varken biten günlük oyun bir tekrardır: ilk sonuç yerinde kalır,
+    // yalnızca daha iyiyse enIyi güncellenir.
+    if (this.mode === "daily") {
+      const kayit = this.dailyRecord();
+      if (!kayit) this.saveDailyRecord({ ...this.lastResult, chain: this.chain.slice() });
+      else {
+        const { deneme, ...temiz } = kayit;      // tekrar bitti
+        this.saveDailyRecord(steps < (kayit.enIyi || kayit.steps) ? { ...temiz, enIyi: steps } : temiz);
+      }
     }
+    this.renderStatus();            // kayıt güncellendi: "en iyi" ve Tekrar dene durumu
 
-    // Küçük bir gecikme: son satırın yeşile dönüşü görülsün,
-    // ardından geçiş reklamı ve başarı modalı
-    setTimeout(() => showInterstitialAd(() => this.showModal()), 650);
+    // Geçiş reklamı fırsatı: yerel kanca yoksa (web) hiçbir şey olmaz. Cevabı
+    // beklenmez; kazanma penceresi hiçbir koşulda reklama takılmaz.
+    // Plus'ta reklam yok.
+    try { if (!this.plusMu()) Promise.resolve(window.SozcukGelir?.gecisReklami("cozum")).catch(() => {}); }
+    catch (_) { /* reklam hatası oyunu etkilemez */ }
+
+    // Küçük bir gecikme: son satırın yeşile dönüşü görülsün, sonra başarı modalı
+    setTimeout(() => this.showModal(), 650);
   }
 
   showModal({ oncedenCozuldu = false } = {}) {
@@ -662,7 +737,13 @@ class WordLadder {
       this.el.modalTitle.textContent = perfect ? "Mükemmel!" : "Tebrikler!";
       this.el.modalText.textContent = `${this.startWord} → ${this.targetWord} merdivenini ` +
         (perfect ? "en kısa yoldan tamamladın." : `${steps} adımda tamamladın.`);
+      // Tekrarda günün kaydı ilk çözümdür; en iyiyi ayrıca söyle
+      const enIyi = this.mode === "daily" ? this.dailyBest() : 0;
+      if (enIyi && enIyi < steps) this.el.modalText.textContent += ` En iyin ${enIyi} adım.`;
     }
+    // Tekrar teklifi; uygulamada Plus değilse bir reklam izlemeyi gerektirir
+    this.el.btnRetry.textContent = this.retryEtiketi();
+    this.el.btnRetry.classList.toggle("hidden", !this.canRetry());
 
     // Üst yazı (günlükte TRT tarihi), sayılar ve adım adım sonuç ızgarası
     const gunluk = this.mode === "daily";
@@ -695,7 +776,8 @@ class WordLadder {
 
   async share() {
     if (!this.lastResult) return;
-    const { steps, grid } = this.lastResult;
+    // Günlükte paylaşılan hep ilk çözümdür (tekrar sonucu seriyi ve paylaşımı bozmaz)
+    const { steps, grid } = (this.mode === "daily" && this.dailyRecord()) || this.lastResult;
 
     const baslik = this.mode === "daily"
       ? `Sözcük Merdiveni #${this.dayNumber()}`
@@ -741,6 +823,216 @@ class WordLadder {
     }
   }
 
+  /* ---------- Gelir kancası (yerel uygulama tanımlar; web'de yok) ---------- */
+
+  // Kanca app.js'ten sonra yüklenir: her çağrıda window'dan aranır.
+  // Kanca hata verirse ya da reddederse "olumsuz" sayılır; oyun takılmaz.
+  plusMu() {
+    try { return !!window.SozcukGelir?.plusMu(); } catch (_) { return false; }
+  }
+
+  // Kanca çağrısı: hata, ret ve zaman aşımı "olumsuz"dur. Söz hiç sonuçlanmazsa
+  // (kanca takılırsa) oyun kilitli kalmasın diye zaman aşımı yarışır.
+  async kancaya(ad, ...arg) {
+    let zamanlayici;
+    const asim = new Promise(coz => { zamanlayici = setTimeout(() => coz(false), WordLadder.KANCA_ZAMAN_ASIMI_MS); });
+    try { return !!(await Promise.race([Promise.resolve().then(() => window.SozcukGelir?.[ad](...arg)), asim])); }
+    catch (_) { return false; }
+    finally { clearTimeout(zamanlayici); }
+  }
+
+  // İsteğe bağlı: yerel fiyat metni ("₺49,99"); yoksa boş
+  plusFiyat() {
+    try { const f = window.SozcukGelir?.plusFiyat?.(); return typeof f === "string" ? f : ""; } catch (_) { return ""; }
+  }
+
+  plusEtiketi() {
+    const f = this.plusFiyat();
+    return f ? `Plus'a geç (${f})` : "Plus'a geç";
+  }
+
+  retryEtiketi() {
+    return window.SozcukGelir && !this.plusMu() ? "Reklam izle, tekrar dene" : "Tekrar dene";
+  }
+
+  /* ---------- İpucu ---------- */
+
+  // Günlük ücretsiz ipucu (TRT günü; iki mod toplamı): sm_ipucu_<YYYY-AA-GG>.
+  // Kayıt yazılamazsa (gizli sekme, dolu depo) hak yine oturum boyunca bellekte
+  // düşer; sınırsız ücretsiz ipucuna dönüşmez.
+  freeHintLeft() {
+    const gun = this.todayKey();
+    if (this.hintGunu === gun) return false;
+    try { return !localStorage.getItem("sm_ipucu_" + gun); } catch (_) { return true; }
+  }
+
+  useFreeHint() {
+    const gun = this.todayKey();
+    this.hintGunu = gun;
+    try { localStorage.setItem("sm_ipucu_" + gun, "1"); } catch (_) { /* bellekteki bayrak yeter */ }
+  }
+
+  // Hedeften BFS: bu kelimeden hedefe giden en kısa yolun sonraki kelimesi ve
+  // hedefe kalan adım. Oyuncu en kısa yoldan sapmışsa da şimdiki kelimeden
+  // yeniden hesaplanır. Yol yoksa null. Aynı uzaklıktaki adaylar arasında
+  // zincirde olmayan tercih edilir (gereksiz geri dönüş önerilmez).
+  nextOnPath() {
+    const kova = new Map();
+    for (const w of this.dict) {
+      for (let i = 0; i < w.length; i++) {
+        const k = w.slice(0, i) + "_" + w.slice(i + 1);
+        if (!kova.has(k)) kova.set(k, []);
+        kova.get(k).push(w);
+      }
+    }
+    const komsular = (w) => [...w].flatMap((_, i) => kova.get(w.slice(0, i) + "_" + w.slice(i + 1)) || []);
+    const uzak = new Map([[this.targetWord, 0]]);
+    const kuyruk = [this.targetWord];
+    for (let n = 0; n < kuyruk.length; n++) {
+      for (const v of komsular(kuyruk[n])) {
+        if (!uzak.has(v)) { uzak.set(v, uzak.get(kuyruk[n]) + 1); kuyruk.push(v); }
+      }
+    }
+    const simdi = this.currentWord;
+    if (!uzak.has(simdi)) return null;
+    const adaylar = komsular(simdi).filter(v => uzak.get(v) === uzak.get(simdi) - 1);
+    const sonraki = adaylar.find(v => !this.chain.includes(v)) || adaylar[0];
+    return sonraki ? { sonraki, kalan: uzak.get(simdi) } : null;
+  }
+
+  // İpucu planı (ücret alınmadan önce hesaplanır): değişecek konum, harf,
+  // zincire geri dönüş mü, hedefe kalan adım. Yol yoksa null.
+  planHint() {
+    const yol = this.nextOnPath();
+    if (!yol) return null;
+    const pos = [...yol.sonraki].findIndex((h, i) => h !== this.currentWord[i]);
+    return { pos, letter: yol.sonraki[pos], word: yol.sonraki, kalan: yol.kalan, geri: this.chain.includes(yol.sonraki) };
+  }
+
+  hintMetni(h) {
+    return (h.geri ? `${h.word} kelimesine geri dön` : `${h.pos + 1}. harfi ${h.letter} yap`) + ` · hedefe ${h.kalan} adım`;
+  }
+
+  // İpucunu gösterir: şimdiki kelimede değişecek harf çerçevelenir, giriş
+  // satırında yeni harf silik görünür, bildirim de yazıyla söyler.
+  showHint(plan) {
+    this.clearHint();
+    this.hint = plan;
+    const satir = this.chain.length > 1 ? this.el.ladder.lastElementChild.querySelector(".word-row") : this.el.start;
+    satir.children[plan.pos].classList.add("hint");
+    this.renderInput();
+    this.showToast(this.hintMetni(plan), true);
+  }
+
+  clearHint() {
+    this.hint = null;
+    document.querySelector(".tile.hint")?.classList.remove("hint");
+  }
+
+  async requestHint() {
+    if (this.over || this.busy) return;
+    if (this.hint) return this.showToast(this.hintMetni(this.hint), true);
+    // Önce hesapla: yol yoksa oyuncudan hak ya da reklam alınmaz
+    const plan = this.planHint();
+    if (!plan) return this.showToast("Bu kelimeden hedefe yol bulunamadı");
+    if (this.plusMu()) return this.showHint(plan);
+    if (this.freeHintLeft()) { this.useFreeHint(); return this.showHint(plan); }
+    // Ücretsiz hak bitti: uygulamada reklam ya da Plus, webde yarın
+    if (window.SozcukGelir?.odulluReklam) {
+      this.showOffer(true);
+    } else {
+      this.showToast("Bugünkü ipucun bitti. Yarın yeni bir ipucu seni bekliyor.");
+    }
+  }
+
+  showOffer(open) {
+    this.el.btnOfferPlus.classList.toggle("hidden", !window.SozcukGelir?.plusSatinAl);
+    this.el.btnOfferPlus.textContent = this.plusEtiketi();
+    this.el.offer.classList.toggle("hidden", !open);
+    this.el.offer.setAttribute("aria-hidden", String(!open));
+  }
+
+  async offerAd() {
+    if (this.busy) return;
+    // Reklamdan önce yeniden doğrula: ipucu verilemeyecekse reklam gösterilmez
+    if (!this.planHint()) return this.showToast("Bu kelimeden hedefe yol bulunamadı");
+    this.busy = true;
+    const ok = await this.kancaya("odulluReklam", "ipucu");
+    this.busy = false;
+    if (!ok) return this.showToast(WordLadder.REKLAM_YOK);
+    const plan = this.planHint();
+    this.showOffer(false);
+    if (plan) this.showHint(plan);
+  }
+
+  async buyPlus() {
+    if (this.busy) return;
+    this.busy = true;
+    const ok = await this.kancaya("plusSatinAl");
+    this.busy = false;
+    this.renderPlus();
+    if (!ok) return this.showToast("Satın alma tamamlanmadı ya da onay bekliyor.");
+    this.showOffer(false);
+    this.showToast("Plus açıldı. Teşekkürler!", true);
+  }
+
+  async restorePlus() {
+    if (this.busy) return;
+    this.busy = true;
+    const ok = await this.kancaya("plusGeriYukle");
+    this.busy = false;
+    this.renderPlus();
+    this.showToast(ok ? "Satın alımın geri yüklendi." : "Geri yüklenecek satın alım bulunamadı.", ok);
+  }
+
+  // "Nasıl oynanır" altındaki Plus bölümü: yalnızca kanca varsa görünür
+  renderPlus() {
+    const G = window.SozcukGelir;
+    const plus = this.plusMu();
+    this.el.plusBox.classList.toggle("hidden", !G);
+    this.el.plusText.textContent = plus
+      ? "Plus etkin. Reklamsız ve sınırsız ipucu keyfini çıkar."
+      : "Reklamsız + sınırsız ipucu. Tek seferlik satın alma.";
+    this.el.btnPlusBuy.textContent = this.plusEtiketi();
+    this.el.btnPlusBuy.classList.toggle("hidden", plus);
+    this.el.btnPlusRestore.classList.toggle("hidden", plus);
+    this.el.plusNot.classList.toggle("hidden", plus);
+  }
+
+  // Yerel taraf Plus'ı sonradan verir ya da geri alırsa ("sozcukgelir" olayı)
+  gelirDegisti() {
+    this.renderPlus();
+    this.el.btnRetry.textContent = this.retryEtiketi();
+    this.el.btnOfferPlus.textContent = this.plusEtiketi();
+    if (this.plusMu()) this.showOffer(false);
+    this.renderStatus();
+  }
+
+  /* ---------- Tekrar dene (yalnızca günlük) ---------- */
+
+  async retry() {
+    if (this.busy || !this.canRetry()) return;
+    // Uygulamada Plus değilse tekrar bir ödüllü reklama bağlıdır; web'de serbest
+    if (window.SozcukGelir && !this.plusMu()) {
+      this.busy = true;
+      const ok = await this.kancaya("odulluReklam", "tekrar");
+      this.busy = false;
+      if (!ok) return this.showToast(WordLadder.REKLAM_YOK);
+    }
+    this.beginRetry();
+  }
+
+  // Aynı bulmacayı baştan açar. İlk çözüm alanları değişmez; zincir günün
+  // kaydında `deneme` olarak durur (yenileme, restart ve sekme değişimi sürdürür).
+  beginRetry() {
+    this.saveDailyRecord({ ...this.dailyRecord(), deneme: [this.startWord] });
+    this.chain = [this.startWord];
+    this.buffer = "";
+    this.over = false;
+    this.render();          // pencereyi kapatır, tahtayı ve durumu yeniler
+    this.saveState();
+  }
+
   hideModal() {
     this.el.modal.classList.add("hidden");
     this.el.modal.setAttribute("aria-hidden", "true");
@@ -783,6 +1075,11 @@ class WordLadder {
     // Fiziksel klavye dinleyicisi (Türkçe karakter uyumlu)
     document.addEventListener("keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
+      // İpucu teklifi açıkken tahtaya yazılmaz; Escape kapatır
+      if (!this.el.offer.classList.contains("hidden")) {
+        if (e.key === "Escape") this.showOffer(false);
+        return;
+      }
 
       if (e.key === "Enter") {
         // Odaktaki bağlantıda Enter bağlantıyı açar (Nasıl oynanır, Anladım, Gizlilik)
@@ -818,6 +1115,8 @@ class WordLadder {
     // Başlıktaki yenile düğmesi: aktif modu sıfırlar (günlükte aynı bulmacayı baştan açar)
     this.el.btnRestart.addEventListener("click", (e) => {
       e.currentTarget.blur();
+      // Sürmekte olan günlük tekrarda restart tekrarı baştan açar (reklamsız, kaybolmaz)
+      if (this.mode === "daily" && !this.over && this.dailyRecord()) return this.beginRetry();
       showInterstitialAd(() => this.newGame(this.mode));
     });
 
@@ -861,6 +1160,19 @@ class WordLadder {
       this.share();
     });
     this.el.btnCloseModal.addEventListener("click", () => this.hideModal());
+    window.addEventListener("sozcukgelir", () => this.gelirDegisti());
+
+    // İpucu, tekrar, ipucu teklifi ve Plus
+    const dokun = (el, fn) => el.addEventListener("click", (e) => { e.currentTarget.blur(); fn(); });
+    dokun(this.el.btnHint, () => this.requestHint());
+    // Reklam gerektiriyorsa düğme reklamı kendisi başlatmaz: neyin olacağını yazan pencereyi açar
+    dokun(this.el.btnDailyRetry, () => this.retryEtiketi() === "Tekrar dene" ? this.retry() : this.showModal({ oncedenCozuldu: true }));
+    dokun(this.el.btnRetry, () => this.retry());
+    dokun(this.el.btnOfferAd, () => this.offerAd());
+    dokun(this.el.btnOfferPlus, () => this.buyPlus());
+    dokun(this.el.btnCloseOffer, () => this.showOffer(false));
+    dokun(this.el.btnPlusBuy, () => this.buyPlus());
+    dokun(this.el.btnPlusRestore, () => this.restorePlus());
 
     // Ses aç/kapat
     this.el.btnMute.addEventListener("click", (e) => {

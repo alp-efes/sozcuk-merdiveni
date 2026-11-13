@@ -131,8 +131,14 @@
     <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, pencere örtmez. -->
     <span class="daily-solved hidden" id="dailySolved">
       <button class="mini-btn" id="btnDailyShare" type="button">Paylaş</button>
+      <!-- En azın üstünde çözüldüyse: ilk sonuç kayıtta kalır, tekrar yalnızca "en iyi"yi geliştirir -->
+      <button class="mini-btn hidden" id="btnDailyRetry" type="button">Tekrar dene</button>
     </span>
-    <span class="daily-timer hidden" id="dailyTimer">Yeni bulmaca <strong id="dailyCountdown">--:--:--</strong> sonra</span>
+    <span class="daily-timer hidden" id="dailyTimer"><span class="dar-gizle">Yeni bulmaca </span><strong id="dailyCountdown">--:--:--</strong><span class="dar-gizle"> sonra</span></span>
+    <!-- Bir sonraki doğru hamleyi gösterir; günde 1 ücretsiz (app.js requestHint) -->
+    <button class="mini-btn hint-btn" id="btnHint" type="button" aria-label="İpucu">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+    </button>
   </div>
 
   <!-- ======================= OYUN ALANI ======================= -->
@@ -218,6 +224,8 @@
     kelimeye götürür.</li>
     <li>Takılınca tersinden düşün: hedef kelimeden başlangıca doğru bir
     merdiven kurmayı dene.</li>
+    <li>Takılınca ampul düğmesine dokun: hangi harfi değiştireceğini
+    gösterir. Günde bir ipucu hakkın var.</li>
     <li>Durum satırındaki "en az" sayısı en kısa çözümdür; onu yakalarsan
     çözümün mükemmel.</li>
   </ul>
@@ -239,6 +247,15 @@
        hatası veriyor. Görünen metin okunaklı hali kalsın diye ayrıldı. -->
   <p>Görüşünü, önerini ya da eksik bulduğun kelimeyi yaz:
   <a href="mailto:iletisim@xn--szckyolu-n4a6d.com">iletisim@sözcükyolu.com</a></p>
+
+  <!-- Yalnızca uygulamada (yerel kanca varsa) görünür; app.js renderPlus -->
+  <div class="plus hidden" id="plusBox">
+    <h3>Plus</h3>
+    <p id="plusText"></p>
+    <p class="plus-not" id="plusNot">Dijital içerik anında teslim edildiğinden cayma hakkı bulunmaz.</p>
+    <button class="btn-primary" id="btnPlusBuy" type="button">Plus'a geç</button>
+    <button class="btn-secondary" id="btnPlusRestore" type="button">Satın alımı geri yükle</button>
+  </div>
 
   <a class="btn-primary" href="#oyun">Anladım</a>
 </section>
@@ -269,8 +286,23 @@
       <button class="btn-primary" id="btnShare" type="button">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M6 11H5v9h14v-9h-1"/></svg>Sonucu Paylaş
       </button>
+      <button class="btn-secondary hidden" id="btnRetry" type="button">Tekrar dene</button>
       <button class="btn-secondary" id="btnNewGame" type="button">Yeni Oyun</button>
       <p class="modal-next" id="modalNext">Yeni bulmaca <strong id="modalCountdown">--:--:--</strong> sonra</p>
+    </div>
+  </div>
+
+  <!-- ======================= İPUCU TEKLİFİ ======================= -->
+  <!-- Günlük ücretsiz ipucu bitince, yalnızca uygulamada (yerel kanca varsa) açılır -->
+  <div class="modal-overlay hidden" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseOffer" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <h2 id="offerTitle">İpucun bitti</h2>
+      <p class="offer-text">Bugünkü ücretsiz ipucunu kullandın. Kısa bir reklam izleyip yeni bir ipucu alabilir ya da Plus ile reklamsız ve sınırsız ipucu kullanabilirsin.</p>
+      <button class="btn-primary" id="btnOfferAd" type="button">Reklam izle, ipucu al</button>
+      <button class="btn-secondary" id="btnOfferPlus" type="button">Plus'a geç</button>
     </div>
   </div>
 
