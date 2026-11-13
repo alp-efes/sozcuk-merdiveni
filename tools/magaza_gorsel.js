@@ -14,7 +14,7 @@
  *
  * Kullanım:  node tools/magaza_gorsel.js [YYYY-AA-GG]
  *
- * Mağazaya gidecek son görselleri macOS'ta üretin: yazı tipi ve emojiler
+ * Mağazaya gidecek son görselleri macOS'ta üretin: yazı tipi
  * iPhone'dakiyle aynı çıkar. Linux çıktısı yerleşim denetimi içindir.
  * ========================================================= */
 "use strict";

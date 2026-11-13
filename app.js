@@ -46,7 +46,7 @@ const AudioFX = (() => {
 function muteGame(mute) {
   AudioFX.setMuted(mute);
   const btn = document.getElementById("btnMute");
-  if (btn) btn.textContent = mute ? "🔇" : "🔊";
+  if (btn) btn.classList.toggle("muted", mute); // ikon değişimi: style.css .icon-sound-*
 }
 
 // Oyun kazanıldığında ve "Yeni Oyun"da tetiklenir.
@@ -636,12 +636,12 @@ class WordLadder {
     const perfect = this.optimal && steps === this.optimal;
 
     if (oncedenCozuldu) {
-      this.el.modalTitle.textContent = "Bugünkü bulmaca çözüldü ✅";
+      this.el.modalTitle.textContent = "Bugünkü bulmaca çözüldü";
       this.el.modalText.textContent =
         `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın. ` +
         `Yeni bulmaca ${this.kalanSureMetni()} sonra!`;
     } else {
-      this.el.modalTitle.textContent = perfect ? "Mükemmel! 🏆" : "Tebrikler! 🎉";
+      this.el.modalTitle.textContent = perfect ? "Mükemmel!" : "Tebrikler!";
       this.el.modalText.textContent =
         `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın!` +
         (this.optimal && !perfect ? ` (En iyisi: ${this.optimal} adım)` : "");
@@ -658,20 +658,19 @@ class WordLadder {
   async share() {
     if (!this.lastResult) return;
     const { steps, grid } = this.lastResult;
-    const perfect = this.optimal && steps === this.optimal;
 
     // Analitik: paylaşım (viral büyümenin en önemli sinyali)
     window.trackEvent?.("result_shared", { mode: this.mode, length: this.len, steps });
 
     const baslik = this.mode === "daily"
-      ? `Sözcük Merdiveni #${this.dayNumber()} 📅`
-      : "Sözcük Merdiveni 🪜";
+      ? `Sözcük Merdiveni #${this.dayNumber()}`
+      : "Sözcük Merdiveni";
     const adres = location.href.split(/[?#]/)[0]; // Yayında alan adınız görünür
 
     const metin = [
       baslik,
       `${this.startWord} → ${this.targetWord} · ${steps} adım` +
-        (this.optimal ? ` (en az ${this.optimal})` : "") + (perfect ? " 🏆" : ""),
+        (this.optimal ? ` (en az ${this.optimal})` : ""),
       "",
       grid,
       "",
@@ -684,7 +683,7 @@ class WordLadder {
       catch (_) { /* kullanıcı paylaşımı iptal etti */ }
     } else {
       const ok = await this.copyToClipboard(metin);
-      this.showToast(ok ? "Panoya kopyalandı! 📋" : "Kopyalanamadı!", ok);
+      this.showToast(ok ? "Panoya kopyalandı!" : "Kopyalanamadı!", ok);
     }
   }
 
@@ -725,7 +724,7 @@ class WordLadder {
         btn.className = "key";
         btn.dataset.key = k;
         if (k === "ENTER") { btn.classList.add("wide"); btn.textContent = "GİR"; }
-        else if (k === "BACK") { btn.classList.add("wide"); btn.textContent = "⌫"; btn.setAttribute("aria-label", "Sil"); }
+        else if (k === "BACK") { btn.classList.add("wide"); btn.append(document.getElementById("iconBackspace").content.cloneNode(true)); btn.setAttribute("aria-label", "Sil"); }
         else btn.textContent = k;
         row.appendChild(btn);
       });
@@ -809,7 +808,7 @@ class WordLadder {
       showInterstitialAd(() => this.newGame("free"));
     });
 
-    // Başlıktaki ↻: aktif modu sıfırlar (günlükte aynı bulmacayı baştan açar)
+    // Başlıktaki yenile düğmesi: aktif modu sıfırlar (günlükte aynı bulmacayı baştan açar)
     this.el.btnRestart.addEventListener("click", (e) => {
       e.currentTarget.blur();
       showInterstitialAd(() => this.newGame(this.mode));

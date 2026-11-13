@@ -157,6 +157,20 @@ async function main() {
     denetle(!uyarilar.some(u => u.includes("mock sözlük")), "words.json yüklenmedi, mock sözlüğe düşüldü");
     const tusSayisi = await sayfa.locator("#keyboard .key").count();
     denetle(tusSayisi === 31, `ekran klavyesinde ${tusSayisi} tuş var, 31 olmalı (29 harf + GİR + sil)`);
+    // İkonlar satır içi SVG: her ikon düğmesinde tam bir görünür ikon ve erişilebilir ad
+    const gorunurIkon = () => sayfa.evaluate(() =>
+      ["#btnMute", "#btnRestart", "#keyboard .key[data-key=BACK]"].map((sec) => {
+        const d = document.querySelector(sec);
+        const g = [...d.querySelectorAll("svg")].filter((s) => s.getBoundingClientRect().width > 0);
+        return { sec, ad: d.getAttribute("aria-label"), sinif: g.map((s) => s.getAttribute("class")).join("|") };
+      }));
+    const ikonlar = await gorunurIkon();
+    for (const i of ikonlar) denetle(!!i.ad && i.sinif.startsWith("icon") && !i.sinif.includes("|"), `${i.sec}: tek görünür SVG ikon ve aria-label olmalı (${i.sinif})`);
+    await sayfa.click("#btnMute");
+    const sessiz = (await gorunurIkon())[0].sinif;
+    denetle(sessiz.includes("icon-sound-off") && sessiz !== ikonlar[0].sinif, `ses kapatılınca ikon değişmedi (${sessiz})`);
+    await sayfa.click("#btnMute");
+    denetle((await gorunurIkon())[0].sinif === ikonlar[0].sinif, "ses açılınca ikon geri dönmedi");
 
     /* 2) Günün bulmacası */
     console.log("2. Günün bulmacası");

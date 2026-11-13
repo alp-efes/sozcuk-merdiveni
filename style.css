@@ -68,6 +68,7 @@
   --ctl-md:     40px;    /* Görünür boy: ikon düğmesi, mod sekmesi */
   --ctl-sm:     34px;    /* Görünür boy: zorluk / uzunluk düğmesi */
   --ctl-xs:     28px;    /* Görünür boy: küçük düğme (Sonucu paylaş) */
+  --icon-size:  20px;    /* Satır içi SVG ikon */
   --btn-height: 48px;
   --key-height: 52px;
   --tile-size:  clamp(42px, 12vw, 58px);
@@ -176,6 +177,11 @@ body {
   transition: background var(--dur-base);
 }
 .icon-btn:active { background: var(--surface-2); }
+
+/* Satır içi SVG ikon: rengi düğmenin metin renginden (currentColor) alır */
+.icon { display: block; width: var(--icon-size); height: var(--icon-size); margin: auto; }
+.icon-sound-off, .muted .icon-sound-on { display: none; }
+.muted .icon-sound-off { display: block; }
 
 /* ---------- Dokunma alanı ----------
    Kabuk 100dvh sabit: küçük telefonda her piksel oyun alanından gider. Bu

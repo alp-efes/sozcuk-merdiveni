@@ -89,7 +89,7 @@ Kalınlık `--fw-bold` (700), `--fw-heavy` (800). Satır yüksekliği `--lh-tigh
 | Grup | Belirteçler |
 |---|---|
 | Boşluk (4 px tabanlı) | `--space-1` 4 · `-1h` 6 · `-2` 8 · `-3` 12 · `-4` 16 · `-5` 20 · `-6` 24 · `-14` 56 |
-| Ölçü | `--tap-min` 44 (dokunma alanı) · görünür boy `--ctl-md` 40 · `--ctl-sm` 34 · `--ctl-xs` 28 · `--btn-height` 48 · `--key-height` 52 (geniş ekranda 58) · `--tile-size` · `--gap` |
+| Ölçü | `--tap-min` 44 (dokunma alanı) · görünür boy `--ctl-md` 40 · `--ctl-sm` 34 · `--ctl-xs` 28 · `--icon-size` 20 (satır içi SVG ikon) · `--btn-height` 48 · `--key-height` 52 (geniş ekranda 58) · `--tile-size` · `--gap` |
 | Köşe | `--radius` 6 · `--radius-md` 8 · `--radius-lg` 12 |
 | Gölge | `--shadow-md` (bildirim ve pencere; başka yerde gölge yok) |
 | Süre | `--dur-fast` 0,1 s · `--dur-base` 0,2 s · `--dur-slow` 0,5 s · `--ease` |
@@ -121,6 +121,26 @@ Kalınlık `--fw-bold` (700), `--fw-heavy` (800). Satır yüksekliği `--lh-tigh
 - Animasyon bilgi taşımaz; `prefers-reduced-motion` açıkken süreler sıfırlanır.
 - Renk tek başına anlam taşımaz: hata hem kırmızı hem yazılı bildirimdir.
 - 390 px genişlikte yatay taşma olmaz (duman testi denetler).
+
+## İkonlar
+
+**Arayüzde emoji yok** — ne ikon ne süs olarak (sekme, düğme, başlık,
+bildirim, paylaşım başlığı). ↻ ✕ ⌫ gibi simge karakterleri de ikon olarak
+kullanılmaz: cihazdan cihaza farklı çizilir, rengi ve boyu denetlenemez.
+
+- İkon satır içi SVG'dir: `class="icon"`, `viewBox="0 0 24 24"`,
+  `stroke="currentColor"`, çizgi kalınlığı 2, `aria-hidden="true"`. Boyu
+  `--icon-size`, rengi düğmenin metin rengi. Elle yazılır; ikon kütüphanesi,
+  dış dosya ve `style=` yok (iOS paketinin CSP'si satır içi stili reddeder).
+- Adı düğmenin `aria-label`'ı taşır. Durum değişimi sınıfla yapılır
+  (ses düğmesi: `.muted`), metinle değil.
+- `app.js` içinde üretilen öğe ikonu `index.html`'deki `<template>`'ten
+  kopyalar (Sil tuşu: `#iconBackspace`); `innerHTML` yazılmaz.
+- **İstisnalar:** paylaşılan sonuç ızgarası (🟩⬜, yalnızca `app.js`) ve
+  düzyazıdaki oklar (→ ← ↓).
+
+`tools/test_veri.py` `index.html`, `gizlilik.html` ve `app.js` içinde bunların
+dışındaki her emoji ve simge karakterini yakalar.
 
 ## Simgeler ve uygulama görselleri
 
@@ -162,8 +182,8 @@ verir.
 - Ekran sahte çizilmez; reklam yer tutucuları gizlenir.
 - Başlık kısa, sade Türkçe ve doğru: oyunun yapmadığı şey, sayı, ödül,
   "en iyi" gibi iddia yazılmaz. Başlıklar betikteki `EKRANLAR` listesindedir.
-- Mağazaya gidecek son görseller macOS'ta üretilir (yazı tipi ve emojiler
-  iPhone'dakiyle aynı çıkar). Depodaki Linux çıktısı yerleşim örneğidir.
+- Mağazaya gidecek son görseller macOS'ta üretilir (yazı tipi iPhone'dakiyle
+  aynı çıkar). Depodaki Linux çıktısı yerleşim örneğidir.
 
 ## Site ve uygulama ortak dili
 

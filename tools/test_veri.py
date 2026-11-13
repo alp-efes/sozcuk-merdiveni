@@ -27,6 +27,7 @@ Kullanım:  python3 tools/test_veri.py
 import json
 import re
 import sys
+import unicodedata
 from collections import defaultdict, deque
 from pathlib import Path
 
@@ -42,6 +43,9 @@ PUNYCODE_ALAN = "xn--szckyolu-n4a6d.com"
 # Betik/modül yüklenebilecek dış adresler. Genişletmek güvenlik incelemesi ister.
 IZINLI_BETIK_ALANLARI = {"www.gstatic.com", "pagead2.googlesyndication.com"}
 SITE_DOSYALARI = ("index.html", "gizlilik.html", "app.js")
+# Emoji yasağının istisnaları: düzyazıdaki oklar ve paylaşılan sonuç ızgarası
+IZINLI_SIMGELER = set("→←↓")
+PAYLASIM_IZGARASI = set("🟩⬜")
 # Gerçek gizli bilgi biçimleri. Firebase web apiKey (AIza…) herkese açık
 # olacak şekilde tasarlandığı için listede yok.
 GIZLI_KALIPLAR = {
@@ -397,8 +401,25 @@ def tasarim_testleri():
         denetle(bool(bilgi) and bilgi[:2] == (1320, 2868), f"tools/uygulama/magaza/{yol.name}: 1320×2868 olmalı")
 
 
+def emoji_testleri():
+    """Arayüzde emoji ve simge karakteri yok; ikonlar satır içi SVG'dir
+    (ekip/tasarim-sistemi.md → İkonlar). İstisna: paylaşım ızgarası."""
+    for ad in SITE_DOSYALARI:
+        izinli = IZINLI_SIMGELER | (PAYLASIM_IZGARASI if ad == "app.js" else set())
+        metin = (KOK / ad).read_text(encoding="utf-8")
+        for satir_no, satir in enumerate(metin.splitlines(), 1):
+            # So: emoji ve piktogramlar; Sm ≥ U+2190: oklar; FE0F/200D: emoji birleştiricileri
+            yasak = sorted({h for h in satir if h not in izinli and (
+                unicodedata.category(h) == "So"
+                or (unicodedata.category(h) == "Sm" and h >= "\u2190")
+                or h in "\ufe0f\u200d")})
+            denetle(not yasak, f"{ad}:{satir_no}: emoji/simge karakteri: "
+                    + " ".join(f"{h} (U+{ord(h):04X})" for h in yasak) + " — satır içi SVG kullanın")
+
+
 def main():
     veri_testleri()
+    emoji_testleri()
     site_testleri()
     guvenlik_testleri()
     tasarim_testleri()
