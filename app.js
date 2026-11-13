@@ -111,6 +111,7 @@ class WordLadder {
 
   // Takvimin 1. günü: 15 Temmuz 2026 (TRT). Ay 0 tabanlıdır.
   static GUN_BASLANGIC_UTC = Date.UTC(2026, 6, 15);
+  static GUNLUK_UZUNLUK = 4;   // günün bulmacası hep bu uzunlukta
 
   // Kanca sözü bu sürede çözülmezse "olumsuz" sayılır (iOS kancasının kendi
   // sınırı 3 dakika; bu ondan biraz uzun). Test kısaltabilir.
@@ -309,14 +310,19 @@ class WordLadder {
   }
 
   // Serbest oyunda tercih edilen (uzunluk, zorluk) havuzu; boşsa esnek geri düşer
+  // Bugünün günlük bulmacası (ters yönü de) havuzdan çıkarılır; geriye bir şey
+  // kalmazsa dışlama atlanır, oyun yine de açılır.
   freePool() {
+    const [gb, gh] = this.dailyPuzzle();
+    const gunluk = (p) => (p[0] === gb && p[1] === gh) || (p[0] === gh && p[1] === gb);
+    const sade = (liste) => { const f = liste.filter(p => !gunluk(p)); return f.length ? f : liste; };
     const havuz = this.db[String(this.lenPref)]?.puzzles || [];
-    const filt = havuz.filter(p => p[3] === this.diffPref);
+    const filt = sade(havuz).filter(p => p[3] === this.diffPref && !gunluk(p));
     if (filt.length) return filt;
-    if (havuz.length) return havuz;                    // zorluk yoksa o uzunluğun tümü
+    if (havuz.length) return sade(havuz);              // zorluk yoksa o uzunluğun tümü
     // O uzunlukta hiç yoksa (bozuk sözlük) ilk dolu uzunluğa düş
     const k = Object.keys(this.db).find(x => this.db[x].puzzles?.length);
-    return this.db[k].puzzles;
+    return sade(this.db[k].puzzles);
   }
 
   // Mevcut duruma göre tahtayı çizer (yeni oyun + durum geri yükleme ortak)
@@ -402,12 +408,17 @@ class WordLadder {
     return sonrakiGeceYarisi - d.getTime();
   }
 
-  // Tüm bulmacaları sabit sırayla birleştirip gün numarasına göre seçer.
+  // Günün bulmacası hep 4 harflidir; 4 harfli havuzdan gün numarasına göre
+  // seçilir (havuzdaki zorluk sırası zaten karışık, ardışık günler çeşitlenir).
+  // 4 harfli havuz yoksa (bozuk sözlük) tüm bulmacalara düşer.
   // Not: words.json yeniden üretilirse sıralama —dolayısıyla o günün
   // bulmacası— değişir; sözlük güncellemelerini gün içinde yayına almayın.
   dailyPuzzle() {
-    const hepsi = [];
-    for (const boy of Object.keys(this.db).sort()) hepsi.push(...this.db[boy].puzzles);
+    let hepsi = this.db[String(WordLadder.GUNLUK_UZUNLUK)]?.puzzles || [];
+    if (!hepsi.length) {
+      hepsi = [];
+      for (const boy of Object.keys(this.db).sort()) hepsi.push(...this.db[boy].puzzles);
+    }
     const i = ((this.dayNumber() % hepsi.length) + hepsi.length) % hepsi.length;
     return hepsi[i];
   }
