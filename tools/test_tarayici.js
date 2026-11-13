@@ -332,7 +332,7 @@ async function main() {
       }
       if (en === 360) {
         const secici = cozulmus ? ".mini-btn"
-          : ".icon-btn, .mode-tab, .pick-btn, .scroll-cue, .site-footer a";   // alt bilgi: Gizlilik + Çerez Tercihleri
+          : ".icon-btn, .mode-tab, .pick-btn, .scroll-cue, .site-footer a";   // alt bilgi: Gizlilik
         for (const a of await dokunmaAlani(s, secici)) {
           denetle(a.en >= 44 && a.boy >= 44, `${ad}: '${a.ad}' dokunma alanı ${a.en}×${a.boy}, en az 44×44 olmalı`);
         }
@@ -370,6 +370,7 @@ async function main() {
     const tb = await tarayici.newContext({ viewport: { width: 375, height: 667 }, hasTouch: true, isMobile: true });
     await disAgiKapat(tb);
     await tb.addInitScript(() => { try { localStorage.setItem("sm_izin", "evet"); } catch (_) {} });
+    await tb.addCookies([{ name: "_ga", value: "GA1.1.1.1", url: ADRES }]);
     const ts = await tb.newPage();
     ts.on("pageerror", (e) => sayfaHatalari.push(e.message));
     await ts.goto(ADRES); await oyunHazir(ts);
@@ -379,6 +380,8 @@ async function main() {
     denetle(await ts.evaluate(() => localStorage.getItem("sm_izin")) === null, "eski sm_izin anahtarı temizlenmedi");
     denetle(await ts.evaluate(() => !document.getElementById("izin") && !document.querySelector('a[href="#cerez-tercihi"]')),
             "izin bildirimi ya da Çerez Tercihleri bağlantısı hâlâ sayfada");
+    denetle(!(await tb.cookies(ADRES)).some((c) => c.name.startsWith("_ga")), "eski _ga çerezi temizlenmedi");
+    disIstekler.length = 0;   // index.html'den sızan istek gizlilik sayfasına yazılmasın
     await ts.goto(ADRES + "gizlilik.html");
     await ts.waitForTimeout(300);
     denetle(disIstekler.length === 0, "gizlilik sayfası dış adrese istek yaptı: " + disIstekler.join(", "));

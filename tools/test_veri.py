@@ -231,8 +231,11 @@ def site_testleri():
         metin = (KOK / ad).read_text(encoding="utf-8")
         denetle("cerez-tercihi" not in metin and 'id="izin"' not in metin and ".izin" not in metin,
                 f"{ad}: izin bildirimi/Çerez Tercihleri kalıntısı")
-    denetle(not re.search(r"firebase|google llc|google analytics|sm_izin", giz, re.I),
-            "gizlilik.html: kaldırılan analitikten söz ediyor")
+    # Tek istisna: geçmiş veriyi anlatan, id="gecmis-analitik" işaretli paragraf
+    giz_gecmissiz = re.sub(r'<p id="gecmis-analitik">.*?</p>', "", giz, flags=re.S)
+    denetle('<p id="gecmis-analitik">' in giz, "gizlilik.html: geçmiş analitik paragrafı (gecmis-analitik) yok")
+    denetle(not re.search(r"firebase|google llc|google analytics|sm_izin", giz_gecmissiz, re.I),
+            "gizlilik.html: geçmiş analitik paragrafı dışında kaldırılan analitikten söz ediyor")
 
 
 def guvenlik_testleri():

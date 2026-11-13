@@ -43,7 +43,8 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
 
 - **Analitik sitede kaldırıldı** (13 Kasım 2026, önceki "izinle kalır"
   kararının yerine): Firebase betiği, izin bildirimi ve çerez tercihi yok;
-  site hiçbir şey toplamaz. Firebase projesi (`sozcukyolu`) duruyor, kullanılmıyor.
+  sitede analitik ve reklam/izleme çerezi yok (Cloudflare yalnızca kesinlikle
+  gerekli `cf_clearance` güvenlik çerezini koyar). Firebase projesi (`sozcukyolu`) duruyor, kullanılmıyor.
   Reklam gelince gizlilik sayfası önce güncellenir.
 - **Metinlerde kişisel ad yok.** Veri sorumlusu "Sözcük Yolu (sözcükyolu.com)",
   iletişim `iletisim@`.
@@ -53,8 +54,11 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
 - **iOS deposu herkese açık** (sahip yaptı, 13 Kasım 2026).
 - **Reklam istenir:** sitede AdSense planlandığı gibi; uygulama 1.0 reklamsız,
   AdMob sahibin AdMob hesabını açmasından sonraki bir sürümde. Reklam gelince
-  AEA, Birleşik Krallık ve İsviçre için Google onaylı bir CMP gerekir; bu basit bildirimin yerini alır.
+  AEA, Birleşik Krallık ve İsviçre için Google onaylı bir CMP gerekir.
   Reklamdan önce gizlilik sayfası ve App Store gizlilik etiketi güncellenir.
+- **Cloudflare Web Analytics (RUM) 13 Kasım 2026'da kapatıldı ve kapalı kalmalı.**
+  Bölge düzeyindeki her enjeksiyon (RUM, Zaraz vb.) `hukuk-uyum` incelemesi ister;
+  depo testleri bunları görmez.
 
 ## Bütçe
 

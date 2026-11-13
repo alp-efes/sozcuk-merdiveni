@@ -5,7 +5,8 @@ kelimesinden hedef kelimeye ulaşılır.
 
 **Saf HTML/CSS/JS. Derleme adımı yok, npm yok, framework yok.** Bu bilinçli bir
 karar: Cloudflare'da statik olarak yayınlanıyor. Kütüphane eklemeyin; gerekirse
-CDN'den ES modülü olarak alın.
+CDN'den ES modülü olarak alın (gizlilik metnini güncellemeden ve `hukuk-uyum`
+incelemesi olmadan değil).
 
 Kod içi yorumlar ve kullanıcıya görünen her metin **Türkçe**.
 
@@ -99,6 +100,11 @@ aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 (günün çözümü + zincir), `sm_uzunluk`, `sm_zorluk`.
 
 ## Tuzaklar
+
+**Cloudflare bölge düzeyinde betik ve çerez enjekte edebilir.** RUM (Web
+Analytics) 2026-11-13'e kadar açıktı; Bot Fight Mode `cf_clearance` çerezini
+koyar ve aynı kaynaktan `/cdn-cgi/challenge-platform/...` betikleri yükler. Depo
+testleri bunları göremez: canlı siteyi tarayıcıyla kontrol edin.
 
 **Tarayıcı önbelleği test sırasında yanıltır.** `app.js`/`style.css` bayat kalıp
 "kod çalışmıyor" izlenimi verir. Sayfa URL'sine `?cb=` eklemek alt kaynakları
