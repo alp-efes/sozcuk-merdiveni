@@ -232,7 +232,8 @@ def site_testleri():
 
     # Web'de ipucu "ücretsiz" diye anılmaz (ücretli ipucu izlenimi vermesin)
     denetle("m.15/1-ğ" in index and "reportaproblem.apple.com" in index, "index.html: Plus kutusunda cayma/iade notu yok")
-    denetle("Günde bir ipucu hakkın var" in index and "ipucu ücretsizdir" not in index, "index.html: ipucu hakkı metni yanlış")
+    denetle("Başta 5 ipucu ve 5 geri alma hakkın var" in index and "Günde bir ipucu" not in index and "ipucu ücretsizdir" not in index,
+            "index.html: sayılı hak metni yanlış")
 
     # app-ads.txt: iOS uygulamasının AdMob yayıncı doğrulaması; tam bu tek satır ve yayında olmalı
     app_ads = (KOK / "app-ads.txt").read_text(encoding="utf-8")
@@ -245,7 +246,7 @@ def site_testleri():
 
     # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
     giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
-    for anahtar in ("sm_state", "sm_gunluk_", "sm_ipucu_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
+    for anahtar in ("sm_state", "sm_gunluk_", "sm_haklar", "sm_ipucu_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
         denetle(anahtar in giz, f"gizlilik.html: '{anahtar}' anlatılmamış")
     # app.js'in yazdığı her yerel depolama anahtarı gizlilik metninde de olmalı
     for anahtar in set(re.findall(r'"(sm_[a-z_]+)', (KOK / "app.js").read_text(encoding="utf-8"))):
