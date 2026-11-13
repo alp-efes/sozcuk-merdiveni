@@ -129,6 +129,10 @@ giriş satırı HEDEF'in hemen üstündedir. Yalnızca üst bölüm (`.steps`:
 BAŞLANGIÇ + girilen kelimeler + boş basamaklar) kayar; giriş satırı ve HEDEF
 sabittir. Her yeni adımda `.steps` sona kaydırılır: eski basamaklar yukarı
 çıkar. Bulmaca çözülünce giriş satırı ve boş basamaklar kalkar.
+Çok kısa ekranda (320×460, yatay telefon) `.steps` en az bir basamak boyunda
+kalır (son kelime hep görünür) ve sığmayan merdiven `.game` içinde kayar:
+önce son kelime ve giriş satırı görünür, HEDEF kaydırınca gelir. Merdiven
+klavyenin üstüne taşmaz.
 
 - **Basamak** (`.rung`): ortada kelime (`.word-row`), arkasında korkuluktan
   korkuluğa çıta, solda `.rung-label` (BAŞLANGIÇ / HEDEF), sağda `.step-label`
@@ -176,8 +180,8 @@ başlangıç, hedef.
 - Dokunma alanı en az 44×44 px (`--tap-min`). İkon düğmesi ve sekme gerçekten
   44 px'tir. Ayar düğmesi 44 px yüksek bir düğmedir, görünen parçası içindeki
   36 px'lik dolgudur. "Paylaş" 28 px görünür; alanı görünmez `::before`
-  katmanıyla aşağı doğru 44 px'e tamamlanır (altı tahtanın üst boşluğudur,
-  kayan bölüm değildir). Kabuğa yeni denetim eklerken görünmez katmanı kayan
+  katmanıyla aşağı doğru 44 px'e tamamlanır (altı `.game`'in saydam üst kenarlığıdır;
+  kayan içerik onun altında kırpılır). Kabuğa yeni denetim eklerken görünmez katmanı kayan
   bölüme (`.steps`) taşırma.
 - **Tek istisna klavye tuşunun eni:** sırada 11 tuş olduğu için 320 px ekranda
   ~28 px, 393 px ekranda ~35 px. Boyu her zaman en az 44 px'tir ve tuşlar
@@ -187,7 +191,9 @@ başlangıç, hedef.
 - `tools/test_tarayici.js` şunları ölçer: merdiven sırası (BAŞLANGIÇ → adım →
   giriş → HEDEF); 360×560 ve 375×548 serbest oyunda HEDEF ve giriş satırı,
   320×460'ta giriş satırı, çözülmüş günlükte HEDEF ilk ekranda; denetimlerin
-  gerçek dokunma alanı 44×44, tuş boyu 44; uzun merdivende son kelime, giriş
+  gerçek dokunma alanı 44×44, tuş boyu 44; 320×460'ta son kelime ve giriş
+  görünür, 667×375 yatayda hiçbir tuşun üstü örtülmez; fiziksel klavye
+  (i → İ, ı → I, Backspace, Enter); uzun merdivende son kelime, giriş
   ve HEDEF görünür, kayan bölümün üst kenarındaki dokunuş ayar düğmesine
   gitmiyor; 390 px'te yatay taşma yok.
 - Odak halkası (`:focus-visible`, mürekkep rengi) kaldırılmaz. Kapalı pencere

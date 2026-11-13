@@ -381,6 +381,11 @@ button { font: inherit; color: inherit; }
 .game {
   flex: 1;
   min-height: 0;                   /* Flex çocuğun taşmadan küçülebilmesi için */
+  /* Çok kısa ekranda (yatay telefon) merdiven sığmazsa klavyenin üstüne
+     taşmak yerine burada kayar. Üst boşluk dolgu değil kenarlık: "Paylaş"ın
+     görünmez dokunma alanı bu şeride iner, kayan bloklar altına girmez. */
+  overflow-y: auto;
+  border-top: var(--space-4) solid transparent;
 }
 .game[data-boy="4"] { --len: 4; }
 .game[data-boy="5"] { --len: 5; }
@@ -392,11 +397,11 @@ button { font: inherit; color: inherit; }
 
 .frame {
   position: relative;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--rung-gap);
-  padding: var(--space-3) 0;
+  padding-bottom: var(--space-3);
 }
 /* Korkuluklar */
 .frame::before, .frame::after {
@@ -416,12 +421,11 @@ button { font: inherit; color: inherit; }
 
 /* Kayan bölüm: BAŞLANGIÇ + girilen kelimeler + boş basamaklar */
 .steps {
-  flex: 1;
-  min-height: 0;
+  flex: 1 1 0;
+  min-height: var(--pitch);          /* Son kelime her zaman görünür: en az bir basamak */
   display: flex;
   flex-direction: column;
   gap: var(--rung-gap);
-  padding-bottom: var(--rung-gap);   /* Son bloğun gölgesi kırpılmasın */
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -553,7 +557,9 @@ button { font: inherit; color: inherit; }
 /* Hedefe ulaşınca giriş satırı ve boş basamaklar kalkar; merdiven üstte toplanır */
 .game.bitti .input-rung,
 .game.bitti .ghost { display: none; }
-.game.bitti .steps { flex: 0 1 auto; }
+.game.bitti .steps { flex: 0 1 auto; padding-bottom: var(--rung-gap); }   /* Son bloğun gölgesi kırpılmasın */
+/* Örnek merdiven kaymaz; kenarlığın yerine iç boşluk */
+.example .frame { padding-top: var(--space-3); }
 
 .ladder .rung { animation: slideIn var(--dur-base) var(--ease); }
 

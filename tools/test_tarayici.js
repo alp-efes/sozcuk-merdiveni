@@ -273,6 +273,35 @@ async function main() {
     denetle(serbest.mod === "free" && !serbest.bitti, "serbest oyun başlamadı");
     denetle(serbest.boy === serbest.tercih, `serbest oyun ${serbest.boy} harfli, seçili uzunluk ${serbest.tercih}`);
 
+    // Fiziksel klavye (masaüstü ve iPad'in tek yazma yolu): küçük harf Türkçe
+    // kurala göre büyür (i → İ, ı → I), Backspace siler, Enter kelimeyi gönderir.
+    const tusla = (k) => sayfa.evaluate((key) => document.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true })), k);
+    await sayfa.keyboard.type("i");
+    await tusla("ı");                       // Türkçe klavyedeki tuş; Playwright'ın tuş listesinde yok
+    denetle(await sayfa.evaluate(() => oyun.buffer) === "İI", `fiziksel klavyede 'i', 'ı' yazıldı; tampon '${await sayfa.evaluate(() => oyun.buffer)}', 'İI' olmalı`);
+    await sayfa.keyboard.press("Backspace"); await sayfa.keyboard.press("Backspace");
+    denetle(await sayfa.evaluate(() => oyun.buffer) === "", "Backspace tamponu boşaltmadı");
+    // İlk adımı yalnızca ABD düzeninde yazılabilen harflerden oluşan bir bulmaca bul
+    let ilkAdim = "";
+    for (let i = 0; i < 80 && !ilkAdim; i++) {
+      const [fb, fh] = await sayfa.evaluate(() => [oyun.startWord, oyun.targetWord]);
+      const aday = (enKisaYol(fb, fh) || [""])[0];
+      if (/^[A-HJ-Zİ]+$/.test(aday)) ilkAdim = aday; else await sayfa.click("#btnRestart");
+    }
+    denetle(!!ilkAdim, "fiziksel klavye denemesi için uygun bulmaca bulunamadı");
+    await sayfa.keyboard.type(ilkAdim.toLocaleLowerCase("tr"));
+    await sayfa.keyboard.press("Enter");
+    const fiziksel = await sayfa.evaluate(() => oyun.chain.slice());
+    denetle(fiziksel.length === 2 && fiziksel[1] === ilkAdim, `fiziksel klavyeyle '${ilkAdim}' yazılıp Enter'a basıldı; zincir ${JSON.stringify(fiziksel)}`);
+    // Odaktaki bağlantıda Enter bağlantıyı açar, kelime göndermez
+    await sayfa.keyboard.type("a");
+    await sayfa.focus("#btnHelp");
+    await sayfa.keyboard.press("Enter");
+    const baglanti = await sayfa.evaluate(() => ({ hash: location.hash, toast: document.getElementById("toast").classList.contains("show"), zincir: oyun.chain.length }));
+    denetle(baglanti.hash === "#nasil-oynanir" && baglanti.zincir === 2, `yardım bağlantısında Enter: adres '${baglanti.hash}', zincir ${baglanti.zincir}`);
+    denetle(await sayfa.evaluate(() => document.getElementById("inputRow").getAttribute("aria-live")) === "polite",
+            "giriş satırı ekran okuyucuya duyurulmuyor (aria-live)");
+
     /* Dokunmatik: telefonda da ekran klavyesi kullanılır; cihaz klavyesini
        açacak bir giriş alanı yoktur. Fiziksel klavye (ör. iPad) yine çalışır. */
     console.log("8. Dokunmatik giriş");
@@ -422,6 +451,49 @@ async function main() {
         denetle(!tahta.ayar.length, `${ad}: kayan bölümün üst kenarına dokunuş ayar düğmesine gidiyor: ${tahta.ayar.join(", ")}`);
       }
       await b.close();
+    }
+
+    // Çok kısa ekranlar: son kelime görünür kalır, merdiven klavyeye taşmaz
+    {
+      const b = await tarayici.newContext({ viewport: { width: 320, height: 460 }, hasTouch: true, isMobile: true });
+      await disAgiKapat(b);
+      const s = await b.newPage();
+      s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await s.goto(ADRES); await oyunHazir(s);
+      const gunlukBas = await s.evaluate(() => {
+        const k = document.getElementById("startWord").getBoundingClientRect(), g = document.getElementById("inputRow").getBoundingClientRect();
+        return k.bottom <= g.top + 0.5;
+      });
+      denetle(gunlukBas, "320×460 günlük: başlangıç kelimesi giriş satırının altında kalıyor");
+      await s.tap("#tabFree"); await s.tap('[data-len="4"]');
+      const [kb, kh] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+      await kelimeDokun(s, enKisaYol(kb, kh)[0]);
+      await s.waitForTimeout(400);           // basamağın iniş animasyonu bitsin
+      const son = await s.evaluate(() => {
+        const r = document.querySelector("#ladder .rung:last-child .word-row").getBoundingClientRect();
+        const k = document.getElementById("steps").getBoundingClientRect(), g = document.getElementById("game").getBoundingClientRect();
+        const giris = document.getElementById("inputRow").getBoundingClientRect();
+        return { icinde: r.top >= k.top - 0.5 && r.bottom <= k.bottom + 0.5,
+                 ekranda: r.top >= g.top - 0.5 && r.bottom <= Math.min(innerHeight, g.bottom) + 0.5,
+                 ustte: r.bottom <= giris.top + 0.5,
+                 giris: giris.top >= g.top - 0.5 && giris.bottom <= Math.min(innerHeight, g.bottom) + 0.5 };
+      });
+      denetle(son.icinde && son.ekranda && son.ustte && son.giris, `320×460 serbest 4 harf: son girilen kelime ya da giriş satırı görünmüyor (${JSON.stringify(son)})`);
+      await b.close();
+
+      const y = await tarayici.newContext({ viewport: { width: 667, height: 375 }, hasTouch: true, isMobile: true });
+      await disAgiKapat(y);
+      const ys = await y.newPage();
+      ys.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await ys.goto(ADRES); await oyunHazir(ys);
+      const ortulu = await ys.evaluate(() => [...document.querySelectorAll("#keyboard .key")].filter((t) => {
+        const r = t.getBoundingClientRect(), e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return !e || !t.contains(e);
+      }).map((t) => t.dataset.key));
+      denetle(!ortulu.length, `667×375 yatay: tuşların üstü örtülü, dokunuş tuşa gitmiyor: ${ortulu.join(" ")}`);
+      await kelimeDokun(ys, enKisaYol(...(await ys.evaluate(() => [oyun.startWord, oyun.targetWord])))[0]);
+      denetle(await ys.evaluate(() => oyun.chain.length) === 2, "667×375 yatay: ekran klavyesiyle kelime girilemedi");
+      await y.close();
     }
 
     /* 11) Analitik yok: Google/gstatic isteği yapılmaz, eski izler temizlenir */

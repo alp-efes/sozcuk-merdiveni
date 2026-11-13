@@ -305,7 +305,8 @@ class WordLadder {
 
   // Durum satırı: atılan adım ve bulmacanın en az adım sayısı
   renderStatus() {
-    const adim = `${this.chain.length - 1} adım`;
+    // Çözülmüş günlüğün zinciri kayıtta yoksa adım sayısı kayıttan okunur
+    const adim = `${this.over && this.lastResult ? this.lastResult.steps : this.chain.length - 1} adım`;
     this.el.stepInfo.textContent = this.over ? "Çözüldü" : adim;
     this.el.parInfo.textContent = this.over ? ` · ${adim}`
       : this.optimal ? ` · en az ${this.optimal}` : "";
@@ -524,6 +525,8 @@ class WordLadder {
 
     // Kabul edilen kelimeyi merdivene ekle (hedefle eşleşen harfler yeşil)
     this.addRung(this.chain.length - 1);
+    // Çok kısa ekranda .game de kayar; giriş satırı görünür kalsın
+    this.el.input.scrollIntoView({ block: "nearest" });
 
     this.buffer = "";
     this.renderStatus();
@@ -782,6 +785,8 @@ class WordLadder {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       if (e.key === "Enter") {
+        // Odaktaki bağlantıda Enter bağlantıyı açar (Nasıl oynanır, Anladım, Gizlilik)
+        if (e.target.closest("a[href]")) return;
         // preventDefault: odakta buton kaldıysa Enter'ın onu tetiklemesini
         // engeller — aksi halde "Sözlükte yok" hatasıyla birlikte yanlışlıkla
         // yeni oyun başlıyordu
