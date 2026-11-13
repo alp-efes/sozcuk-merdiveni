@@ -413,7 +413,9 @@ async function main() {
       }
       if (en === 360) {
         const secici = cozulmus ? ".mini-btn:not(.hidden)"
-          : ".icon-btn, .mode-tab, .pick-btn, .site-footer a, .hint-btn:not(.hidden)";   // gizli düğme dokunulamaz; Sonucu göster görününce 13. adımda ölçülür   // alt bilgi: Gizlilik; ampul: İpucu
+          : ".icon-btn, .mode-tab, .pick-btn, .site-footer a, .hint-btn:not(.hidden)";
+        // alt bilgi: Gizlilik; ampul: İpucu. Gizli düğme dokunulamaz: Sonucu göster
+        // görününce 13. adımda ölçülür
         for (const a of await dokunmaAlani(s, secici)) {
           denetle(a.en >= 44 && a.boy >= 44, `${ad}: '${a.ad}' dokunma alanı ${a.en}×${a.boy}, en az 44×44 olmalı`);
         }
@@ -1075,8 +1077,26 @@ async function main() {
         denetle(son.steps === ilkKayit.steps && JSON.stringify(son.chain) === JSON.stringify(ilkKayit.chain) && son.deneme === undefined && son.enIyi === undefined,
                 `sonucu göster: tekrarda ilk çözüm kaydı değişti ya da deneme kaldı (${JSON.stringify(son)})`);
         denetle(await s.evaluate(() => oyun.over && oyun.shown), "sonucu göster: tekrar 'çözüm gösterildi' olarak bitmedi");
+        // İlk çözüm kaydı varken Paylaş / Tekrar dene hemen görünür (sekme değişimi beklenmez)
+        denetle(await gorunur(s, "#dailySolved") && await gorunur(s, "#btnDailyShare"), "sonucu göster: ilk çözüm kaydı varken Paylaş hemen görünmeli");
+        denetle(await s.evaluate((n) => oyun.lastResult && oyun.lastResult.steps === n, ilkKayit.steps), "sonucu göster: tekrarda lastResult ilk çözüm olmalı");
+        await s.reload(); await oyunHazir(s);
+        denetle(await gorunur(s, "#dailySolved") && await s.evaluate(() => oyun.shown), "sonucu göster: yenilemeden sonra Paylaş görünmeli, durum korunmalı");
         await s.click("#tabFree"); await s.click("#tabDaily");
         denetle(await s.evaluate((n) => oyun.over && !oyun.shown && oyun.lastResult.steps === n, ilkKayit.steps), "sonucu göster: günlüğe dönünce ilk çözüm geri gelmedi");
+        await b.close();
+      }
+
+      // 13f) Sonucu göster hiçbir gelir kancasını çağırmaz (kancalı sayfa, Plus değil)
+      {
+        const { b, s } = await gelirSayfasi({ plus: false, odul: true, satin: false, geri: false });
+        const [bas, hedef, en] = await s.evaluate(() => [oyun.startWord, oyun.targetWord, oyun.optimal]);
+        await gezin(s, bas, hedef, en + 1);
+        await s.click("#btnShowResult");
+        denetle(await onayAcik(s), "kancalı sayfa: onay penceresi açılmadı");
+        await s.click("#btnPesEvet");
+        denetle(await s.evaluate(() => oyun.over && oyun.shown), "kancalı sayfa: sonuç gösterilmedi");
+        denetle((await cagrilar(s)).length === 0, `sonucu göster gelir kancası çağırdı: ${await cagrilar(s)}`);
         await b.close();
       }
     }

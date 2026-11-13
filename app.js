@@ -363,7 +363,7 @@ class WordLadder {
       ? ` · ${adim}` + (this.mode === "daily" && enIyi && enIyi < gosterilen ? ` · en iyi ${enIyi}` : "")
       : this.optimal ? ` · en az ${this.optimal}` : "";
     // Günlük çözüldüyse "paylaş" düğmesi burada durur (pencere kapansa da erişilir)
-    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over && !this.shown));
+    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over && (!this.shown || this.dailyRecord())));   // gösterilen yol çözüm değilse, ilk çözüm kaydı varsa yine paylaşılır
     this.el.btnDailyRetry.classList.toggle("hidden", !this.canRetry());
     this.el.btnHint.classList.toggle("hidden", this.over);
     // Geri al: yalnızca kabul edilmiş basamak varken ve oyun sürerken
@@ -676,7 +676,7 @@ class WordLadder {
     this.buffer = "";
     this.over = true;
     this.shown = true;
-    this.lastResult = null;
+    this.lastResult = (this.mode === "daily" && this.dailyRecord()) || null;   // ilk çözüm varsa o
     this.render();
     this.saveState();
     this.showToast("Bir en kısa yol gösterildi", true);
@@ -773,7 +773,7 @@ class WordLadder {
     // Yenilemede çözülmüş oyun: cevaplar tahtada görünür; modal AÇILMAZ
     // (kullanıcı "cevaplar görünür kalsın" istedi). Paylaşım için lastResult
     // hazırlanır; günlükte üstteki "çözüldü + paylaş" satırı erişim sağlar.
-    if (this.over && !this.shown) this.lastResult = this.computeResult();
+    if (this.over) this.lastResult = this.shown ? (this.mode === "daily" && this.dailyRecord()) || null : this.computeResult();
     return true;
   }
 
