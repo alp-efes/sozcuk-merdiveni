@@ -170,6 +170,13 @@ class WordLadder {
       dailySolved: document.getElementById("dailySolved"),
       btnDailyShare: document.getElementById("btnDailyShare"),
       btnHint:    document.getElementById("btnHint"),
+      btnUndo:    document.getElementById("btnUndo"),
+      btnShowResult: document.getElementById("btnShowResult"),
+      pes:        document.getElementById("pes"),
+      pesText:    document.getElementById("pesText"),
+      btnPesEvet: document.getElementById("btnPesEvet"),
+      btnPesVazgec: document.getElementById("btnPesVazgec"),
+      btnClosePes: document.getElementById("btnClosePes"),
       btnDailyRetry: document.getElementById("btnDailyRetry"),
       btnRetry:   document.getElementById("btnRetry"),
       offer:      document.getElementById("offer"),
@@ -196,6 +203,7 @@ class WordLadder {
     this.chain = [];      // [başlangıç, ...kabul edilen kelimeler]
     this.buffer = "";     // O an yazılan kelime
     this.over = false;    // Oyun bitti mi?
+    this.shown = false;   // Bitiş "çözüm gösterildi" mi? (chain o zaman bir en kısa yoldur)
     this.mode = "daily";  // "daily" (günün bulmacası) | "free" (serbest)
     this.lastResult = null; // Son kazanılan oyunun {steps, grid} paylaşım verisi
     this.toastTimer = null;
@@ -261,6 +269,7 @@ class WordLadder {
     this.chain = [start];
     this.buffer = "";
     this.over = false;
+    this.shown = false;
 
     // Günün bulmacası bu cihazda bugün zaten çözülmüşse bitmiş say ve
     // gerçek çözüm zincirini kayıttan geri kur (varsa) — böylece merdiven ve
@@ -284,6 +293,12 @@ class WordLadder {
           this.chain = d.slice();
         }
       }
+    }
+
+    // Bugün "sonucu göster" ile bitirilmişse (çözüm kaydı yok) bulmaca öyle kalır
+    if (mode === "daily" && !cozuldu) {
+      const yol = this.dailyShown() && this.shortestPath();
+      if (yol) { this.over = true; this.shown = true; this.chain = yol; }
     }
 
     this.render();          // over=true ise "bitti" sınıfını + çözüldü göstergesini uygular
@@ -339,16 +354,26 @@ class WordLadder {
   renderStatus() {
     // Çözülmüş günlüğün zinciri kayıtta yoksa adım sayısı kayıttan okunur
     const adim = `${this.over && this.lastResult ? this.lastResult.steps : this.chain.length - 1} adım`;
-    this.el.stepInfo.textContent = this.over ? "Çözüldü" : adim;
+    this.el.stepInfo.textContent = this.shown ? "Çözüm gösterildi" : this.over ? "Çözüldü" : adim;
     const enIyi = this.dailyBest();
     const gosterilen = this.over && this.lastResult ? this.lastResult.steps : this.chain.length - 1;
-    this.el.parInfo.textContent = this.over
+    this.el.parInfo.textContent = this.shown
+      ? (this.optimal ? ` · en az ${this.optimal}` : "")
+      : this.over
       ? ` · ${adim}` + (this.mode === "daily" && enIyi && enIyi < gosterilen ? ` · en iyi ${enIyi}` : "")
       : this.optimal ? ` · en az ${this.optimal}` : "";
     // Günlük çözüldüyse "paylaş" düğmesi burada durur (pencere kapansa da erişilir)
-    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over));
+    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over && !this.shown));
     this.el.btnDailyRetry.classList.toggle("hidden", !this.canRetry());
     this.el.btnHint.classList.toggle("hidden", this.over);
+    // Geri al: yalnızca kabul edilmiş basamak varken ve oyun sürerken
+    this.el.btnUndo.disabled = this.over || this.chain.length < 2;
+    // Sonucu göster: atılan adım en az adımı geçince
+    this.el.btnShowResult.classList.toggle("hidden", !this.canShowResult());
+  }
+
+  canShowResult() {
+    return !this.over && this.optimal > 0 && this.chain.length - 1 > this.optimal;
   }
 
   pick(arr) {
@@ -402,6 +427,14 @@ class WordLadder {
   saveDailyRecord(sonuc) {
     try { localStorage.setItem("sm_gunluk_" + this.todayKey(), JSON.stringify(sonuc)); }
     catch (_) { /* kayıt tutulamadı — önemli değil */ }
+  }
+
+  // Bugün "sonucu göster" ile bitirildi mi? Günün kaydına steps:0 yazılır:
+  // dailyRecord() bunu çözüm saymaz (seri ve paylaşım görmez). Gösterilen yol
+  // saklanmaz, şimdiki sözlükten yeniden hesaplanır (en kısa yol değişmez).
+  dailyShown() {
+    try { return JSON.parse(localStorage.getItem("sm_gunluk_" + this.todayKey()))?.gosterildi === true; }
+    catch (_) { return false; }
   }
 
   // Günün en iyi sonucu: ilk çözüm ya da daha iyi bir tekrar (yoksa 0).
@@ -592,6 +625,63 @@ class WordLadder {
     if (word === this.targetWord) this.win();
   }
 
+  // Son kabul edilen kelimeyi zincirden çıkarır. Başlangıç kelimesi kalır;
+  // yazılmakta olan harfler silinir (onlar için ayrıca sil tuşu var).
+  undo() {
+    if (this.over || this.chain.length < 2) return;
+    this.clearHint();
+    this.chain.pop();
+    this.el.ladder.lastElementChild.remove();
+    this.buffer = "";
+    this.renderStatus();
+    this.renderInput();
+    this.saveState();               // zincir (ve sürmekte olan günlük tekrar) kaydedilsin
+  }
+
+  // Sonucu göster: önce onay penceresi
+  askShowResult() {
+    if (!this.canShowResult() || this.busy) return;
+    const daily = this.mode === "daily";
+    this.el.pesText.textContent = !daily
+      ? "Bir en kısa yol gösterilir ve bu oyun biter."
+      : this.dailyRecord()
+        ? "Bir en kısa yol gösterilir ve bu deneme biter. Bugünkü çözüm kaydın değişmez."
+        : "Bir en kısa yol gösterilir ve bugünün bulmacası burada biter. Çözüm kaydı oluşmaz, sonucu paylaşamazsın.";
+    this.showPes(true);
+  }
+
+  showPes(open) {
+    this.el.pes.classList.toggle("hidden", !open);
+    this.el.pes.setAttribute("aria-hidden", String(!open));
+  }
+
+  // Onaydan sonra: bir en kısa yolu merdivene basar, bulmaca "çözüm gösterildi"
+  // olarak biter. Günlükte çözüm kaydı (sm_gunluk_*) yazılmaz; ilk çözüm varsa
+  // olduğu gibi kalır, yalnızca sürmekte olan tekrar bırakılır.
+  showResult() {
+    this.showPes(false);
+    if (!this.canShowResult()) return;
+    const yol = this.shortestPath();
+    if (!yol) return this.showToast("Bu bulmacanın yolu bulunamadı");
+    if (this.mode === "daily") {
+      const k = this.dailyRecord();
+      if (!k) {
+        this.saveDailyRecord({ steps: 0, gosterildi: true });
+      } else if (k.deneme) {
+        const { deneme, ...temiz } = k;
+        this.saveDailyRecord(temiz);
+      }
+    }
+    this.chain = yol;
+    this.buffer = "";
+    this.over = true;
+    this.shown = true;
+    this.lastResult = null;
+    this.render();
+    this.saveState();
+    this.showToast("Bir en kısa yol gösterildi", true);
+  }
+
   // Geçersiz hamle: shake animasyonu + kırmızı vurgu + toast + hata sesi
   reject(message) {
     AudioFX.error();
@@ -643,6 +733,7 @@ class WordLadder {
         puzzleDiff: this.puzzleDiff,
         chain: this.chain,
         over: this.over,
+        shown: this.shown,
       }));
     } catch (_) { /* kayıt tutulamadı — oyun yine çalışır */ }
   }
@@ -672,6 +763,7 @@ class WordLadder {
     // yalnızca başlangıç) çözülmemiş say. Bu, eski bir hatadan kalan
     // "0 adımda çözüldü" durumunu kendiliğinden temizler.
     if (this.over && this.chain.length < 2) this.over = false;
+    this.shown = this.over && !!s.shown;
     if (this.mode === "daily") this.gosterilenGun = this.dayNumber();
 
     this.updateTabs();
@@ -681,7 +773,7 @@ class WordLadder {
     // Yenilemede çözülmüş oyun: cevaplar tahtada görünür; modal AÇILMAZ
     // (kullanıcı "cevaplar görünür kalsın" istedi). Paylaşım için lastResult
     // hazırlanır; günlükte üstteki "çözüldü + paylaş" satırı erişim sağlar.
-    if (this.over) this.lastResult = this.computeResult();
+    if (this.over && !this.shown) this.lastResult = this.computeResult();
     return true;
   }
 
@@ -872,11 +964,9 @@ class WordLadder {
     try { localStorage.setItem("sm_ipucu_" + gun, "1"); } catch (_) { /* bellekteki bayrak yeter */ }
   }
 
-  // Hedeften BFS: bu kelimeden hedefe giden en kısa yolun sonraki kelimesi ve
-  // hedefe kalan adım. Oyuncu en kısa yoldan sapmışsa da şimdiki kelimeden
-  // yeniden hesaplanır. Yol yoksa null. Aynı uzaklıktaki adaylar arasında
-  // zincirde olmayan tercih edilir (gereksiz geri dönüş önerilmez).
-  nextOnPath() {
+  // Hedeften BFS: her kelimenin hedefe uzaklığı (`uzak`) ve komşuları.
+  // Komşuluk oyunun kuralıyla aynıdır: sözlükte, tek harfi farklı.
+  hedefeUzaklik() {
     const kova = new Map();
     for (const w of this.dict) {
       for (let i = 0; i < w.length; i++) {
@@ -893,11 +983,32 @@ class WordLadder {
         if (!uzak.has(v)) { uzak.set(v, uzak.get(kuyruk[n]) + 1); kuyruk.push(v); }
       }
     }
+    return { uzak, komsular };
+  }
+
+  // Bu kelimeden hedefe giden en kısa yolun sonraki kelimesi ve hedefe kalan
+  // adım. Oyuncu en kısa yoldan sapmışsa da şimdiki kelimeden yeniden
+  // hesaplanır. Yol yoksa null. Aynı uzaklıktaki adaylar arasında zincirde
+  // olmayan tercih edilir (gereksiz geri dönüş önerilmez).
+  nextOnPath() {
+    const { uzak, komsular } = this.hedefeUzaklik();
     const simdi = this.currentWord;
     if (!uzak.has(simdi)) return null;
     const adaylar = komsular(simdi).filter(v => uzak.get(v) === uzak.get(simdi) - 1);
     const sonraki = adaylar.find(v => !this.chain.includes(v)) || adaylar[0];
     return sonraki ? { sonraki, kalan: uzak.get(simdi) } : null;
+  }
+
+  // Başlangıçtan hedefe bir en kısa yol (ikisi de dahil); yol yoksa null.
+  shortestPath() {
+    const { uzak, komsular } = this.hedefeUzaklik();
+    if (!uzak.has(this.startWord)) return null;
+    const yol = [this.startWord];
+    while (yol[yol.length - 1] !== this.targetWord) {
+      const w = yol[yol.length - 1];
+      yol.push(komsular(w).find(v => uzak.get(v) === uzak.get(w) - 1));
+    }
+    return yol;
   }
 
   // İpucu planı (ücret alınmadan önce hesaplanır): değişecek konum, harf,
@@ -1075,9 +1186,13 @@ class WordLadder {
     // Fiziksel klavye dinleyicisi (Türkçe karakter uyumlu)
     document.addEventListener("keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
-      // İpucu teklifi açıkken tahtaya yazılmaz; Escape kapatır
+      // İpucu teklifi ya da sonucu göster onayı açıkken tahtaya yazılmaz; Escape kapatır
       if (!this.el.offer.classList.contains("hidden")) {
         if (e.key === "Escape") this.showOffer(false);
+        return;
+      }
+      if (!this.el.pes.classList.contains("hidden")) {
+        if (e.key === "Escape") this.showPes(false);
         return;
       }
 
@@ -1165,6 +1280,11 @@ class WordLadder {
     // İpucu, tekrar, ipucu teklifi ve Plus
     const dokun = (el, fn) => el.addEventListener("click", (e) => { e.currentTarget.blur(); fn(); });
     dokun(this.el.btnHint, () => this.requestHint());
+    dokun(this.el.btnUndo, () => this.undo());
+    dokun(this.el.btnShowResult, () => this.askShowResult());
+    dokun(this.el.btnPesEvet, () => this.showResult());
+    dokun(this.el.btnPesVazgec, () => this.showPes(false));
+    dokun(this.el.btnClosePes, () => this.showPes(false));
     // Reklam gerektiriyorsa düğme reklamı kendisi başlatmaz: neyin olacağını yazan pencereyi açar
     dokun(this.el.btnDailyRetry, () => this.retryEtiketi() === "Tekrar dene" ? this.retry() : this.showModal({ oncedenCozuldu: true }));
     dokun(this.el.btnRetry, () => this.retry());

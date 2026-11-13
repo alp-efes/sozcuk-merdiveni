@@ -135,10 +135,20 @@
       <button class="mini-btn hidden" id="btnDailyRetry" type="button">Tekrar dene</button>
     </span>
     <span class="daily-timer hidden" id="dailyTimer"><span class="dar-gizle">Yeni bulmaca </span><strong id="dailyCountdown">--:--:--</strong><span class="dar-gizle"> sonra</span></span>
-    <!-- Bir sonraki doğru hamleyi gösterir; günde 1 ücretsiz (app.js requestHint) -->
-    <button class="mini-btn hint-btn" id="btnHint" type="button" aria-label="İpucu">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
-    </button>
+    <span class="status-actions">
+      <!-- Son kabul edilen kelimeyi zincirden çıkarır (app.js undo); başlangıçta ve bitince devre dışı -->
+      <button class="mini-btn hint-btn" id="btnUndo" type="button" aria-label="Geri al" disabled>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+      </button>
+      <!-- Adım sayısı en az adımı geçince görünür; bir en kısa yolu gösterir ve bulmacayı bitirir -->
+      <button class="mini-btn hint-btn hidden" id="btnShowResult" type="button" aria-label="Sonucu göster">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+      <!-- Bir sonraki doğru hamleyi gösterir; günde 1 ücretsiz (app.js requestHint) -->
+      <button class="mini-btn hint-btn" id="btnHint" type="button" aria-label="İpucu">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+      </button>
+    </span>
   </div>
 
   <!-- ======================= OYUN ALANI ======================= -->
@@ -303,6 +313,19 @@
       <p class="offer-text">Bugünkü ücretsiz ipucunu kullandın. Kısa bir reklam izleyip yeni bir ipucu alabilir ya da Plus ile reklamsız ve sınırsız ipucu kullanabilirsin.</p>
       <button class="btn-primary" id="btnOfferAd" type="button">Reklam izle, ipucu al</button>
       <button class="btn-secondary" id="btnOfferPlus" type="button">Plus'a geç</button>
+    </div>
+  </div>
+
+  <!-- ======================= SONUCU GÖSTER ONAYI ======================= -->
+  <div class="modal-overlay hidden" id="pes" role="dialog" aria-modal="true" aria-labelledby="pesTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="btnClosePes" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <h2 id="pesTitle">Emin misin?</h2>
+      <p class="offer-text" id="pesText"></p>
+      <button class="btn-primary" id="btnPesEvet" type="button">Evet, göster</button>
+      <button class="btn-secondary" id="btnPesVazgec" type="button">Vazgeç</button>
     </div>
   </div>
 
