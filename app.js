@@ -90,7 +90,8 @@ class WordLadder {
     }
   };
 
-  // Türkçe karakter uyumlu klavye dizilimi (Q/W/X alfabede yok, çıkarıldı)
+  // Türkçe karakter uyumlu klavye dizilimi (Q/W/X alfabede yok, çıkarıldı).
+  // Telefonda da bu klavye kullanılır; cihazın klavyesi açılmaz.
   static LAYOUT = [
     ["E", "R", "T", "Y", "U", "I", "O", "P", "Ğ", "Ü"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ"],
@@ -115,7 +116,6 @@ class WordLadder {
 
   // Zorluk seviyeleri (words.json'daki puzzle[3] etiketleriyle aynı)
   static ZORLUKLAR = ["kolay", "orta", "zor"];
-  static ZORLUK_AD = { kolay: "Kolay", orta: "Orta", zor: "Zor" };
 
   // "Şimdi"nin TRT karşılığı. Dönen Date'in UTC alanları (getUTCFullYear vb.)
   // TRT takvim değerlerini verir — yerel saat alanları KULLANILMAMALI.
@@ -131,7 +131,17 @@ class WordLadder {
       ladder:  document.getElementById("ladder"),
       input:   document.getElementById("inputRow"),
       toast:   document.getElementById("toast"),
+      steps:   document.getElementById("steps"),
+      inputLabel: document.getElementById("inputLabel"),
+      stepInfo: document.getElementById("stepInfo"),
       parInfo: document.getElementById("parInfo"),
+      modalKicker: document.getElementById("modalKicker"),
+      modalSteps: document.getElementById("modalSteps"),
+      modalOptimal: document.getElementById("modalOptimal"),
+      modalOptimalBox: document.getElementById("modalOptimalBox"),
+      modalGrid: document.getElementById("modalGrid"),
+      modalNext: document.getElementById("modalNext"),
+      modalCountdown: document.getElementById("modalCountdown"),
       modalTitle: document.getElementById("modalTitle"),
       keyboard: document.getElementById("keyboard"),
       modal:    document.getElementById("modal"),
@@ -143,7 +153,6 @@ class WordLadder {
       btnCloseModal: document.getElementById("btnCloseModal"),
       tabDaily:   document.getElementById("tabDaily"),
       tabFree:    document.getElementById("tabFree"),
-      nativeInput: document.getElementById("nativeInput"),
       game:       document.getElementById("game"),
       freeSettings: document.getElementById("freeSettings"),
       lenBtns:    [...document.querySelectorAll("[data-len]")],
@@ -157,9 +166,6 @@ class WordLadder {
     // Serbest oyun tercihleri (kalıcı): kelime uzunluğu ve zorluk
     this.lenPref = this.loadPref("sm_uzunluk", WordLadder.UZUNLUKLAR, 4);
     this.diffPref = this.loadPref("sm_zorluk", WordLadder.ZORLUKLAR, "orta");
-
-    // Dokunmatik cihazda kendi klavyemiz yerine cihazınki kullanılır
-    this.touch = matchMedia("(pointer: coarse)").matches;
 
     // Oyun durumu
     this.db = null;       // { "3": {words, puzzles}, ... }
@@ -271,24 +277,41 @@ class WordLadder {
   render() {
     this.el.ladder.innerHTML = "";
     this.el.game.classList.toggle("bitti", this.over);
+    this.el.game.dataset.boy = this.len;      // style.css blok boyunu buna göre seçer
     this.renderWord(this.el.start, this.startWord, { compare: true, filled: true });
     this.renderWord(this.el.target, this.targetWord, { targetStyle: true });
     // Zincirdeki ara kelimeleri (varsa) merdivene bas
-    for (const w of this.chain.slice(1)) {
-      const row = document.createElement("div");
-      row.className = "word-row";
-      this.el.ladder.appendChild(row);
-      this.renderWord(row, w, { compare: true, filled: true });
-    }
-    const zorlukAd = WordLadder.ZORLUK_AD[this.puzzleDiff];
-    this.el.parInfo.textContent = [
-      zorlukAd && `Zorluk: ${zorlukAd}`,
-      this.optimal && `en az ${this.optimal} adım`,
-    ].filter(Boolean).join(" · ");
-    // Günlük çözüldüyse tahtada "çözüldü + paylaş" göster (modal örtmesin)
-    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over));
+    for (let n = 1; n < this.chain.length; n++) this.addRung(n);
+    this.renderStatus();
     this.renderInput();
     this.hideModal();
+  }
+
+  // Zincirin n. kelimesini son basamak olarak ekler (giriş satırı onun hemen
+  // altındadır) ve merdiveni sona kaydırır: eski basamaklar yukarı çıkar
+  addRung(n) {
+    const rung = document.createElement("div");
+    rung.className = "rung";
+    const row = document.createElement("div");
+    row.className = "word-row";
+    const label = document.createElement("span");
+    label.className = "step-label";
+    label.textContent = `${n}. adım`;
+    rung.append(row, label);
+    this.el.ladder.appendChild(rung);
+    this.renderWord(row, this.chain[n], { compare: true, filled: true, prev: this.chain[n - 1] });
+    this.el.steps.scrollTop = this.el.steps.scrollHeight;
+  }
+
+  // Durum satırı: atılan adım ve bulmacanın en az adım sayısı
+  renderStatus() {
+    // Çözülmüş günlüğün zinciri kayıtta yoksa adım sayısı kayıttan okunur
+    const adim = `${this.over && this.lastResult ? this.lastResult.steps : this.chain.length - 1} adım`;
+    this.el.stepInfo.textContent = this.over ? "Çözüldü" : adim;
+    this.el.parInfo.textContent = this.over ? ` · ${adim}`
+      : this.optimal ? ` · en az ${this.optimal}` : "";
+    // Günlük çözüldüyse "paylaş" düğmesi burada durur (pencere kapansa da erişilir)
+    this.el.dailySolved.classList.toggle("hidden", !(this.mode === "daily" && this.over));
   }
 
   pick(arr) {
@@ -347,14 +370,19 @@ class WordLadder {
   updateTabs() {
     this.el.tabDaily.classList.toggle("active", this.mode === "daily");
     this.el.tabFree.classList.toggle("active", this.mode !== "daily");
+    // Seçim ekran okuyucuya da bildirilir (yalnızca renkle anlatılmaz)
+    this.el.tabDaily.setAttribute("aria-pressed", String(this.mode === "daily"));
+    this.el.tabFree.setAttribute("aria-pressed", String(this.mode !== "daily"));
     // Serbest oyunda zorluk+uzunluk menüsü, günlükte geri sayım
     this.el.freeSettings.classList.toggle("hidden", this.mode === "daily");
     this.el.dailyTimer.classList.toggle("hidden", this.mode !== "daily");
     for (const b of this.el.lenBtns) {
       b.classList.toggle("active", Number(b.dataset.len) === this.lenPref);
+      b.setAttribute("aria-pressed", String(Number(b.dataset.len) === this.lenPref));
     }
     for (const b of this.el.diffBtns) {
       b.classList.toggle("active", b.dataset.diff === this.diffPref);
+      b.setAttribute("aria-pressed", String(b.dataset.diff === this.diffPref));
     }
   }
 
@@ -397,14 +425,15 @@ class WordLadder {
     const ss = String(Math.floor(s / 3600)).padStart(2, "0");
     const dd = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
     const sn = String(s % 60).padStart(2, "0");
-    this.el.countdown.textContent = `${ss}:${dd}:${sn}`;
+    this.el.countdown.textContent = this.el.modalCountdown.textContent = `${ss}:${dd}:${sn}`;
   }
 
   /* ---------- Render ---------- */
 
   // Bir kelimeyi harf kutuları halinde verilen kapsayıcıya basar.
   // compare: true ise hedefle aynı konumdaki harfler yeşil boyanır.
-  renderWord(container, word, { compare = false, filled = false, targetStyle = false } = {}) {
+  // prev: bir önceki kelime; ona göre değişen harf işaretlenir.
+  renderWord(container, word, { compare = false, filled = false, targetStyle = false, prev = "" } = {}) {
     container.innerHTML = "";
     for (let i = 0; i < word.length; i++) {
       const tile = document.createElement("div");
@@ -412,6 +441,7 @@ class WordLadder {
       if (filled) tile.classList.add("filled");
       if (targetStyle) tile.classList.add("target");
       if (compare && word[i] === this.targetWord[i]) tile.classList.add("green");
+      if (prev && word[i] !== prev[i]) tile.classList.add("changed");
       tile.textContent = word[i];
       container.appendChild(tile);
     }
@@ -419,11 +449,8 @@ class WordLadder {
 
   // Aktif giriş satırı: buffer'daki harfler + boş kutular
   renderInput(popLast = false) {
-    // Mobil giriş alanını tampon ile senkron tut (gönderim/yeni oyun sonrası temizler)
-    if (this.el.nativeInput && this.el.nativeInput.value !== this.buffer) {
-      this.el.nativeInput.value = this.buffer;
-    }
     this.el.input.innerHTML = "";
+    this.el.inputLabel.textContent = `${this.chain.length}. adım`;
     for (let i = 0; i < this.len; i++) {
       const tile = document.createElement("div");
       tile.className = "tile";
@@ -431,6 +458,8 @@ class WordLadder {
         tile.classList.add("filled");
         tile.textContent = this.buffer[i];
         if (popLast && i === this.buffer.length - 1) tile.classList.add("pop");
+      } else if (i === this.buffer.length) {
+        tile.classList.add("cursor");          // sıradaki harfin yeri
       }
       this.el.input.appendChild(tile);
     }
@@ -471,7 +500,7 @@ class WordLadder {
 
     // Kural 1: Hedef uzunlukta olmalı
     if (word.length < this.len) {
-      return this.reject("Yetersiz harf!");
+      return this.reject("Harf eksik");
     }
     // Kural 2: Geçerli sözlükte bulunmalı
     if (!this.dict.has(word)) {
@@ -480,10 +509,10 @@ class WordLadder {
     // Kural 3: Bir önceki kelimeden tam olarak 1 harf farklı olmalı
     const diff = this.diffCount(word, this.currentWord);
     if (diff === 0) {
-      return this.reject("Kelimeyi değiştirmedin!");
+      return this.reject("Bir harf değiştir");
     }
     if (diff > 1) {
-      return this.reject("Sadece 1 harf değişebilir!");
+      return this.reject("Yalnızca bir harf değişebilir");
     }
     // Not: Daha önce kullanılan bir kelimeye geri dönmek serbesttir; oyuncu
     // istediği zaman bir adım geri gidip başka yol deneyebilir.
@@ -495,14 +524,12 @@ class WordLadder {
     this.chain.push(word);
 
     // Kabul edilen kelimeyi merdivene ekle (hedefle eşleşen harfler yeşil)
-    const row = document.createElement("div");
-    row.className = "word-row";
-    this.el.ladder.appendChild(row);
-    this.renderWord(row, word, { compare: true, filled: true });
-    // Dar ekranda .game kayabilir; aktif giriş satırı görünür kalsın
+    this.addRung(this.chain.length - 1);
+    // Çok kısa ekranda .game de kayar; giriş satırı görünür kalsın
     this.el.input.scrollIntoView({ block: "nearest" });
 
     this.buffer = "";
+    this.renderStatus();
     this.renderInput();
     this.saveState();               // ilerleme kaydedilsin (yenilemede geri gelir)
 
@@ -601,9 +628,9 @@ class WordLadder {
   win() {
     this.over = true;
     AudioFX.win();
-    this.el.nativeInput?.blur();   // Mobilde cihaz klavyesi kapansın, modal görünsün
-    // Hedefe ulaşıldı: boş giriş satırı ve "dokun" ipucu artık gereksiz
+    // Hedefe ulaşıldı: boş giriş satırı artık gereksiz
     this.el.game.classList.add("bitti");
+    this.renderStatus();
 
     this.lastResult = this.computeResult();
     const steps = this.lastResult.steps;
@@ -633,9 +660,29 @@ class WordLadder {
         `Yeni bulmaca ${this.kalanSureMetni()} sonra!`;
     } else {
       this.el.modalTitle.textContent = perfect ? "Mükemmel!" : "Tebrikler!";
-      this.el.modalText.textContent =
-        `${this.startWord} → ${this.targetWord} merdivenini ${steps} adımda tamamladın!` +
-        (this.optimal && !perfect ? ` (En iyisi: ${this.optimal} adım)` : "");
+      this.el.modalText.textContent = `${this.startWord} → ${this.targetWord} merdivenini ` +
+        (perfect ? "en kısa yoldan tamamladın." : `${steps} adımda tamamladın.`);
+    }
+
+    // Üst yazı (günlükte TRT tarihi), sayılar ve adım adım sonuç ızgarası
+    const gunluk = this.mode === "daily";
+    this.el.modalKicker.textContent = gunluk
+      ? "Günün Bulmacası · " + new Intl.DateTimeFormat("tr-TR",
+          { day: "numeric", month: "long", timeZone: "Europe/Istanbul" }).format(new Date())
+      : "Serbest Oyun";
+    this.el.modalSteps.textContent = steps;
+    this.el.modalOptimal.textContent = this.optimal;
+    this.el.modalOptimalBox.classList.toggle("hidden", !this.optimal);
+    this.el.modalNext.classList.toggle("hidden", !gunluk);
+    this.el.modalGrid.innerHTML = "";
+    for (const w of this.chain.slice(1)) {
+      const satir = document.createElement("div");
+      for (let i = 0; i < w.length; i++) {
+        const kare = document.createElement("i");
+        if (w[i] === this.targetWord[i]) kare.className = "green";
+        satir.appendChild(kare);
+      }
+      this.el.modalGrid.appendChild(satir);
     }
 
     // Günlük bulmaca günde bir tane: "sonraki" oyun serbest moddur
@@ -711,9 +758,13 @@ class WordLadder {
         btn.type = "button";
         btn.className = "key";
         btn.dataset.key = k;
-        if (k === "ENTER") { btn.classList.add("wide"); btn.textContent = "GİR"; }
-        else if (k === "BACK") { btn.classList.add("wide"); btn.append(document.getElementById("iconBackspace").content.cloneNode(true)); btn.setAttribute("aria-label", "Sil"); }
-        else btn.textContent = k;
+        // Tuşun kendisi dokunma alanıdır; görünen kapak içindeki .cap'tir
+        const cap = document.createElement("span");
+        cap.className = "cap";
+        if (k === "ENTER") { btn.classList.add("wide"); cap.textContent = "GİR"; }
+        else if (k === "BACK") { btn.classList.add("wide"); cap.append(document.getElementById("iconBackspace").content.cloneNode(true)); btn.setAttribute("aria-label", "Sil"); }
+        else cap.textContent = k;
+        btn.appendChild(cap);
         row.appendChild(btn);
       });
       this.el.keyboard.appendChild(row);
@@ -729,45 +780,13 @@ class WordLadder {
       this.pressKey(btn.dataset.key);
     });
 
-    /* --- Mobil: cihazın kendi klavyesi --- */
-    const ni = this.el.nativeInput;
-
-    // Yumuşak klavyelerde keydown güvenilmezdir (çoğu zaman "Unidentified"
-    // veya keyCode 229 verir), bu yüzden yazılanı input olayından okuyoruz.
-    ni.addEventListener("input", () => {
-      const temiz = [...ni.value.toLocaleUpperCase("tr-TR")]
-        .filter(h => WordLadder.TR_LETTER.test(h))   // boşluk/otomatik düzeltme artığını at
-        .slice(0, this.len)
-        .join("");
-      const harfEklendi = temiz.length > this.buffer.length;
-      this.buffer = temiz;
-      ni.value = temiz;                              // geçersizleri input'tan da temizle
-      if (harfEklendi) AudioFX.key();
-      this.renderInput(harfEklendi);
-    });
-
-    // Cihaz klavyesindeki "Git/Enter" tuşu
-    ni.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter") return;
-      e.preventDefault();
-      if (this.over) { this.el.btnNewGame.click(); return; }
-      this.submit();
-    });
-
-    ni.addEventListener("focus", () => document.body.classList.add("kb-open"));
-    ni.addEventListener("blur", () => document.body.classList.remove("kb-open"));
-
-    // iOS klavyeyi yalnızca kullanıcı hareketiyle açar; tahtaya dokunmak yeter
-    if (this.touch) {
-      this.el.game.addEventListener("click", () => { if (!this.over) ni.focus(); });
-    }
-
     // Fiziksel klavye dinleyicisi (Türkçe karakter uyumlu)
     document.addEventListener("keydown", (e) => {
-      if (e.target === this.el.nativeInput) return;  // mobil giriş kendi işler
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       if (e.key === "Enter") {
+        // Odaktaki bağlantıda Enter bağlantıyı açar (Nasıl oynanır, Anladım, Gizlilik)
+        if (e.target.closest("a[href]")) return;
         // preventDefault: odakta buton kaldıysa Enter'ın onu tetiklemesini
         // engeller — aksi halde "Sözlükte yok" hatasıyla birlikte yanlışlıkla
         // yeni oyun başlıyordu

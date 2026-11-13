@@ -1,9 +1,11 @@
 # Tasarım sistemi
 
-Site ve iOS uygulaması aynı `style.css` dosyasını kullanır (uygulama siteyi
-olduğu gibi paketler). Bu yüzden tek kaynak `style.css` içindeki `:root`
-bloğudur; burada yazanlar o bloğun özeti ve kullanım kurallarıdır. Değer
-değişirse önce `style.css`, sonra bu tablo güncellenir.
+Tema: **Ahşap** — kâğıt zemin, tahta merdiven, harf blokları (sahip kararı,
+13 Kasım 2026; koyu temanın yerini aldı). Site ve iOS uygulaması aynı
+`style.css` dosyasını kullanır (uygulama siteyi olduğu gibi paketler). Bu
+yüzden tek kaynak `style.css` içindeki `:root` bloğudur; burada yazanlar o
+bloğun özeti ve kullanım kurallarıdır. Değer değişirse önce `style.css`, sonra
+bu tablo güncellenir.
 
 ## Kurallar
 
@@ -15,112 +17,190 @@ değişirse önce `style.css`, sonra bu tablo güncellenir.
 2. **Önce var olan belirteç.** Yeni renk/boyut eklemeden önce tablodakilerden
    biri işi görüyor mu diye bak. Gerçekten yenisi gerekiyorsa `:root` içine
    anlamıyla adlandırarak ekle (`--uyari` gibi; `--sari-2` değil), kontrastını
-   hesapla, bu tabloya yaz.
+   hesapla, bu tabloya ve `tools/test_veri.py` → `KONTRAST_CIFTLERI`'ne yaz.
 3. **Yazı boyutu, boşluk, köşe, süre** ölçekten seçilir. Ara değer uydurulmaz.
-4. **Serbest kalanlar:** kenarlık kalınlığı (1–2 px), tek bileşene özgü
-   yerleşim genişlikleri (`max-width`), animasyon kare ofsetleri.
-5. Koyu tema, mobil öncelikli. Kütüphane, yazı tipi dosyası, dış kaynak yok.
+4. **Serbest kalanlar:** kenarlık kalınlığı (1–3 px), tek bileşene özgü
+   yerleşim ölçüleri (`max-width`, çıta kalınlığı), animasyon kare ofsetleri.
+5. Açık tema, mobil öncelikli. Kütüphane ve dış kaynak yok; tek yazı tipi
+   dosyası depodaki Fraunces'tir.
+6. **Emoji yok** (bkz. İkonlar).
 
 ## Renk
 
 | Belirteç | Değer | Kullanım |
 |---|---|---|
-| `--bg` | `#121213` | Sayfa zemini, açılış ekranı, `theme-color` |
-| `--surface` | `#1e1e20` | Kart, pencere, reklam alanı |
-| `--surface-2` | `#2c2c2e` | Dolu kutu, ikincil düğme, basılı durum |
-| `--border` | `#3a3a3c` | Boş kutu ve düğme kenarlığı |
-| `--border-strong` | `#565658` | Dolu kutu, seçili sekme kenarlığı |
-| `--text` | `#f5f5f7` | Ana metin |
-| `--text-dim` | `#9a9aa0` | İkincil metin, etiket |
-| `--link` | `#7aa7ff` | Bağlantı |
-| `--on-accent` | `#ffffff` | Yeşil/kırmızı/tuş dolgusu üstündeki metin |
-| `--green` | `#3f8245` | Doğru harf, birincil düğme, başarı bildirimi (dolgu) |
-| `--green-text` | `#5aa85f` | Koyu zeminde yeşil metin |
-| `--amber` | `#c9a94a` | Hedef kelime, marka vurgusu, odak halkası |
-| `--red` | `#cf3f3f` | Hata bildirimi (dolgu) |
-| `--red-text` | `#ef6b6b` | Geçersiz girişte harf ve kenarlık |
-| `--cream` | `#e9e7e0` | Marka işaretinin orta kutusu |
-| `--key-bg` | `#6e6f71` | Ekran klavyesi tuşu |
-| `--overlay` | `rgba(0,0,0,.65)` | Pencere arkası karartma |
+| `--bg` | `#f3eada` | Sayfa zemini, açılış ekranı, `theme-color` |
+| `--bg-glow` | `#fbf4e6` | Zeminin üstündeki ışık, simge gradyanı |
+| `--surface` | `#fbf6ec` | Kart, pencere, tuş, boş giriş kutusu, ikon düğmesi |
+| `--surface-2` | `#e9dcc5` | Klavye tablası, reklam alanı, basılı durum |
+| `--border` | `#cdb995` | İnce çizgi, kart ve tuş kenarı |
+| `--border-strong` | `#9c8262` | Giriş kutusu ve ikincil düğme kenarı |
+| `--text` | `#2a2018` | Ana metin (mürekkep), odak halkası |
+| `--text-dim` | `#6a5846` | İkincil metin, etiket |
+| `--on-accent` | `#ffffff` | Kiremit ve yeşil dolgu üstündeki metin |
+| `--accent` | `#a8432b` | Kiremit: hedef kelime, birincil düğme, GİR, seçili sekme, imleç, değişen harf çizgisi, hata bildirimi, bağlantı |
+| `--accent-top` / `--accent-shadow` | `#b9502f` / `#74291a` | Kiremit bloğun üst ışığı / alt yüzü |
+| `--green` | `#2f6b3f` | Hedefteki yerine oturmuş harf, başarı bildirimi |
+| `--green-top` / `--green-shadow` | `#3b7d4c` / `#1e4a2a` | Yeşil bloğun üst ışığı / alt yüzü |
+| `--block` | `#ebd3a6` | Harf bloğu (düz dolgu: seçili ayar, sonuç ızgarası) |
+| `--block-top` / `--block-bottom` / `--block-shadow` | `#f2deb6` / `#e6ca96` / `#b98f56` | Harf bloğunun gradyanı ve alt yüzü |
+| `--wood-light` / `--wood-dark` | `#d9b07a` / `#b98a52` | Korkuluk ve çıta |
+| `--key-shadow` | `#b9a27c` | Tuşun alt yüzü |
 
-**Dolgu ile metin tonu ayrıdır.** Aynı yeşil hem beyaz metnin zemini hem koyu
-zeminde metin olamaz (ikisi birden AA vermez). Dolguda `--green` / `--red`,
-üstünde `--on-accent`; koyu zeminde renkli yazı gerekiyorsa `-text` tonu.
+Saydam katmanlar (8 haneli hex; yalnızca gölge, parlama ve perde):
+`--grain`, `--wood-edge`, `--rung-shadow`, `--rung-ghost`, `--tile-drop`,
+`--shine`, `--shine-dim`, `--cursor-glow`, `--overlay`, `--card-ring`,
+`--card-shadow`.
 
-### Kontrast (WCAG 2.1; metin AA ≥ 4,5:1, büyük metin ≥ 3:1)
+Renk tek başına anlam taşımaz: yeşil blok ayrıca "Nasıl oynanır?"da
+açıklanır, değişen harfin altında çizgi vardır, hata hem kiremit hem yazılı
+bildirimdir, seçili sekme ve ayar altı çizilidir ve `aria-pressed` taşır.
+
+### Kontrast (WCAG 2.1; metin AA ≥ 4,5:1, metin dışı öğe ≥ 3:1)
 
 | Metin | Zemin | Oran |
 |---|---|---|
-| `--text` | `--bg` / `--surface` / `--surface-2` | 17,2 / 15,3 / 12,8 |
-| `--text-dim` | `--bg` / `--surface` / `--surface-2` | 6,7 / 6,0 / 5,0 |
-| `--on-accent` | `--green` | 4,7 |
-| `--on-accent` | `--red` | 4,7 |
-| `--on-accent` | `--key-bg` | 5,0 |
-| `--green-text` | `--bg` / `--surface` | 6,4 / 5,7 |
-| `--amber` | `--bg` / `--surface` | 8,3 / 7,3 |
-| `--red-text` | `--bg` / `--surface-2` | 6,2 / 4,6 |
-| `--link` | `--bg` | 7,8 |
+| `--text` | `--bg` / `--surface` / `--surface-2` | 13,4 / 14,8 / 11,8 |
+| `--text` | `--block-top` / `--block-bottom` (harf bloğu) | 12,1 / 10,1 |
+| `--text-dim` | `--bg` / `--surface` / `--surface-2` | 5,7 / 6,3 / 5,0 |
+| `--on-accent` | `--accent` / `--accent-top` | 6,0 / 4,9 |
+| `--on-accent` | `--green` / `--green-top` | 6,4 / 5,0 |
+| `--accent` (metin, bağlantı) | `--bg` / `--surface` | 5,0 / 5,6 |
+| `--border-strong` (giriş kutusu kenarı) | `--surface` / `--bg` | 3,4 / 3,0 |
+| `--accent` (değişen harf çizgisi) | `--block-bottom` | 3,8 |
 
-Dikkat: `--green` üstüne `--text` (`#f5f5f7`) yazma, 4,3 kalır; `--on-accent`
-kullan. Metne `opacity` verme; oran hesabı bozulur. Bilinen açık: `--border`
-zemine karşı 1,7:1 — boş giriş kutularının çerçevesi 3:1'in altında
-(görünüm kararı; değiştirmek için `[tasarim]` issue'su).
+Metin satırlarını `tools/test_veri.py` (`KONTRAST_CIFTLERI`) her çalıştırmada
+yeniden hesaplar; 4,5'in altına düşen palet testi kırar. Dikkat:
+`--text-dim` `--block` üstünde 4,65'tir, daha koyu ahşap tonlarının üstüne
+yazı yazma. `--accent` `--surface-2` üstünde metin olamaz (4,4). Metne
+`opacity` verme; oran hesabı bozulur. `--border` zemine karşı 1,6:1'dir:
+yalnızca süs çizgisidir, tek başına bir denetimin sınırını taşımaz.
 
 ## Yazı
 
-Aile `--font` (sistem yazı tipi; dosya yüklenmez).
+| Belirteç | Aile | Kullanım |
+|---|---|---|
+| `--font-display` | Fraunces, yedek Georgia → Times New Roman → serif | Oyun adı, harf blokları, klavye harfleri, başlıklar, pencere sayıları |
+| `--font` | Sistem yazı tipi | Gövde, etiket, düğme, sekme, GİR tuşu |
+
+Fraunces depodadır: `fonts/fraunces-latin.woff2` ve
+`fonts/fraunces-latin-ext.woff2` (değişken ağırlık, 100–900; kaynak
+`@fontsource-variable/fraunces` 5.3.0). Türkçe için ikisi de gerekir: ç, ö, ü,
+ı ilkinde; ğ, ş, İ ikincisinde. Lisans SIL OFL 1.1, metni `fonts/OFL.txt`
+(yayına da çıkar). Dış yazı tipi sunucusu kullanılmaz; `tools/test_veri.py`
+CSS'teki her `url()`'nin depoda olduğunu denetler. `font-display: swap`:
+dosya gelene kadar yedek aile görünür.
 
 | Belirteç | Değer | Kullanım |
 |---|---|---|
-| `--fs-2xs` | 11 px | Etiket, dipnot — en küçük boyut, altına inilmez |
-| `--fs-xs` | 12 px | Küçük düğme, sayaç metni |
-| `--fs-sm` | 14 px | Sekme, bildirim |
-| `--fs-md` | 16 px | Gövde, düğme, tuş |
-| `--fs-lg` | 18 px | Alt başlık |
-| `--fs-xl` | 22 px | Bölüm ve pencere başlığı |
+| `--fs-2xs` | 11 px | Etiket (BAŞLANGIÇ, HEDEF) — en küçük boyut, altına inilmez |
+| `--fs-xs` | 12 px | "N. adım", ayar düğmesi, küçük düğme |
+| `--fs-sm` | 14 px | Durum satırı, bildirim, GİR |
+| `--fs-md` | 16 px | Gövde, düğme, sekme |
+| `--fs-lg` | 18 px | Klavye harfi, alt başlık, giriş cümlesi |
+| `--fs-xl` | 22 px | Oyun adı, bölüm başlığı |
 | `--fs-2xl` | 24 px | Sayfa başlığı |
+| `--fs-3xl` | 34 px | Pencere sayıları, mağaza görseli başlığı |
+| `--fs-4xl` | 40 px | Pencere başlığı |
 
-Kalınlık `--fw-bold` (700), `--fw-heavy` (800). Satır yüksekliği `--lh-tight`
-(1,1), `--lh-body` (1,5), `--lh-loose` (1,7). Harf aralığı `--track-sm/md/lg`
-(0,5 / 1 / 3 px). Harf kutusundaki yazı kutu boyutunun yarısıdır.
+Kalınlık `--fw-medium` (500), `--fw-semi` (600), `--fw-bold` (700),
+`--fw-heavy` (800). Satır yüksekliği `--lh-tight` (1,1), `--lh-snug` (1,35),
+`--lh-body` (1,5), `--lh-loose` (1,7). Harf aralığı `--track-sm/md/lg`
+(0,3 / 0,5 / 1,2 px). Bloktaki harf blok boyunun 0,54'üdür.
 
 ## Boşluk, ölçü, köşe, gölge, hareket
 
 | Grup | Belirteçler |
 |---|---|
 | Boşluk (4 px tabanlı) | `--space-1` 4 · `-1h` 6 · `-2` 8 · `-3` 12 · `-4` 16 · `-5` 20 · `-6` 24 · `-14` 56 |
-| Ölçü | `--tap-min` 44 (dokunma alanı) · görünür boy `--ctl-md` 40 · `--ctl-sm` 34 · `--ctl-xs` 28 · `--icon-size` 20 (satır içi SVG ikon) · `--btn-height` 48 · `--key-height` 52 (geniş ekranda 58) · `--tile-size` · `--gap` |
-| Köşe | `--radius` 6 · `--radius-md` 8 · `--radius-lg` 12 |
-| Gölge | `--shadow-md` (bildirim ve pencere; başka yerde gölge yok) |
+| Ölçü | `--tap-min` 44 (dokunma alanı) · `--ctl-sm` 36 · `--ctl-xs` 28 (görünür boy) · `--icon-size` 22 · `--btn-height` 52 · `--key-height` 44–52 (ekran boyuna göre) |
+| Merdiven | `--tile-max` 38–54 (ekran boyuna göre) · `--gap` 6 · `--rung-gap` 10 · `--rail` 12 · `--rail-pad` 30 · `--len` · `--side` · `--label-pos` · `--step-show` |
+| Türetilen | `--tile` · `--ladder-w` · `--pitch` (`style.css`'te `:root` bloğunun hemen altında) |
+| Köşe | `--radius-sm` 4 · `--radius` 8 · `--radius-md` 14 · `--radius-lg` 22 |
+| Gölge | `--shadow-md` (bildirim ve pencere). Blok ve tuş gölgeleri bileşenin parçasıdır |
 | Süre | `--dur-fast` 0,1 s · `--dur-base` 0,2 s · `--dur-slow` 0,5 s · `--ease` |
-| Katman | `--z-toast` 30 · `--z-modal` 40 |
+| Katman | `--z-rail` 1 · `--z-toast` 30 · `--z-modal` 40 |
+
+## Bileşenler
+
+**Merdiven** (`.game` → `.frame`). Yukarıdan aşağı okunur: BAŞLANGIÇ en üstte,
+her adım bir alt basamağa eklenir, giriş satırı son kelimenin hemen altındaki
+basamaktadır, altında HEDEF'e kalan boş basamaklar durur, HEDEF en alttadır
+(klavyenin hemen üstünde). Her adımda giriş satırı bir basamak iner. Üst bölüm
+(`.steps`: BAŞLANGIÇ + girilen kelimeler + giriş satırı + boş basamaklar)
+kayar, HEDEF sabittir. Merdiven ekrandan uzunsa `.steps` sona kaydırılır: eski
+basamaklar yukarı çıkar; son kelime, giriş satırı ve HEDEF görünür kalır.
+Bulmaca çözülünce giriş satırı ve boş basamaklar kalkar.
+Çok kısa ekranda (320×460, yatay telefon) `.steps` en az iki basamak boyunda
+kalır (son kelime ve giriş satırı hep görünür) ve sığmayan merdiven `.game` içinde kayar:
+önce son kelime ve giriş satırı görünür, HEDEF kaydırınca gelir. Merdiven
+klavyenin üstüne taşmaz.
+
+- **Basamak** (`.rung`): ortada kelime (`.word-row`), arkasında korkuluktan
+  korkuluğa çıta, solda `.rung-label` (BAŞLANGIÇ / HEDEF), sağda `.step-label`
+  ("N. adım").
+- **Blok** (`.tile`): `.filled` ahşap blok, `.green` hedefteki yerinde,
+  `.target` kiremit, `.changed` bir önceki kelimeye göre değişen harf (altında
+  çizgi), `.cursor` sıradaki harfin yeri. Giriş satırındaki harf düz kutuda
+  durur; kabul edilince bloğa döner.
+- **Blok boyu** ekran boyundan (`--tile-max`) ve genişlikten hesaplanır;
+  `app.js` kelime uzunluğunu `#game[data-boy]` ile bildirir (3, 4, 5).
+- **Dar ekran:** yanlarda 80 px etiket payı kalmıyorsa (3 harf < 350 px,
+  4 harf < 420 px, 5 harf < 480 px) BAŞLANGIÇ / HEDEF satırın üstüne çıkar,
+  "N. adım" etiketleri gizlenir; adım sayısı durum satırında yazar.
+
+**Kabuk.** Başlık (oyun adı + üç yuvarlak ikon düğmesi: nasıl oynanır, ses,
+yeni oyun) → sekmeler → (Serbest Oyun'da) zorluk ve uzunluk → durum satırı
+("2 adım · en az 5", günlükte geri sayım, çözülünce "Paylaş") → merdiven →
+klavye. Kabuk `100dvh`'dir; "Nasıl oynanır?" onun altındadır.
+
+**Klavye.** Türkçe Q, 22 sütunlu ızgara: harf 2, GİR ve Sil 3 sütun. Telefonda
+da bu klavye kullanılır; cihazın klavyesini açan bir giriş alanı yoktur
+(fiziksel klavye çalışır). Tuş (`.key`) dokunma alanıdır, görünen kapak
+içindeki `.cap`'tir.
+
+**Pencere** (kazanma). Üst yazı, başlık, cümle, iki sayı kutusu (adım / en az
+adım), sonuç ızgarası, birincil "Sonucu Paylaş", ikincil "Serbest Oyun" ya da
+"Yeni Oyun", günlükte geri sayım.
+
+**Düğmeler.** `.btn-primary` kiremit dolgu (sayfada bir tane), `.btn-secondary`
+çerçeveli, `.mini-btn` durum satırında, `.icon-btn` yuvarlak, `.pick-btn`
+ayar parçası.
+
+## Dil
+
+Oyuncuya **"sen"** diye seslenilir: bildirim, pencere, "Nasıl oynanır?" ve
+gizlilik sayfasının oyuncuya seslenen bölümleri. Yasal haklar bölümü resmî
+kalır. Kısa, sade Türkçe; hata iletisi oyuncuyu suçlamaz, ne yapacağını
+söyler ("Bir harf değiştir"). Bulmacaya özgü kelimeler: basamak, adım,
+başlangıç, hedef.
 
 ## Erişilebilirlik
 
-- Metin/zemin çifti AA tutmadan yayına girmez; yeni çifti yukarıdaki tabloya ekle.
-- Dokunma alanı en az 44×44 px (`--tap-min`). Görünür boy daha küçük
-  olabilir: oyun kabuğu `100dvh` sabit olduğundan üstteki her piksel küçük
-  telefonda oyun alanından gider (360×560'ta HEDEF satırı ekrandan çıkıyordu).
-  Bu yüzden ikon düğmesi, sekme, zorluk/uzunluk, "Sonucu paylaş" ve
-  "Nasıl oynanır?" `--ctl-*` boyunda görünür; dokunma alanı `style.css`
-  "Dokunma alanı" bölümündeki görünmez `::before` katmanıyla 44 px'e
-  tamamlanır. Katman komşu denetimle örtüşmeyecek yöne uzar ve kaydırılan
-  alanın (`.game`) içine girmez: tahta kayınca harf kutuları katmanın altına
-  gelir, dokunuş düğmeye gider. `.game`'in üst boşluğu bu yüzden dolgu değil
-  saydam kenarlıktır. Kabuğa yeni denetim eklerken aynı yolu izle; yerleşimi
-  büyütme.
-- `tools/test_tarayici.js` (10. adım) dokunmatik ekranda şunları ölçer:
-  360×560 ve 375×548 serbest oyunda HEDEF ve giriş satırı, 320×460 serbest
-  oyunda giriş satırı, 360×560 ve 375×548 çözülmüş günlükte HEDEF satırı
-  ilk ekranda; denetimlerin gerçek dokunma alanı (komşunun örttüğü kısım
-  hariç) 44×44; tahta kaydırılınca üst kenarındaki dokunuş ayar düğmesine
-  gitmiyor.
-- Tek istisna ekran klavyesi tuşları: yükseklik 52 px, genişlik dar ekranda
-  ~35 px; dokunmatik cihazda bu klavye gizlenir, telefonun kendi klavyesi açılır.
-- Odak halkası (`:focus-visible`, amber) kaldırılmaz.
+- Metin/zemin çifti AA tutmadan yayına girmez; yeni çifti kontrast tablosuna
+  ve `KONTRAST_CIFTLERI`'ne ekle.
+- Dokunma alanı en az 44×44 px (`--tap-min`). İkon düğmesi ve sekme gerçekten
+  44 px'tir. Ayar düğmesi 44 px yüksek bir düğmedir, görünen parçası içindeki
+  36 px'lik dolgudur. "Paylaş" 28 px görünür; alanı görünmez `::before`
+  katmanıyla aşağı doğru 44 px'e tamamlanır (altı `.game`'in saydam üst kenarlığıdır;
+  kayan içerik onun altında kırpılır). Kabuğa yeni denetim eklerken görünmez katmanı kayan
+  bölüme (`.steps`) taşırma.
+- **Tek istisna klavye tuşunun eni:** sırada 11 tuş olduğu için 320 px ekranda
+  ~28 px, 393 px ekranda ~35 px. Boyu her zaman en az 44 px'tir ve tuşlar
+  aralıksızdır (görünen aralık tuşun kendi dolgusudur).
+- Kısa ekranda (boy ≤ 740 px) boş reklam yer tutucuları yer kaplamaz; gerçek
+  reklam geldiğinde küçük telefondaki yerleşim yeniden ölçülmelidir.
+- `tools/test_tarayici.js` şunları ölçer: merdiven sırası (BAŞLANGIÇ → adım →
+  giriş → HEDEF) ve giriş satırının son kelimenin hemen altında olması; 360×560 ve 375×548 serbest oyunda HEDEF ve giriş satırı,
+  320×460'ta giriş satırı, çözülmüş günlükte HEDEF ilk ekranda; denetimlerin
+  gerçek dokunma alanı 44×44, tuş boyu 44; 320×460'ta son kelime ve giriş
+  görünür, 667×375 yatayda hiçbir tuşun üstü örtülmez; fiziksel klavye
+  (i → İ, ı → I, Backspace, Enter); uzun merdivende son kelime, giriş
+  ve HEDEF görünür, kayan bölümün üst kenarındaki dokunuş ayar düğmesine
+  gitmiyor; 390 px'te yatay taşma yok.
+- Odak halkası (`:focus-visible`, mürekkep rengi) kaldırılmaz. Kapalı pencere
+  `visibility: hidden`'dır: odak içine girmez.
 - Animasyon bilgi taşımaz; `prefers-reduced-motion` açıkken süreler sıfırlanır.
-- Renk tek başına anlam taşımaz: hata hem kırmızı hem yazılı bildirimdir.
-- 390 px genişlikte yatay taşma olmaz (duman testi denetler).
 
 ## İkonlar
 
@@ -153,9 +233,10 @@ Hepsi üretilir, elle düzenlenmez:
 python3 tools/ikon_uret.py
 ```
 
-Renkleri `style.css` `:root` bloğundan okur. Marka işareti: zemin gradyanı
-(`--surface` → `--bg`) üstünde köşegen üç kutu — `--green`, `--cream`,
-`--amber`. `favicon.svg` ve `tools/og-image.svg` aynı değerlerin elle tutulan
+Renkleri `style.css` `:root` bloğundan okur. Marka işareti: kâğıt zemin
+(`--bg-glow` → `--bg`) üstünde tahta merdiven (`--wood-dark`, `--wood-light`)
+ve basamaklarından inen üç blok — `--block`, `--green`, `--accent`, her biri
+kendi `-shadow` tonuyla. `favicon.svg` ve `tools/og-image.svg` aynı değerlerin elle tutulan
 kopyasıdır; palet değişirse onları da güncelle (test eşleşmeyi denetler).
 Her PNG, çiziminde kullandığı renkleri `palet` metin parçasında taşır; palet
 değişip betik çalıştırılmazsa `tools/test_veri.py` bayat görseli yakalar.
@@ -169,7 +250,8 @@ değişip betik çalıştırılmazsa `tools/test_veri.py` bayat görseli yakalar
 | `tools/uygulama/acilis-2732.png` | iOS açılış ekranı: `--bg` zemin, ortada 640 px işaret |
 
 `tools/uygulama/` altındaki iki yol iOS deposuyla sözleşmedir; adlar değişmez.
-Yazı tipi: macOS'ta Arial, Linux'ta Liberation Sans (aynı ölçüler), yoksa DejaVu.
+Sosyal kartın başlığı depodaki Fraunces ile yazılır; diğer satırlar macOS'ta
+Arial, Linux'ta Liberation Sans (aynı ölçüler), yoksa DejaVu.
 
 ## Mağaza ekran görüntüleri
 
@@ -177,20 +259,23 @@ Yazı tipi: macOS'ta Arial, Linux'ta Liberation Sans (aynı ölçüler), yoksa D
 node tools/magaza_gorsel.js [YYYY-AA-GG]
 ```
 
-Gerçek oyunu dokunmatik telefon düzeninde açar, oynar, her ekranın üstüne
-başlık bandı koyar. Çıktı `tools/uygulama/magaza/NN-ad.png`, 1320×2868
+Gerçek oyunu telefon düzeninde açar, ekran klavyesine dokunarak oynar, her
+ekranın üstüne başlık bandı koyar. Çıktı `tools/uygulama/magaza/NN-ad.png`, 1320×2868
 (App Store 6,9"). Tarih günün bulmacasını belirler; aynı tarih aynı görseli
 verir.
 
 - Ekran sahte çizilmez; reklam yer tutucuları gizlenir.
 - Başlık kısa, sade Türkçe ve doğru: oyunun yapmadığı şey, sayı, ödül,
   "en iyi" gibi iddia yazılmaz. Başlıklar betikteki `EKRANLAR` listesindedir.
-- Mağazaya gidecek son görseller macOS'ta üretilir (yazı tipi iPhone'dakiyle
-  aynı çıkar). Depodaki Linux çıktısı yerleşim örneğidir.
+- Mağazaya gidecek son görseller macOS'ta üretilir (gövde yazı tipi
+  iPhone'dakiyle aynı çıkar; Fraunces her yerde aynıdır). Depodaki Linux
+  çıktısı yerleşim örneğidir.
 
 ## Site ve uygulama ortak dili
 
-- Aynı `style.css`, aynı belirteçler; uygulamaya özel renk ya da yazı yok.
-- Uygulama kabuğunun yerel renkleri (durum çubuğu, açılış zemini, web
-  görünümü arka planı) `--bg` = `#121213`.
-- Marka işareti her yerde aynı üç kutu; üstüne yazı ya da efekt eklenmez.
+- Aynı `style.css`, aynı belirteçler, aynı yazı tipi dosyaları; uygulamaya
+  özel renk ya da yazı yok. Uygulama `fonts/` klasörünü de paketlemelidir.
+- Uygulama kabuğunun yerel renkleri (açılış zemini, web görünümü arka planı)
+  `--bg` = `#f3eada`; zemin açık olduğu için durum çubuğu yazısı koyu olmalıdır.
+- Marka işareti her yerde aynı merdiven ve üç blok; üstüne yazı ya da efekt
+  eklenmez.

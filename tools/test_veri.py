@@ -18,7 +18,8 @@ Denetlenenler:
   8. Güvenlik: dış betikler yalnızca izinli adreslerden, tehlikeli DOM
      kalıpları yok, depoda gizli anahtar yok
   9. Tasarım sistemi: style.css içinde :root dışında sabit renk yok, simgeler
-     aynı paletten, uygulama simgesi 1024×1024 ve alfasız
+     aynı paletten, uygulama simgesi 1024×1024 ve alfasız; metin/zemin
+     çiftleri WCAG AA; yazı tipi yerel dosyadan ve lisansı yanında
 
 Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
@@ -416,6 +417,55 @@ def tasarim_testleri():
         denetle(bool(bilgi) and bilgi[:2] == (1320, 2868), f"tools/uygulama/magaza/{yol.name}: 1320×2868 olmalı")
 
 
+# Metin rengi / zemin rengi çiftleri (ekip/tasarim-sistemi.md kontrast tablosu).
+# Gradyanlı dolgularda en açık uç (-top) denetlenir: beyaz metin için en kötü durum.
+KONTRAST_CIFTLERI = (
+    ("text", "bg"), ("text", "surface"), ("text", "surface-2"), ("text", "block-top"), ("text", "block-bottom"),
+    ("text-dim", "bg"), ("text-dim", "surface"), ("text-dim", "surface-2"),
+    ("on-accent", "accent"), ("on-accent", "accent-top"), ("on-accent", "green"), ("on-accent", "green-top"),
+    ("accent", "bg"), ("accent", "surface"),
+)
+
+
+def kontrast(a, b):
+    """WCAG 2.1 kontrast oranı; a ve b '#rrggbb'."""
+    def parlaklik(h):
+        k = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+        k = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in k]
+        return 0.2126 * k[0] + 0.7152 * k[1] + 0.0722 * k[2]
+    acik, koyu = sorted((parlaklik(a), parlaklik(b)), reverse=True)
+    return (acik + 0.05) / (koyu + 0.05)
+
+
+def yazi_ve_kontrast_testleri():
+    """Palet AA veriyor; yazı tipi yalnızca depodaki dosyadan yükleniyor."""
+    ham = (KOK / "style.css").read_text(encoding="utf-8")
+    css = re.sub(r"/\*.*?\*/", "", ham, flags=re.S)
+    kok = css[css.index(":root"):]
+    palet = dict(re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})\b", kok[:kok.index("}")]))
+    for metin, zemin in KONTRAST_CIFTLERI:
+        if metin not in palet or zemin not in palet:
+            denetle(False, f"style.css: kontrast çifti için belirteç yok: --{metin} / --{zemin}")
+            continue
+        oran = kontrast(palet[metin], palet[zemin])
+        denetle(oran >= 4.5, f"style.css: --{metin} / --{zemin} kontrastı {oran:.2f}, en az 4,5 olmalı (WCAG AA)")
+
+    # Yazı tipi ve diğer CSS kaynakları: yalnızca depodaki dosyalar
+    adresler = re.findall(r"url\(\s*[\"']?([^\"')]+)", css)
+    denetle(any(a.endswith(".woff2") for a in adresler), "style.css: @font-face yerel woff2 dosyası göstermiyor")
+    for adres in adresler:
+        denetle(not re.match(r"^(https?:|//|data:)", adres) and (KOK / adres).is_file(),
+                f"style.css: url({adres}) depoda yerel bir dosya olmalı")
+    denetle("@import" not in css, "style.css: @import yok; dış stil yüklenmez")
+    lisans = KOK / "fonts" / "OFL.txt"
+    denetle(lisans.is_file() and "SIL OPEN FONT LICENSE" in lisans.read_text(encoding="utf-8"),
+            "fonts/OFL.txt: yazı tipinin lisans metni (SIL OFL) dosyanın yanında olmalı")
+    for ad in ("index.html", "gizlilik.html"):
+        metin = (KOK / ad).read_text(encoding="utf-8")
+        dis = re.findall(r'<link[^>]*rel="(?:stylesheet|preload|preconnect)"[^>]*href="(https?:[^"]+|//[^"]+)', metin)
+        denetle(not dis, f"{ad}: dış stil/yazı tipi bağlantısı: {dis[:3]}")
+
+
 def kacislari_coz(satir, css=False):
     """Kaçışla yazılmış karakterleri açar: HTML varlıkları (&#x1F389; &#127881;
     &check;), JS \\u{1F389} ve \\uD83C\\uDF89, CSS'te \\1F389."""
@@ -454,6 +504,7 @@ def main():
     site_testleri()
     guvenlik_testleri()
     tasarim_testleri()
+    yazi_ve_kontrast_testleri()
     if hatalar:
         print(f"BAŞARISIZ — {len(hatalar)} hata, {gecen} denetim geçti\n")
         for h in hatalar[:60]:

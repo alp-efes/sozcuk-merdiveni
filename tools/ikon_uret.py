@@ -3,8 +3,8 @@
 """
 Sözcük Merdiveni — simge, sosyal kart ve uygulama görseli üretici
 ------------------------------------------------------------------
-Pillow ile marka işaretini çizer: koyu zeminde yükselen üç kutu
-(yeşil → krem → amber) — kelime oyunu + merdiven.
+Pillow ile marka işaretini çizer: kâğıt zeminde tahta merdiven ve
+basamaklarından inen üç harf bloğu (blok → yeşil → kiremit).
 
 Renkler bu dosyada YAZMAZ: style.css içindeki :root belirteçlerinden okunur
 (tek palet; bkz. ekip/tasarim-sistemi.md). favicon.svg ve tools/og-image.svg
@@ -43,18 +43,17 @@ def belirtec_oku():
 
 
 RENK = belirtec_oku()
-ZEMIN_UST = RENK["surface"]
+ZEMIN_UST = RENK["bg-glow"]
 ZEMIN_ALT = RENK["bg"]
-YESIL = RENK["green"]
-KREM = RENK["cream"]
-AMBER = RENK["amber"]
+KIREMIT = RENK["accent"]
 METIN = RENK["text"]
 SOLUK = RENK["text-dim"]
 
 # Her PNG'ye çizimde kullanılan renklerin özeti yazılır ("palet" metin parçası).
 # tools/test_veri.py bunu style.css ile karşılaştırır: palet değişip bu betik
 # çalıştırılmazsa bayat görsel yakalanır.
-KULLANILAN = ("amber", "bg", "cream", "green", "surface", "text", "text-dim")
+KULLANILAN = ("accent", "accent-shadow", "bg", "bg-glow", "block", "block-shadow", "green",
+              "green-shadow", "text", "text-dim", "wood-dark", "wood-light")
 
 
 def png_kaydet(img, yol):
@@ -72,6 +71,8 @@ def font_bul(adaylar):
     sys.exit("Yazı tipi bulunamadı. Şunlardan biri kurulu olmalı:\n  " + "\n  ".join(adaylar))
 
 
+# Kart başlığı sitedeki başlık yazı tipiyle (Fraunces, depoda) yazılır
+FONT_BASLIK = str(KOK / "fonts" / "fraunces-latin.woff2")
 FONT_BOLD = font_bul([
     "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
@@ -96,12 +97,22 @@ def dikey_gradyan(w, h, ust, alt):
 
 
 def isaret_ciz(d, x0, y0, boy):
-    """Marka işareti: (x0, y0) köşesinden başlayan boy×boy alana üç kutu.
-    Oranlar favicon.svg ile aynı (320 birimlik alanda 130'luk kutu, 95 adım)."""
+    """Marka işareti: (x0, y0) köşesinden başlayan boy×boy alana merdiven ve
+    üç blok. Oranlar favicon.svg ile aynı (320 birimlik alan)."""
     k = boy / 320
-    for (x, y, renk) in [(190, 0, AMBER), (95, 95, KREM), (0, 190, YESIL)]:
-        d.rounded_rectangle([x0 + x * k, y0 + y * k, x0 + (x + 130) * k, y0 + (y + 130) * k],
-                            radius=26 * k, fill=renk)
+
+    def kutu(x, y, w, h, r, renk):
+        d.rounded_rectangle([x0 + x * k, y0 + y * k, x0 + (x + w) * k, y0 + (y + h) * k],
+                            radius=r * k, fill=renk)
+
+    for y in (51, 151, 251):                       # çıtalar
+        kutu(52, y, 216, 18, 5, RENK["wood-light"])
+    for x in (40, 258):                            # korkuluklar
+        kutu(x, 0, 22, 320, 9, RENK["wood-dark"])
+        kutu(x + 6, 4, 8, 312, 4, RENK["wood-light"])
+    for x, y, ad in ((72, 18, "block"), (118, 118, "green"), (164, 218, "accent")):
+        kutu(x, y + 8, 84, 84, 16, RENK[ad + "-shadow"])   # bloğun alt yüzü
+        kutu(x, y, 84, 84, 16, RENK[ad])
 
 
 def simge_ciz(boy, yuvarlak=True):
@@ -121,7 +132,7 @@ def simge_ciz(boy, yuvarlak=True):
 
 
 def acilis_ciz(boy=2732, isaret=640):
-    """Açılış ekranı: düz zemin (uygulamanın zeminiyle aynı, geçiş görünmez)
+    """Açılış ekranı: düz zemin (uygulamanın zemin rengi --bg)
     ve ortada işaret. İşaret, her ekran oranında görünen ortadaki
     ~1200 px güvenli alanın içinde kalır."""
     S = isaret * SS
@@ -151,21 +162,22 @@ def og_ciz():
     d = ImageDraw.Draw(img)
     k = 2  # 1200 mantıksal → gerçek ölçek
 
-    d.rectangle([0, 0, W, 8 * k], fill=YESIL)   # üst yeşil şerit
+    d.rectangle([0, 0, W, 8 * k], fill=KIREMIT)   # üst kiremit şerit
 
     f_brand = ImageFont.truetype(FONT_BOLD, 34 * k)
-    f_title = ImageFont.truetype(FONT_BOLD, 96 * k)
+    f_title = ImageFont.truetype(FONT_BASLIK, 84 * k)
+    f_title.set_variation_by_axes([800])
     f_tag = ImageFont.truetype(FONT_REG, 40 * k)
     f_sub = ImageFont.truetype(FONT_REG, 30 * k)
     f_url = ImageFont.truetype(FONT_BOLD, 34 * k)
 
-    yaz(d, (90 * k, 222 * k), "SÖZCÜK YOLU", f_brand, AMBER, spacing=7 * k)
+    yaz(d, (90 * k, 222 * k), "SÖZCÜK YOLU", f_brand, KIREMIT, spacing=7 * k)
     d.text((88 * k, 292 * k), "Sözcük Merdiveni", font=f_title, fill=METIN, anchor="lm")
     d.text((90 * k, 390 * k), "Türkçe kelime oyunu · Her gün yeni bulmaca", font=f_tag, fill=METIN, anchor="lm")
     d.text((90 * k, 445 * k), "Ücretsiz · Üyeliksiz · Mobil uyumlu", font=f_sub, fill=SOLUK, anchor="lm")
-    d.text((90 * k, 553 * k), "sözcükyolu.com", font=f_url, fill=AMBER, anchor="lm")
+    d.text((90 * k, 553 * k), "sözcükyolu.com", font=f_url, fill=KIREMIT, anchor="lm")
 
-    isaret_ciz(d, 902 * k, 150 * k, 250 * k)    # sağda marka işareti
+    isaret_ciz(d, 880 * k, 165 * k, 280 * k)    # sağda marka işareti
 
     return img.resize((1200, 630), Image.LANCZOS)
 
