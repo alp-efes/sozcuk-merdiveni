@@ -133,14 +133,17 @@ kullanılmaz: cihazdan cihaza farklı çizilir, rengi ve boyu denetlenemez.
   `--icon-size`, rengi düğmenin metin rengi. Elle yazılır; ikon kütüphanesi,
   dış dosya ve `style=` yok (iOS paketinin CSP'si satır içi stili reddeder).
 - Adı düğmenin `aria-label`'ı taşır. Durum değişimi sınıfla yapılır
-  (ses düğmesi: `.muted`), metinle değil.
+  (ses düğmesi: `.muted`), metinle değil; aç/kapa düğmesi durumunu
+  `aria-pressed` ile de bildirir.
 - `app.js` içinde üretilen öğe ikonu `index.html`'deki `<template>`'ten
   kopyalar (Sil tuşu: `#iconBackspace`); `innerHTML` yazılmaz.
 - **İstisnalar:** paylaşılan sonuç ızgarası (🟩⬜, yalnızca `app.js`) ve
   düzyazıdaki oklar (→ ← ↓).
 
-`tools/test_veri.py` `index.html`, `gizlilik.html` ve `app.js` içinde bunların
-dışındaki her emoji ve simge karakterini yakalar.
+`tools/test_veri.py` `index.html`, `gizlilik.html`, `app.js`, `style.css` ve
+`tools/magaza_gorsel.js` içinde bunların dışındaki her emoji ve simge
+karakterini yakalar; kaçışla yazılanları da (`&#x1F389;`, `\u{1F389}`,
+`\uD83C\uDF89`, CSS `\1F389`).
 
 ## Simgeler ve uygulama görselleri
 

@@ -46,7 +46,9 @@ const AudioFX = (() => {
 function muteGame(mute) {
   AudioFX.setMuted(mute);
   const btn = document.getElementById("btnMute");
-  if (btn) btn.classList.toggle("muted", mute); // ikon değişimi: style.css .icon-sound-*
+  if (!btn) return;
+  btn.classList.toggle("muted", mute); // ikon değişimi: style.css .icon-sound-*
+  btn.setAttribute("aria-pressed", String(mute));
 }
 
 // Oyun kazanıldığında ve "Yeni Oyun"da tetiklenir.
