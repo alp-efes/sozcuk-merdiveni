@@ -682,7 +682,7 @@ async function main() {
       }
       denetle(await s.evaluate((k) => localStorage.getItem(k), await bugun(s)) === null, "Plus ipucu günlük hakkı harcamamalı");
       denetle(!(await gorunur(s, "#offer")) && !(await cagrilar(s)).some((c) => c.startsWith("odul")), "Plus'ta reklam ya da teklif çıktı");
-      denetle(!(await gorunur(s, "#plusNot")), "Plus açıkken cayma notu görünmemeli");
+      denetle(!(await gorunur(s, "#plusNot")), "Plus açıkken satın alma notu görünmemeli");
       for (const k of enKisaYol(await s.evaluate(() => oyun.currentWord), hedef)) await kelimeYaz(s, k);
       await s.waitForFunction(() => !document.getElementById("modal").classList.contains("hidden"), null, { timeout: 5000 });
       denetle(!(await cagrilar(s)).some((c) => c.startsWith("gecis")), "Plus'ta çözümden sonra geçiş reklamı çağrılmamalı");
@@ -728,8 +728,8 @@ async function main() {
       const { b, s } = await gelirSayfasi({ plus: false, odul: true, satin: false, geri: true });
       denetle(await gorunur(s, "#plusBox") && await gorunur(s, "#btnPlusBuy") && await gorunur(s, "#btnPlusRestore"), "kancalı: Plus satın al ve geri yükle düğmeleri görünmeli");
       denetle(/Reklamsız \+ sınırsız ipucu/.test(await s.textContent("#plusText")), "Plus bölümünde 'Reklamsız + sınırsız ipucu' yazmalı");
-      denetle((await s.textContent("#btnPlusBuy")) === "Plus'a geç" && /cayma hakkı bulunmaz/.test(await s.textContent("#plusNot")) && await gorunur(s, "#plusNot"),
-              "fiyat yokken etiket 'Plus'a geç' kalmalı; cayma notu görünmeli");
+      denetle((await s.textContent("#btnPlusBuy")) === "Plus'a geç" && /App Store kurallarına tabidir/.test(await s.textContent("#plusNot")) && await gorunur(s, "#plusNot"),
+              "fiyat yokken etiket 'Plus'a geç' kalmalı; satın alma notu görünmeli");
       await s.evaluate(() => { window.__k.geri = false; });
       await s.click("#btnPlusRestore");
       denetle(/bulunamadı/.test(await toastMetni(s)), "geri yüklenecek satın alım yokken bildirim yanlış");
