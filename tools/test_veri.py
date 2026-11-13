@@ -210,6 +210,9 @@ def site_testleri():
     for girdi in (".git", ".claude", ".github", "tools", "ekip", "CLAUDE.md", "README.md"):
         denetle(girdi in yoksay, f".assetsignore: '{girdi}' eksik — dosyalar herkese açılır")
 
+    # Web'de ipucu "ücretsiz" diye anılmaz (ücretli ipucu izlenimi vermesin)
+    denetle("Günde bir ipucu hakkın var" in index and "ipucu ücretsizdir" not in index, "index.html: ipucu hakkı metni yanlış")
+
     # Gizlilik sayfası oyundan erişilebilir olmalı (AdSense/KVKK şartı)
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
 

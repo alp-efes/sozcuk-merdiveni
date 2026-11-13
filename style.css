@@ -798,7 +798,8 @@ button { font: inherit; color: inherit; }
   color: var(--text);
 }
 .btn-secondary:active { background: var(--surface-2); }
-.btn-secondary.hidden, .btn-primary.hidden, .plus.hidden { display: none; }
+.btn-secondary.hidden, .btn-primary.hidden, .plus.hidden, .plus-not.hidden { display: none; }
+.plus-not { font-size: var(--fs-sm); color: var(--text-dim); }
 .offer-text { margin-bottom: var(--space-4); }
 
 /* ---------- Site alt bilgisi (gizlilik bağlantısı) ---------- */

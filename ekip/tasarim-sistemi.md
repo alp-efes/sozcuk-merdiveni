@@ -163,6 +163,30 @@ içindeki `.cap`'tir.
 adım), sonuç ızgarası, birincil "Sonucu Paylaş", ikincil "Serbest Oyun" ya da
 "Yeni Oyun", günlükte geri sayım.
 
+**İpucu düğmesi** (`.mini-btn.hint-btn`). Durum satırının sağ ucunda, yalnızca
+ampul ikonu (satır içi SVG, `aria-label="İpucu"`); görünür 28 px, dokunma alanı
+44 px (`.mini-btn::before`). Oyun bitince gizlenir. Açılan ipucu: şimdiki
+kelimede değişecek harf `.tile.hint` (kiremit çerçeve, 3 px), giriş satırında
+önerilen harf `.hint-letter` (`--text-dim`, kiremit kesikli çerçeve); renk tek
+başına anlam taşımaz, bildirim yazıyla da söyler ("2. harfi İ yap · hedefe 4
+adım", gerekirse "HAT kelimesine geri dön · hedefe 4 adım"). 420 px altında
+geri sayım yalnızca süreye kısalır (`.dar-gizle`) ki düğme aynı satıra sığsın.
+
+**İpucu teklifi** (`#offer`, yalnızca uygulamada, günlük ücretsiz ipucu bitince).
+Kazanma penceresinin bileşeni: `.modal-overlay` + `.modal`, kapat düğmesi, bir
+`.btn-primary` ("Reklam izle, ipucu al") ve bir `.btn-secondary` ("Plus'a geç").
+Açıkken fiziksel klavye tahtaya yazmaz; Escape kapatır. Reklam başarısız
+olursa oyuncuyu suçlamayan ileti gösterilir.
+
+**Tekrar dene.** Günlük çözülünce en azın üstündeyse: pencerede `.btn-secondary`,
+durum satırında `.mini-btn` (Paylaş'ın yanında). Uygulamada Plus değilse reklam
+gerektirir; pencere düğmesi bunu söyler ("Reklam izle, tekrar dene"), durum
+satırındaki düğme reklamı kendisi başlatmaz, bu pencereyi açar.
+
+**Plus kutusu** (`#plusBox`, "Nasıl oynanır" altında, yalnızca uygulamada):
+başlık, açıklama, cayma hakkı notu (`.plus-not`, `--text-dim`), `.btn-primary`
+ve `.btn-secondary` (geri yükle).
+
 **Düğmeler.** `.btn-primary` kiremit dolgu (sayfada bir tane), `.btn-secondary`
 çerçeveli, `.mini-btn` durum satırında, `.icon-btn` yuvarlak, `.pick-btn`
 ayar parçası.
