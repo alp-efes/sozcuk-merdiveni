@@ -134,7 +134,7 @@ Kanca sözleşmesi (iOS ekibi buna göre yazar):
   "Plus'a geç (₺…)" yazar.
 - Plus sonradan verilir ya da geri alınırsa kanca `window`'a `"sozcukgelir"` olayı gönderir;
   Plus kutusu, teklif ve tekrar etiketleri bu olayla tazelenir.
-- Plus'ta `gecisReklami` çağrılmaz. Plus kutusu yalnızca kanca varsa görünür.
+- Plus'ta `gecisReklami` çağrılmaz. Plus kutusu yalnızca kanca `plusSatinAl` veriyorsa görünür.
 
 ## Tuzaklar
 
