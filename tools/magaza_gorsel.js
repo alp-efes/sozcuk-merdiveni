@@ -21,6 +21,11 @@
  * (tools/test_tarayici.js ile aynı düzen).
  *
  * Kullanım:  node tools/magaza_gorsel.js [YYYY-AA-GG]
+ *            node tools/magaza_gorsel.js --ham <klasör>
+ *
+ * --ham: oyunu oynamaz; iOS Simülatöründen alınmış ham ekranları (iOS deposu
+ * `araclar/simulator.sh <klasör> magaza`, dosya adı buyuk-<ad>.png, 1320×2868;
+ * oyun ekranlarında telefonun gerçek klavyesi açık) aynı bant ve şablonla çerçeveler.
  *
  * Mağazaya gidecek son görselleri macOS'ta üretin: yazı tipi
  * iPhone'dakiyle aynı çıkar. Linux çıktısı yerleşim denetimi içindir.
@@ -36,7 +41,8 @@ const KOK = path.resolve(__dirname, "..");
 const WWW = path.resolve(process.env.UYGULAMA_WWW || path.join(KOK, "..", "sozcuk-merdiveni-ios", "www"));
 const CIKTI = path.join(__dirname, "uygulama", "magaza");
 const GECICI = path.join(__dirname, "uygulama", ".magaza-yeni");   // yarıda kalırsa eskiler bozulmaz
-const TARIH = process.argv[2] || "2026-11-13";
+const HAM = process.argv[2] === "--ham" ? path.resolve(process.argv[3] || "") : null;
+const TARIH = (!HAM && process.argv[2]) || "2026-11-13";
 const TUR = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css",
               ".json": "application/json", ".woff2": "font/woff2" };
 let ADRES;                               // yerel sunucu açılınca dolar
@@ -188,7 +194,7 @@ function sablon(baslik, png) {
   .marka { color: var(--accent); font-size: var(--fs-sm); font-weight: var(--fw-bold);
            letter-spacing: var(--track-lg); }
   h1 { font-family: var(--font-display); font-size: var(--fs-3xl); font-weight: var(--fw-heavy); line-height: var(--lh-tight); }
-  img { display: block; width: ${GOMME.width}px; height: ${GOMME.height}px; margin: 0 auto;
+  img { display: block; height: ${GOMME.height}px; width: auto; margin: 0 auto;
         border: 1.5px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 </style></head><body>
 <div class="bant"><span class="marka">SÖZCÜK MERDİVENİ</span><h1></h1></div>
@@ -208,7 +214,11 @@ async function main() {
   let tarayici;
   try {
     tarayici = await chromium.launch();
-    const goruntuler = await oyunEkranlari(tarayici);
+    const goruntuler = HAM ? EKRANLAR.map(([ad]) => {
+      const png = fs.readFileSync(path.join(HAM, `buyuk-${ad}.png`));
+      if (png.readUInt32BE(16) !== 1320 || png.readUInt32BE(20) !== 2868) throw new Error(`buyuk-${ad}.png 1320×2868 değil`);
+      return png;
+    }) : await oyunEkranlari(tarayici);
 
     const baglam = await tarayici.newContext({ viewport: TUVAL, deviceScaleFactor: OLCEK });
     await disAgiKapat(baglam);
