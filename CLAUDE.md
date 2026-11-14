@@ -28,7 +28,8 @@ Kod içi yorumlar ve kullanıcıya görünen her metin **Türkçe**.
 
 ```bash
 python3 tools/sozluk_indir.py     # Zemberek'ten sözlüğü indir + süz
-python3 tools/bulmaca_uret.py     # words.json üret (sözlük + bulmacalar)
+python3 tools/bulmaca_uret.py     # words.json üret; bulmaca listesi SABİT kalır, sözlük ve adım/zorluk yenilenir
+python3 tools/bulmaca_uret.py --yeni  # bulmacaları da yeniden çek (günün bulmacası değişir)
 python3 tools/ikon_uret.py        # favicon + sosyal kart PNG'leri (Pillow)
 bash tools/test.sh                # tüm testler — PR açmadan önce geçmeli
 ```
@@ -52,6 +53,7 @@ Yerel sunucu: `preview_start` aracıyla `sozcuk-merdiveni` (port 8765).
 | `words.json` | **ÜRETİLİR — elle düzenlemeyin** |
 | `tools/kelimeler.txt` | Elle onaylı ~750 kelime; **bulmaca uçları buradan** |
 | `tools/otomatik_kelimeler.txt` | ÜRETİLİR. Zemberek'ten ~8.3k doğrulama sözlüğü |
+| `tools/tdk_ek_kelimeler.txt` | Elle: TDK'da madde başı olup Zemberek'te olmayanlar (KALAN…); yalnızca doğrulama sözlüğüne girer, uç olmaz |
 | `tools/yasakli.txt` | Oyuna alınmayan kaba kelimeler |
 | `gizlilik.html` | Tek ayrı sayfa (yasal gereklilik) |
 | `app-ads.txt` | iOS uygulamasının AdMob yayıncı doğrulaması (`/app-ads.txt`); tek satır, testle sabit |
@@ -77,7 +79,7 @@ değildir.
 
 ## Mimari kararlar
 
-**Sözlük iki katmanlı.** Doğrulama sözlüğü geniş (~8.3k) — oyuncu bu kelimelerin
+**Sözlük iki katmanlı.** Doğrulama sözlüğü geniş (~8.3k Zemberek + `tdk_ek_kelimeler.txt`) — oyuncu bu kelimelerin
 hepsini basamak olarak kullanabilir. Bulmaca uçları ise yalnızca elle onaylı
 yaygın kelimelerden (~750) seçilir; kimseden bilmediği bir kelimeye ulaşması
 istenmez. Wordle'ın "cevap listesi ⊂ tahmin listesi" tasarımı.
@@ -94,12 +96,15 @@ ve eleniyordu; artık KASE oynanabilir.
 (esneklik). Az adım → kolay, çok adım/tek yol → zor. Puzzle biçimi:
 `[başlangıç, hedef, adım, zorluk]`.
 
+**Günlük bulmaca hep 4 harfli; serbest oyun günün bulmacasını (ters yönü dahil) vermez.**
+
 **Günlük bulmaca TRT'ye (UTC+3) sabit.** Cihaz saat diliminden bağımsız; herkes
 aynı anda aynı bulmacayı görür. Gece yarısı kendiliğinden yenilenir.
 
 **localStorage anahtarları:** `sm_state` (canlı oyun), `sm_gunluk_<YYYY-AA-GG>`
-(günün çözümü + zincir; daha iyi bir tekrar varsa `enIyi`, süren tekrar varsa `deneme` zinciri), `sm_ipucu_<YYYY-AA-GG>`
-(o günün ücretsiz ipucu kullanıldı), `sm_uzunluk`, `sm_zorluk`.
+(günün çözümü + zincir; daha iyi bir tekrar varsa `enIyi`, süren tekrar varsa `deneme` zinciri), `sm_haklar`
+(kalan geri al ve ipucu hakkı + son yenilenen TRT günü; eski `sm_ipucu_<gün>` kayıtları ilk açılışta silinir),
+`sm_uzunluk`, `sm_zorluk`.
 
 **Geri al / Sonucu göster:** Geri al son kabul edilen kelimeyi zincirden çıkarır
 (başlangıç kalır, bitince devre dışı). Sonucu göster adım sayısı `adım`ı geçince
@@ -110,8 +115,13 @@ görünür, onay ister, bir en kısa yolu (tarayıcıda BFS) merdivene basar ve 
 
 **Gelir kancası:** `window.SozcukGelir` yalnızca iOS uygulamasının `yerel.js`'inde
 tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odulluReklam`,
-`gecisReklami`, `plusSatinAl`, `plusGeriYukle`). İpucu günde 1 ücretsizdir; bitince
-uygulamada reklam/Plus, webde "yarın". Günlükte tekrar webde serbest, uygulamada
+`gecisReklami`, `plusSatinAl`, `plusGeriYukle`). Geri al ve ipucu sayılı güçtür
+(sahip kararı, 13 Kasım 2026): ilk açılışta 5 + 5. Uygulamada günlük yenilenmez; bitince
+ödüllü reklam (`odulluReklam("ipucu" | "geriAl")`) +1 verir, Plus'ta sınırsız ve rozetsiz.
+Webde biten hak her TRT günü 1'e tamamlanır (birikmez). Yazılan harfi silmek hak harcamaz;
+"Sonucu göster" sayılı değildir. Yenile, ilerleme varken onay ister. Açık ipucu `sm_state.ipucu`'da
+saklanır; yenilemede ve ekran değişiminde (zincirin ucuna uyuyorsa) geri gelir, hak yeniden harcanmaz.
+Plus'ın tek vaadi `WordLadder.PLUS_VAAT` (App Store açıklaması: "Reklamları kaldırır; sınırsız ipucu, geri al ve tekrar"). Günlükte tekrar webde serbest, uygulamada
 Plus değilse ödüllü reklam ister; ilk çözüm kaydı (seri, paylaşım) değişmez.
 Kanca sözleşmesi (iOS ekibi buna göre yazar):
 

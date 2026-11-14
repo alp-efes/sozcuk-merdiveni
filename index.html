@@ -94,9 +94,10 @@
         <svg class="icon icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
         <svg class="icon icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
       </button>
-      <!-- Yeni oyun: app.js -> showInterstitialAd() tetikler, sonra oyunu sıfırlar -->
+      <!-- Yeni oyun: ilerleme varsa önce onay (app.js askRestart), sonra oyunu sıfırlar.
+           İkon "başa dön" (çizgi + üçgen): Geri al'ın kıvrık okuyla karışmasın -->
       <button class="icon-btn" id="btnRestart" type="button" aria-label="Yeni oyun">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19.4 15a8 8 0 1 1-1.7-8.6L20 9"/><path d="M20 4v5h-5"/></svg>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 5v14"/><path d="M18 5 9 12l9 7z"/></svg>
       </button>
     </div>
   </header>
@@ -136,17 +137,20 @@
     </span>
     <span class="daily-timer hidden" id="dailyTimer"><span class="dar-gizle">Yeni bulmaca </span><strong id="dailyCountdown">--:--:--</strong><span class="dar-gizle"> sonra</span></span>
     <span class="status-actions">
-      <!-- Son kabul edilen kelimeyi zincirden çıkarır (app.js undo); başlangıçta ve bitince devre dışı -->
+      <!-- Son kabul edilen kelimeyi zincirden çıkarır (app.js undo); başlangıçta ve bitince devre dışı.
+           Rozet: kalan geri alma hakkı (app.js renderHaklar; Plus'ta gizli) -->
       <button class="mini-btn hint-btn" id="btnUndo" type="button" aria-label="Geri al" disabled>
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+        <span class="hak" aria-hidden="true"></span>
       </button>
       <!-- Adım sayısı en az adımı geçince görünür; bir en kısa yolu gösterir ve bulmacayı bitirir -->
       <button class="mini-btn hint-btn hidden" id="btnShowResult" type="button" aria-label="Sonucu göster">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
-      <!-- Bir sonraki doğru hamleyi gösterir; günde 1 ücretsiz (app.js requestHint) -->
+      <!-- Bir sonraki doğru hamleyi gösterir; sayılı hak (app.js requestHint), rozet kalan hakkı gösterir -->
       <button class="mini-btn hint-btn" id="btnHint" type="button" aria-label="İpucu">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+        <span class="hak" aria-hidden="true"></span>
       </button>
     </span>
   </div>
@@ -235,7 +239,9 @@
     <li>Takılınca tersinden düşün: hedef kelimeden başlangıca doğru bir
     merdiven kurmayı dene.</li>
     <li>Takılınca ampul düğmesine dokun: hangi harfi değiştireceğini
-    gösterir. Günde bir ipucu hakkın var.</li>
+    gösterir. Başta 5 ipucu ve 5 geri alma hakkın var; düğmedeki küçük sayı
+    kalan hakkı gösterir. Yazdığın harfi silmek hak harcamaz.
+    <span id="hakKurali">Biten hak her gün 1'e tamamlanır.</span></li>
     <li>Durum satırındaki "en az" sayısı en kısa çözümdür; onu yakalarsan
     çözümün mükemmel.</li>
   </ul>
@@ -303,14 +309,15 @@
   </div>
 
   <!-- ======================= İPUCU TEKLİFİ ======================= -->
-  <!-- Günlük ücretsiz ipucu bitince, yalnızca uygulamada (yerel kanca varsa) açılır -->
+  <!-- İpucu ya da geri alma hakkı bitince, yalnızca uygulamada (yerel kanca varsa) açılır;
+       başlık, metin ve düğme güce göre app.js showOffer'da yazılır -->
   <div class="modal-overlay hidden" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-hidden="true">
     <div class="modal">
       <button class="modal-close" id="btnCloseOffer" type="button" aria-label="Kapat">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
       </button>
       <h2 id="offerTitle">İpucun bitti</h2>
-      <p class="offer-text">Bugünkü ücretsiz ipucunu kullandın. Kısa bir reklam izleyip yeni bir ipucu alabilir ya da Plus ile reklamsız ve sınırsız ipucu kullanabilirsin.</p>
+      <p class="offer-text" id="offerText">İpucu hakların bitti. Kısa bir reklam izleyip bir ipucu alabilir ya da Plus'a geçebilirsin: reklamsız; sınırsız ipucu, geri al ve günlük tekrar.</p>
       <button class="btn-primary" id="btnOfferAd" type="button">Reklam izle, ipucu al</button>
       <button class="btn-secondary" id="btnOfferPlus" type="button">Plus'a geç</button>
     </div>
@@ -326,6 +333,20 @@
       <p class="offer-text" id="pesText"></p>
       <button class="btn-primary" id="btnPesEvet" type="button">Evet, göster</button>
       <button class="btn-secondary" id="btnPesVazgec" type="button">Vazgeç</button>
+    </div>
+  </div>
+
+  <!-- ======================= YENİLE ONAYI ======================= -->
+  <!-- İlerleme varken başlıktaki yenile düğmesi önce bunu açar (app.js askRestart) -->
+  <div class="modal-overlay hidden" id="yenile" role="dialog" aria-modal="true" aria-labelledby="yenileTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseYenile" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <h2 id="yenileTitle">Baştan başlansın mı?</h2>
+      <p class="offer-text" id="yenileText"></p>
+      <button class="btn-primary" id="btnYenileEvet" type="button">Baştan başla</button>
+      <button class="btn-secondary" id="btnYenileVazgec" type="button">Vazgeç</button>
     </div>
   </div>
 
