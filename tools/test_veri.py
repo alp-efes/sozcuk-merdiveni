@@ -270,8 +270,9 @@ def site_testleri():
     # iOS bölümü (iOS-BASLA…iOS-BITIS) AdMob'u ve Google LLC'yi anlatır; kalan (web) metin denetlenir.
     ios_blok = re.search(r"<!-- iOS-BASLA.*?<!-- iOS-BITIS -->", giz, re.S)
     denetle(bool(ios_blok), "gizlilik.html: iOS-BASLA/iOS-BITIS işaretli iOS bölümü yok")
-    for anahtar in ("sm_plus", "sm_gecis", "sm_cozum", "AdMob", "Uygulama İçi Satın Alma (Plus)"):   # yalnızca iOS'ta (app.js'te yok)
+    for anahtar in ("sm_gecis", "sm_cozum", "AdMob"):   # yalnızca iOS'ta (app.js'te yok)
         denetle(bool(ios_blok) and anahtar in ios_blok.group(0), f"gizlilik.html: iOS bölümünde '{anahtar}' yok")
+    denetle(not re.search(r"Plus|StoreKit|sm_plus", giz), "gizlilik.html: ilk uygulama sürümü Plus'suz; Plus'a değinilmemeli (Plus gelince bu denetimi kaldırın)")
     giz_gecmissiz = re.sub(r'<p id="gecmis-analitik">.*?</p>', "", re.sub(r"<!-- iOS-BASLA.*?<!-- iOS-BITIS -->", "", giz, flags=re.S), flags=re.S)
     denetle('<p id="gecmis-analitik">' in giz, "gizlilik.html: geçmiş analitik paragrafı (gecmis-analitik) yok")
     denetle(not re.search(r"firebase|google llc|google analytics|sm_izin", giz_gecmissiz, re.I),
