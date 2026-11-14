@@ -50,11 +50,12 @@ const OYUN = { width: 440, height: 845 };
 const GOMME = { width: 380, height: 730 };
 
 // Başlıklar yalnızca uygulamanın gerçekten yaptığını söyler; abartı, sayı, ödül yok.
+// Çekim sırasıyla (oyunEkranlari); mağaza sırası dosya adındaki numaradır.
 const EKRANLAR = [
-  ["01-ana-ekran", "Günün bulmacası ya da serbest oyun"],
-  ["02-hamle", "Her adımda tek harf değiştir"],
-  ["03-cozum", "Hedefe ulaş, sonucunu paylaş"],
-  ["04-gunluk", "Heyecanlı günlük bulmacalar"],
+  ["02-ana-ekran", "Kelime dağarcığını test et"],
+  ["03-hamle", "Her adımda tek harf değiştir"],
+  ["04-cozum", "Hedefe ulaş, sonucunu paylaş"],
+  ["01-gunluk", "Heyecanlı günlük bulmacalar"],
   ["05-nasil-oynanir", "Kurallar tek ekranda"],
 ];
 
