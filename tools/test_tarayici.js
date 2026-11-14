@@ -638,6 +638,10 @@ async function main() {
           gecisReklami: () => new Promise(() => {}),
           plusSatinAl: () => new Promise(() => {}),
           plusGeriYukle: () => new Promise(() => {}),
+        } : k.plusYok ? {                    // Plus satılmayan sürüm: kanca yalnızca reklam verir
+          plusMu: () => false,
+          odulluReklam: (neden) => { window.__c.push("odul:" + neden); return Promise.resolve(window.__k.odul); },
+          gecisReklami: (an) => { window.__c.push("gecis:" + an); return Promise.resolve(); },
         } : {
           plusFiyat: () => window.__k.fiyat || null,
           plusMu: () => window.__k.plus,
@@ -770,6 +774,22 @@ async function main() {
       await hakSifirla(s, "ipucu");             // hak bitti: teklif yolu
       await s.evaluate(() => { oyun.showOffer(true); return oyun.offerAd(); });
       denetle((await cagrilar(s)).length === 0 && /yol bulunamadı/.test(await toastMetni(s)), `yol yokken ödüllü reklam gösterildi: ${await cagrilar(s)}`);
+      await b.close();
+    }
+
+    // 12b2) Plus satılmayan sürüm (kanca plusSatinAl vermez): Plus'tan hiç söz edilmez, reklam akışı sürer
+    {
+      const { b, s } = await gelirSayfasi({ plusYok: true, odul: true }, hakOnYukle(0, 0));
+      denetle(!(await gorunur(s, "#plusBox")), "Plus kapalı: Plus kutusu görünmemeli");
+      await s.click("#btnHint");
+      denetle(await gorunur(s, "#offer") && !(await gorunur(s, "#btnOfferPlus")), "Plus kapalı: teklifte Plus düğmesi görünmemeli");
+      denetle(!/Plus/.test(await s.textContent("#offerText")), `Plus kapalı: ipucu teklif metni Plus'a değinmemeli: '${await s.textContent("#offerText")}'`);
+      await s.click("#btnOfferAd");
+      denetle(await s.evaluate(() => !!oyun.hint), "Plus kapalı: ödüllü reklam yine ipucu vermeli");
+      await s.evaluate(() => { oyun.haklar().geriAl = 0; });
+      await s.evaluate(() => { oyun.hint = null; oyun.hakBitti("geriAl"); });
+      denetle(!/Plus/.test(await s.textContent("#offerText")), "Plus kapalı: geri al teklif metni Plus'a değinmemeli");
+      denetle(!/Plus/.test(await s.evaluate(() => document.getElementById("hakKurali").textContent)), "Plus kapalı: hak kuralı Plus'a değinmemeli");
       await b.close();
     }
 

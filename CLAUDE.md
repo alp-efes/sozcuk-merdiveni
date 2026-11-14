@@ -121,7 +121,7 @@ tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odull
 Webde biten hak her TRT günü 1'e tamamlanır (birikmez). Yazılan harfi silmek hak harcamaz;
 "Sonucu göster" sayılı değildir. Yenile, ilerleme varken onay ister. Açık ipucu `sm_state.ipucu`'da
 saklanır; yenilemede ve ekran değişiminde (zincirin ucuna uyuyorsa) geri gelir, hak yeniden harcanmaz.
-Plus'ın tek vaadi `WordLadder.PLUS_VAAT` (App Store açıklaması: "Reklamları kaldırır; sınırsız ipucu, geri al ve tekrar"). Günlükte tekrar webde serbest, uygulamada
+İlk uygulama sürümü Plus'suzdur (14 Kasım 2026): kanca `plusSatinAl` vermezse `app.js` Plus kutusunu, teklifteki Plus düğmesini ve Plus cümlelerini göstermez (`plusAcik()`); `gizlilik.html` Plus'a değinmez. Plus'ın tek vaadi `WordLadder.PLUS_VAAT` (App Store açıklaması: "Reklamları kaldırır; sınırsız ipucu, geri al ve tekrar"). Günlükte tekrar webde serbest, uygulamada
 Plus değilse ödüllü reklam ister; ilk çözüm kaydı (seri, paylaşım) değişmez.
 Kanca sözleşmesi (iOS ekibi buna göre yazar):
 
