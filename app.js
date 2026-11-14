@@ -988,6 +988,11 @@ class WordLadder {
     try { const f = window.SozcukGelir?.plusFiyat?.(); return typeof f === "string" ? f : ""; } catch (_) { return ""; }
   }
 
+  // Plus satışı yalnızca kanca plusSatinAl veriyorsa vardır; vermezse (ilk uygulama sürümü) Plus'tan hiç söz edilmez
+  plusAcik() {
+    return !!window.SozcukGelir?.plusSatinAl;
+  }
+
   plusEtiketi() {
     const f = this.plusFiyat();
     return f ? `Plus'a geç (${f})` : "Plus'a geç";
@@ -1061,7 +1066,7 @@ class WordLadder {
     if (G?.odulluReklam) return this.showOffer(true, tur);
     const bitti = tur === "ipucu" ? "İpucu hakkın bitti." : "Geri alma hakkın bitti.";
     // Kanca var ama ödüllü reklam yok: uygulamada gün tamamlaması da yok, "yarın" denmez
-    if (G) return this.showToast(bitti + (G.plusSatinAl ? " Plus ile sınırsız kullanabilirsin." : ""));
+    if (G) return this.showToast(bitti + (this.plusAcik() ? " Plus ile sınırsız kullanabilirsin." : ""));
     this.showToast(bitti + (tur === "ipucu" ? " Yarın 1 yeni ipucu gelir." : " Yarın 1 yeni hak gelir."));
   }
 
@@ -1178,12 +1183,13 @@ class WordLadder {
       this.teklif = tur;
       const ipucu = tur === "ipucu";
       this.el.offerTitle.textContent = ipucu ? "İpucun bitti" : "Geri alma hakkın bitti";
+      const plusCumle = this.plusAcik() ? ` ya da Plus'a geçebilirsin: ${WordLadder.PLUS_VAAT}` : "";
       this.el.offerText.textContent = ipucu
-        ? `İpucu hakların bitti. Kısa bir reklam izleyip bir ipucu alabilir ya da Plus'a geçebilirsin: ${WordLadder.PLUS_VAAT}.`
-        : `Geri alma hakların bitti. Kısa bir reklam izleyip bir adımı geri alabilir ya da Plus'a geçebilirsin: ${WordLadder.PLUS_VAAT}.`;
+        ? `İpucu hakların bitti. Kısa bir reklam izleyip bir ipucu alabilir${plusCumle}.`
+        : `Geri alma hakların bitti. Kısa bir reklam izleyip bir adımı geri alabilir${plusCumle}.`;
       this.el.btnOfferAd.textContent = ipucu ? "Reklam izle, ipucu al" : "Reklam izle, geri al";
     }
-    this.el.btnOfferPlus.classList.toggle("hidden", !window.SozcukGelir?.plusSatinAl);
+    this.el.btnOfferPlus.classList.toggle("hidden", !this.plusAcik());
     this.el.btnOfferPlus.textContent = this.plusEtiketi();
     this.el.offer.classList.toggle("hidden", !open);
     this.el.offer.setAttribute("aria-hidden", String(!open));
@@ -1228,11 +1234,10 @@ class WordLadder {
     this.showToast(ok ? "Satın alımın geri yüklendi." : "Geri yüklenecek satın alım bulunamadı.", ok);
   }
 
-  // "Nasıl oynanır" altındaki Plus bölümü: yalnızca kanca varsa görünür
+  // "Nasıl oynanır" altındaki Plus bölümü: yalnızca kanca Plus satıyorsa görünür
   renderPlus() {
-    const G = window.SozcukGelir;
     const plus = this.plusMu();
-    this.el.plusBox.classList.toggle("hidden", !G);
+    this.el.plusBox.classList.toggle("hidden", !this.plusAcik());
     this.el.plusText.textContent = plus
       ? `Plus etkin: ${WordLadder.PLUS_VAAT}.`
       : `Plus: ${WordLadder.PLUS_VAAT}. Tek seferlik satın alma.`;
