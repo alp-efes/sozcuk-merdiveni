@@ -22,7 +22,7 @@ bu tablo güncellenir.
 4. **Serbest kalanlar:** kenarlık kalınlığı (1–3 px), tek bileşene özgü
    yerleşim ölçüleri (`max-width`, çıta kalınlığı), animasyon kare ofsetleri.
 5. Açık tema, mobil öncelikli. Kütüphane ve dış kaynak yok; tek yazı tipi
-   dosyası depodaki Fraunces'tir.
+   dosyası depodaki Young Serif'tir.
 6. **Emoji yok** (bkz. İkonlar).
 
 ## Renk
@@ -80,13 +80,15 @@ yalnızca süs çizgisidir, tek başına bir denetimin sınırını taşımaz.
 
 | Belirteç | Aile | Kullanım |
 |---|---|---|
-| `--font-display` | Fraunces, yedek Georgia → Times New Roman → serif | Oyun adı, harf blokları, klavye harfleri, başlıklar, pencere sayıları |
+| `--font-display` | Young Serif, yedek Georgia → Times New Roman → serif | Oyun adı, harf blokları, klavye harfleri, başlıklar, pencere sayıları |
 | `--font` | Sistem yazı tipi | Gövde, etiket, düğme, sekme, GİR tuşu |
 
-Fraunces depodadır: `fonts/fraunces-latin.woff2` ve
-`fonts/fraunces-latin-ext.woff2` (değişken ağırlık, 100–900; kaynak
-`@fontsource-variable/fraunces` 5.3.0). Türkçe için ikisi de gerekir: ç, ö, ü,
-ı ilkinde; ğ, ş, İ ikincisinde. Lisans SIL OFL 1.1, metni `fonts/OFL.txt`
+Young Serif depodadır: `fonts/young-serif.woff2` (tek dosya, tek ağırlık 400;
+Türkçe harflerin hepsi içinde; sahip kararı, 14 Kasım 2026, Fraunces'in yerine).
+Kalın ağırlık yoktur: `body`'de `font-synthesis: none` tarayıcının sahte kalınlık
+üretmesini engeller, `--font-display` kullanan yerlerde `--fw-*` etkisizdir;
+hiyerarşi boyut ve renkle kurulur. Pencere sayıları `lining-nums` ile yazılır
+(öntanımlı rakamlar satır altına sarkar). Lisans SIL OFL 1.1, metni `fonts/OFL.txt`
 (yayına da çıkar). Dış yazı tipi sunucusu kullanılmaz; `tools/test_veri.py`
 CSS'teki her `url()`'nin depoda olduğunu denetler. `font-display: swap`:
 dosya gelene kadar yedek aile görünür.
@@ -104,7 +106,7 @@ dosya gelene kadar yedek aile görünür.
 | `--fs-4xl` | 40 px | Pencere başlığı |
 
 Kalınlık `--fw-medium` (500), `--fw-semi` (600), `--fw-bold` (700),
-`--fw-heavy` (800). Satır yüksekliği `--lh-tight` (1,1), `--lh-snug` (1,35),
+`--fw-heavy` (800); yalnızca sistem yazı tipinde etkilidir. Satır yüksekliği `--lh-tight` (1,1), `--lh-snug` (1,35),
 `--lh-body` (1,5), `--lh-loose` (1,7). Harf aralığı `--track-sm/md/lg`
 (0,3 / 0,5 / 1,2 px). Bloktaki harf blok boyunun 0,54'üdür.
 
@@ -274,7 +276,7 @@ değişip betik çalıştırılmazsa `tools/test_veri.py` bayat görseli yakalar
 | `tools/uygulama/acilis-2732.png` | iOS açılış ekranı: `--bg` zemin, ortada 640 px işaret |
 
 `tools/uygulama/` altındaki iki yol iOS deposuyla sözleşmedir; adlar değişmez.
-Sosyal kartın başlığı depodaki Fraunces ile yazılır; diğer satırlar macOS'ta
+Sosyal kartın başlığı depodaki Young Serif ile yazılır; diğer satırlar macOS'ta
 Arial, Linux'ta Liberation Sans (aynı ölçüler), yoksa DejaVu.
 
 ## Mağaza ekran görüntüleri
@@ -292,7 +294,7 @@ verir.
 - Başlık kısa, sade Türkçe ve doğru: oyunun yapmadığı şey, sayı, ödül,
   "en iyi" gibi iddia yazılmaz. Başlıklar betikteki `EKRANLAR` listesindedir.
 - Mağazaya gidecek son görseller macOS'ta üretilir (gövde yazı tipi
-  iPhone'dakiyle aynı çıkar; Fraunces her yerde aynıdır). Depodaki Linux
+  iPhone'dakiyle aynı çıkar; Young Serif her yerde aynıdır). Depodaki Linux
   çıktısı yerleşim örneğidir.
 
 ## Site ve uygulama ortak dili

@@ -174,8 +174,8 @@ async function main() {
     denetle(sesli.sinif === ikonlar[0].sinif && sesli.basili === "false", "ses açılınca ikon ya da aria-pressed geri dönmedi");
 
     // Başlık ve harfler depodaki yazı tipiyle çiziliyor (dış sunucu yok)
-    denetle(await sayfa.evaluate(() => document.fonts.load('700 20px "Fraunces"', "ĞŞİ").then((f) => f.length > 0, () => false)),
-            "Fraunces yazı tipi yerel dosyadan yüklenmedi");
+    denetle(await sayfa.evaluate(() => document.fonts.load('400 20px "Young Serif"', "ĞŞİ").then((f) => f.length > 0, () => false)),
+            "Young Serif yazı tipi yerel dosyadan yüklenmedi");
 
     /* 2) Günün bulmacası */
     console.log("2. Günün bulmacası");

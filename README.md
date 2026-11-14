@@ -20,7 +20,7 @@ Türkçe klavye + fiziksel klavye desteği.
 |---|---|
 | `index.html` | Oyun sayfası (SEO etiketleri + AdSense yerleşim şablonları hazır) |
 | `style.css` | "Ahşap" teması (kâğıt zemin, tahta merdiven), mobil öncelikli düzen, animasyonlar |
-| `fonts/` | Fraunces yazı tipi (yerel woff2, SIL OFL; lisans `fonts/OFL.txt`) |
+| `fonts/` | Young Serif yazı tipi (yerel woff2, SIL OFL; lisans `fonts/OFL.txt`) |
 | `app.js` | Oyun mantığı, sanal klavye, ses, `showInterstitialAd()` / `muteGame()` |
 | `words.json` | Sözlük + çözülebilirliği garanti bulmacalar (üretilen dosya — elle düzenlemeyin) |
 | `tools/kelimeler.txt` | Elle onaylı yaygın kelimeler — **bulmaca uçları yalnızca buradan seçilir** |
