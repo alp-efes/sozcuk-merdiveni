@@ -54,7 +54,7 @@ const EKRANLAR = [
   ["01-ana-ekran", "Günün bulmacası ya da serbest oyun"],
   ["02-hamle", "Her adımda tek harf değiştir"],
   ["03-cozum", "Hedefe ulaş, sonucunu paylaş"],
-  ["04-geri-al", "Takılırsan geri al ya da yolu gör"],
+  ["04-gunluk", "Heyecanlı günlük bulmacalar"],
   ["05-nasil-oynanir", "Kurallar tek ekranda"],
 ];
 
@@ -134,7 +134,7 @@ async function oyunEkranlari(tarayici) {
 
   await sayfa.tap("#btnGunluk");                          // 2: günün bulmacası, ilk hamle + yarım kelime
   await ekranBekle("oyun");
-  let uzak = await uzakliklar(sayfa);
+  const uzak = await uzakliklar(sayfa);
   const sonraki = (k) => komsular(k, uzak).find((v) => uzak[v] === uzak[k] - 1);
   let k = (await zincir()).at(-1);
   if (uzak[k] < 3) throw new Error(`${TARIH} bulmacası ${uzak[k]} adımlı; "hamle" ekranı için başka tarih verin`);
@@ -147,30 +147,23 @@ async function oyunEkranlari(tarayici) {
   await sayfa.waitForFunction(() => !document.getElementById("modal").classList.contains("hidden"), null, { timeout: 5000 });
   goruntuler.push(await cek());
 
-  // 4: serbest oyun; hedefe yaklaşmayan hamlelerle en kısa yolu aşınca "Sonucu göster" belirir
+  // 4: ertesi gün; TRT gece yarısı geçince yeni günlük bulmaca gelir, ipucuyla başlanır
   await sayfa.tap("#btnCloseModal");
   await ilerle();
   await sayfa.tap("#btnAna");
   await ekranBekle("ana");
-  await sayfa.tap("#btnSerbest");
+  const dun = await sayfa.evaluate(() => oyun.dayNumber());
+  const yarin = new Date(`${TARIH}T09:00:00Z`);
+  yarin.setUTCDate(yarin.getUTCDate() + 1);
+  await sayfa.clock.setSystemTime(yarin);
+  await ilerle();
+  if ((await sayfa.evaluate(() => oyun.dayNumber())) !== dun + 1) throw new Error("gün değişmedi");
+  await sayfa.tap("#btnGunluk");
   await ekranBekle("oyun");
-  uzak = await uzakliklar(sayfa);
-  const enAz = await sayfa.evaluate(() => oyun.optimal);
-  for (let i = 0; i <= enAz; i++) {
-    const z = await zincir();
-    const son = z.at(-1);
-    const v = komsular(son, uzak).find((w) => !z.includes(w) && uzak[w] >= uzak[son] && uzak[w] > 0);
-    if (!v) throw new Error("serbest oyunda dolambaçlı yol bulunamadı; başka tarih verin");
-    await gonder(v);
-  }
-  if (!(await sayfa.isVisible("#btnShowResult"))) throw new Error("Sonucu göster düğmesi görünmedi");
-  await sayfa.tap("#btnShowResult");
-  await sayfa.waitForFunction(() => !document.getElementById("pes").classList.contains("hidden"), null, { timeout: 5000 });
+  await sayfa.tap("#btnHint");
   goruntuler.push(await cek());
 
-  await sayfa.tap("#btnPesVazgec");                       // 5: nasıl oynanır (ana ekrandan)
-  await ilerle();
-  await sayfa.tap("#btnAna");
+  await sayfa.tap("#btnAna");                             // 5: nasıl oynanır (ana ekrandan)
   await ekranBekle("ana");
   await sayfa.tap("#btnAnaYardim");
   await sayfa.waitForFunction(() => document.body.classList.contains("yardim"), null, { timeout: 5000 });
