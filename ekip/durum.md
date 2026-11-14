@@ -32,7 +32,7 @@ denetim yapar.
 
 Bu işler Fable ile yapılır; sonrası Opus/Sonnet. Biten işi CEO işaretler.
 
-- [ ] iOS uygulaması iskeleti (`alp-efes/Sozcuk-merdiveni-ios`: Capacitor projesi,
+- [x] iOS uygulaması iskeleti (`alp-efes/Sozcuk-merdiveni-ios`: Capacitor projesi,
       yerel özellikler, Xcode ayarları, ilk TestFlight derlemesi)
 - [x] Tasarım sistemi (renk, yazı, boşluk belirteçleri; uygulama simgesi;
       site ve uygulamada ortak görsel dil; mağaza görsellerinin şablonu)
@@ -48,14 +48,15 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
   Reklam gelince gizlilik sayfası önce güncellenir.
 - **Metinlerde kişisel ad yok.** Veri sorumlusu "Sözcük Yolu (sözcükyolu.com)",
   iletişim `iletisim@`.
-- **App Store:** paket kimliği `com.sozcukyolu.sozcukmerdiveni` (önceki `com.sozcukyolu.wordladder` ve `com.sozcukyolu.app` kararlarının yerine; Apple Developer üyeliği başvurusu sahipte bekliyor, kimlik henüz kayıtlı değil). İlk sürüm **AB
+- **App Store:** paket kimliği `com.sozcukyolu.sozcukmerdiveni` (önceki `com.sozcukyolu.wordladder` ve `com.sozcukyolu.app` kararlarının yerine; kayıtlı). 1.0 sürümü 14 Kasım 2026'da App Store incelemesine gönderildi. İlk sürüm **AB
   hariç** bütün ülkelerde yayınlanır: AB için DSA "trader" beyanı ad, adres ve
   telefonu herkese açar; AB, sahibin sonradan açabileceği bir kapıdır.
 - **iOS deposu herkese açık** (sahip yaptı, 13 Kasım 2026).
-- **Reklam istenir:** sitede AdSense planlandığı gibi; uygulama 1.0 reklamsız,
-  AdMob sahibin AdMob hesabını açmasından sonraki bir sürümde. Reklam gelince
-  AEA, Birleşik Krallık ve İsviçre için Google onaylı bir CMP gerekir.
-  Reklamdan önce gizlilik sayfası ve App Store gizlilik etiketi güncellenir.
+- **Reklam istenir:** sitede AdSense planlandığı gibi. Uygulama 1.0 **reklamlı**
+  (AdMob ödüllü + geçiş; AEA/BK/İsviçre için Google UMP; gizlilik metni ve App Store
+  gizlilik etiketi buna göre). 1.0 **Plus'suz** (14 Kasım 2026, sahip kararı): Plus
+  sonraki sürümde, oyun başına 5 geri al + 5 ipucu kuralıyla (#33). AdMob onaylanana
+  dek ödüllü reklam yüklenemezse +1 hak verilir; onaylanınca kapatılır (#34).
 - **Türkiye'de ayrı reklam rıza ekranı yok** (13 Kasım 2026, sahip kararı, kabul edilmiş risk):
   kişiselleştirilmemiş reklam meşru menfaate (KVKK m.5/2-f) dayanır, kişiselleştirme
   iOS ATT'ye. Hukuk taslağı bunun KVKK Çerez Rehberi'yle çeliştiğini söyledi; sahip riski
