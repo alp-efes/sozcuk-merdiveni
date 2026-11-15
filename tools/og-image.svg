@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="Helvetica, Arial, sans-serif">
   <!-- Sosyal paylaşım kartı (1200x630). WhatsApp/Twitter/Facebook önizlemesi.
        Başvuru çizimidir; og-image.png dosyasını tools/ikon_uret.py üretir
-       (başlığı Fraunces ile yazar). Renkler style.css :root belirteçlerinin
+       (başlığı Young Serif ile yazar). Renkler style.css :root belirteçlerinin
        kopyasıdır; tools/test_veri.py eşleşmeyi denetler. -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
@@ -14,7 +14,7 @@
 
   <!-- Sol metin bloğu -->
   <text x="90" y="235" fill="#a8432b" font-size="34" font-weight="700" letter-spacing="7">SÖZCÜK YOLU</text>
-  <text x="88" y="325" fill="#2a2018" font-size="84" font-weight="800" font-family="Fraunces, Georgia, serif">Sözcük Merdiveni</text>
+  <text x="88" y="325" fill="#2a2018" font-size="84" font-weight="400" font-family="Young Serif, Georgia, serif">Sözcük Merdiveni</text>
   <text x="90" y="405" fill="#2a2018" font-size="40" font-weight="500">Türkçe kelime oyunu · Her gün yeni bulmaca</text>
   <text x="90" y="458" fill="#6a5846" font-size="30" font-weight="500">Ücretsiz · Üyeliksiz · Mobil uyumlu</text>
   <text x="90" y="565" fill="#a8432b" font-size="34" font-weight="700">sözcükyolu.com</text>

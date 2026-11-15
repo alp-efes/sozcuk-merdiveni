@@ -71,8 +71,8 @@ def font_bul(adaylar):
     sys.exit("Yazı tipi bulunamadı. Şunlardan biri kurulu olmalı:\n  " + "\n  ".join(adaylar))
 
 
-# Kart başlığı sitedeki başlık yazı tipiyle (Fraunces, depoda) yazılır
-FONT_BASLIK = str(KOK / "fonts" / "fraunces-latin.woff2")
+# Kart başlığı sitedeki başlık yazı tipiyle (Young Serif, depoda) yazılır
+FONT_BASLIK = str(KOK / "fonts" / "young-serif.woff2")
 FONT_BOLD = font_bul([
     "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
@@ -166,7 +166,6 @@ def og_ciz():
 
     f_brand = ImageFont.truetype(FONT_BOLD, 34 * k)
     f_title = ImageFont.truetype(FONT_BASLIK, 84 * k)
-    f_title.set_variation_by_axes([800])
     f_tag = ImageFont.truetype(FONT_REG, 40 * k)
     f_sub = ImageFont.truetype(FONT_REG, 30 * k)
     f_url = ImageFont.truetype(FONT_BOLD, 34 * k)
