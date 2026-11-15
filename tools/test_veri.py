@@ -229,6 +229,10 @@ def ipucu_testleri():
         sorun = ipucu_uret.cumle_hatasi(kelime, cumle)
         denetle(kelime in sozluk and not sorun, f"ipuclari.json {kelime}: {sorun or 'sözlükte yok'}")
 
+    # Kök denetimi ses değişimlerini de yakalar: yumuşayan ünsüz, düşen ünlü
+    denetle(ipucu_uret.cumle_hatasi("AYIR", "Şeyleri ayrıştırmak.") and ipucu_uret.cumle_hatasi("KİTAP", "Kitabı okumak.")
+            and ipucu_uret.cumle_hatasi("KİTAP", "Kitap okumak.") and not ipucu_uret.cumle_hatasi("AYIR", "Şeyleri uzaklaştırmak."),
+            "ipucu_uret.cumle_hatasi: yumuşayan/düşen sesli kök (ayır → ayr-, kitap → kitab-) yakalanmadı")
     # TDK benzerlik denetimi (ipucu_uret.py --tdk): kopya yakalanır, gönderme ve
     # kendi cümlemiz geçer, fiil kökünde mastar maddesi de karşılaştırılır
     import tempfile

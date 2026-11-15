@@ -181,6 +181,7 @@ class WordLadder {
       hintClue:   document.getElementById("hintClue"),
       hintMenu:   document.getElementById("hintMenu"),
       hintMenuNot: document.getElementById("hintMenuNot"),
+      hintMenuHak: document.getElementById("hintMenuHak"),
       btnHintHarf: document.getElementById("btnHintHarf"),
       btnHintAnlam: document.getElementById("btnHintAnlam"),
       btnCloseHintMenu: document.getElementById("btnCloseHintMenu"),
@@ -281,6 +282,7 @@ class WordLadder {
       if (data && typeof data === "object") {
         this.ipuclari = data;
         if (this.hint) this.yazIpucuCumlesi();   // ipucu cümleler gelmeden açıldıysa şimdi yaz
+        if (!this.el.hintMenu.classList.contains("hidden")) this.renderHintMenu();
       }
     } catch (err) {
       console.warn("ipuclari.json yüklenemedi, ipucu yalnızca harfi gösterecek:", err.message);
@@ -1218,16 +1220,15 @@ class WordLadder {
     const plan = this.planHint();
     if (!plan) return this.showToast(WordLadder.YOL_YOK);
     if (!this.plusMu() && this.haklar().ipucu < 1) return this.hakBitti("ipucu");
-    this.showHintMenu(true, plan);
+    this.showHintMenu(true);
   }
 
   // Tür seçimi penceresi (diyalog): açılınca odak ilk düğmeye, kapanınca ipucu düğmesine döner
-  showHintMenu(open, plan) {
+  showHintMenu(open) {
     const m = this.el.hintMenu;
     if (open) {
-      const cumleli = !!this.cumle(plan.word);
-      this.el.btnHintAnlam.disabled = !cumleli;
-      this.el.hintMenuNot.textContent = cumleli ? "" : "Bu kelimenin anlamı yok.";
+      this.el.hintMenuHak.hidden = this.plusMu();    // Plus'ta hak yok
+      this.renderHintMenu();
     }
     m.classList.toggle("hidden", !open);
     m.setAttribute("aria-hidden", String(!open));
@@ -1240,7 +1241,16 @@ class WordLadder {
     odakla();
   }
 
+  // "Anlamını göster" ve notu: ipuclari.json pencere açıkken gelirse de yeniden hesaplanır
+  renderHintMenu() {
+    const plan = this.planHint();
+    const cumleli = !!(plan && this.cumle(plan.word));
+    this.el.btnHintAnlam.disabled = !cumleli;
+    this.el.hintMenuNot.textContent = cumleli ? "" : this.ipuclari ? "Bu kelimenin anlamı yok." : "Anlamlar yüklenemedi.";
+  }
+
   chooseHint(tur) {
+    if (this.over || this.busy || this.hint) return;   // programla .click() ikinci hak harcamasın
     this.showHintMenu(false);
     const plan = this.planHint();
     if (!plan) return this.showToast(WordLadder.YOL_YOK);

@@ -1070,7 +1070,8 @@ async function main() {
               `ipuclari.json yokken ipucu çalışmalı, cümle boş kalmalı (${JSON.stringify(d)})`);
       await s.evaluate(() => oyun.clearHint());
       await s.click("#btnHint");
-      denetle(await s.evaluate(() => document.getElementById("btnHintAnlam").disabled), "ipuclari.json yokken anlam ipucu kapalı olmalı");
+      denetle(await s.evaluate(() => document.getElementById("btnHintAnlam").disabled && document.getElementById("hintMenuNot").textContent === "Anlamlar yüklenemedi."),
+              "ipuclari.json yokken anlam ipucu kapalı ve 'Anlamlar yüklenemedi.' notlu olmalı");
       await b.close();
     }
 
@@ -1104,6 +1105,53 @@ async function main() {
       // Anlam ipucu kayıttan dosyadan önce geri gelmiş olabilir: dosya gelince cümle yazılır
       await s.evaluate(() => oyun.showHint({ ...oyun.planHint(), tur: "anlam" }, false));
       denetle(await s.textContent("#hintClue") === ipucuCumlesi(kur), `geç yükleme: dosya gelince açık anlam ipucunun cümlesi yazılmadı (${kur})`);
+      await b.close();
+    }
+
+    {
+      // Hak 0 iken seçim penceresi hiç açılmaz (ipucuAc yardımcısı bunu örtmesin diye ham tıklama)
+      const { b, s } = await gelirSayfasi(null, hakOnYukle(5, 0));
+      await s.click("#btnHint");
+      denetle(!(await gorunur(s, "#hintMenu")) && await s.evaluate(() => oyun.hint === null), "hak 0 iken ipucu seçimi açıldı ya da ipucu verildi");
+      await s.evaluate(() => { oyun.haklar().ipucu = 2; });
+      await s.evaluate(() => { oyun.chooseHint("harf"); oyun.chooseHint("harf"); });   // programla ikinci çağrı hak harcamaz
+      denetle((await haklar(s)).kayit.ipucu === 1, `chooseHint ikinci kez hak harcadı: ${(await haklar(s)).kayit.ipucu}`);
+      await b.close();
+    }
+    {
+      // Plus'ta "1 hak harcar" cümlesi görünmez
+      const { b, s } = await gelirSayfasi({ plus: true, odul: true, satin: true });
+      await s.click("#btnHint");
+      denetle(await gorunur(s, "#hintMenu") && await s.evaluate(() => document.getElementById("hintMenuHak").hidden), "Plus: seçimde 'hak harcar' cümlesi görünüyor");
+      await b.close();
+    }
+    {
+      // ipuclari.json seçim açıkken gelirse "Anlamını göster" ve not yeniden hesaplanır; gelmediyse "yüklenemedi"
+      const b = await tarayici.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+      await disAgiKapat(b);
+      let birak;
+      const bekle = new Promise((coz) => { birak = coz; });
+      await b.route("**/ipuclari.json", async (istek) => { await bekle; await istek.continue(); });
+      const s = await b.newPage();
+      s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+      await s.goto(ADRES); await oyunHazir(s);
+      const kur = await s.evaluate(({ liste, cumleli }) => {
+        for (const [bb, hh] of liste) {
+          oyun.dailyPuzzle = () => [bb, hh, 0];
+          oyun.newGame("daily");
+          const plan = oyun.planHint();
+          if (plan && cumleli.includes(plan.word)) return plan.word;
+        }
+        return null;
+      }, { liste: tumBulmacalar, cumleli: Object.keys(ipuclari) });
+      denetle(!!kur, "geç yükleme (seçim açıkken): cümleli bulmaca bulunamadı");
+      await s.click("#btnHint");
+      const once = await s.evaluate(() => ({ kapali: document.getElementById("btnHintAnlam").disabled, not: document.getElementById("hintMenuNot").textContent }));
+      denetle(once.kapali && once.not === "Anlamlar yüklenemedi.", `dosya gelmeden anlam kapalı ve 'yüklenemedi' notlu olmalı (${JSON.stringify(once)})`);
+      birak();
+      await s.waitForFunction(() => oyun.ipuclari, null, { timeout: 5000 });
+      const sonra = await s.evaluate(() => ({ kapali: document.getElementById("btnHintAnlam").disabled, not: document.getElementById("hintMenuNot").textContent }));
+      denetle(!sonra.kapali && sonra.not === "", `dosya gelince anlam açılmalı, not silinmeli (${JSON.stringify(sonra)})`);
       await b.close();
     }
 

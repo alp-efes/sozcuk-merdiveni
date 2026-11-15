@@ -54,9 +54,27 @@ def cumle_hatasi(kelime, cumle):
     if not cumle[0].isupper() or not cumle.endswith("."):
         return "büyük harfle başlamalı, noktayla bitmeli"
     sozcukler = re.findall(r"[^\W\d_]+", kucuk(cumle))
-    if any(s.startswith(kucuk(kelime)) for s in sozcukler):
+    if any(s.startswith(k) for s in sozcukler for k in kok_bicimleri(kelime)):
         return "kelimenin kendisi ya da kökü geçiyor"
     return None
+
+
+YUMUSAMA = {"p": "b", "ç": "c", "t": "d", "k": "ğ"}
+
+
+def kok_bicimleri(kelime):
+    """Kelime ve ek alınca değişen kök biçimleri: kitap → kitab-, ayır → ayr-.
+    Dört harften kısa kelimelerde ses değişimi aranmaz (kısa önekler yanlış alarm verir)."""
+    k = kucuk(kelime)
+    bicimler = {k}
+    if len(k) >= 4:
+        if k[-1] in YUMUSAMA:
+            bicimler.add(k[:-1] + YUMUSAMA[k[-1]])
+            if k[-1] == "k":
+                bicimler.add(k[:-1] + "g")
+        if k[-2] in "aeıioöuü" and k[-1] not in "aeıioöuü":
+            bicimler.add(k[:-2] + k[-1])          # son ünlü düşer
+    return bicimler
 
 
 def tdk_anlamlari(kelime, onbellek):
