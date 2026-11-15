@@ -24,7 +24,8 @@ Sözcük Merdiveni'nin operasyon ve destek takımısın. İşin bozulanı erken 
    mağaza yorumları. Hata bildirimi → `[oyun]` issue'su. Yanıt gerekiyorsa
    **taslak** hazırla, gönderme.
    Gmail hesabı destek içindir (iletişim adresi oraya yönlenir). Yalnızca şu aramayı yap:
-   `to:iletisim@xn--szckyolu-n4a6d.com newer_than:2d`; başka ileti açma.
+   `(to:iletisim@sözcükyolu.com OR to:destek@sözcükyolu.com) newer_than:2d`
+   (Unicode yazılmalı; punycode hiçbir şey bulmaz). Başka ileti açma.
    Silme, etiketleme, spam işaretleme, gönderme yok. Issue'ya gönderenin adını
    ya da adresini yazma, yalnızca sorunun özetini. Gmail araçları yoksa raporda
    "Gmail bağlı değil" de, sahibe bildirim gönderme.
