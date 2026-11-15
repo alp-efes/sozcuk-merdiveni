@@ -29,6 +29,7 @@ Kullanım:  python3 tools/test_veri.py
 Çıkış kodu: 0 = hepsi geçti, 1 = en az bir hata
 """
 
+import hashlib
 import html
 import json
 import re
@@ -42,6 +43,8 @@ KOK = ARACLAR.parent
 
 ALFABE = set("ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")
 UZUNLUKLAR = ("3", "4", "5")
+# Bulmaca uçlarının sha256 parmak izi (origin/main ile aynı); --yeni ile bilerek değişir.
+BULMACA_IZI = "01187efc9e7f9994ebd20e60e5ac4df1699c9ae207d2972dc4ccfccedadf6920"
 ZORLUKLAR = ("kolay", "orta", "zor")
 MIN_ADIM, MAX_ADIM = 2, 6
 PUNYCODE_ALAN = "xn--szckyolu-n4a6d.com"
@@ -184,6 +187,23 @@ def veri_testleri():
     for k in ("ETMEK", "ALMAK", "DEMEK"):
         denetle(k not in tum, f"örnek kontrol: {k} sözlükte olmamalı (mastar)")
 
+    # TDK'da madde olup Zemberek'te olmayan kelimeler (tools/tdk_ek_kelimeler.txt)
+    tdk_ek = liste_oku(ARACLAR / "tdk_ek_kelimeler.txt")
+    denetle("KALAN" in tdk_ek and "KALAN" in tum, "örnek kontrol: KALAN sözlükte olmalı")
+    denetle("GELEN" in tum, "örnek kontrol: GELEN sözlükte olmalı")
+    eksik = sorted(tdk_ek - tum)
+    denetle(not eksik, f"tdk_ek_kelimeler.txt kelimeleri words.json'da yok: {eksik[:5]}")
+    sizinti = sorted(tdk_ek & yasakli)
+    denetle(not sizinti, f"tdk_ek_kelimeler.txt yasaklı kelime içeriyor: {sizinti[:5]}")
+
+    # Bulmaca uçları (başlangıç, hedef, sıra) sabit parmak izine bağlıdır: günün
+    # bulmacası sıraya bağlıdır. Bilerek değiştirirsen (--yeni) izi güncelle.
+    iz = hashlib.sha256()
+    for boy in sorted(db):
+        iz.update(json.dumps([p[:2] for p in db[boy]["puzzles"]], ensure_ascii=False).encode())
+    denetle(iz.hexdigest() == BULMACA_IZI,
+            f"bulmaca uçları/sırası değişti (günün bulmacası kayar): {iz.hexdigest()}")
+
 
 # En kısa yollardaki kelimelerin en az bu kadarının ipucu cümlesi olmalı
 # (sözlük yeniden üretilince kapsam sessizce düşmesin).
@@ -270,7 +290,8 @@ def site_testleri():
 
     # Web'de ipucu "ücretsiz" diye anılmaz (ücretli ipucu izlenimi vermesin)
     denetle("m.15/1-ğ" in index and "reportaproblem.apple.com" in index, "index.html: Plus kutusunda cayma/iade notu yok")
-    denetle("Günde bir ipucu hakkın var" in index and "ipucu ücretsizdir" not in index, "index.html: ipucu hakkı metni yanlış")
+    denetle("Başta 5 ipucu ve 5 geri alma hakkın var" in index and "Günde bir ipucu" not in index and "ipucu ücretsizdir" not in index,
+            "index.html: sayılı hak metni yanlış")
 
     # app-ads.txt: iOS uygulamasının AdMob yayıncı doğrulaması; tam bu tek satır ve yayında olmalı
     app_ads = (KOK / "app-ads.txt").read_text(encoding="utf-8")
@@ -283,7 +304,7 @@ def site_testleri():
 
     # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
     giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
-    for anahtar in ("sm_state", "sm_gunluk_", "sm_ipucu_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
+    for anahtar in ("sm_state", "sm_gunluk_", "sm_haklar", "sm_ipucu_", "sm_uzunluk", "sm_zorluk", "iOS Uygulaması"):
         denetle(anahtar in giz, f"gizlilik.html: '{anahtar}' anlatılmamış")
     # app.js'in yazdığı her yerel depolama anahtarı gizlilik metninde de olmalı
     for anahtar in set(re.findall(r'"(sm_[a-z_]+)', (KOK / "app.js").read_text(encoding="utf-8"))):
@@ -307,8 +328,9 @@ def site_testleri():
     # iOS bölümü (iOS-BASLA…iOS-BITIS) AdMob'u ve Google LLC'yi anlatır; kalan (web) metin denetlenir.
     ios_blok = re.search(r"<!-- iOS-BASLA.*?<!-- iOS-BITIS -->", giz, re.S)
     denetle(bool(ios_blok), "gizlilik.html: iOS-BASLA/iOS-BITIS işaretli iOS bölümü yok")
-    for anahtar in ("sm_plus", "sm_gecis", "sm_cozum", "AdMob", "Uygulama İçi Satın Alma (Plus)"):   # yalnızca iOS'ta (app.js'te yok)
+    for anahtar in ("sm_gecis", "sm_cozum", "AdMob"):   # yalnızca iOS'ta (app.js'te yok)
         denetle(bool(ios_blok) and anahtar in ios_blok.group(0), f"gizlilik.html: iOS bölümünde '{anahtar}' yok")
+    denetle(not re.search(r"Plus|StoreKit|sm_plus", giz), "gizlilik.html: ilk uygulama sürümü Plus'suz; Plus'a değinilmemeli (Plus gelince bu denetimi kaldırın)")
     giz_gecmissiz = re.sub(r'<p id="gecmis-analitik">.*?</p>', "", re.sub(r"<!-- iOS-BASLA.*?<!-- iOS-BITIS -->", "", giz, flags=re.S), flags=re.S)
     denetle('<p id="gecmis-analitik">' in giz, "gizlilik.html: geçmiş analitik paragrafı (gecmis-analitik) yok")
     denetle(not re.search(r"firebase|google llc|google analytics|sm_izin", giz_gecmissiz, re.I),

@@ -8,10 +8,13 @@ Kaynaklar:
                                yalnızca buradan seçilir)
   tools/otomatik_kelimeler.txt Zemberek'ten süzülen geniş sözlük (opsiyonel;
                                üretmek için: python3 tools/sozluk_indir.py)
+  tools/tdk_ek_kelimeler.txt   TDK Güncel Türkçe Sözlük'te madde başı olduğu
+                               doğrulanmış, Zemberek'te olmayan kelimeler
+                               (yalnızca doğrulama sözlüğüne girer)
   tools/yasakli.txt            Oyuna alınmayacak kelimeler (opsiyonel)
 
 İşleyiş:
-  1. Doğrulama sözlüğü = (elle ∪ otomatik) − yasaklı
+  1. Doğrulama sözlüğü = (elle ∪ otomatik ∪ tdk_ek) − yasaklı
   2. "1 harf farkı" grafiği tüm sözlük üzerinde kurulur — oyuncu çözüm
      yolunda sözlükteki HER kelimeyi kullanabilir,
   3. Bulmaca uçları (başlangıç/hedef) yalnızca elle onaylı kelimelerden
@@ -20,10 +23,18 @@ Kaynaklar:
      YOL sayısı (kaç farklı en-kısa kombinasyonla çözülebildiği). Bu iki
      değişkenden ZORLUK (kolay/orta/zor) hesaplanır.
   5. Üretilen her bulmacanın ÇÖZÜLEBİLİR olduğu garantidir.
+  6. VARSAYILAN olarak bulmaca LİSTESİ DONDURULUR: words.json'daki mevcut
+     uçlar, yön ve sıra aynen korunur (günün bulmacası sıraya bağlıdır);
+     yalnızca kelime listeleri ile her bulmacanın adım/zorluk değeri tam
+     sözlüğe göre yeniden hesaplanır (yeni bir kelime en kısa yolu
+     kısaltabilir; "en az N adım" doğru kalmalı). Bulmacaları gerçekten
+     yeniden çekmek için: python3 tools/bulmaca_uret.py --yeni
 
 Çıktı biçimi:  puzzles = [[başlangıç, hedef, adım, zorluk], ...]
 
-Kullanım:  python3 tools/bulmaca_uret.py
+Kullanım:  python3 tools/bulmaca_uret.py          (bulmaca listesi sabit)
+           python3 tools/bulmaca_uret.py --yeni   (bulmacaları yeniden çek;
+                                                   günün bulmacası DEĞİŞİR)
 """
 
 import json
@@ -44,6 +55,7 @@ ARACLAR = Path(__file__).resolve().parent
 KOK = ARACLAR.parent
 ELLE = ARACLAR / "kelimeler.txt"
 OTOMATIK = ARACLAR / "otomatik_kelimeler.txt"
+TDK_EK = ARACLAR / "tdk_ek_kelimeler.txt"
 YASAKLI = ARACLAR / "yasakli.txt"
 HEDEF = KOK / "words.json"
 
@@ -143,24 +155,48 @@ def bulmaca_uret(uclar, komsular, rasgele):
             for a, b, d, z in secilen]
 
 
+def bulmacalari_dondur(mevcut, uclar, komsular, boy):
+    """words.json'daki bulmaca listesini (uç, yön, sıra) aynen korur; adım ve
+    zorluğu verilen (tam) grafiğe göre yeniden hesaplar."""
+    cikti = []
+    for baslangic, hedef, *_ in mevcut:
+        if baslangic not in uclar or hedef not in uclar:
+            sys.exit(f"HATA: {boy} harfli '{baslangic}→{hedef}' bulmacasının ucu "
+                     f"artık onaylı listede değil (yeni bulmaca için --yeni)")
+        mesafe, yol = bfs_mesafe_ve_yol(baslangic, komsular)
+        if hedef not in mesafe:
+            sys.exit(f"HATA: {baslangic}→{hedef} çözülemiyor")
+        adim = mesafe[hedef]
+        cikti.append([baslangic, hedef, adim, zorluk_hesapla(adim, yol[hedef])])
+    return cikti
+
+
 def main():
+    yeni = "--yeni" in sys.argv[1:]
     rasgele = random.Random(TOHUM)
+    onceki = {}
+    if not yeni and HEDEF.exists():
+        onceki = json.loads(HEDEF.read_text(encoding="utf-8"))
 
     elle = dosya_oku(ELLE, zorunlu=True)
     otomatik = dosya_oku(OTOMATIK)
+    tdk_ek = dosya_oku(TDK_EK)
     yasakli = dosya_oku(YASAKLI)
     if not otomatik:
         print("not: otomatik_kelimeler.txt yok — yalnızca elle liste kullanılıyor "
               "(üretmek için: python3 tools/sozluk_indir.py)")
 
-    tum = (elle | otomatik) - yasakli
+    tum = (elle | otomatik | tdk_ek) - yasakli
 
     cikti = {}
     for boy in UZUNLUKLAR:
         kelimeler = sorted(k for k in tum if len(k) == boy)
         uclar = {k for k in elle - yasakli if len(k) == boy}
         komsular = komsuluk_kur(kelimeler)
-        bulmacalar = bulmaca_uret(uclar, komsular, rasgele)
+        if str(boy) in onceki:
+            bulmacalar = bulmacalari_dondur(onceki[str(boy)]["puzzles"], uclar, komsular, boy)
+        else:
+            bulmacalar = bulmaca_uret(uclar, komsular, rasgele)
         if not bulmacalar:
             sys.exit(f"HATA: {boy} harfli grupta hiç çözülebilir bulmaca bulunamadı")
         cikti[str(boy)] = {"words": kelimeler, "puzzles": bulmacalar}

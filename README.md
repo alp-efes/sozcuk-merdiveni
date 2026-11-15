@@ -26,6 +26,7 @@ Türkçe klavye + fiziksel klavye desteği.
 | `tools/kelimeler.txt` | Elle onaylı yaygın kelimeler — **bulmaca uçları yalnızca buradan seçilir** |
 | `tools/otomatik_kelimeler.txt` | Zemberek sözlüğünden süzülen geniş doğrulama sözlüğü (üretilen dosya) |
 | `tools/yasakli.txt` | Oyuna alınmayacak kaba/argo kelimeler (AdSense aile dostu içerik) |
+| `tools/tdk_ek_kelimeler.txt` | TDK'da madde olup Zemberek'te olmayan, doğrulanmış kelimeler (elle) |
 | `tools/sozluk_indir.py` | Zemberek sözlüğünü indirip filtreler → `otomatik_kelimeler.txt` |
 | `tools/bulmaca_uret.py` | Kaynak listeler → `words.json` üretici (BFS ile çözülebilirlik garantisi) |
 | `gizlilik.html` | Gizlilik politikası (AdSense/KVKK gereği ayrı sayfa) |

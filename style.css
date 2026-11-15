@@ -383,6 +383,26 @@ button { font: inherit; color: inherit; }
 .status-actions { display: inline-flex; gap: var(--space-2); margin-left: auto; }
 .hint-btn { display: grid; place-items: center; padding: 0; }
 .hint-btn .icon { width: 20px; height: 20px; }
+/* Kalan hak rozeti (Geri al, İpucu): düğmenin sağ üst köşesinde; Plus'ta gizli.
+   Sayı aria-label'da da yazar; rozet ekran okuyucuya okunmaz. */
+.hak {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 var(--space-1);
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: 16px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.hak.hidden { display: none; }
 .mini-btn:disabled { opacity: 0.4; cursor: default; }
 .mini-btn:disabled:active { background: var(--surface); }
 
@@ -819,6 +839,9 @@ button { font: inherit; color: inherit; }
 .btn-secondary:active { background: var(--surface-2); }
 .btn-secondary.hidden, .btn-primary.hidden, .plus.hidden, .plus-not.hidden { display: none; }
 .plus-not { font-size: var(--fs-sm); color: var(--text-dim); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+.hint-menu-not { margin-top: var(--space-2); font-size: var(--fs-sm); color: var(--text-dim); }
+.hint-menu-not:empty { display: none; }
 .offer-text { margin-bottom: var(--space-4); }
 
 /* ---------- Site alt bilgisi (gizlilik bağlantısı) ---------- */
