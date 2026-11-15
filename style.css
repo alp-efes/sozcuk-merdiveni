@@ -8,7 +8,7 @@
    Young Serif (SIL OFL 1.1; lisans metni fonts/OFL.txt). Tek dosya, tek
    ağırlık (400); Türkçe harflerin hepsi içinde. Dış yazı tipi sunucusu yok.
    Kalın ağırlık istenen yerlerde tarayıcı sahte kalınlık üretmesin diye
-   html'de font-synthesis kapalıdır: hiyerarşi boyut ve renkle kurulur. */
+   body'de font-synthesis kapalıdır: hiyerarşi boyut ve renkle kurulur. */
 @font-face {
   font-family: "Young Serif";
   src: url("fonts/young-serif.woff2") format("woff2");

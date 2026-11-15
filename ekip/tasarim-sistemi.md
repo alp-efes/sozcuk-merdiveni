@@ -84,7 +84,7 @@ yalnızca süs çizgisidir, tek başına bir denetimin sınırını taşımaz.
 | `--font` | Sistem yazı tipi | Gövde, etiket, düğme, sekme, GİR tuşu |
 
 Young Serif depodadır: `fonts/young-serif.woff2` (tek dosya, tek ağırlık 400;
-Türkçe harflerin hepsi içinde; sahip kararı, 14 Kasım 2026, Fraunces'in yerine).
+Türkçe harflerin hepsi içinde; sahip kararı, 15 Kasım 2026, Fraunces'in yerine).
 Kalın ağırlık yoktur: `body`'de `font-synthesis: none` tarayıcının sahte kalınlık
 üretmesini engeller, `--font-display` kullanan yerlerde `--fw-*` etkisizdir;
 hiyerarşi boyut ve renkle kurulur. Pencere sayıları `lining-nums` ile yazılır
