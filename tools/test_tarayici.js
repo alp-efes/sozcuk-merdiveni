@@ -1587,11 +1587,19 @@ async function main() {
       // 16g) Fareyle tıklayıp kapatınca odak satırda kalmaz: klavyeden yazılan kelime Enter ile gönderilir
       {
         const { b, s } = await gelirSayfasi(null);
-        const bas2 = await s.evaluate(() => oyun.startWord);
-        const hedef2 = await s.evaluate(() => oyun.targetWord);
-        // ABD düzeninde yazılabilen harfler (İ küçük 'i' ile); Ş, Ç... düz metin olarak girer, tuş olayı vermez
+        // ABD düzeninde yazılabilen harfler (İ küçük 'i' ile); Ş, Ç... düz metin olarak girer, tuş olayı vermez.
+        // Günün bulmacasında iki adım yazılabilir komşu yoksa (ör. KÖŞE) serbest oyunda uygun bulmaca aranır.
         const yazilir = (x) => /^[A-HJ-Zİ]+$/.test(x);
-        const k = komsular(bas2).find((x) => x !== hedef2 && yazilir(x));
+        let bas2, hedef2, k, k2;
+        for (let i = 0; i < 80; i++) {
+          [bas2, hedef2] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+          k = komsular(bas2).find((x) => x !== hedef2 && yazilir(x));
+          k2 = k && komsular(k).find((x) => x !== bas2 && x !== hedef2 && yazilir(x));
+          if (k2) break;
+          if (i === 0) await s.click("#tabFree"); else await s.click("#btnRestart");
+        }
+        denetle(!!k2, "balon: klavye denemesi için yazılabilir komşulu bulmaca bulunamadı");
+        if (k2) {
         await s.click("#startWord");
         await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
         await s.click("#startWord");
@@ -1602,10 +1610,10 @@ async function main() {
         // klavyeyle odaklı satırda bile yazılmakta kelime varken Enter kelimeyi gönderir
         await s.focus("#startWord");
         await s.keyboard.press("Escape");
-        const k2 = komsular(k).find((x) => x !== bas2 && x !== hedef2 && yazilir(x));
         await s.keyboard.type(k2.toLocaleLowerCase("tr"));
         await s.keyboard.press("Enter");
         denetle(await s.evaluate(() => oyun.chain.length === 3), "balon: odaklı satırda yazılan kelime Enter ile gönderilmeli");
+        }
         await b.close();
       }
 
