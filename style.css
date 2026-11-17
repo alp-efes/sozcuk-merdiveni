@@ -595,6 +595,41 @@ button { font: inherit; color: inherit; }
 /* Örnek merdiven kaymaz; kenarlığın yerine iç boşluk */
 .example .frame { padding-top: var(--space-3); }
 
+/* Kelime anlamı balonu: dokunulan basamağın hemen altında (HEDEF'te üstünde) */
+.word-row[role="button"] { cursor: pointer; touch-action: manipulation; }
+.word-row[aria-expanded="true"] .tile { outline: 2px solid var(--accent); }
+.balon {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 50%;
+  translate: -50% 0;
+  z-index: calc(var(--z-rail) + 1);
+  width: min(20rem, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: var(--shadow-md);
+  text-align: left;
+}
+.target-rung .balon { top: auto; bottom: calc(100% + var(--space-2)); }
+.balon-kelime { display: block; font-family: var(--font-display); font-size: var(--fs-md); }
+.balon-anlam { font-size: var(--fs-sm); line-height: var(--lh-snug); }
+.balon-tdk {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);              /* 44 px dokunma alanı */
+  color: var(--bg);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.balon :focus-visible { outline-color: var(--bg); }
+/* Anlamı olmayan kelime tek satır: "Henüz anlamı yok · TDK'da ara" */
+.balon.yok .balon-anlam { display: inline; }
+.balon.yok .balon-anlam::after { content: " ·\00a0"; }
+
 .ladder .rung { animation: slideIn var(--dur-base) var(--ease); }
 
 /* ---------- Animasyonlar ---------- */
