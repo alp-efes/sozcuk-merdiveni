@@ -555,10 +555,13 @@ def anlam_testleri():
     denetle(veri.get("_surum") == 1 and veri.get("_kaynak"), "anlam.json _surum/_kaynak eksik")
     uclar = liste_oku(ARACLAR / "kelimeler.txt")
     yasakli = liste_oku(ARACLAR / "yasakli.txt")
-    fazla = sorted(set(anlamlar) - uclar)
+    # Anahtarlar oynanabilen her kelimeden olabilir (ara basamaklar da); uçların hepsinin anlamı olmalı
+    db = json.loads((KOK / "words.json").read_text(encoding="utf-8"))
+    sozluk = {k for grup in db.values() for k in grup.get("words", [])}
+    fazla = sorted(set(anlamlar) - sozluk)
     eksik = sorted(uclar - set(anlamlar))
-    denetle(not fazla, f"anlam.json'da kelimeler.txt'te olmayan anahtar: {fazla[:10]}")
-    denetle(not eksik, f"anlamı olmayan kelime ({len(eksik)}): {eksik[:20]}")
+    denetle(not fazla, f"anlam.json'da sözlükte (words.json) olmayan anahtar: {fazla[:10]}")
+    denetle(not eksik, f"anlamı olmayan bulmaca ucu ({len(eksik)}): {eksik[:20]}")
     denetle(not (set(anlamlar) & yasakli), "anlam.json yasaklı kelime içeriyor")
     sira = {h: i for i, h in enumerate("ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")}
     anahtarlar = list(anlamlar)
