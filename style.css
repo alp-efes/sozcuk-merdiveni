@@ -340,6 +340,29 @@ button { font: inherit; color: inherit; }
 }
 .daily-timer.hidden, .daily-solved.hidden { display: none; }
 
+/* Yakınlık göstergesi: metin her zaman var, renk yalnızca destekler. Durum satırının
+   altındaki 16 px'lik şeride (.game kenarlığı) asılır: satır ve merdiven hiç kaymaz,
+   yeni satır açılmaz. display:none olmaz: ekran okuyucu canlı bölgeyi kaçırmasın. */
+.status { position: relative; }
+.yakin {
+  position: absolute;
+  top: 100%;
+  right: var(--space-4);
+  padding: 0 var(--space-2);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  pointer-events: none;           /* altındaki düğmelerin dokunma alanını örtmez */
+}
+.yakin:empty { border: 0; padding: 0; }
+.yakin[data-yon="sicak"] { border-color: var(--green); color: var(--green); }
+.yakin[data-yon="soguk"] { border-color: var(--accent); color: var(--accent); }
+.yakin[data-yon="yakin"] { border-color: var(--green); background: var(--green); color: var(--on-accent); }
+
 /* Çözülmüş günlükte paylaşım düğmesi (cevaplar tahtada görünür kalır).
    Görünür boy kısa; dokunma alanı görünmez katmanla aşağı doğru 44 px'e
    tamamlanır (altı tahtanın üst boşluğu, üstü sekmeler). */

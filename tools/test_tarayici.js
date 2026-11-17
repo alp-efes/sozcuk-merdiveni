@@ -27,6 +27,7 @@
  *  13. Geri al ve sonucu göster
  *  14. Hak bitince geri al (web: yarın, uygulama: teklif), yenile onayı
  *  16. Kelime anlamı balonu (anlam.json, TDK bağlantısı, kapanma yolları)
+ *  17. Isındın / Soğudun yakınlık göstergesi (sayı yok, bitince kaybolur)
  *
  * Dış ağ engellenir ve kaydedilir; test internetsiz de aynı sonucu verir.
  *
@@ -1580,6 +1581,87 @@ async function main() {
         await s.evaluate(() => { oyun.balonKapat(); oyun.kelimeDugmesi(document.getElementById("startWord"), "İKİ"); });
         await ac(s, "#startWord");
         denetle((await balon(s)).href === "https://sozluk.gov.tr/kelime/iki", `balon: İKİ adresi ${(await balon(s)).href}`);
+        await b.close();
+      }
+    }
+
+    denetle(sayfaHatalari.length === 0, "sayfada yakalanmamış hata: " + sayfaHatalari.join(" | "));
+
+    /* 17) Yakınlık göstergesi: yön söylenir, uzaklık sayısı söylenmez */
+    console.log("17. Isındın / Soğudun");
+    {
+      // Üç yönü de veren bir bulmaca: en az 3 adım, daha uzak ve eş uzak birer komşu
+      let secim = null;
+      for (const [bas, hedef] of tumBulmacalar.slice(0, 80)) {
+        const d = uz(bas, hedef);
+        if (d < 3 || d === Infinity) continue;
+        const kom = komsular(bas).filter((k) => k !== hedef);
+        const soguk = kom.find((k) => uz(k, hedef) > d && uz(k, hedef) < Infinity);
+        const ayni = kom.find((k) => uz(k, hedef) === d);
+        if (soguk && ayni) { secim = { bas, hedef, soguk, ayni, yol: enKisaYol(bas, hedef) }; break; }
+      }
+      denetle(!!secim, "yakınlık testi için uygun bulmaca bulunamadı");
+      if (secim) {
+        const { b, s } = await gelirSayfasi(null);
+        const yakin = (x) => x.evaluate(() => { const e = document.getElementById("yakin"); return { metin: e.textContent, rol: e.getAttribute("role"), yon: e.dataset.yon }; });
+        await s.evaluate((k) => localStorage.setItem("sm_state", JSON.stringify({ v: 1, mode: "free", day: null, start: k.bas, target: k.hedef,
+          optimal: k.yol.length, puzzleDiff: "", chain: [k.bas], over: false, shown: false, ipucu: null })), secim);
+        await s.reload(); await oyunHazir(s);
+        let y = await yakin(s);
+        denetle(y.metin === "" && y.rol === "status", `yakınlık: başlangıçta boş ve role=status olmalı (${JSON.stringify(y)})`);
+        await kelimeYaz(s, secim.soguk);
+        y = await yakin(s);
+        denetle(y.metin === "Soğudun" && y.yon === "soguk", `yakınlık: uzaklaşınca 'Soğudun' (${y.metin})`);
+        await s.click("#btnUndo");
+        denetle((await yakin(s)).metin === "", "yakınlık: geri alınca gösterge boşalmalı");
+        await kelimeYaz(s, secim.ayni);
+        denetle((await yakin(s)).metin === "Aynı uzaklık", `yakınlık: eş uzaklıkta 'Aynı uzaklık' (${(await yakin(s)).metin})`);
+        await s.click("#btnUndo");
+        await kelimeYaz(s, secim.yol[0]);
+        y = await yakin(s);
+        denetle(y.metin === "Isındın" && y.yon === "sicak", `yakınlık: yaklaşınca 'Isındın' (${y.metin})`);
+        await s.reload(); await oyunHazir(s);
+        denetle((await yakin(s)).metin === "", "yakınlık: sayfa yenilenince gösterge boş olmalı");
+        const sonOnce = secim.yol.length - 2;          // hedefe 1 adım kalan kelime
+        for (let i = 1; i <= sonOnce; i++) await kelimeYaz(s, secim.yol[i]);
+        y = await yakin(s);
+        denetle(y.metin === "Çok yakın!" && y.yon === "yakin", `yakınlık: bir adım kalınca 'Çok yakın!' (${y.metin})`);
+        await kelimeYaz(s, secim.hedef);
+        await s.waitForFunction(() => oyun.over, null, { timeout: 5000 });
+        denetle((await yakin(s)).metin === "", "yakınlık: oyun bitince gösterge kalkmalı");
+        await b.close();
+      }
+    }
+
+    // 16b) Gösterge yer ayırır: çıkınca/kalkınca merdiven kaymaz (günlük ve serbest, 320/375/390 px);
+    // günlükte mod değişimi göstergeyi boşaltır, ipucu göstergeyi bozmaz
+    for (const genislik of [320, 375, 390]) {
+      for (const mod of ["daily", "free"]) {
+        const b = await tarayici.newContext({ viewport: { width: genislik, height: 800 }, hasTouch: true, isMobile: true });
+        await disAgiKapat(b);
+        const s = await b.newPage();
+        s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+        await s.goto(ADRES); await oyunHazir(s);
+        if (mod === "free") await s.click("#tabFree");
+        const ust = () => s.evaluate(() => [document.getElementById("startWord").getBoundingClientRect().top, document.querySelector(".status").getBoundingClientRect().height]);
+        const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        const once = await ust();
+        await kelimeYaz(s, komsular(bas).find((k) => k !== hedef));
+        const sonra = await ust();
+        denetle(await s.evaluate(() => document.getElementById("yakin").textContent !== ""), `gösterge çıkmadı (${mod} ${genislik})`);
+        denetle(once[0] === sonra[0] && once[1] === sonra[1], `gösterge çıkınca yerleşim kaydı (${mod} ${genislik}px): ${once} → ${sonra}`);
+        if (mod === "daily") {
+          const gosterge = await s.textContent("#yakin");
+          await s.click("#btnHint");
+          denetle((await s.textContent("#yakin")) === gosterge, "ipucu göstergeyi değiştirmemeli");
+        }
+        await s.click("#btnUndo");
+        denetle(JSON.stringify(await ust()) === JSON.stringify(once), `gösterge kalkınca yerleşim kaydı (${mod} ${genislik}px)`);
+        if (genislik === 390) {
+          await kelimeYaz(s, komsular(bas).find((k) => k !== hedef));
+          await s.click(mod === "daily" ? "#tabFree" : "#tabDaily");
+          denetle((await s.textContent("#yakin")) === "", `mod değişince gösterge boşalmalı (${mod})`);
+        }
         await b.close();
       }
     }
