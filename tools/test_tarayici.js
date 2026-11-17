@@ -1442,8 +1442,10 @@ async function main() {
     /* 16) Kelime anlamı balonu */
     console.log("16. Kelime anlamı balonu");
     {
-      const anlamlar = JSON.parse(fs.readFileSync(path.join(KOK, "anlam.json"), "utf8")).anlamlar;
-      const tdk = (k) => "https://sozluk.gov.tr/kelime/" + encodeURIComponent(k.replace(/İ/g, "i").replace(/I/g, "ı").toLowerCase());
+      const anlamVeri = JSON.parse(fs.readFileSync(path.join(KOK, "anlam.json"), "utf8"));
+      const anlamlar = anlamVeri.anlamlar;
+      const tdkMadde = anlamVeri.tdk || {};
+      const tdk = (k, harita = tdkMadde) => "https://sozluk.gov.tr/kelime/" + encodeURIComponent(harita[k] || k.replace(/İ/g, "i").replace(/I/g, "ı").toLowerCase());
       const balon = (s) => s.evaluate(() => {
         const b = document.querySelector(".balon");
         if (!b) return null;
@@ -1455,7 +1457,11 @@ async function main() {
       // Dokunur ve balonun (anlam.json beklenerek) açılmasını bekler; açılmazsa test devam eder
       const ac = async (s, sel) => { await s.tap(sel); await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {}); };
       const [bas, hedef] = (await (async () => { const { b, s } = await gelirSayfasi(null); const r = await s.evaluate(() => [oyun.startWord, oyun.targetWord]); await b.close(); return r; })());
-      const anlamsiz = komsular(bas).find((k) => k !== hedef && !(k in anlamlar));
+      // Ara basamak: sözlükteki hemen her kelimenin anlamı var; anlamsız ve TDK madde başı farklı
+      // durumlar anlam.json'un bir kopyasıyla kurulur (anlamsiz'in anlamı silinir, madde başı "denemek" olur)
+      const anlamsiz = komsular(bas).find((k) => k !== hedef);
+      const araHarita = { [anlamsiz]: "denemek" };
+      const araVeri = () => { const v = JSON.parse(JSON.stringify(anlamVeri)); delete v.anlamlar[anlamsiz]; v.tdk = { ...tdkMadde, ...araHarita }; return JSON.stringify(v); };
 
       // 16a) Başlangıç: anlam, TDK bağlantısı, 44 px, ikinci dokunuş kapatır
       {
@@ -1480,12 +1486,13 @@ async function main() {
       }
 
       // 16b) Ara basamak, anlamı olmayan kelime; kapanma yolları
+      denetle(anlamsiz, "balon: başlangıcın komşusu yok");
       if (anlamsiz) {
-        const { b, s } = await gelirSayfasi(null);
+        const { b, s } = await gelirSayfasi(null, null, (c) => c.route("**/anlam.json", (r) => r.fulfill({ status: 200, contentType: "application/json", body: araVeri() })));
         await kelimeYaz(s, anlamsiz);
         await ac(s, "#ladder .word-row");
         let d = await balon(s);
-        denetle(d && d.kelime === anlamsiz && d.anlam === "Henüz anlamı yok" && d.tdk === "TDK'da ara" && d.href === tdk(anlamsiz), `balon: anlamsız kelime (${JSON.stringify(d)})`);
+        denetle(d && d.kelime === anlamsiz && d.anlam === "Henüz anlamı yok" && d.tdk === "TDK'da ara" && d.href === tdk(anlamsiz, araHarita), `balon: anlamsız kelime / TDK madde başı (${JSON.stringify(d)})`);
         denetle(await s.evaluate(() => { const p = document.querySelector(".balon p").getBoundingClientRect(), l = document.querySelector(".balon a").getBoundingClientRect(); return p.top < l.bottom && l.top < p.bottom; }),
                 "balon: anlamsız kelimede 'Henüz anlamı yok · TDK'da ara' tek satırda olmalı")
         // yazmaya başlayınca
@@ -1514,6 +1521,20 @@ async function main() {
         await s.click("#tabFree");
         denetle((await balon(s)) === null && await s.evaluate(() => !document.querySelector('[aria-expanded="true"]')), "balon: mod değişince kapanmalı");
         await b.close();
+      }
+
+      // 16b2) Gerçek anlam.json'da ara basamak kelimesinin de anlamı vardır (uçlar dışında)
+      {
+        const ara = komsular(bas).find((k) => k !== hedef && k in anlamlar);
+        denetle(ara, "balon: başlangıcın anlamlı komşusu yok (ara kelime anlamları eksik)");
+        if (ara) {
+          const { b, s } = await gelirSayfasi(null);
+          await kelimeYaz(s, ara);
+          await ac(s, "#ladder .word-row");
+          const d = await balon(s);
+          denetle(d && d.kelime === ara && d.anlam === anlamlar[ara] && d.tdk === "TDK'da aç" && d.href === tdk(ara), `balon: ara basamak anlamı (${JSON.stringify(d)})`);
+          await b.close();
+        }
       }
 
       // 16c) Klavye: Enter/Boşluk açar, kelime göndermez; Tab ile bağlantıya gidilir
@@ -1568,19 +1589,21 @@ async function main() {
         const { b, s } = await gelirSayfasi(null);
         const bas2 = await s.evaluate(() => oyun.startWord);
         const hedef2 = await s.evaluate(() => oyun.targetWord);
-        const k = komsular(bas2).find((x) => x !== hedef2);
+        // ABD düzeninde yazılabilen harfler (İ küçük 'i' ile); Ş, Ç... düz metin olarak girer, tuş olayı vermez
+        const yazilir = (x) => /^[A-HJ-Zİ]+$/.test(x);
+        const k = komsular(bas2).find((x) => x !== hedef2 && yazilir(x));
         await s.click("#startWord");
         await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
         await s.click("#startWord");
         denetle((await balon(s)) === null, "balon: fare tıklaması açıp kapatmalı");
-        await s.keyboard.type(k);
+        await s.keyboard.type(k.toLocaleLowerCase("tr"));
         await s.keyboard.press("Enter");
         denetle(await s.evaluate(() => oyun.chain.length === 2), "balon: tıklamadan sonra klavyeden yazılan kelime Enter ile gönderilmeli");
         // klavyeyle odaklı satırda bile yazılmakta kelime varken Enter kelimeyi gönderir
         await s.focus("#startWord");
         await s.keyboard.press("Escape");
-        const k2 = komsular(k).find((x) => x !== bas2 && x !== hedef2);
-        await s.keyboard.type(k2);
+        const k2 = komsular(k).find((x) => x !== bas2 && x !== hedef2 && yazilir(x));
+        await s.keyboard.type(k2.toLocaleLowerCase("tr"));
         await s.keyboard.press("Enter");
         denetle(await s.evaluate(() => oyun.chain.length === 3), "balon: odaklı satırda yazılan kelime Enter ile gönderilmeli");
         await b.close();
