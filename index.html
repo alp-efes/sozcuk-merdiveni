@@ -129,6 +129,8 @@
        yalnızca Günün Bulmacası'nda, Türkiye saatiyle gece yarısına geri sayım. -->
   <div class="status">
     <span><strong id="stepInfo"></strong><span id="parInfo"></span></span>
+    <!-- Son hamlenin yönü (Isındın / Soğudun…); sayı yok. Boşken boyutsuz; ekran okuyucuya duyurulur (app.js renderStatus) -->
+    <span class="yakin" id="yakin" role="status" data-yon=""></span>
     <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, pencere örtmez. -->
     <span class="daily-solved hidden" id="dailySolved">
       <button class="mini-btn" id="btnDailyShare" type="button">Paylaş</button>

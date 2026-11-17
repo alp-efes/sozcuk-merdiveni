@@ -469,7 +469,7 @@ KONTRAST_CIFTLERI = (
     ("text", "bg"), ("text", "surface"), ("text", "surface-2"), ("text", "block-top"), ("text", "block-bottom"),
     ("text-dim", "bg"), ("text-dim", "surface"), ("text-dim", "surface-2"),
     ("on-accent", "accent"), ("on-accent", "accent-top"), ("on-accent", "green"), ("on-accent", "green-top"),
-    ("accent", "bg"), ("accent", "surface"),
+    ("accent", "bg"), ("accent", "surface"), ("green", "surface"),
 )
 
 
