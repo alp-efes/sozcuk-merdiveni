@@ -566,6 +566,9 @@ def anlam_testleri():
     # tdk: TDK'da kendi maddesi olmayan fiil kökünün madde başı (ERİT → eritmek); bağlantıya yalnızca bu gider
     tdk = veri.get("tdk", {})
     denetle(isinstance(tdk, dict), "anlam.json tdk bir nesne olmalı")
+    # Bilinen örnekler: TDK'da yalnızca mastarı olan kökler haritada olmalı (harita sessizce boşalmasın)
+    for kelime, madde in (("ERİT", "eritmek"), ("ABART", "abartmak")):
+        denetle(isinstance(tdk, dict) and tdk.get(kelime) == madde, f"anlam.json tdk: {kelime} → {madde} olmalı")
     for kelime, madde in (tdk.items() if isinstance(tdk, dict) else []):
         denetle(kelime in sozluk, f"anlam.json tdk: {kelime} sözlükte yok")
         denetle(isinstance(madde, str) and madde in (tr_kucuk(kelime) + "mak", tr_kucuk(kelime) + "mek"),
