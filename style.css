@@ -597,6 +597,14 @@ button { font: inherit; color: inherit; }
 
 /* Kelime anlamı balonu: dokunulan basamağın hemen altında (HEDEF'te üstünde) */
 .word-row[role="button"] { cursor: pointer; touch-action: manipulation; }
+.word-row[role="button"]::after {      /* görünmez dokunma alanı: en az 44 px yükseklik */
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: max(100%, var(--tap-min));
+  translate: 0 -50%;
+}
 .word-row[aria-expanded="true"] .tile { outline: 2px solid var(--accent); }
 .balon {
   position: absolute;

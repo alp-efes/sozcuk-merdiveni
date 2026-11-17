@@ -1474,7 +1474,7 @@ async function main() {
         denetle(await s.evaluate(() => document.querySelectorAll(".balon").length === 1 && document.querySelector(".balon strong").textContent === oyun.chain[0]), "balon: tek balon, son dokunulan kelimenin olmalı");
         // Escape: kapanır, odak satıra döner
         await s.keyboard.press("Escape");
-        denetle((await balon(s)) === null && await s.evaluate(() => document.activeElement === document.getElementById("startWord")), "balon: Escape kapatmalı, odak satıra dönmeli");
+        denetle((await balon(s)) === null, "balon: Escape kapatmalı");
         // geri al
         await ac(s, "#ladder .word-row");
         await s.click("#btnUndo");
@@ -1496,7 +1496,8 @@ async function main() {
                 "balon: Enter balonu açmalı, tahtadan kelime göndermemeli");
         await s.keyboard.press("Tab");
         denetle(await s.evaluate(() => document.activeElement.matches(".balon a")), "balon: Tab bağlantıya gitmeli");
-        await s.keyboard.press("Escape");
+        await s.keyboard.press("Escape");              // odak balondaydı: satıra döner
+        denetle((await balon(s)) === null && await s.evaluate(() => document.activeElement === document.getElementById("startWord")), "balon: odak balondayken Escape kapatmalı, odak satıra dönmeli");
         await s.keyboard.press("Space");
         await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
         denetle((await balon(s)) !== null, "balon: Boşluk balonu açmalı");
@@ -1515,6 +1516,10 @@ async function main() {
         const { b, s } = await gelirSayfasi(null, null, (c) => c.route("**/anlam.json", (r) => r.abort()));
         await ac(s, "#startWord");
         denetle((await balon(s)) !== null && (await balon(s)).anlam === "Henüz anlamı yok", "balon: anlam.json ağ hatası: sessizce 'Henüz anlamı yok'");
+        await s.tap("#startWord");                     // kapat
+        await b.unroute("**/anlam.json");
+        await ac(s, "#startWord");
+        denetle((await balon(s)).anlam === anlamlar[bas], "balon: ağ hatasından sonra sonraki dokunuşta anlam yeniden denenmeli");
         await b.close();
       }
 
@@ -1525,6 +1530,43 @@ async function main() {
         await ac(s, "#startWord");
         const d = await balon(s);
         denetle(d && d.anlam === kotu && d.cocuk === 0 && await s.evaluate(() => !window.__xss && !document.querySelector(".balon img, .balon b")), "balon: anlam metin olarak basılmalı (textContent)");
+        await b.close();
+      }
+
+      // 16g) Fareyle tıklayıp kapatınca odak satırda kalmaz: klavyeden yazılan kelime Enter ile gönderilir
+      {
+        const { b, s } = await gelirSayfasi(null);
+        const bas2 = await s.evaluate(() => oyun.startWord);
+        const hedef2 = await s.evaluate(() => oyun.targetWord);
+        const k = komsular(bas2).find((x) => x !== hedef2);
+        await s.click("#startWord");
+        await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
+        await s.click("#startWord");
+        denetle((await balon(s)) === null, "balon: fare tıklaması açıp kapatmalı");
+        await s.keyboard.type(k);
+        await s.keyboard.press("Enter");
+        denetle(await s.evaluate(() => oyun.chain.length === 2), "balon: tıklamadan sonra klavyeden yazılan kelime Enter ile gönderilmeli");
+        // klavyeyle odaklı satırda bile yazılmakta kelime varken Enter kelimeyi gönderir
+        await s.focus("#startWord");
+        await s.keyboard.press("Escape");
+        const k2 = komsular(k).find((x) => x !== bas2 && x !== hedef2);
+        await s.keyboard.type(k2);
+        await s.keyboard.press("Enter");
+        denetle(await s.evaluate(() => oyun.chain.length === 3), "balon: odaklı satırda yazılan kelime Enter ile gönderilmeli");
+        await b.close();
+      }
+
+      // 16h) Dokunma alanı ≥ 44 px (küçük telefonlar)
+      for (const [en, boy] of [[320, 568], [375, 667]]) {
+        const b = await tarayici.newContext({ viewport: { width: en, height: boy }, hasTouch: true, isMobile: true });
+        await disAgiKapat(b);
+        const s = await b.newPage();
+        s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+        await s.goto(ADRES); await oyunHazir(s);
+        const olc = async (sec) => { for (const a of await dokunmaAlani(s, sec)) denetle(a.boy >= 44, `balon: ${en}×${boy} '${a.ad}' kelime satırı dokunma alanı ${a.en}×${a.boy}, en az 44 yükseklik olmalı`); };
+        await olc("#startWord");
+        await kelimeYaz(s, komsular(await s.evaluate(() => oyun.startWord)).find((x) => x !== hedef));
+        await olc("#ladder .word-row, #targetWord");   // kayan bölümün kıyısındaki kısmen görünen satır ölçülmez
         await b.close();
       }
 

@@ -581,10 +581,13 @@ class WordLadder {
   }
 
   // anlam.json ilk ihtiyaçta bir kez çekilir; yoksa ya da bozuksa boş sayılır
-  anlamlar() {
-    this._anlamlar ??= fetch("anlam.json").then(r => r.ok ? r.json() : null)
-      .then(j => (j && typeof j.anlamlar === "object" && j.anlamlar) || {}).catch(() => ({}));
-    return this._anlamlar;
+  // Dosya yok ya da bozuksa sonuç (boş) kalıcıdır; ağ hatası saklanmaz, sonraki dokunuşta yeniden denenir.
+  async anlamlar() {
+    if (this._anlamlar) return this._anlamlar;
+    let r;
+    try { r = await fetch("anlam.json"); } catch (_) { return {}; }
+    const j = r.ok ? await r.json().catch(() => null) : null;
+    return this._anlamlar = (j && typeof j.anlamlar === "object" && j.anlamlar) || {};
   }
 
   // Aynı satıra ikinci dokunuş balonu kapatır. Metinler yalnızca textContent ile basılır.
@@ -1430,8 +1433,9 @@ class WordLadder {
 
       if (e.key === "Escape" && this.balonRow) {
         const row = this.balonRow;
+        const odakBalonda = this.balon?.kok.contains(document.activeElement);
         this.balonKapat();
-        row.focus();
+        if (odakBalonda) row.focus();    // odak kapanan balonla birlikte kaybolmasın
         return;
       }
 
@@ -1517,11 +1521,14 @@ class WordLadder {
     // Kelime satırına dokunma / Enter / Boşluk: anlam balonu. Balonun dışına dokunmak kapatır.
     this.el.game.addEventListener("click", (e) => {
       const row = e.target.closest(".word-row[data-kelime]");
-      if (row) this.balonDegis(row);
-      else if (!e.target.closest(".balon")) this.balonKapat();
+      if (row) {
+        if (e.detail) row.blur();     // fare/dokunuşta odak satırda kalmasın: sonraki Enter kelimeyi göndersin
+        this.balonDegis(row);
+      } else if (!e.target.closest(".balon")) this.balonKapat();
     });
     this.el.game.addEventListener("keydown", (e) => {
-      if ((e.key === "Enter" || e.key === " ") && e.target.matches(".word-row[data-kelime]")) {
+      // Yalnızca klavyeyle odaklanmış satırda ve yazılmakta kelime yokken (aksi halde Enter kelimeyi gönderir)
+      if ((e.key === "Enter" || e.key === " ") && e.target.matches(".word-row[data-kelime]:focus-visible") && this.buffer === "") {
         e.preventDefault();
         e.stopPropagation();          // Enter tahtadan kelime göndermesin
         this.balonDegis(e.target);
