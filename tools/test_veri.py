@@ -540,7 +540,14 @@ def anlam_testleri():
     if not yol.exists():
         return
     try:
-        veri = json.loads(yol.read_text(encoding="utf-8"))
+        # Yinelenen anahtar sessizce ezilmesin: json.loads son değeri tutar
+        def tekil(ciftler):
+            adlar = [a for a, _ in ciftler]
+            yinelenen = sorted({a for a in adlar if adlar.count(a) > 1})
+            if yinelenen:
+                raise ValueError(f"yinelenen anahtar: {yinelenen[:10]}")
+            return dict(ciftler)
+        veri = json.loads(yol.read_text(encoding="utf-8"), object_pairs_hook=tekil)
     except ValueError as e:
         denetle(False, f"anlam.json geçerli JSON değil: {e}")
         return
@@ -565,8 +572,9 @@ def anlam_testleri():
         denetle(tanim.endswith("."), f"anlam.json {kelime}: nokta ile bitmiyor")
         kucuk = tr_kucuk(kelime)
         for parca in re.findall(r"[^\W\d_]+", tr_kucuk(tanim)):
-            # 4+ harfli kelimede aynı kökle başlayan sözcük de yasak; 3 harflide yalnızca kendisi
-            yasak = parca.startswith(kucuk) if len(kucuk) >= 4 else parca == kucuk
+            # Kelimenin kendisi ya da onunla başlayan sözcük (ekli biçim, mastar) cevabı ele verir.
+            # 3 harflide de geçerli: "(çekmek)", "Canlıyı" gibi. Kök değişen biçimler (kitabı) yakalanmaz.
+            yasak = parca.startswith(kucuk)
             denetle(not yasak, f"anlam.json {kelime}: tanım kelimenin kendisini/kökünü içeriyor ({parca})")
 
 
