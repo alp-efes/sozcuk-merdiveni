@@ -274,7 +274,10 @@ class WordLadder {
       puzzle = this.dailyPuzzle();
       this.gosterilenGun = this.dayNumber();   // sayaç gün değişimini buradan anlar
     } else {
-      puzzle = this.pick(this.freePool());
+      // Yeni bulmaca, ekrandakinin aynısı olmasın (havuzda başka seçenek varsa)
+      const havuz = this.freePool();
+      const baska = havuz.filter(p => !(p[0] === this.startWord && p[1] === this.targetWord));
+      puzzle = this.pick(baska.length ? baska : havuz);
     }
     // Bulmaca formatı: [başlangıç, hedef, enAzAdım, zorluk] — son ikisi opsiyonel
     const [start, target, optimal = 0, puzzleDiff = ""] = puzzle;
