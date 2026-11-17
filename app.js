@@ -122,6 +122,7 @@ class WordLadder {
 
   // Sayılı güçler: ilk açılışta her birinden bu kadar hak (sm_haklar)
   static BASLANGIC_HAK = 5;
+  static TDK = "https://sozluk.gov.tr/kelime/";   // anlam balonundaki "TDK'da aç" bağlantısı
 
   // Plus'ın tek vaadi (Plus kutusu ve teklif aynı cümleyi kullanır; App Store açıklamasıyla uyumlu)
   static PLUS_VAAT = "reklamsız; sınırsız ipucu, geri al ve günlük tekrar";
@@ -346,11 +347,14 @@ class WordLadder {
   // Mevcut duruma göre tahtayı çizer (yeni oyun + durum geri yükleme ortak)
   render() {
     this.hint = null;
+    this.balonKapat();          // ladder boşalmadan önce: balon basamağın içindedir
     this.el.ladder.innerHTML = "";
     this.el.game.classList.toggle("bitti", this.over);
     this.el.game.dataset.boy = this.len;      // style.css blok boyunu buna göre seçer
     this.renderWord(this.el.start, this.startWord, { compare: true, filled: true });
     this.renderWord(this.el.target, this.targetWord, { targetStyle: true });
+    this.kelimeDugmesi(this.el.start, this.startWord);
+    this.kelimeDugmesi(this.el.target, this.targetWord);
     // Zincirdeki ara kelimeleri (varsa) merdivene bas
     for (let n = 1; n < this.chain.length; n++) this.addRung(n);
     this.renderStatus();
@@ -371,6 +375,7 @@ class WordLadder {
     rung.append(row, label);
     this.el.ladder.appendChild(rung);
     this.renderWord(row, this.chain[n], { compare: true, filled: true, prev: this.chain[n - 1] });
+    this.kelimeDugmesi(row, this.chain[n]);
     this.el.steps.scrollTop = this.el.steps.scrollHeight;
   }
 
@@ -564,6 +569,64 @@ class WordLadder {
     }
   }
 
+  /* ---------- Kelime anlamı balonu ---------- */
+
+  // Merdivendeki kelime satırı odaklanabilir düğme olur: dokununca anlam balonu açılır
+  kelimeDugmesi(row, word) {
+    row.dataset.kelime = word;
+    row.setAttribute("role", "button");
+    row.tabIndex = 0;
+    row.setAttribute("aria-label", `${word}, anlamını göster`);
+    row.setAttribute("aria-expanded", "false");
+  }
+
+  // anlam.json ilk ihtiyaçta bir kez çekilir; yoksa ya da bozuksa boş sayılır
+  // Dosya yok ya da bozuksa sonuç (boş) kalıcıdır; ağ hatası saklanmaz, sonraki dokunuşta yeniden denenir.
+  async anlamlar() {
+    if (this._anlamlar) return this._anlamlar;
+    let r;
+    try { r = await fetch("anlam.json"); } catch (_) { return {}; }
+    const j = r.ok ? await r.json().catch(() => null) : null;
+    return this._anlamlar = (j && typeof j.anlamlar === "object" && j.anlamlar) || {};
+  }
+
+  // Aynı satıra ikinci dokunuş balonu kapatır. Metinler yalnızca textContent ile basılır.
+  async balonDegis(row) {
+    if (this.balonRow === row) return this.balonKapat();
+    this.balonKapat();
+    this.balonRow = row;
+    row.setAttribute("aria-expanded", "true");
+    const kelime = row.dataset.kelime;
+    const tum = await this.anlamlar();
+    if (this.balonRow !== row) return;          // beklerken kapandı ya da başka satır açıldı
+    const anlam = Object.hasOwn(tum, kelime) && typeof tum[kelime] === "string" ? tum[kelime] : "";
+    if (!this.balon) {
+      const yap = (etiket, sinif) => Object.assign(document.createElement(etiket), { className: sinif });
+      const b = this.balon = { kok: yap("div", "balon"), kelime: yap("strong", "balon-kelime"), anlam: yap("p", "balon-anlam"), tdk: yap("a", "balon-tdk") };
+      b.tdk.target = "_blank"; b.tdk.rel = "noopener noreferrer";
+      b.kok.setAttribute("role", "group");
+      b.kok.append(b.kelime, b.anlam, b.tdk);
+    }
+    const b = this.balon;
+    b.kok.setAttribute("aria-label", `${kelime} anlamı`);
+    b.kok.classList.toggle("yok", !anlam);
+    b.kelime.textContent = kelime;
+    b.anlam.textContent = anlam || "Henüz anlamı yok";
+    b.tdk.textContent = anlam ? "TDK'da aç" : "TDK'da ara";
+    b.tdk.href = WordLadder.TDK + encodeURIComponent(kelime.toLocaleLowerCase("tr"));
+    row.closest(".rung").appendChild(b.kok);
+    b.kok.scrollIntoView({ block: "nearest" });
+  }
+
+  // Açıksa kapatır; açıktı mı diye döner
+  balonKapat() {
+    if (!this.balonRow) return false;
+    this.balonRow.setAttribute("aria-expanded", "false");
+    this.balonRow = null;
+    this.balon?.kok.remove();
+    return true;
+  }
+
   // Aktif giriş satırı: buffer'daki harfler + boş kutular
   renderInput(popLast = false) {
     this.el.input.innerHTML = "";
@@ -590,6 +653,7 @@ class WordLadder {
   /* ---------- Girdi işleme ---------- */
 
   pressKey(key) {
+    this.balonKapat();
     if (this.over) return;
 
     if (key === "ENTER") { this.submit(); return; }
@@ -666,6 +730,7 @@ class WordLadder {
     if (!this.canUndo() || this.busy) return;
     if (!this.hakKullan("geriAl")) return this.hakBitti("geriAl");
     this.clearHint();
+    this.balonKapat();
     this.chain.pop();
     this.el.ladder.lastElementChild.remove();
     this.buffer = "";
@@ -860,6 +925,7 @@ class WordLadder {
   }
 
   showModal({ oncedenCozuldu = false } = {}) {
+    this.balonKapat();
     const steps = this.lastResult ? this.lastResult.steps : this.chain.length - 1;
     // En kısa çözüme eşit sürede bitirene özel başlık
     const perfect = this.optimal && steps === this.optimal;
@@ -1365,6 +1431,14 @@ class WordLadder {
         return;
       }
 
+      if (e.key === "Escape" && this.balonRow) {
+        const row = this.balonRow;
+        const odakBalonda = this.balon?.kok.contains(document.activeElement);
+        this.balonKapat();
+        if (odakBalonda) row.focus();    // odak kapanan balonla birlikte kaybolmasın
+        return;
+      }
+
       if (e.key === "Enter") {
         // Odaktaki bağlantıda Enter bağlantıyı açar (Nasıl oynanır, Anladım, Gizlilik)
         if (e.target.closest("a[href]")) return;
@@ -1443,6 +1517,24 @@ class WordLadder {
     });
     this.el.btnCloseModal.addEventListener("click", () => this.hideModal());
     window.addEventListener("sozcukgelir", () => this.gelirDegisti());
+
+    // Kelime satırına dokunma / Enter / Boşluk: anlam balonu. Balonun dışına dokunmak kapatır.
+    this.el.game.addEventListener("click", (e) => {
+      const row = e.target.closest(".word-row[data-kelime]");
+      if (row) {
+        if (e.detail) row.blur();     // fare/dokunuşta odak satırda kalmasın: sonraki Enter kelimeyi göndersin
+        this.balonDegis(row);
+      } else if (!e.target.closest(".balon")) this.balonKapat();
+    });
+    this.el.game.addEventListener("keydown", (e) => {
+      // Yalnızca klavyeyle odaklanmış satırda ve yazılmakta kelime yokken (aksi halde Enter kelimeyi gönderir)
+      if ((e.key === "Enter" || e.key === " ") && e.target.matches(".word-row[data-kelime]:focus-visible") && this.buffer === "") {
+        e.preventDefault();
+        e.stopPropagation();          // Enter tahtadan kelime göndermesin
+        this.balonDegis(e.target);
+      }
+    });
+    document.addEventListener("click", (e) => { if (!e.target.closest("#game")) this.balonKapat(); });
 
     // İpucu, tekrar, ipucu teklifi ve Plus
     const dokun = (el, fn) => el.addEventListener("click", (e) => { e.currentTarget.blur(); fn(); });
