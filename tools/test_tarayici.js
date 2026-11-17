@@ -1365,6 +1365,35 @@ async function main() {
     }
 
     /* 15) Açık ipucu yenilemede kaybolmaz (hakkı harcandı); ileti ve kural metinleri */
+    console.log("14b. Serbest oyunda yeni bulmaca ekrandakinin aynısı olmaz");
+    {
+      const { b, s } = await gelirSayfasi(null);
+      // Havuzu tek bulmaca + ekrandaki bulmaca olacak şekilde daraltmak yerine çok kez dene:
+      // rastgele seçim ekrandakini hiç tekrar etmemeli (havuzda başka seçenek varken)
+      const tekrar = await s.evaluate(() => {
+        oyun.newGame("free");
+        let say = 0;
+        for (let i = 0; i < 300; i++) {
+          const once = oyun.startWord + oyun.targetWord;
+          oyun.newGame("free");
+          if (oyun.startWord + oyun.targetWord === once) say++;
+        }
+        return { say, havuz: oyun.freePool().length };
+      });
+      denetle(tekrar.havuz > 1 && tekrar.say === 0, `serbest oyunda yeni bulmaca ekrandakini tekrarladı (${tekrar.say}/300, havuz ${tekrar.havuz})`);
+      // Havuzda tek bulmaca varsa yine de o gelir (oyun takılmaz)
+      const tek = await s.evaluate(() => {
+        const asil = oyun.freePool.bind(oyun);
+        const bir = [asil()[0]];
+        oyun.freePool = () => bir;
+        oyun.newGame("free"); oyun.newGame("free");
+        oyun.freePool = asil;
+        return oyun.startWord === bir[0][0] && oyun.targetWord === bir[0][1];
+      });
+      denetle(tek, "havuzda tek bulmaca varken yeni oyun açılmadı");
+      await b.close();
+    }
+
     console.log("15. Açık ipucu korunur; hak bitince doğru ileti");
     {
       // 15a) Web: ipucu açıkken yenile → aynı ipucu sessizce geri gelir, hak yeniden harcanmaz
