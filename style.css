@@ -622,6 +622,21 @@ button { font: inherit; color: inherit; }
   color: var(--accent);
 }
 
+/* ---------- İpucu cümlesi ----------
+   İpucu açıkken tahtanın altında sonraki kelimenin anlamı; boşken yer kaplamaz. */
+.hint-clue {
+  flex-shrink: 0;
+  margin: 0 var(--space-4) var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+}
+.hint-clue:empty { display: none; }
+
 /* ---------- Bildirim (toast) ---------- */
 .toast {
   position: fixed;
@@ -818,6 +833,9 @@ button { font: inherit; color: inherit; }
 .btn-secondary:active { background: var(--surface-2); }
 .btn-secondary.hidden, .btn-primary.hidden, .plus.hidden, .plus-not.hidden { display: none; }
 .plus-not { font-size: var(--fs-sm); color: var(--text-dim); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+.hint-menu-not { margin-top: var(--space-2); font-size: var(--fs-sm); color: var(--text-dim); }
+.hint-menu-not:empty { display: none; }
 .offer-text { margin-bottom: var(--space-4); }
 
 /* ---------- Site alt bilgisi (gizlilik bağlantısı) ---------- */

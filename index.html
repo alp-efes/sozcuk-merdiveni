@@ -185,6 +185,9 @@
     </div>
   </main>
 
+  <!-- İpucu cümlesi: ipucunun gösterdiği sonraki kelimenin anlamı (app.js showHint) -->
+  <p class="hint-clue" id="hintClue" aria-live="polite"></p>
+
   <!-- Bildirim (toast) -->
   <div class="toast" id="toast" role="alert"></div>
 
@@ -308,6 +311,21 @@
       <button class="btn-secondary hidden" id="btnRetry" type="button">Tekrar dene</button>
       <button class="btn-secondary" id="btnNewGame" type="button">Yeni Oyun</button>
       <p class="modal-next" id="modalNext">Yeni bulmaca <strong id="modalCountdown">--:--:--</strong> sonra</p>
+    </div>
+  </div>
+
+  <!-- ======================= İPUCU TÜRÜ ======================= -->
+  <!-- İpucu düğmesi önce bunu açar; hak türü seçilince harcanır (app.js requestHint, chooseHint) -->
+  <div class="modal-overlay hidden" id="hintMenu" role="dialog" aria-modal="true" aria-labelledby="hintMenuTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseHintMenu" type="button" aria-label="Kapat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12m0-12L6 18"/></svg>
+      </button>
+      <h2 id="hintMenuTitle">Hangi ipucu?</h2>
+      <p class="offer-text" id="hintMenuHak">İkisi de 1 ipucu hakkı harcar.</p>
+      <button class="btn-primary" id="btnHintHarf" type="button">Harf göster</button>
+      <button class="btn-secondary" id="btnHintAnlam" type="button" aria-describedby="hintMenuNot">Anlamını göster</button>
+      <p class="hint-menu-not" id="hintMenuNot"></p>
     </div>
   </div>
 

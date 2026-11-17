@@ -120,7 +120,13 @@ tanımlıdır, sitede yoktur; `app.js` onu her çağrıda arar (`plusMu`, `odull
 ödüllü reklam (`odulluReklam("ipucu" | "geriAl")`) +1 verir, Plus'ta sınırsız ve rozetsiz.
 Webde biten hak her TRT günü 1'e tamamlanır (birikmez). Yazılan harfi silmek hak harcamaz;
 "Sonucu göster" sayılı değildir. Yenile, ilerleme varken onay ister. Açık ipucu `sm_state.ipucu`'da
-saklanır; yenilemede ve ekran değişiminde (zincirin ucuna uyuyorsa) geri gelir, hak yeniden harcanmaz.
+saklanır (`tur`: `harf` | `anlam`); yenilemede ve ekran değişiminde (zincirin ucuna uyuyorsa) geri gelir, hak yeniden harcanmaz.
+**İki ipucu türü (sahip kararı, 14-15 Kasım 2026):** İpucu düğmesi önce "Hangi ipucu?" diyaloğunu açar (`#hintMenu`);
+"Harf göster" bugünkü harf ipucudur, "Anlamını göster" yalnızca `Sonraki kelime: <anlam>` cümlesini gösterir
+(`ipuclari.json`, kaynak `tools/ipuclari.tsv`; kendi yazdığımız cümleler, TDK'dan kopyalanmaz). İkisi de **1 hak**
+harcar; hak seçimde harcanır, hak bitmişse seçim yerine bugünkü teklif açılır. Sıradaki kelimenin cümlesi yoksa ya da
+dosya gelmediyse "Anlamını göster" kapalıdır ve hak harcanmaz. İpucu her zaman oyuncunun o anki kelimesinden hedefe
+bakar; oradan hedefe yol yoksa ikisi de hak/reklam harcamaz ("Bu kelimeden hedefe yol yok; geri al.").
 İlk uygulama sürümü Plus'suzdur (14 Kasım 2026): kanca `plusSatinAl` vermezse `app.js` Plus kutusunu, teklifteki Plus düğmesini ve Plus cümlelerini göstermez (`plusAcik()`); `gizlilik.html` Plus'a değinmez. Plus'ın tek vaadi `WordLadder.PLUS_VAAT` (App Store açıklaması: "Reklamları kaldırır; sınırsız ipucu, geri al ve tekrar"). Günlükte tekrar webde serbest, uygulamada
 Plus değilse ödüllü reklam ister; ilk çözüm kaydı (seri, paylaşım) değişmez.
 Kanca sözleşmesi (iOS ekibi buna göre yazar):

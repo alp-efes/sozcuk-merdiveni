@@ -124,6 +124,7 @@ class WordLadder {
   static BASLANGIC_HAK = 5;
 
   // Plus'ın tek vaadi (Plus kutusu ve teklif aynı cümleyi kullanır; App Store açıklamasıyla uyumlu)
+  static YOL_YOK = "Bu kelimeden hedefe yol yok; geri al.";
   static PLUS_VAAT = "reklamsız; sınırsız ipucu, geri al ve günlük tekrar";
 
   // Desteklenen kelime boyları (words.json ile aynı olmalı)
@@ -177,6 +178,13 @@ class WordLadder {
       dailySolved: document.getElementById("dailySolved"),
       btnDailyShare: document.getElementById("btnDailyShare"),
       btnHint:    document.getElementById("btnHint"),
+      hintClue:   document.getElementById("hintClue"),
+      hintMenu:   document.getElementById("hintMenu"),
+      hintMenuNot: document.getElementById("hintMenuNot"),
+      hintMenuHak: document.getElementById("hintMenuHak"),
+      btnHintHarf: document.getElementById("btnHintHarf"),
+      btnHintAnlam: document.getElementById("btnHintAnlam"),
+      btnCloseHintMenu: document.getElementById("btnCloseHintMenu"),
       btnUndo:    document.getElementById("btnUndo"),
       btnShowResult: document.getElementById("btnShowResult"),
       pes:        document.getElementById("pes"),
@@ -224,6 +232,7 @@ class WordLadder {
     this.lastResult = null; // Son kazanılan oyunun {steps, grid} paylaşım verisi
     this.toastTimer = null;
     this.hint = null;     // Açık ipucu: { pos, letter }
+    this.ipuclari = null; // İpucu cümleleri: { KELİME: "anlamı" } (ipuclari.json)
     this.busy = false;    // Reklam/satın alma sürerken çift dokunuşu engeller
     this.hak = null;      // Sayılı haklar (geri al, ipucu): haklar() yükler
     this.teklif = "ipucu"; // Açık teklif penceresi hangi güç için: "ipucu" | "geriAl"
@@ -233,6 +242,7 @@ class WordLadder {
 
   async init() {
     this.db = await this.loadWords();
+    this.loadIpuclari();    // beklenmez: gelmese de oyun ve ipucu çalışır
     this.buildKeyboard();
     this.bindEvents();
     this.haklar();          // sayılı haklar: ilk açılışta oluşur, eski sm_ipucu_* kayıtları silinir (Plus'ta da)
@@ -259,6 +269,23 @@ class WordLadder {
     } catch (err) {
       console.warn("words.json yüklenemedi, mock sözlük devrede:", err.message);
       return WordLadder.MOCK_DB;
+    }
+  }
+
+  // İpucu cümleleri (sonraki kelimenin anlamı). Yüklenemezse ipucu yalnızca
+  // harfi gösterir; hata oyunu etkilemez.
+  async loadIpuclari() {
+    try {
+      const res = await fetch("ipuclari.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (data && typeof data === "object") {
+        this.ipuclari = data;
+        if (this.hint) this.yazIpucuCumlesi();   // ipucu cümleler gelmeden açıldıysa şimdi yaz
+        if (!this.el.hintMenu.classList.contains("hidden")) this.renderHintMenu();
+      }
+    } catch (err) {
+      console.warn("ipuclari.json yüklenemedi, ipucu yalnızca harfi gösterecek:", err.message);
     }
   }
 
@@ -345,7 +372,7 @@ class WordLadder {
 
   // Mevcut duruma göre tahtayı çizer (yeni oyun + durum geri yükleme ortak)
   render() {
-    this.hint = null;
+    this.clearHint();
     this.el.ladder.innerHTML = "";
     this.el.game.classList.toggle("bitti", this.over);
     this.el.game.dataset.boy = this.len;      // style.css blok boyunu buna göre seçer
@@ -579,7 +606,7 @@ class WordLadder {
         tile.classList.add("cursor");          // sıradaki harfin yeri
       }
       // İpucu: değişecek konumda önerilen harf silik görünür (yazılınca üstüne biner)
-      if (this.hint && i === this.hint.pos && i >= this.buffer.length) {
+      if (this.hint?.tur === "harf" && i === this.hint.pos && i >= this.buffer.length) {
         tile.classList.add("hint-letter");
         tile.textContent = this.hint.letter;
       }
@@ -816,7 +843,7 @@ class WordLadder {
     if (!this.over && ip && typeof ip.word === "string" && Number.isInteger(ip.pos) && this.dict.has(ip.word) &&
         ip.word.length === this.len && ip.letter === ip.word[ip.pos] && ip.word[ip.pos] !== this.currentWord[ip.pos] &&
         this.diffCount(ip.word, this.currentWord) === 1 && Number.isInteger(ip.kalan)) {
-      this.showHint({ pos: ip.pos, letter: ip.letter, word: ip.word, kalan: ip.kalan, geri: this.chain.includes(ip.word) }, false);
+      this.showHint({ pos: ip.pos, letter: ip.letter, word: ip.word, kalan: ip.kalan, geri: this.chain.includes(ip.word), tur: ip.tur === "anlam" ? "anlam" : "harf" }, false);
     }
     return true;
   }
@@ -1151,30 +1178,85 @@ class WordLadder {
   }
 
   // İpucunu gösterir: şimdiki kelimede değişecek harf çerçevelenir, giriş
-  // satırında yeni harf silik görünür, bildirim de yazıyla söyler.
+  // satırında yeni harf silik görünür, bildirim de yazıyla söyler. Anlam
+  // ipucunda (plan.tur === "anlam") harf gösterilmez; yalnızca sonraki
+  // kelimenin cümlesi, ipucu açık kaldıkça tahtanın altında durur.
   showHint(plan, bildir = true) {
     this.clearHint();
     this.hint = plan;
-    const satir = this.chain.length > 1 ? this.el.ladder.lastElementChild.querySelector(".word-row") : this.el.start;
-    satir.children[plan.pos].classList.add("hint");
-    this.renderInput();
-    if (bildir) this.showToast(this.hintMetni(plan), true);
+    if (plan.tur === "harf") {
+      const satir = this.chain.length > 1 ? this.el.ladder.lastElementChild.querySelector(".word-row") : this.el.start;
+      satir.children[plan.pos].classList.add("hint");
+      this.renderInput();
+      if (bildir) this.showToast(this.hintMetni(plan), true);
+    }
+    this.yazIpucuCumlesi();
     this.saveState();       // açık ipucu kayda geçer
+  }
+
+  // Bu kelimenin ipucu cümlesi (yoksa boş)
+  cumle(kelime) {
+    const c = this.ipuclari?.[kelime];
+    return typeof c === "string" ? c : "";
+  }
+
+  // Açık anlam ipucunun cümlesi; harf ipucunda ve ipucu yokken alan boş
+  yazIpucuCumlesi() {
+    const k = this.hint?.tur === "anlam" ? this.cumle(this.hint.word) : "";
+    this.el.hintClue.textContent = k && "Sonraki kelime: " + k;
   }
 
   clearHint() {
     this.hint = null;
+    this.el.hintClue.textContent = "";
     document.querySelector(".tile.hint")?.classList.remove("hint");
   }
 
-  async requestHint() {
+  // İpucu düğmesi: önce hak ve yol denetlenir, sonra tür seçtirilir; hak seçimde harcanır
+  requestHint() {
     if (this.over || this.busy) return;
-    if (this.hint) return this.showToast(this.hintMetni(this.hint), true);
+    if (this.hint) return this.showToast(this.hint.tur === "harf" ? this.hintMetni(this.hint) : "Anlam ipucu açık", true);
     // Önce hesapla: yol yoksa oyuncudan hak ya da reklam alınmaz
     const plan = this.planHint();
-    if (!plan) return this.showToast("Bu kelimeden hedefe yol bulunamadı");
-    if (this.hakKullan("ipucu")) return this.showHint(plan);
-    this.hakBitti("ipucu");
+    if (!plan) return this.showToast(WordLadder.YOL_YOK);
+    if (!this.plusMu() && this.haklar().ipucu < 1) return this.hakBitti("ipucu");
+    this.showHintMenu(true);
+  }
+
+  // Tür seçimi penceresi (diyalog): açılınca odak ilk düğmeye, kapanınca ipucu düğmesine döner
+  showHintMenu(open) {
+    const m = this.el.hintMenu;
+    if (open) {
+      this.el.hintMenuHak.hidden = this.plusMu();    // Plus'ta hak yok
+      this.renderHintMenu();
+    }
+    m.classList.toggle("hidden", !open);
+    m.setAttribute("aria-hidden", String(!open));
+    if (!open) return this.el.btnHint.focus();
+    // Açılırken pencere birkaç kare görünmez kalır (visibility geçişi): odak alınana ya da kapanana dek denenir
+    const odakla = () => {
+      this.el.btnHintHarf.focus();
+      if (document.activeElement !== this.el.btnHintHarf && !m.classList.contains("hidden")) requestAnimationFrame(odakla);
+    };
+    odakla();
+  }
+
+  // "Anlamını göster" ve notu: ipuclari.json pencere açıkken gelirse de yeniden hesaplanır
+  renderHintMenu() {
+    const plan = this.planHint();
+    const cumleli = !!(plan && this.cumle(plan.word));
+    this.el.btnHintAnlam.disabled = !cumleli;
+    this.el.hintMenuNot.textContent = cumleli ? "" : this.ipuclari ? "Bu kelimenin anlamı yok." : "Anlamlar yüklenemedi.";
+  }
+
+  chooseHint(tur) {
+    if (this.over || this.busy || this.hint) return;   // programla .click() ikinci hak harcamasın
+    this.showHintMenu(false);
+    const plan = this.planHint();
+    if (!plan) return this.showToast(WordLadder.YOL_YOK);
+    if (tur === "anlam" && !this.cumle(plan.word)) return;
+    if (!this.hakKullan("ipucu")) return this.hakBitti("ipucu");
+    this.showHint({ ...plan, tur });
   }
 
   // Hak bitince açılan teklif: tur "ipucu" ya da "geriAl"
@@ -1201,7 +1283,7 @@ class WordLadder {
     if (this.busy) return;
     const tur = this.teklif;
     // Reklamdan önce yeniden doğrula: kullanılamayacaksa reklam gösterilmez
-    if (tur === "ipucu" && !this.planHint()) return this.showToast("Bu kelimeden hedefe yol bulunamadı");
+    if (tur === "ipucu" && !this.planHint()) return this.showToast(WordLadder.YOL_YOK);
     if (tur === "geriAl" && !this.canUndo()) return this.showOffer(false);
     this.busy = true;
     const ok = await this.kancaya("odulluReklam", tur);
@@ -1211,7 +1293,7 @@ class WordLadder {
     this.showOffer(false);
     if (tur === "geriAl") return this.undo();
     const plan = this.planHint();
-    if (plan && this.hakKullan("ipucu")) this.showHint(plan);
+    if (plan && this.hakKullan("ipucu")) this.showHint({ ...plan, tur: "harf" });
   }
 
   async buyPlus() {
@@ -1352,6 +1434,16 @@ class WordLadder {
     document.addEventListener("keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       // İpucu teklifi, sonucu göster ya da yenile onayı açıkken tahtaya yazılmaz; Escape kapatır
+      if (!this.el.hintMenu.classList.contains("hidden")) {
+        if (e.key === "Escape") this.showHintMenu(false);
+        // Odak diyalogdan çıkmasın: Tab son düğmeden ilkine, Shift+Tab tersine döner
+        if (e.key === "Tab") {
+          const d = [...this.el.hintMenu.querySelectorAll("button:not(:disabled)")];
+          const uc = e.shiftKey ? d[0] : d[d.length - 1];
+          if (document.activeElement === uc) { e.preventDefault(); (e.shiftKey ? d[d.length - 1] : d[0]).focus(); }
+        }
+        return;
+      }
       if (!this.el.offer.classList.contains("hidden")) {
         if (e.key === "Escape") this.showOffer(false);
         return;
@@ -1447,6 +1539,9 @@ class WordLadder {
     // İpucu, tekrar, ipucu teklifi ve Plus
     const dokun = (el, fn) => el.addEventListener("click", (e) => { e.currentTarget.blur(); fn(); });
     dokun(this.el.btnHint, () => this.requestHint());
+    dokun(this.el.btnHintHarf, () => this.chooseHint("harf"));
+    dokun(this.el.btnHintAnlam, () => this.chooseHint("anlam"));
+    dokun(this.el.btnCloseHintMenu, () => this.showHintMenu(false));
     dokun(this.el.btnUndo, () => this.undo());
     dokun(this.el.btnShowResult, () => this.askShowResult());
     dokun(this.el.btnPesEvet, () => this.showResult());
