@@ -401,6 +401,7 @@ class WordLadder {
     const yon = this.over ? null : this.yakin;
     this.el.yakin.textContent = yon ? WordLadder.YAKIN[yon] : "";
     this.el.yakin.dataset.yon = yon || "";
+    this.el.yakin.hidden = this.over;   // bitmiş oyunda yer de tutmaz (Paylaş'ın dokunma alanı satırda kalır)
     // Sonucu göster: atılan adım en az adımı geçince
     this.el.btnShowResult.classList.toggle("hidden", !this.canShowResult());
   }

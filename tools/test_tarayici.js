@@ -1454,6 +1454,39 @@ async function main() {
       }
     }
 
+    // 16b) Gösterge yer ayırır: çıkınca/kalkınca merdiven kaymaz (günlük ve serbest, 320/375/390 px);
+    // günlükte mod değişimi göstergeyi boşaltır, ipucu göstergeyi bozmaz
+    for (const genislik of [320, 375, 390]) {
+      for (const mod of ["daily", "free"]) {
+        const b = await tarayici.newContext({ viewport: { width: genislik, height: 800 }, hasTouch: true, isMobile: true });
+        await disAgiKapat(b);
+        const s = await b.newPage();
+        s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+        await s.goto(ADRES); await oyunHazir(s);
+        if (mod === "free") await s.click("#tabFree");
+        const ust = () => s.evaluate(() => [document.getElementById("startWord").getBoundingClientRect().top, document.querySelector(".status").getBoundingClientRect().height]);
+        const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        const once = await ust();
+        await kelimeYaz(s, komsular(bas).find((k) => k !== hedef));
+        const sonra = await ust();
+        denetle(await s.evaluate(() => document.getElementById("yakin").textContent !== ""), `gösterge çıkmadı (${mod} ${genislik})`);
+        denetle(once[0] === sonra[0] && once[1] === sonra[1], `gösterge çıkınca yerleşim kaydı (${mod} ${genislik}px): ${once} → ${sonra}`);
+        if (mod === "daily") {
+          const gosterge = await s.textContent("#yakin");
+          await s.click("#btnHint");
+          denetle((await s.textContent("#yakin")) === gosterge, "ipucu göstergeyi değiştirmemeli");
+        }
+        await s.click("#btnUndo");
+        denetle(JSON.stringify(await ust()) === JSON.stringify(once), `gösterge kalkınca yerleşim kaydı (${mod} ${genislik}px)`);
+        if (genislik === 390) {
+          await kelimeYaz(s, komsular(bas).find((k) => k !== hedef));
+          await s.click(mod === "daily" ? "#tabFree" : "#tabDaily");
+          denetle((await s.textContent("#yakin")) === "", `mod değişince gösterge boşalmalı (${mod})`);
+        }
+        await b.close();
+      }
+    }
+
     denetle(sayfaHatalari.length === 0, "sayfada yakalanmamış hata: " + sayfaHatalari.join(" | "));
   } finally {
     if (tarayici) await tarayici.close();

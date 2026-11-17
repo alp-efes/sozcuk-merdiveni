@@ -340,10 +340,12 @@ button { font: inherit; color: inherit; }
 }
 .daily-timer.hidden, .daily-solved.hidden { display: none; }
 
-/* Yakınlık göstergesi: metin her zaman var, renk yalnızca destekler. Boşken
-   boyutsuzdur (display:none olmaz: ekran okuyucu canlı bölgeyi kaçırmasın). */
+/* Yakınlık göstergesi: metin her zaman var, renk yalnızca destekler. display:none
+   olmaz: ekran okuyucu canlı bölgeyi kaçırmasın. */
 .yakin {
-  padding: 2px var(--space-3);
+  min-width: 7.5rem;          /* en uzun metinden geniş: metin değişince satır sarması değişmez */
+  text-align: center;
+  padding: var(--space-1) var(--space-3);
   border: 1.5px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--surface);
@@ -351,7 +353,9 @@ button { font: inherit; color: inherit; }
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
 }
-.yakin:empty { padding: 0; border: 0; }
+/* Boşken de yer tutar (en uzun metin kadar, görünmez): durum satırı ve merdiven kaymaz */
+.yakin:empty { border-color: transparent; background: transparent; }
+.yakin:empty::before { content: "Aynı uzaklık"; visibility: hidden; }
 .yakin[data-yon="sicak"] { border-color: var(--green); color: var(--green); }
 .yakin[data-yon="soguk"] { border-color: var(--accent); color: var(--accent); }
 .yakin[data-yon="yakin"] { border-color: var(--green); background: var(--green); color: var(--on-accent); }
