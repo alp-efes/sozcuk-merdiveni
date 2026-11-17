@@ -129,6 +129,8 @@
        yalnızca Günün Bulmacası'nda, Türkiye saatiyle gece yarısına geri sayım. -->
   <div class="status">
     <span><strong id="stepInfo"></strong><span id="parInfo"></span></span>
+    <!-- Son hamlenin yönü (Isındın / Soğudun…); sayı yok. Durum satırının altındaki şeride asılır, yer kaplamaz; ekran okuyucuya duyurulur (app.js renderStatus) -->
+    <span class="yakin" id="yakin" role="status" data-yon=""></span>
     <!-- Günlük çözülünce görünür: cevaplar tahtada kalır, pencere örtmez. -->
     <span class="daily-solved hidden" id="dailySolved">
       <button class="mini-btn" id="btnDailyShare" type="button">Paylaş</button>
@@ -221,6 +223,7 @@
     <li>Her adımda yalnızca bir harf değişir. Harf eklenmez, çıkarılmaz.</li>
     <li>Her basamak sözlükte olan bir Türkçe kelime olmalı.</li>
     <li>Takılırsan önceki bir kelimeye geri dönebilirsin.</li>
+    <li>Merdivendeki bir kelimeye dokunursan anlamını görürsün.</li>
   </ol>
 
   <div class="modes">
@@ -258,7 +261,8 @@
   projesinin Türk Dil Kurumu temelli sözlüğünden süzüldü (<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener noreferrer">Apache 2.0</a>
   lisansı); bunlarda eksik kalan, TDK'da madde olan kelimeler elle eklendi.
   Bulmacalar önceden bilgisayarla çözülür; yayımlanan her bulmacanın
-  <strong>bir çözümü vardır</strong>.</p>
+  <strong>bir çözümü vardır</strong>. Kelimeye dokununca görünen kısa anlamları
+  ekibimiz yazdı; ayrıntılı ve resmî tanım için TDK'ya bağlantı verilir.</p>
 
   <h3>İletişim</h3>
   <!-- mailto'da punycode kullanılıyor: bazı istemciler (ör. iPhone Mail)

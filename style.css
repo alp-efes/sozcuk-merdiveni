@@ -340,6 +340,29 @@ button { font: inherit; color: inherit; }
 }
 .daily-timer.hidden, .daily-solved.hidden { display: none; }
 
+/* Yakınlık göstergesi: metin her zaman var, renk yalnızca destekler. Durum satırının
+   altındaki 16 px'lik şeride (.game kenarlığı) asılır: satır ve merdiven hiç kaymaz,
+   yeni satır açılmaz. display:none olmaz: ekran okuyucu canlı bölgeyi kaçırmasın. */
+.status { position: relative; }
+.yakin {
+  position: absolute;
+  top: 100%;
+  right: var(--space-4);
+  padding: 0 var(--space-2);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  pointer-events: none;           /* altındaki düğmelerin dokunma alanını örtmez */
+}
+.yakin:empty { border: 0; padding: 0; }
+.yakin[data-yon="sicak"] { border-color: var(--green); color: var(--green); }
+.yakin[data-yon="soguk"] { border-color: var(--accent); color: var(--accent); }
+.yakin[data-yon="yakin"] { border-color: var(--green); background: var(--green); color: var(--on-accent); }
+
 /* Çözülmüş günlükte paylaşım düğmesi (cevaplar tahtada görünür kalır).
    Görünür boy kısa; dokunma alanı görünmez katmanla aşağı doğru 44 px'e
    tamamlanır (altı tahtanın üst boşluğu, üstü sekmeler). */
@@ -594,6 +617,49 @@ button { font: inherit; color: inherit; }
 .game.bitti .steps { flex: 0 1 auto; min-height: var(--pitch); padding-bottom: var(--rung-gap); }   /* Son bloğun gölgesi kırpılmasın */
 /* Örnek merdiven kaymaz; kenarlığın yerine iç boşluk */
 .example .frame { padding-top: var(--space-3); }
+
+/* Kelime anlamı balonu: dokunulan basamağın hemen altında (HEDEF'te üstünde) */
+.word-row[role="button"] { cursor: pointer; touch-action: manipulation; }
+.word-row[role="button"]::after {      /* görünmez dokunma alanı: en az 44 px yükseklik */
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: max(100%, var(--tap-min));
+  translate: 0 -50%;
+}
+.word-row[aria-expanded="true"] .tile { outline: 2px solid var(--accent); }
+.balon {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 50%;
+  translate: -50% 0;
+  z-index: calc(var(--z-rail) + 1);
+  width: min(20rem, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: var(--shadow-md);
+  text-align: left;
+}
+.target-rung .balon { top: auto; bottom: calc(100% + var(--space-2)); }
+.balon-kelime { display: block; font-family: var(--font-display); font-size: var(--fs-md); }
+.balon-anlam { font-size: var(--fs-sm); line-height: var(--lh-snug); }
+.balon-tdk {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);              /* 44 px dokunma alanı */
+  color: var(--bg);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.balon :focus-visible { outline-color: var(--bg); }
+/* Anlamı olmayan kelime tek satır: "Henüz anlamı yok · TDK'da ara" */
+.balon.yok .balon-anlam { display: inline; }
+.balon.yok .balon-anlam::after { content: " ·\00a0"; }
 
 .ladder .rung { animation: slideIn var(--dur-base) var(--ease); }
 

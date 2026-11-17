@@ -26,6 +26,8 @@
  *      TRT gününde 1'e tamamlanır, uygulamada ödüllü reklam +1, Plus'ta sınırsız
  *  13. Geri al ve sonucu göster
  *  14. Hak bitince geri al (web: yarın, uygulama: teklif), yenile onayı
+ *  16. Kelime anlamı balonu (anlam.json, TDK bağlantısı, kapanma yolları)
+ *  17. Isındın / Soğudun yakınlık göstergesi (sayı yok, bitince kaybolur)
  *
  * Dış ağ engellenir ve kaydedilir; test internetsiz de aynı sonucu verir.
  *
@@ -618,9 +620,10 @@ async function main() {
       return null;
     };
     // Yerel uygulamanın yaptığı gibi window.SozcukGelir tanımlanır (kanca null ise web)
-    const gelirSayfasi = async (kanca, onYukleme) => {
+    const gelirSayfasi = async (kanca, onYukleme, baglam) => {
       const b = await tarayici.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
       await disAgiKapat(b);
+      if (baglam) await baglam(b);
       if (onYukleme) await b.addInitScript(onYukleme);
       if (kanca) await b.addInitScript((k) => {
         window.__c = [];
@@ -1432,6 +1435,262 @@ async function main() {
         const t = await toastMetni(s);
         denetle(t === "İpucu hakkın bitti. Plus ile sınırsız kullanabilirsin." && !(await gorunur(s, "#offer")), `ödüllü reklamsız kancada ileti yanlış: '${t}'`);
         denetle((await s.textContent("#hakKurali")) === "", "ödüllü reklam yokken uygulamada hak kuralı boş olmalı");
+        await b.close();
+      }
+    }
+
+    /* 16) Kelime anlamı balonu */
+    console.log("16. Kelime anlamı balonu");
+    {
+      const anlamlar = JSON.parse(fs.readFileSync(path.join(KOK, "anlam.json"), "utf8")).anlamlar;
+      const tdk = (k) => "https://sozluk.gov.tr/kelime/" + encodeURIComponent(k.replace(/İ/g, "i").replace(/I/g, "ı").toLowerCase());
+      const balon = (s) => s.evaluate(() => {
+        const b = document.querySelector(".balon");
+        if (!b) return null;
+        const a = b.querySelector("a");
+        const r = a.getBoundingClientRect();
+        return { kelime: b.querySelector("strong").textContent, anlam: b.querySelector("p").textContent, tdk: a.textContent, href: a.href,
+                 hedef: a.target, rel: a.rel, tdkYukseklik: r.height, cocuk: b.querySelector("p").children.length };
+      });
+      // Dokunur ve balonun (anlam.json beklenerek) açılmasını bekler; açılmazsa test devam eder
+      const ac = async (s, sel) => { await s.tap(sel); await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {}); };
+      const [bas, hedef] = (await (async () => { const { b, s } = await gelirSayfasi(null); const r = await s.evaluate(() => [oyun.startWord, oyun.targetWord]); await b.close(); return r; })());
+      const anlamsiz = komsular(bas).find((k) => k !== hedef && !(k in anlamlar));
+
+      // 16a) Başlangıç: anlam, TDK bağlantısı, 44 px, ikinci dokunuş kapatır
+      {
+        const { b, s } = await gelirSayfasi(null);
+        denetle(await s.evaluate(() => { const r = document.getElementById("startWord"); return r.getAttribute("role") === "button" && r.tabIndex === 0 && r.getAttribute("aria-expanded") === "false"; }),
+                "balon: kelime satırı odaklanabilir düğme olmalı");
+        denetle((await balon(s)) === null, "balon: başta açık olmamalı");
+        await ac(s, "#startWord");
+        const d = await balon(s);
+        denetle(d && d.kelime === bas && d.anlam === anlamlar[bas], `balon: başlangıç anlamı yanlış (${JSON.stringify(d)})`);
+        denetle(d && d.href === tdk(bas) && d.hedef === "_blank" && d.rel === "noopener noreferrer" && d.tdk === "TDK'da aç", `balon: TDK bağlantısı yanlış (${d && d.href} ${d && d.rel})`);
+        denetle(d && d.tdkYukseklik >= 44, `balon: TDK bağlantısı 44 px'ten küçük (${d && d.tdkYukseklik})`);
+        denetle(await s.evaluate(() => document.getElementById("startWord").getAttribute("aria-expanded") === "true"), "balon: aria-expanded true olmalı");
+        await s.tap("#startWord");
+        denetle((await balon(s)) === null, "balon: aynı satıra ikinci dokunuş kapatmalı");
+        // Hedef: balon açılır (üstte); anlam doğru
+        await ac(s, "#targetWord");
+        const h = await balon(s);
+        denetle(h && h.kelime === hedef && h.anlam === anlamlar[hedef] && h.href === tdk(hedef), `balon: hedef balonu yanlış (${JSON.stringify(h)})`);
+        denetle(await s.evaluate(() => { const bl = document.querySelector(".balon").getBoundingClientRect(); return bl.bottom <= document.getElementById("targetWord").getBoundingClientRect().top + 1; }), "balon: hedefte balon satırın üstünde olmalı");
+        await b.close();
+      }
+
+      // 16b) Ara basamak, anlamı olmayan kelime; kapanma yolları
+      if (anlamsiz) {
+        const { b, s } = await gelirSayfasi(null);
+        await kelimeYaz(s, anlamsiz);
+        await ac(s, "#ladder .word-row");
+        let d = await balon(s);
+        denetle(d && d.kelime === anlamsiz && d.anlam === "Henüz anlamı yok" && d.tdk === "TDK'da ara" && d.href === tdk(anlamsiz), `balon: anlamsız kelime (${JSON.stringify(d)})`);
+        denetle(await s.evaluate(() => { const p = document.querySelector(".balon p").getBoundingClientRect(), l = document.querySelector(".balon a").getBoundingClientRect(); return p.top < l.bottom && l.top < p.bottom; }),
+                "balon: anlamsız kelimede 'Henüz anlamı yok · TDK'da ara' tek satırda olmalı")
+        // yazmaya başlayınca
+        await s.tap('#keyboard .key[data-key="A"]');
+        denetle((await balon(s)) === null && await s.evaluate(() => document.querySelector('[aria-expanded="true"]') === null), "balon: yazmaya başlayınca kapanmalı");
+        await s.tap('#keyboard .key[data-key="BACK"]');
+        // dışarı dokununca
+        await ac(s, "#startWord");
+        denetle((await balon(s)) !== null, "balon: yeniden açılmalı");
+        await s.tap("#stepInfo");
+        denetle((await balon(s)) === null, "balon: dışarı dokununca kapanmalı");
+        // başka satıra dokununca öncekinin yerine açılır (tek balon)
+        await ac(s, "#ladder .word-row");
+        await s.tap("#startWord");        // ara basamağın balonu açıkken başlangıca dokunmak balonu oraya taşır
+        await s.waitForFunction(() => document.querySelector(".balon strong")?.textContent === oyun.chain[0], null, { timeout: 2000 }).catch(() => {});
+        denetle(await s.evaluate(() => document.querySelectorAll(".balon").length === 1 && document.querySelector(".balon strong").textContent === oyun.chain[0]), "balon: tek balon, son dokunulan kelimenin olmalı");
+        // Escape: kapanır, odak satıra döner
+        await s.keyboard.press("Escape");
+        denetle((await balon(s)) === null, "balon: Escape kapatmalı");
+        // geri al
+        await ac(s, "#ladder .word-row");
+        await s.click("#btnUndo");
+        denetle((await balon(s)) === null, "balon: geri alınca kapanmalı");
+        // mod değişimi
+        await ac(s, "#startWord");
+        await s.click("#tabFree");
+        denetle((await balon(s)) === null && await s.evaluate(() => !document.querySelector('[aria-expanded="true"]')), "balon: mod değişince kapanmalı");
+        await b.close();
+      }
+
+      // 16c) Klavye: Enter/Boşluk açar, kelime göndermez; Tab ile bağlantıya gidilir
+      {
+        const { b, s } = await gelirSayfasi(null);
+        await s.focus("#startWord");
+        await s.keyboard.press("Enter");
+        await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
+        denetle((await balon(s)) !== null && await s.evaluate(() => oyun.chain.length === 1 && !document.getElementById("toast").classList.contains("show")),
+                "balon: Enter balonu açmalı, tahtadan kelime göndermemeli");
+        await s.keyboard.press("Tab");
+        denetle(await s.evaluate(() => document.activeElement.matches(".balon a")), "balon: Tab bağlantıya gitmeli");
+        await s.keyboard.press("Escape");              // odak balondaydı: satıra döner
+        denetle((await balon(s)) === null && await s.evaluate(() => document.activeElement === document.getElementById("startWord")), "balon: odak balondayken Escape kapatmalı, odak satıra dönmeli");
+        await s.keyboard.press("Space");
+        await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
+        denetle((await balon(s)) !== null, "balon: Boşluk balonu açmalı");
+        await b.close();
+      }
+
+      // 16d) anlam.json yok ya da bozuk: çökme yok, "Henüz anlamı yok"
+      for (const [ad, yanit] of [["yok", { status: 404, body: "" }], ["bozuk", { status: 200, body: "{" }], ["hatalı biçim", { status: 200, body: "[1]" }]]) {
+        const { b, s } = await gelirSayfasi(null, null, (c) => c.route("**/anlam.json", (r) => r.fulfill(yanit)));
+        await ac(s, "#startWord");
+        const d = await balon(s);
+        denetle(d && d.anlam === "Henüz anlamı yok" && d.tdk === "TDK'da ara", `balon: anlam.json ${ad}: ${JSON.stringify(d)}`);
+        await b.close();
+      }
+      {
+        const { b, s } = await gelirSayfasi(null, null, (c) => c.route("**/anlam.json", (r) => r.abort()));
+        await ac(s, "#startWord");
+        denetle((await balon(s)) !== null && (await balon(s)).anlam === "Henüz anlamı yok", "balon: anlam.json ağ hatası: sessizce 'Henüz anlamı yok'");
+        await s.tap("#startWord");                     // kapat
+        await b.unroute("**/anlam.json");
+        await ac(s, "#startWord");
+        denetle((await balon(s)).anlam === anlamlar[bas], "balon: ağ hatasından sonra sonraki dokunuşta anlam yeniden denenmeli");
+        await b.close();
+      }
+
+      // 16e) Anlam yalnızca düz metin: etiket içeren anlam etiket olarak çizilmez
+      {
+        const kotu = '<img src=x onerror="window.__xss=1"><b>kalın</b>';
+        const { b, s } = await gelirSayfasi(null, null, (c) => c.route("**/anlam.json", (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ anlamlar: { [bas]: kotu } }) })));
+        await ac(s, "#startWord");
+        const d = await balon(s);
+        denetle(d && d.anlam === kotu && d.cocuk === 0 && await s.evaluate(() => !window.__xss && !document.querySelector(".balon img, .balon b")), "balon: anlam metin olarak basılmalı (textContent)");
+        await b.close();
+      }
+
+      // 16g) Fareyle tıklayıp kapatınca odak satırda kalmaz: klavyeden yazılan kelime Enter ile gönderilir
+      {
+        const { b, s } = await gelirSayfasi(null);
+        const bas2 = await s.evaluate(() => oyun.startWord);
+        const hedef2 = await s.evaluate(() => oyun.targetWord);
+        const k = komsular(bas2).find((x) => x !== hedef2);
+        await s.click("#startWord");
+        await s.waitForSelector(".balon", { timeout: 2000 }).catch(() => {});
+        await s.click("#startWord");
+        denetle((await balon(s)) === null, "balon: fare tıklaması açıp kapatmalı");
+        await s.keyboard.type(k);
+        await s.keyboard.press("Enter");
+        denetle(await s.evaluate(() => oyun.chain.length === 2), "balon: tıklamadan sonra klavyeden yazılan kelime Enter ile gönderilmeli");
+        // klavyeyle odaklı satırda bile yazılmakta kelime varken Enter kelimeyi gönderir
+        await s.focus("#startWord");
+        await s.keyboard.press("Escape");
+        const k2 = komsular(k).find((x) => x !== bas2 && x !== hedef2);
+        await s.keyboard.type(k2);
+        await s.keyboard.press("Enter");
+        denetle(await s.evaluate(() => oyun.chain.length === 3), "balon: odaklı satırda yazılan kelime Enter ile gönderilmeli");
+        await b.close();
+      }
+
+      // 16h) Dokunma alanı ≥ 44 px (küçük telefonlar)
+      for (const [en, boy] of [[320, 568], [375, 667]]) {
+        const b = await tarayici.newContext({ viewport: { width: en, height: boy }, hasTouch: true, isMobile: true });
+        await disAgiKapat(b);
+        const s = await b.newPage();
+        s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+        await s.goto(ADRES); await oyunHazir(s);
+        const olc = async (sec) => { for (const a of await dokunmaAlani(s, sec)) denetle(a.boy >= 44, `balon: ${en}×${boy} '${a.ad}' kelime satırı dokunma alanı ${a.en}×${a.boy}, en az 44 yükseklik olmalı`); };
+        await olc("#startWord");
+        await kelimeYaz(s, komsular(await s.evaluate(() => oyun.startWord)).find((x) => x !== hedef));
+        await olc("#ladder .word-row, #targetWord");   // kayan bölümün kıyısındaki kısmen görünen satır ölçülmez
+        await b.close();
+      }
+
+      // 16f) TDK adresi: İ → i, I → ı
+      {
+        denetle(tdk("KEÇİ") === "https://sozluk.gov.tr/kelime/ke%C3%A7i" && tdk("HALI") === "https://sozluk.gov.tr/kelime/hal%C4%B1", "balon: test beklentisi (İ/ı) yanlış");
+        const { b, s } = await gelirSayfasi(null);
+        await s.evaluate(() => { oyun.kelimeDugmesi(document.getElementById("startWord"), "IŞIK"); });
+        await ac(s, "#startWord");
+        denetle((await balon(s)).href === "https://sozluk.gov.tr/kelime/%C4%B1%C5%9F%C4%B1k", `balon: IŞIK adresi ${(await balon(s)).href}`);
+        await s.evaluate(() => { oyun.balonKapat(); oyun.kelimeDugmesi(document.getElementById("startWord"), "İKİ"); });
+        await ac(s, "#startWord");
+        denetle((await balon(s)).href === "https://sozluk.gov.tr/kelime/iki", `balon: İKİ adresi ${(await balon(s)).href}`);
+        await b.close();
+      }
+    }
+
+    denetle(sayfaHatalari.length === 0, "sayfada yakalanmamış hata: " + sayfaHatalari.join(" | "));
+
+    /* 17) Yakınlık göstergesi: yön söylenir, uzaklık sayısı söylenmez */
+    console.log("17. Isındın / Soğudun");
+    {
+      // Üç yönü de veren bir bulmaca: en az 3 adım, daha uzak ve eş uzak birer komşu
+      let secim = null;
+      for (const [bas, hedef] of tumBulmacalar.slice(0, 80)) {
+        const d = uz(bas, hedef);
+        if (d < 3 || d === Infinity) continue;
+        const kom = komsular(bas).filter((k) => k !== hedef);
+        const soguk = kom.find((k) => uz(k, hedef) > d && uz(k, hedef) < Infinity);
+        const ayni = kom.find((k) => uz(k, hedef) === d);
+        if (soguk && ayni) { secim = { bas, hedef, soguk, ayni, yol: enKisaYol(bas, hedef) }; break; }
+      }
+      denetle(!!secim, "yakınlık testi için uygun bulmaca bulunamadı");
+      if (secim) {
+        const { b, s } = await gelirSayfasi(null);
+        const yakin = (x) => x.evaluate(() => { const e = document.getElementById("yakin"); return { metin: e.textContent, rol: e.getAttribute("role"), yon: e.dataset.yon }; });
+        await s.evaluate((k) => localStorage.setItem("sm_state", JSON.stringify({ v: 1, mode: "free", day: null, start: k.bas, target: k.hedef,
+          optimal: k.yol.length, puzzleDiff: "", chain: [k.bas], over: false, shown: false, ipucu: null })), secim);
+        await s.reload(); await oyunHazir(s);
+        let y = await yakin(s);
+        denetle(y.metin === "" && y.rol === "status", `yakınlık: başlangıçta boş ve role=status olmalı (${JSON.stringify(y)})`);
+        await kelimeYaz(s, secim.soguk);
+        y = await yakin(s);
+        denetle(y.metin === "Soğudun" && y.yon === "soguk", `yakınlık: uzaklaşınca 'Soğudun' (${y.metin})`);
+        await s.click("#btnUndo");
+        denetle((await yakin(s)).metin === "", "yakınlık: geri alınca gösterge boşalmalı");
+        await kelimeYaz(s, secim.ayni);
+        denetle((await yakin(s)).metin === "Aynı uzaklık", `yakınlık: eş uzaklıkta 'Aynı uzaklık' (${(await yakin(s)).metin})`);
+        await s.click("#btnUndo");
+        await kelimeYaz(s, secim.yol[0]);
+        y = await yakin(s);
+        denetle(y.metin === "Isındın" && y.yon === "sicak", `yakınlık: yaklaşınca 'Isındın' (${y.metin})`);
+        await s.reload(); await oyunHazir(s);
+        denetle((await yakin(s)).metin === "", "yakınlık: sayfa yenilenince gösterge boş olmalı");
+        const sonOnce = secim.yol.length - 2;          // hedefe 1 adım kalan kelime
+        for (let i = 1; i <= sonOnce; i++) await kelimeYaz(s, secim.yol[i]);
+        y = await yakin(s);
+        denetle(y.metin === "Çok yakın!" && y.yon === "yakin", `yakınlık: bir adım kalınca 'Çok yakın!' (${y.metin})`);
+        await kelimeYaz(s, secim.hedef);
+        await s.waitForFunction(() => oyun.over, null, { timeout: 5000 });
+        denetle((await yakin(s)).metin === "", "yakınlık: oyun bitince gösterge kalkmalı");
+        await b.close();
+      }
+    }
+
+    // 16b) Gösterge yer ayırır: çıkınca/kalkınca merdiven kaymaz (günlük ve serbest, 320/375/390 px);
+    // günlükte mod değişimi göstergeyi boşaltır, ipucu göstergeyi bozmaz
+    for (const genislik of [320, 375, 390]) {
+      for (const mod of ["daily", "free"]) {
+        const b = await tarayici.newContext({ viewport: { width: genislik, height: 800 }, hasTouch: true, isMobile: true });
+        await disAgiKapat(b);
+        const s = await b.newPage();
+        s.on("pageerror", (e) => sayfaHatalari.push(e.message));
+        await s.goto(ADRES); await oyunHazir(s);
+        if (mod === "free") await s.click("#tabFree");
+        const ust = () => s.evaluate(() => [document.getElementById("startWord").getBoundingClientRect().top, document.querySelector(".status").getBoundingClientRect().height]);
+        const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
+        const once = await ust();
+        await kelimeYaz(s, komsular(bas).find((k) => k !== hedef));
+        const sonra = await ust();
+        denetle(await s.evaluate(() => document.getElementById("yakin").textContent !== ""), `gösterge çıkmadı (${mod} ${genislik})`);
+        denetle(once[0] === sonra[0] && once[1] === sonra[1], `gösterge çıkınca yerleşim kaydı (${mod} ${genislik}px): ${once} → ${sonra}`);
+        if (mod === "daily") {
+          const gosterge = await s.textContent("#yakin");
+          await s.click("#btnHint");
+          denetle((await s.textContent("#yakin")) === gosterge, "ipucu göstergeyi değiştirmemeli");
+        }
+        await s.click("#btnUndo");
+        denetle(JSON.stringify(await ust()) === JSON.stringify(once), `gösterge kalkınca yerleşim kaydı (${mod} ${genislik}px)`);
+        if (genislik === 390) {
+          await kelimeYaz(s, komsular(bas).find((k) => k !== hedef));
+          await s.click(mod === "daily" ? "#tabFree" : "#tabDaily");
+          denetle((await s.textContent("#yakin")) === "", `mod değişince gösterge boşalmalı (${mod})`);
+        }
         await b.close();
       }
     }
