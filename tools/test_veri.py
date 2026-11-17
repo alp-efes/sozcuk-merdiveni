@@ -243,6 +243,12 @@ def site_testleri():
 
     # Gizlilik sayfası oyundan erişilebilir olmalı (AdSense/KVKK şartı)
     denetle("gizlilik.html" in index, "index.html: gizlilik sayfasına bağlantı yok")
+    # Sözlük kaynağı atfı (Apache 2.0 m.4): ad, lisans ve depo bağlantısı görünür metinde olmalı
+    gorunur = re.sub(r"<!--.*?-->", "", index, flags=re.S)   # yorumlar görünür metin sayılmaz
+    denetle(bool(re.search(r'<a [^>]*href="https://github\.com/ahmetaa/zemberek-nlp"[^>]*>Zemberek-NLP</a>', gorunur))
+            and bool(re.search(r'<a [^>]*LICENSE-2\.0"[^>]*>Apache 2\.0</a>', gorunur)),
+            "index.html: Zemberek-NLP / Apache 2.0 kaynak atfı (bağlantılı) yok")
+    denetle("yazımına uygun" not in index, "index.html: doğrulanamayan \"TDK yazımına uygun\" iddiası")
 
     # Gizlilik metni gerçek davranışı anlatmalı (alp-efes/sozcuk-merdiveni#9)
     giz = (KOK / "gizlilik.html").read_text(encoding="utf-8")
