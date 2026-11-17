@@ -17,6 +17,7 @@ Denetlenenler:
      .assetsignore kaynak dosyaları dışarıda tutuyor
   8. Güvenlik: dış betikler yalnızca izinli adreslerden, tehlikeli DOM
      kalıpları yok, depoda gizli anahtar yok
+  8b. anlam.json: her bulmaca ucunun kendi kısa tanımı (≤ 80 karakter)
   9. Tasarım sistemi: style.css içinde :root dışında sabit renk yok, simgeler
      aynı paletten, uygulama simgesi 1024×1024 ve alfasız; metin/zemin
      çiftleri WCAG AA; yazı tipi yerel dosyadan ve lisansı yanında
@@ -527,6 +528,48 @@ def kacislari_coz(satir, css=False):
     return satir.encode("utf-16", "surrogatepass").decode("utf-16", "replace")
 
 
+def tr_kucuk(s):
+    """Türkçe küçük harf: I→ı, İ→i (casefold bunu yapmaz)."""
+    return s.replace("İ", "i").replace("I", "ı").lower()
+
+
+def anlam_testleri():
+    """anlam.json: bulmaca uçlarının kendi yazdığımız kısa tanımları."""
+    yol = KOK / "anlam.json"
+    denetle(yol.exists(), "anlam.json yok")
+    if not yol.exists():
+        return
+    try:
+        veri = json.loads(yol.read_text(encoding="utf-8"))
+    except ValueError as e:
+        denetle(False, f"anlam.json geçerli JSON değil: {e}")
+        return
+    anlamlar = veri.get("anlamlar", {})
+    denetle(veri.get("_surum") == 1 and veri.get("_kaynak"), "anlam.json _surum/_kaynak eksik")
+    uclar = liste_oku(ARACLAR / "kelimeler.txt")
+    yasakli = liste_oku(ARACLAR / "yasakli.txt")
+    fazla = sorted(set(anlamlar) - uclar)
+    eksik = sorted(uclar - set(anlamlar))
+    denetle(not fazla, f"anlam.json'da kelimeler.txt'te olmayan anahtar: {fazla[:10]}")
+    denetle(not eksik, f"anlamı olmayan kelime ({len(eksik)}): {eksik[:20]}")
+    denetle(not (set(anlamlar) & yasakli), "anlam.json yasaklı kelime içeriyor")
+    sira = {h: i for i, h in enumerate("ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")}
+    anahtarlar = list(anlamlar)
+    denetle(anahtarlar == sorted(anahtarlar, key=lambda k: [sira.get(h, 99) for h in k]),
+            "anlam.json anahtarları sıralı değil")
+    for kelime, tanim in anlamlar.items():
+        denetle(isinstance(tanim, str) and tanim.strip() == tanim and tanim, f"anlam.json {kelime}: boş ya da boşluklu tanım")
+        if not isinstance(tanim, str):
+            continue
+        denetle(len(tanim) <= 80, f"anlam.json {kelime}: {len(tanim)} karakter (en çok 80)")
+        denetle(tanim.endswith("."), f"anlam.json {kelime}: nokta ile bitmiyor")
+        kucuk = tr_kucuk(kelime)
+        for parca in re.findall(r"[^\W\d_]+", tr_kucuk(tanim)):
+            # 4+ harfli kelimede aynı kökle başlayan sözcük de yasak; 3 harflide yalnızca kendisi
+            yasak = parca.startswith(kucuk) if len(kucuk) >= 4 else parca == kucuk
+            denetle(not yasak, f"anlam.json {kelime}: tanım kelimenin kendisini/kökünü içeriyor ({parca})")
+
+
 def emoji_testleri():
     """Arayüzde emoji ve simge karakteri yok; ikonlar satır içi SVG'dir
     (ekip/tasarim-sistemi.md → İkonlar). İstisna: paylaşım ızgarası."""
@@ -546,6 +589,7 @@ def emoji_testleri():
 
 def main():
     veri_testleri()
+    anlam_testleri()
     emoji_testleri()
     site_testleri()
     guvenlik_testleri()
