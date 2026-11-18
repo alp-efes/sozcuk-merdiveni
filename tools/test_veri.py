@@ -555,11 +555,24 @@ def anlam_testleri():
     denetle(veri.get("_surum") == 1 and veri.get("_kaynak"), "anlam.json _surum/_kaynak eksik")
     uclar = liste_oku(ARACLAR / "kelimeler.txt")
     yasakli = liste_oku(ARACLAR / "yasakli.txt")
-    fazla = sorted(set(anlamlar) - uclar)
+    # Anahtarlar oynanabilen her kelimeden olabilir (ara basamaklar da); uçların hepsinin anlamı olmalı
+    db = json.loads((KOK / "words.json").read_text(encoding="utf-8"))
+    sozluk = {k for grup in db.values() for k in grup.get("words", [])}
+    fazla = sorted(set(anlamlar) - sozluk)
     eksik = sorted(uclar - set(anlamlar))
-    denetle(not fazla, f"anlam.json'da kelimeler.txt'te olmayan anahtar: {fazla[:10]}")
-    denetle(not eksik, f"anlamı olmayan kelime ({len(eksik)}): {eksik[:20]}")
+    denetle(not fazla, f"anlam.json'da sözlükte (words.json) olmayan anahtar: {fazla[:10]}")
+    denetle(not eksik, f"anlamı olmayan bulmaca ucu ({len(eksik)}): {eksik[:20]}")
     denetle(not (set(anlamlar) & yasakli), "anlam.json yasaklı kelime içeriyor")
+    # tdk: TDK'da kendi maddesi olmayan fiil kökünün madde başı (ERİT → eritmek); bağlantıya yalnızca bu gider
+    tdk = veri.get("tdk", {})
+    denetle(isinstance(tdk, dict), "anlam.json tdk bir nesne olmalı")
+    # Bilinen örnekler: TDK'da yalnızca mastarı olan kökler haritada olmalı (harita sessizce boşalmasın)
+    for kelime, madde in (("ERİT", "eritmek"), ("ABART", "abartmak")):
+        denetle(isinstance(tdk, dict) and tdk.get(kelime) == madde, f"anlam.json tdk: {kelime} → {madde} olmalı")
+    for kelime, madde in (tdk.items() if isinstance(tdk, dict) else []):
+        denetle(kelime in sozluk, f"anlam.json tdk: {kelime} sözlükte yok")
+        denetle(isinstance(madde, str) and madde in (tr_kucuk(kelime) + "mak", tr_kucuk(kelime) + "mek"),
+                f"anlam.json tdk: {kelime} → {madde!r} (yalnızca kelimenin -mak/-mek mastarı olabilir)")
     sira = {h: i for i, h in enumerate("ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ")}
     anahtarlar = list(anlamlar)
     denetle(anahtarlar == sorted(anahtarlar, key=lambda k: [sira.get(h, 99) for h in k]),

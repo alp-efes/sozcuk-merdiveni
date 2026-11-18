@@ -594,12 +594,14 @@ class WordLadder {
 
   // anlam.json ilk ihtiyaçta bir kez çekilir; yoksa ya da bozuksa boş sayılır
   // Dosya yok ya da bozuksa sonuç (boş) kalıcıdır; ağ hatası saklanmaz, sonraki dokunuşta yeniden denenir.
+  // tdk: TDK'da kendi maddesi olmayan fiil kökünün madde başı (ERİT → "eritmek")
   async anlamlar() {
     if (this._anlamlar) return this._anlamlar;
     let r;
-    try { r = await fetch("anlam.json"); } catch (_) { return {}; }
+    try { r = await fetch("anlam.json"); } catch (_) { return { anlamlar: {}, tdk: {} }; }
     const j = r.ok ? await r.json().catch(() => null) : null;
-    return this._anlamlar = (j && typeof j.anlamlar === "object" && j.anlamlar) || {};
+    const nesne = (x) => (x && typeof x === "object" ? x : {});
+    return this._anlamlar = { anlamlar: nesne(j?.anlamlar), tdk: nesne(j?.tdk) };
   }
 
   // Aynı satıra ikinci dokunuş balonu kapatır. Metinler yalnızca textContent ile basılır.
@@ -609,7 +611,7 @@ class WordLadder {
     this.balonRow = row;
     row.setAttribute("aria-expanded", "true");
     const kelime = row.dataset.kelime;
-    const tum = await this.anlamlar();
+    const { anlamlar: tum, tdk } = await this.anlamlar();
     if (this.balonRow !== row) return;          // beklerken kapandı ya da başka satır açıldı
     const anlam = Object.hasOwn(tum, kelime) && typeof tum[kelime] === "string" ? tum[kelime] : "";
     if (!this.balon) {
@@ -625,7 +627,8 @@ class WordLadder {
     b.kelime.textContent = kelime;
     b.anlam.textContent = anlam || "Henüz anlamı yok";
     b.tdk.textContent = anlam ? "TDK'da aç" : "TDK'da ara";
-    b.tdk.href = WordLadder.TDK + encodeURIComponent(kelime.toLocaleLowerCase("tr"));
+    const madde = Object.hasOwn(tdk, kelime) && typeof tdk[kelime] === "string" ? tdk[kelime] : kelime.toLocaleLowerCase("tr");
+    b.tdk.href = WordLadder.TDK + encodeURIComponent(madde);
     row.closest(".rung").appendChild(b.kok);
     b.kok.scrollIntoView({ block: "nearest" });
   }
