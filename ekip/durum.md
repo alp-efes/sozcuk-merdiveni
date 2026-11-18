@@ -62,6 +62,13 @@ Gizlilik ve mağaza (13 Kasım 2026, issue #9):
   iOS ATT'ye. Hukuk taslağı bunun KVKK Çerez Rehberi'yle çeliştiğini söyledi; sahip riski
   bilerek kabul etti. `hukuk-uyum` bunu bulgu olarak yazabilir ama "sahip kararı, kabul
   edilmiş risk" diye; yeni issue/engel olarak açılmaz.
+- **Kaba ve aşağılayıcı kelimeler sözlükte, anlamı ve ipucu/çözüm yolu dahil** (18 Kasım 2026,
+  sahip kararı, #52): `yasakli.txt` dışındaki kaba sözler oynanır, anlam balonunda tanımı
+  gösterilir (aşağılayıcı olanlar "aşağılayıcı söz" diye işaretli), ipucu ve en kısa yolda
+  çıkabilir. App Store yaş anketi bu içeriğe göre cevaplanır. `hukuk-uyum` yeniden engel açmaz.
+- **TDK veri tabanı riski kabul** (18 Kasım 2026, sahip kararı, kabul edilmiş risk): anlam
+  tanımlarının benzerlik denetimi için TDK maddeleri otomatik çekildi (≤1 istek/sn; TDK
+  metni depoya girmez). FSEK Ek m.8 riski bilerek kabul edildi; yeni engel olarak açılmaz.
 - **Cloudflare Web Analytics (RUM) 13 Kasım 2026'da kapatıldı ve kapalı kalmalı.**
   Bölge düzeyindeki her enjeksiyon (RUM, Zaraz vb.) `hukuk-uyum` incelemesi ister;
   depo testleri bunları görmez.
