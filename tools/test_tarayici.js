@@ -1120,8 +1120,12 @@ async function main() {
         let d = await durumOku(s);
         denetle(d.geriKapali, "geri al: başlangıçta devre dışı olmalı");
         denetle(!d.sonucGorunur, "sonucu göster: başlangıçta görünmemeli");
-        if (y.length > 1) {
-          await kelimeYaz(s, y[0]); await kelimeYaz(s, y[1]);
+        {
+          // Günün bulmacası 2 adımsa y[1] hedeftir ve oyun biterdi: o günlerde başlangıçla bir komşu
+          // arasında gidip gelinir (geçerli hamleler); denetimler her gün çalışır
+          const w1 = y.length > 2 ? y[0] : komsular(bas).find((k) => k !== hedef);
+          const w2 = y.length > 2 ? y[1] : bas;
+          await kelimeYaz(s, w1); await kelimeYaz(s, w2);
           d = await durumOku(s);
           denetle(!d.geriKapali && d.zincir.length === 3, "geri al: iki adımdan sonra etkin olmalı");
           await s.click("#keyboard .key[data-key=\"A\"]"); await s.click("#keyboard .key[data-key=\"BACK\"]");   // yazılan harfi silmek
@@ -1130,7 +1134,7 @@ async function main() {
           await s.click("#btnUndo");
           denetle((await haklar(s)).kayit.geriAl === 4 && (await haklar(s)).rozetGeri === "4", "geri al bir hak harcamalı");
           d = await durumOku(s);
-          denetle(d.zincir.length === 2 && d.zincir[1] === y[0] && d.basamak === 1 && d.durum === "1 adım",
+          denetle(d.zincir.length === 2 && d.zincir[1] === w1 && d.basamak === 1 && d.durum === "1 adım",
                   `geri al: son basamak çıkmadı (${d.zincir}, basamak ${d.basamak}, '${d.durum}')`);
           denetle(d.kayitliZincir && d.kayitliZincir.length === 2, "geri al: sm_state zinciri güncellenmedi");
           denetle(await s.evaluate(() => oyun.buffer === "" && document.querySelectorAll("#inputRow .tile.filled").length === 0), "geri al: yazılmakta olan harfler silinmedi");
