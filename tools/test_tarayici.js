@@ -731,14 +731,18 @@ async function main() {
       const { b, s } = await gelirSayfasi(null);
       const [bas, hedef] = await s.evaluate(() => [oyun.startWord, oyun.targetWord]);
       // Her adımda hedeften en çok uzaklaşan, zincirde olmayan komşuya git (3 adım)
-      let simdi = bas; const gezi = [bas];
-      for (let i = 0; i < 3; i++) {
-        const adaylar = komsular(simdi).filter((w) => !gezi.includes(w) && uz(w, hedef) < Infinity && w !== hedef)
+      // Açgözlü seçim çıkmaz sokağa girebilir (ör. ZARF→ZAAF'ın başka komşusu yok); bu yüzden
+      // geri izlemeli arama: 3 adımlık, tekrarsız yolu bulur, uzaklaştıran adayı önce dener.
+      const sapma = (u, gezi) => {
+        if (gezi.length === 4) return gezi;
+        const adaylar = komsular(u).filter((w) => !gezi.includes(w) && uz(w, hedef) < Infinity && w !== hedef)
           .sort((x, y) => uz(y, hedef) - uz(x, hedef));
-        if (!adaylar.length) break;
-        simdi = adaylar[0]; gezi.push(simdi);
-        await kelimeYaz(s, simdi);
-      }
+        for (const w of adaylar) { const r = sapma(w, [...gezi, w]); if (r) return r; }
+        return null;
+      };
+      const gezi = sapma(bas, [bas]) || [bas];
+      const simdi = gezi[gezi.length - 1];
+      for (const w of gezi.slice(1)) await kelimeYaz(s, w);
       denetle(gezi.length === 4, `12b: üç adım sapılamadı (${gezi.join(",")})`);
       denetle(gezi.length - 1 + uz(simdi, hedef) > uz(bas, hedef), `12b: üç adım sonra hâlâ en kısa yolda`);
       await s.click("#btnHint");
@@ -1061,7 +1065,11 @@ async function main() {
       denetle(await gorunur(s, "#yenile"), "tekrar sırasında ilerleme varken yenile onay istemeli");
       await s.click("#btnYenileEvet");            // restart tekrarı baştan açar, günün kaydına dönmez
       denetle(await s.evaluate(() => !oyun.over && oyun.chain.length === 1), "tekrar sırasında restart tekrarı kaybettirdi");
-      await kelimeYaz(s, y[0]); await kelimeYaz(s, y[1] || y[0]);
+      await kelimeYaz(s, y[0]);
+      // İkinci kelime yalnızca hedef değilse yazılır: günün bulmacası 2 adımsa y[1] hedeftir
+      // ve tekrarı bitirirdi (test günün bulmacasına bağlı kalırdı)
+      if (y.length > 2) await kelimeYaz(s, y[1]);
+      denetle(await s.evaluate(() => !oyun.over && oyun.chain.length > 1), "tekrar sırasında kelimeler kabul edilmeli, tekrar bitmemeli");
       const once = await s.evaluate(() => oyun.chain.slice());
       await s.click("#tabFree"); await s.click("#tabDaily");
       denetle(await s.evaluate((o) => !oyun.over && JSON.stringify(oyun.chain) === JSON.stringify(o), once), "tekrar sırasında sekme değişimi tekrarı kaybettirdi ya da sıfırladı");
