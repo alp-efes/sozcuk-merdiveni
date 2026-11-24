@@ -617,7 +617,9 @@ async function main() {
         const u = uz(v, hedef);
         if (v !== hedef && u >= en && u < Infinity) return [v, ...enKisaYol(v, hedef)];
       }
-      return null;
+      // Başlangıcın bütün komşuları hedefe daha yakınsa (ör. GAGA): komşuya gidip başlangıca dön
+      const v = komsular(bas).find((k) => k !== hedef && uz(k, hedef) < Infinity);
+      return v ? [v, bas, ...enKisaYol(bas, hedef)] : null;
     };
     // Yerel uygulamanın yaptığı gibi window.SozcukGelir tanımlanır (kanca null ise web)
     const gelirSayfasi = async (kanca, onYukleme, baglam) => {
